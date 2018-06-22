@@ -1,5 +1,5 @@
 <?php
-namespace backend\tests;
+namespace api\tests;
 
 /**
  * Inherited Methods
@@ -15,10 +15,11 @@ namespace backend\tests;
  * @method \Codeception\Lib\Friend haveFriend($name, $actorClass = NULL)
  *
  * @SuppressWarnings(PHPMD)
- */
-class FunctionalTester extends \Codeception\Actor
+*/
+class ApiTester extends \Codeception\Actor
 {
-    use _generated\FunctionalTesterActions;
+    use _generated\ApiTesterActions;
+
    /**
     * Define custom actions here
     */

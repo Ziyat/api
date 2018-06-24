@@ -19,7 +19,9 @@ use yii\web\IdentityInterface;
  * @property string $username
  * @property string $password_hash
  * @property string $password_reset_token
+ * @property string $activate_token
  * @property string $email
+ * @property string $phone
  * @property string $auth_key
  * @property integer $status
  * @property integer $created_at
@@ -34,14 +36,17 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_ACTIVE = 10;
     const STATUS_WAIT = 20;
 
-    public static function signup(string $email, string $password): self
+    public static function signup($email, $phone, $password): self
     {
         $user = new static();
-        $user->email = $email;
+        $user->email = $email ?: null;
+        $user->phone = $phone ?: null;
+
         $user->setPassword($password);
         $user->created_at = time();
-        $user->status = self::STATUS_ACTIVE;
+        $user->status = self::STATUS_WAIT;
         $user->generateAuthKey();
+        $user->generateActivateToken();
         return $user;
     }
 
@@ -88,25 +93,26 @@ class User extends ActiveRecord implements IdentityInterface
         throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
     }
 
-    /**
-     * Finds user by email
-     *
-     * @param string $email
-     * @return static|null
-     */
     public static function findByEmail($email)
     {
-        return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['email' => $email,'status'=>User::STATUS_WAIT]);
     }
-    /**
-     * Finds user by phone
-     *
-     * @param string $phone
-     * @return static|null
-     */
+
+
     public static function findByPhone($phone)
     {
-        return static::findOne(['phone' => $phone, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['phone' => $phone,'status'=>User::STATUS_WAIT]);
+    }
+
+    public static function findByEmailActive($email)
+    {
+        return static::findOne(['email' => $email,'status'=>User::STATUS_ACTIVE]);
+    }
+
+
+    public static function findByPhoneActive($phone)
+    {
+        return static::findOne(['phone' => $phone,'status'=>User::STATUS_ACTIVE]);
     }
 
     /**
@@ -211,5 +217,21 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    /**
+     * Generates new activate token
+     */
+    public function generateActivateToken()
+    {
+        $this->activate_token = rand(1,10000000) . '_' . time();
+    }
+
+    /**
+     * Removes activate token
+     */
+    public function removeActivateToken()
+    {
+        $this->activate_token = null;
     }
 }

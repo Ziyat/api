@@ -36,7 +36,7 @@ class LoginCest
     public function wrongPassword(ApiTester $I)
     {
         $I->sendPOST('/login',[
-                'email' => 'tests@mail.com',
+                'login' => 'tests@mail.com',
                 'password' => 'wrong-password'
             ]);
 
@@ -55,15 +55,15 @@ class LoginCest
 
         $I->seeResponseCodeIs(422);
         $I->seeResponseContainsJson([
-            'field' => 'phone',
-            'message' => 'Phone cannot be blank.'
+            'field' => 'login',
+            'message' => 'Login cannot be blank.'
         ]);
     }
 
     public function successLoginByEmail(ApiTester $I)
     {
         $I->sendPOST('/login', [
-                'email' => 'tests@mail.com',
+                'login' => 'tests@mail.com',
                 'password' => 'password_0'
             ]);
 
@@ -76,7 +76,20 @@ class LoginCest
     public function successLoginByPhone(ApiTester $I)
     {
         $I->sendPOST('/login', [
-                'phone' => 998974457018,
+                'login' => 998974457018,
+                'password' => 'password_0'
+            ]);
+
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseIsJson();
+        $I->seeResponseJsonMatchesJsonPath('$.token');
+        $I->seeResponseJsonMatchesJsonPath('$.expired');
+    }
+
+    public function statusWaitLoginByPhone(ApiTester $I)
+    {
+        $I->sendPOST('/login', [
+                'login' => 998974457019,
                 'password' => 'password_0'
             ]);
 

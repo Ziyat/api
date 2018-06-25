@@ -53,9 +53,10 @@ return [
             'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
-                '' => 'site/index',
+                'GET,HEAD /' => 'site/index',
                 'login' => 'auth/login',
-                'signup' => 'auth/signup'
+                'signup' => 'auth/signup',
+                'activate/<token:[\d_]+>' => 'auth/activate-user',
             ],
         ],
 

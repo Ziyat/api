@@ -5,5 +5,5 @@ use yii\helpers\Html;
 /* @var $user box\entities\User */
 ?>
 <div class="password-reset">
-    <p>Activate Code: <?= Html::encode(explode('_',$user->activate_token)[0]) ?></p>
+    <p>Activate Code: <?= Html::encode($user->activate_token) ?></p>
 </div>

@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\tests\functional;
+namespace api\tests\functional;
 
 use api\tests\ApiTester;
 use common\fixtures\TokenFixture;
@@ -11,20 +11,6 @@ use common\fixtures\UserFixture;
  */
 class SignupCest
 {
-
-//    public function _before(ApiTester $I)
-//    {
-//        $I->haveFixtures([
-//            'user' => [
-//                'class' => UserFixture::class,
-//                'dataFile' => codecept_data_dir() . 'user.php'
-//            ],
-//            'token' => [
-//                'class' => TokenFixture::class,
-//                'dataFile' => codecept_data_dir() . 'token.php'
-//            ]
-//        ]);
-//    }
 
     public function badMethod(ApiTester $I)
     {
@@ -81,70 +67,6 @@ class SignupCest
         ]);
     }
 
-    public function successEmail(ApiTester $I)
-    {
-        $I->sendPOST('/signup',[
-            'login' => 'test@test.com',
-            'password' => 'fdfdsfsdfs'
-        ]);
-
-        $I->seeResponseCodeIs(200);
-        $I->seeResponseIsJson();
-        $I->seeResponseJsonMatchesJsonPath('$.activate_token');
-        $I->seeResponseJsonMatchesJsonPath('$.created_at');
-
-    }
-    public function successPhone(ApiTester $I)
-    {
-        $I->sendPOST('/signup',[
-            'login' => 998974457018,
-            'password' => 'fdfdsfsdfs'
-        ]);
-
-        $I->seeResponseCodeIs(200);
-        $I->seeResponseIsJson();
-        $I->seeResponseJsonMatchesJsonPath('$.activate_token');
-        $I->seeResponseJsonMatchesJsonPath('$.created_at');
-
-    }
-
-    public function duplicateEmail(ApiTester $I)
-    {
-
-        $I->sendPOST('/signup',[
-            'login' => 'test@test.com',
-            'password' => 'fdfdsfsdfs'
-        ]);
-        $I->sendPOST('/signup',[
-            'login' => 'test@test.com',
-            'password' => 'fdfdsfsdfs'
-        ]);
-        $I->seeResponseCodeIs(422);
-        $I->seeResponseContainsJson([
-            'field' => 'login',
-            'message' => 'This email address has already been taken.'
-        ]);
-    }
-
-
-
-    public function duplicatePhone(ApiTester $I)
-    {
-        $I->sendPOST('/signup',[
-            'login' => 998974457018,
-            'password' => 'fdfdsfsdfs'
-        ]);
-        $I->sendPOST('/signup',[
-            'login' => 998974457018,
-            'password' => 'fdfdsfsdfs'
-        ]);
-        $I->seeResponseCodeIs(422);
-        $I->seeResponseContainsJson([
-            'field' => 'login',
-            'message' => 'This mobile number has already been taken.'
-        ]);
-    }
-
     public function shortPhoneNumber(ApiTester $I)
     {
         $I->sendPOST('/signup',[
@@ -171,5 +93,57 @@ class SignupCest
         ]);
     }
 
+    public function successEmail(ApiTester $I)
+    {
+        $I->sendPOST('/signup',[
+            'login' => 'signup@test.com',
+            'password' => 'password_0'
+        ]);
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseIsJson();
+        $I->seeResponseJsonMatchesJsonPath('$.activate_token');
+        $I->seeResponseJsonMatchesJsonPath('$.created_at');
 
+    }
+
+    public function successPhone(ApiTester $I)
+    {
+        $I->sendPOST('/signup',[
+            'login' => 998974457020,
+            'password' => 'fdfdsfsdfs'
+        ]);
+
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseIsJson();
+        $I->seeResponseJsonMatchesJsonPath('$.activate_token');
+        $I->seeResponseJsonMatchesJsonPath('$.created_at');
+    }
+
+    public function duplicateEmail(ApiTester $I)
+    {
+
+        $I->sendPOST('/signup',[
+            'login' => 'signup@test.com',
+            'password' => 'password_0'
+        ]);
+        $I->seeResponseCodeIs(422);
+        $I->seeResponseContainsJson([
+            'field' => 'login',
+            'message' => 'This email address has already been taken.'
+        ]);
+    }
+
+
+    public function duplicatePhone(ApiTester $I)
+    {
+        $I->sendPOST('/signup',[
+            'login' => 998974457020,
+            'password' => 'password_0'
+        ]);
+        $I->seeResponseCodeIs(422);
+        $I->seeResponseContainsJson([
+            'field' => 'login',
+            'message' => 'This mobile number has already been taken.'
+        ]);
+    }
 }

@@ -14,7 +14,7 @@
     },
     "minimum-stability": "stable",
     "require": {
-        "php": ">=7.1",
+        "php": ">=7.0",
         "yiisoft/yii2": "~2.0.6",
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0"
@@ -26,7 +26,8 @@
         "codeception/base": "^2.2.3",
         "codeception/verify": "~0.3.1",
         "guzzlehttp/guzzle": "^6.3",
-        "flow/jsonpath": "^0.4.0"
+        "flow/jsonpath": "^0.4.0",
+        "zircote/swagger-php": "^2.0"
     },
     "config": {
         "process-timeout": 1800,

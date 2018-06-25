@@ -1,0 +1,14 @@
+<VirtualHost *:80>
+	ServerName api.watchvaultapp.com
+	DocumentRoot "/var/www/api.watchvaultapp.com/api/web/"
+	<Directory "/var/www/api.watchvaultapp.com//api/web/">
+		RewriteEngine on
+		RewriteCond %{REQUEST_FILENAME} !-f
+		RewriteCond %{REQUEST_FILENAME} !-d
+		RewriteRule . index.php
+		DirectoryIndex index.php
+		Require all granted
+	</Directory>
+	ErrorLog /var/www/apache2/log/api.watchvaultapp.com-error.log
+	CustomLog /var/www/apache2/log/api.watchvaultapp.com-access.log combined
+</VirtualHost>

@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\tests\functional;
+namespace api\tests\functional;
 
 use api\tests\ApiTester;
 use common\fixtures\TokenFixture;
@@ -77,19 +77,6 @@ class LoginCest
     {
         $I->sendPOST('/login', [
                 'login' => 998974457018,
-                'password' => 'password_0'
-            ]);
-
-        $I->seeResponseCodeIs(200);
-        $I->seeResponseIsJson();
-        $I->seeResponseJsonMatchesJsonPath('$.token');
-        $I->seeResponseJsonMatchesJsonPath('$.expired');
-    }
-
-    public function statusWaitLoginByPhone(ApiTester $I)
-    {
-        $I->sendPOST('/login', [
-                'login' => 998974457019,
                 'password' => 'password_0'
             ]);
 

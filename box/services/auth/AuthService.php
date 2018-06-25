@@ -23,6 +23,8 @@ class AuthService
 
     public function signup(SignupForm $form)
     {
+        $form->setParams();
+
         $user = User::signup($form->email, $form->phone, $form->password);
 
         $this->users->save($user);
@@ -30,7 +32,7 @@ class AuthService
         if ($user->email) $this->sendEmail($user);
 
         if ($user->phone) $this->sendSms($user);
-        $user->activate_token = explode('_',$user->activate_token)[0];
+
         return $user;
     }
 

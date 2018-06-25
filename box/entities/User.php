@@ -11,6 +11,7 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use yii\web\NotFoundHttpException;
 
 /**
  * User model
@@ -35,6 +36,8 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
     const STATUS_WAIT = 20;
+    const ACTIVATE_TOKEN = 'activate';
+    const PASSWORD_TOKEN = 'password reset';
 
     public static function signup($email, $phone, $password): self
     {
@@ -50,10 +53,29 @@ class User extends ActiveRecord implements IdentityInterface
         return $user;
     }
 
+
+    public static function Activate($token)
+    {
+
+        if ($user = static::findByToken($token, static::ACTIVATE_TOKEN)) {
+            $user->status = static::STATUS_ACTIVE;
+            $user->removeActivateToken();
+            $user->save();
+            return $user;
+        }
+        Yii::$app->response->statusCode = 404;
+        return [
+            'field' => 'User',
+            'message' => 'User not found.'
+        ];
+
+    }
+
     public function isActive(): bool
     {
         return $this->status === self::STATUS_ACTIVE;
     }
+
     public function isWait(): bool
     {
         return $this->status === self::STATUS_WAIT;
@@ -95,60 +117,74 @@ class User extends ActiveRecord implements IdentityInterface
 
     public static function findByEmail($email)
     {
-        return static::findOne(['email' => $email,'status'=>User::STATUS_WAIT]);
+        return static::findOne(['email' => $email, 'status' => User::STATUS_WAIT]);
     }
 
 
     public static function findByPhone($phone)
     {
-        return static::findOne(['phone' => $phone,'status'=>User::STATUS_WAIT]);
+        return static::findOne(['phone' => $phone, 'status' => User::STATUS_WAIT]);
     }
 
     public static function findByEmailActive($email)
     {
-        return static::findOne(['email' => $email,'status'=>User::STATUS_ACTIVE]);
+        return static::findOne(['email' => $email, 'status' => User::STATUS_ACTIVE]);
     }
 
 
     public static function findByPhoneActive($phone)
     {
-        return static::findOne(['phone' => $phone,'status'=>User::STATUS_ACTIVE]);
+        return static::findOne(['phone' => $phone, 'status' => User::STATUS_ACTIVE]);
     }
 
     /**
-     * Finds user by password reset token
+     * Finds user by activate token
      *
-     * @param string $token password reset token
+     * @param string $token activate token
      * @return static|null
      */
-    public static function findByPasswordResetToken($token)
+    public static function findByToken($token, $tokenType)
     {
-        if (!static::isPasswordResetTokenValid($token)) {
+        if (!static::isTokenValid($token)) {
             return null;
         }
+        $condition = null;
+        if ($tokenType == static::ACTIVATE_TOKEN) {
+            $condition = [
+                'activate_token' => $token,
+                'status' => self::STATUS_WAIT,
+            ];
+        }
 
-        return static::findOne([
-            'password_reset_token' => $token,
-            'status' => self::STATUS_ACTIVE,
-        ]);
+        if ($tokenType == static::PASSWORD_TOKEN) {
+            $condition = [
+                'password_reset_token' => $token,
+                'status' => self::STATUS_ACTIVE,
+            ];
+        }
+
+
+        return static::findOne($condition);
     }
 
+
     /**
-     * Finds out if password reset token is valid
+     * Finds out if activate token is valid
      *
-     * @param string $token password reset token
+     * @param string $token activate token
      * @return bool
      */
-    public static function isPasswordResetTokenValid($token)
+    public static function isTokenValid($token)
     {
         if (empty($token)) {
             return false;
         }
 
-        $timestamp = (int) substr($token, strrpos($token, '_') + 1);
+        $timestamp = (int)substr($token, strrpos($token, '_') + 1);
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
         return $timestamp + $expire >= time();
     }
+
 
     /**
      * @inheritdoc
@@ -224,7 +260,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function generateActivateToken()
     {
-        $this->activate_token = rand(1,10000000) . '_' . time();
+        $this->activate_token = rand(1, 10000000) . '_' . time();
     }
 
     /**

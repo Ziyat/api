@@ -21,7 +21,7 @@ return [
         'created_at' => 1392559500,
         'updated_at' => 1392559500,
         'status' => 20,
-        'email' => 'wait@mail.com',
+        'email' => 'test@mail.com',
         'phone' => 998974457019,
     ],
 ];

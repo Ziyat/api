@@ -29,7 +29,7 @@ class LoginForm extends Model
     {
         return [
             // password are both required
-            [['password','login'], 'required'],
+            [['password', 'login'], 'required'],
 
             ['login', 'trim'],
 
@@ -48,11 +48,11 @@ class LoginForm extends Model
      * @param string $attribute the attribute currently being validated
      * @param array $params the additional name-value pairs given in the rule
      */
-    public function validateLogin($attribute,$params)
+    public function validateLogin($attribute, $params)
     {
 
         if (!$this->hasErrors()) {
-            if(!$this->isPhone() && !$this->isEmail()){
+            if (!$this->isPhone() && !$this->isEmail()) {
                 $this->addError($attribute, 'Please enter a valid mobile number or email address.');
             }
         }
@@ -62,10 +62,11 @@ class LoginForm extends Model
     {
         return preg_match(self::emailPattern(), $this->login);
     }
+
     private function isPhone(): bool
     {
 
-        return preg_match(self::phonePattern(),$this->login) && strlen($this->login) > 8 && strlen($this->login) <= 15;
+        return preg_match(self::phonePattern(), $this->login) && strlen($this->login) > 8 && strlen($this->login) <= 15;
     }
 
     /**
@@ -98,6 +99,16 @@ class LoginForm extends Model
         }
         return null;
 
+    }
+
+    public static function login(User $user)
+    {
+        $token = new Token();
+        if ($user) {
+            $token->user_id = $user->id;
+            $token->generateToken(time() + 3600 + 24);
+        }
+        return $token->save() ? $token->getToken() : null;
     }
 
     /**

@@ -6,6 +6,7 @@
 
 namespace api\controllers;
 
+use box\entities\User;
 use box\forms\auth\LoginForm;
 use box\forms\auth\SignupForm;
 use box\services\auth\AuthService;
@@ -24,6 +25,24 @@ class AuthController extends Controller
         $this->service = $service;
     }
 
+    /**
+     * @SWG\Post(
+     *     path="/login",
+     *     tags={"Login"},
+     *     @SWG\Parameter(name="login", in="formData", required=true, type="string"),
+     *     @SWG\Parameter(name="password", in="formData", required=true, type="string"),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Success response",
+     *         @SWG\Schema(
+     *             type="object",
+     *             @SWG\Property(property="token", type="string"),
+     *             @SWG\Property(property="expired", type="integer")
+     *         ),
+     *     )
+     * )
+     */
+
     public function actionLogin()
     {
         $form = new LoginForm();
@@ -39,9 +58,8 @@ class AuthController extends Controller
 
         $form = new SignupForm();
         $form->load(Yii::$app->request->bodyParams, '');
-        if($form->validate()){
+        if ($form->validate()) {
             try {
-                $form->setParams();
                 $user = $this->service->signup($form);
                 return $user;
             } catch (\DomainException $e) {
@@ -56,11 +74,22 @@ class AuthController extends Controller
         return $form;
     }
 
+    public function actionActivateUser($token)
+    {
+        $user = User::Activate($token);
+        if (!is_array($user)) {
+            return LoginForm::login($user);
+        }
+        return $user;
+    }
+
+
     protected function verbs()
     {
         return [
             'login' => ['post'],
             'signup' => ['post'],
+            'activate-user' => ['get'],
         ];
     }
 }

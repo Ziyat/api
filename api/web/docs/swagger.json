@@ -57,6 +57,40 @@
                 }
             }
         },
+        "/signup": {
+            "post": {
+                "tags": [
+                    "Sign up"
+                ],
+                "parameters": [
+                    {
+                        "name": "login",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "properties": {
+                                "activate_token": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "/": {
             "get": {
                 "tags": [

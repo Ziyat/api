@@ -53,6 +53,23 @@ class AuthController extends Controller
     }
 
 
+    /**
+     * @SWG\Post(
+     *     path="/signup",
+     *     tags={"Sign up"},
+     *     @SWG\Parameter(name="login", in="formData", required=true, type="string"),
+     *     @SWG\Parameter(name="password", in="formData", required=true, type="string"),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Success response",
+     *         @SWG\Schema(
+     *             type="object",
+     *             @SWG\Property(property="activate_token", type="string")
+     *         ),
+     *     )
+     * )
+     */
+
     public function actionSignup()
     {
 
@@ -61,7 +78,7 @@ class AuthController extends Controller
         if ($form->validate()) {
             try {
                 $user = $this->service->signup($form);
-                return $user;
+                return $user->activate_token;
             } catch (\DomainException $e) {
                 return [
                     'field' => 'signup',

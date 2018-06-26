@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="cb1d24e8-344f-428c-be01-2c8c42288004" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/controllers/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/api/controllers/AuthController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/web/docs/swagger.json" beforeDir="false" afterPath="$PROJECT_DIR$/api/web/docs/swagger.json" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.idea/httpRequests/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -57,11 +55,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main-local.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main-local.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/common/config/main-local.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="105">
               <caret line="7" column="27" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main-local.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/environments/dev/common/config/main-local.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="5" column="42" selection-start-line="5" selection-start-column="42" selection-end-line="5" selection-end-column="42" />
             </state>
           </provider>
         </entry>
@@ -83,7 +90,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/common/fixtures/UserFixture.php" />
         <option value="$PROJECT_DIR$/common/fixtures/TokenFixture.php" />
         <option value="$PROJECT_DIR$/api/tests/_data/token.php" />
         <option value="$PROJECT_DIR$/api/config/test.php" />
@@ -134,6 +140,7 @@
         <option value="$PROJECT_DIR$/box/entities/Profile.php" />
         <option value="$PROJECT_DIR$/api/controllers/AuthController.php" />
         <option value="$PROJECT_DIR$/common/config/main-local.php" />
+        <option value="$PROJECT_DIR$/environments/dev/common/config/main-local.php" />
       </list>
     </option>
   </component>
@@ -242,11 +249,26 @@
             <path>
               <item name="watch" type="b2602c69:ProjectViewProjectNode" />
               <item name="watch" type="462c0819:PsiDirectoryNode" />
+              <item name="environments" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="watch" type="b2602c69:ProjectViewProjectNode" />
+              <item name="watch" type="462c0819:PsiDirectoryNode" />
+              <item name="environments" type="462c0819:PsiDirectoryNode" />
+              <item name="dev" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="watch" type="b2602c69:ProjectViewProjectNode" />
+              <item name="watch" type="462c0819:PsiDirectoryNode" />
+              <item name="environments" type="462c0819:PsiDirectoryNode" />
+              <item name="dev" type="462c0819:PsiDirectoryNode" />
               <item name="common" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="watch" type="b2602c69:ProjectViewProjectNode" />
               <item name="watch" type="462c0819:PsiDirectoryNode" />
+              <item name="environments" type="462c0819:PsiDirectoryNode" />
+              <item name="dev" type="462c0819:PsiDirectoryNode" />
               <item name="common" type="462c0819:PsiDirectoryNode" />
               <item name="config" type="462c0819:PsiDirectoryNode" />
             </path>
@@ -1592,12 +1614,12 @@
       <updated>1529566622469</updated>
       <workItem from="1529566623641" duration="3217000" />
       <workItem from="1529570824091" duration="3872000" />
-      <workItem from="1529578599733" duration="88047000" />
+      <workItem from="1529578599733" duration="88345000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="95136000" />
+    <option name="totallyTimeSpent" value="95434000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -1636,9 +1658,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/api/codeception.yml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/api/runtime/mail/20180624-141813-5910-3879.eml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -1943,6 +1962,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="27" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/environments/dev/common/config/main-local.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="42" selection-start-line="5" selection-start-column="42" selection-end-line="5" selection-end-column="42" />
         </state>
       </provider>
     </entry>

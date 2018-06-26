@@ -11,10 +11,6 @@ use common\fixtures\UserFixture;
  */
 class SignupCest
 {
-    public function clearData()
-    {
-        passthru('php yii_test migrate/fresh --interactive=0');
-    }
     public function badMethod(ApiTester $I)
     {
         $I->sendGET('/signup');

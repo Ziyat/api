@@ -58,12 +58,12 @@ class LoginForm extends Model
         }
     }
 
-    private function isEmail(): bool
+    private function isEmail()
     {
         return preg_match(self::emailPattern(), $this->login);
     }
 
-    private function isPhone(): bool
+    private function isPhone()
     {
 
         return preg_match(self::phonePattern(), $this->login) && strlen($this->login) > 8 && strlen($this->login) <= 15;

@@ -78,7 +78,7 @@ class UserActivateCest
 
     public function clearData()
     {
-        passthru('php yii migrate/fresh --interactive=0');
+        passthru('php yii_test migrate/fresh --interactive=0');
     }
 
 

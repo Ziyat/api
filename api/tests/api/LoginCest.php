@@ -76,7 +76,7 @@ class LoginCest
     public function successLoginByPhone(ApiTester $I)
     {
         $I->sendPOST('/login', [
-                'login' => 998974457018,
+                'login' => 998974457088,
                 'password' => 'password_0'
             ]);
 

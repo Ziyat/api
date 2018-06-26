@@ -10,7 +10,6 @@ return [
         'updated_at' => 1392559490,
         'status' => 10,
         'email' => 'tests@mail.com',
-        'phone' => 998974457018,
     ],
     [
         'id' => 2,
@@ -20,8 +19,7 @@ return [
         'password_reset_token' => 'RkD_Jw0_8HEedzLk7MM-ZKEFfYR7VbMrl_1392559490',
         'created_at' => 1392559500,
         'updated_at' => 1392559500,
-        'status' => 20,
-        'email' => 'test@mail.com',
-        'phone' => 998974457019,
+        'status' => 10,
+        'phone' => 998974457088,
     ],
 ];

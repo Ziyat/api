@@ -57,40 +57,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Profile.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/box/entities/Profile.php">
+      <file leaf-file-name="main-local.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/common/config/main-local.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="29" column="7" lean-forward="true" selection-start-line="29" selection-start-column="7" selection-end-line="29" selection-end-column="7" />
-              <folding>
-                <element signature="e#32#40#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AuthController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/api/controllers/AuthController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="151">
-              <caret line="66" column="74" selection-start-line="66" selection-start-column="74" selection-end-line="66" selection-end-column="74" />
-              <folding>
-                <element signature="e#104#126#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="once-as-vagrant.sh" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vagrant/provision/once-as-vagrant.sh">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file leaf-file-name="once-as-root.sh" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/vagrant/provision/once-as-root.sh">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="138">
-              <caret line="32" column="56" lean-forward="true" selection-start-line="32" selection-start-column="18" selection-end-line="32" selection-end-column="59" />
+            <state relative-caret-position="105">
+              <caret line="7" column="27" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -134,7 +105,6 @@
         <option value="$PROJECT_DIR$/box/repositories/UserRepository.php" />
         <option value="$PROJECT_DIR$/console/migrations/m130524_201442_init.php" />
         <option value="$PROJECT_DIR$/common/config/params.php" />
-        <option value="$PROJECT_DIR$/common/config/main-local.php" />
         <option value="$PROJECT_DIR$/api/runtime/logs/app.log" />
         <option value="$PROJECT_DIR$/common/config/main.php" />
         <option value="$PROJECT_DIR$/box/entities/Token.php" />
@@ -163,6 +133,7 @@
         <option value="$PROJECT_DIR$/text" />
         <option value="$PROJECT_DIR$/box/entities/Profile.php" />
         <option value="$PROJECT_DIR$/api/controllers/AuthController.php" />
+        <option value="$PROJECT_DIR$/common/config/main-local.php" />
       </list>
     </option>
   </component>
@@ -271,13 +242,13 @@
             <path>
               <item name="watch" type="b2602c69:ProjectViewProjectNode" />
               <item name="watch" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="watch" type="b2602c69:ProjectViewProjectNode" />
               <item name="watch" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
-              <item name="controllers" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="watch" type="b2602c69:ProjectViewProjectNode" />
@@ -1621,16 +1592,15 @@
       <updated>1529566622469</updated>
       <workItem from="1529566623641" duration="3217000" />
       <workItem from="1529570824091" duration="3872000" />
-      <workItem from="1529578599733" duration="87721000" />
+      <workItem from="1529578599733" duration="88047000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="94810000" />
+    <option name="totallyTimeSpent" value="95136000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="12" />
       <window_info anchor="bottom" id="Event Log" order="4" sideWeight="0.5013889" side_tool="true" weight="0.37617925" />
@@ -1638,8 +1608,8 @@
       <window_info anchor="bottom" id="REST Client" order="0" sideWeight="0.49930555" weight="0.4162736" />
       <window_info anchor="bottom" id="Version Control" order="5" />
       <window_info anchor="bottom" id="Run" order="8" sideWeight="0.49930555" weight="0.32900944" />
-      <window_info anchor="bottom" id="Terminal" order="3" sideWeight="0.49861112" visible="true" weight="0.37617925" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.18472221" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="3" sideWeight="0.49861112" visible="true" weight="0.37617925" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.18472221" />
       <window_info anchor="bottom" id="Docker" order="1" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="0" weight="0.3298611" />
       <window_info anchor="bottom" id="Find" order="7" weight="0.32900944" />
@@ -1666,26 +1636,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/api/web/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/api/tests/_bootstrap.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/api/tests/_support/ApiTester.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="39" selection-start-line="18" selection-start-column="39" selection-end-line="18" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/api/tests/api/HomeCest.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/api/codeception.yml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1950,15 +1900,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/box/entities/Profile.php">
+    <entry file="file://$PROJECT_DIR$/vagrant/provision/once-as-root.sh">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="29" column="7" lean-forward="true" selection-start-line="29" selection-start-column="7" selection-end-line="29" selection-end-column="7" />
-          <folding>
-            <element signature="e#32#40#0#PHP" expanded="true" />
-          </folding>
+        <state relative-caret-position="138">
+          <caret line="32" column="56" lean-forward="true" selection-start-line="32" selection-start-column="18" selection-end-line="32" selection-end-column="59" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vagrant/provision/once-as-vagrant.sh">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/api/controllers/AuthController.php">
       <provider selected="true" editor-type-id="text-editor">
@@ -1970,13 +1920,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vagrant/provision/once-as-vagrant.sh">
+    <entry file="file://$PROJECT_DIR$/box/entities/Profile.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="29" column="7" lean-forward="true" selection-start-line="29" selection-start-column="7" selection-end-line="29" selection-end-column="7" />
+          <folding>
+            <element signature="e#32#40#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/config/main.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/vagrant/provision/once-as-root.sh">
+    <entry file="file://$PROJECT_DIR$/common/config/params-local.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/config/params.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/config/main-local.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="32" column="56" lean-forward="true" selection-start-line="32" selection-start-column="18" selection-end-line="32" selection-end-column="59" />
+        <state relative-caret-position="105">
+          <caret line="7" column="27" selection-start-line="7" selection-start-column="27" selection-end-line="7" selection-end-column="27" />
         </state>
       </provider>
     </entry>

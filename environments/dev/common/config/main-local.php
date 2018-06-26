@@ -4,8 +4,8 @@ return [
         'db' => [
             'class' => 'yii\db\Connection',
             'dsn' => 'mysql:host=127.0.0.1;dbname=watch',
-            'username' => 'root',
-            'password' => '123',
+            'username' => 'develop',
+            'password' => '',
             'charset' => 'utf8',
         ],
         'mailer' => [

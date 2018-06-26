@@ -11,7 +11,10 @@ use common\fixtures\UserFixture;
  */
 class SignupCest
 {
-
+    public function clearData()
+    {
+        passthru('php yii_test migrate/fresh --interactive=0');
+    }
     public function badMethod(ApiTester $I)
     {
         $I->sendGET('/signup');
@@ -124,7 +127,7 @@ class SignupCest
 
         $I->sendPOST('/signup',[
             'login' => 'signup@test.com',
-            'password' => 'password_0'
+            'password' => ''
         ]);
         $I->seeResponseCodeIs(422);
         $I->seeResponseContainsJson([

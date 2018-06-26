@@ -11,7 +11,7 @@ use box\entities\User;
 
 class UserRepository
 {
-    public function save(User $user): void
+    public function save(User $user)
     {
         if (!$user->save()) {
             throw new \DomainException('save error');

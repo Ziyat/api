@@ -78,7 +78,7 @@ class AuthController extends Controller
         if ($form->validate()) {
             try {
                 $user = $this->service->signup($form);
-                return $user->activate_token;
+                return $user;
             } catch (\DomainException $e) {
                 return [
                     'field' => 'signup',

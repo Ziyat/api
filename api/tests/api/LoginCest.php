@@ -11,7 +11,6 @@ use common\fixtures\UserFixture;
  */
 class LoginCest
 {
-
     public function _before(ApiTester $I)
     {
         $I->haveFixtures([

@@ -5,6 +5,7 @@
 
 # phpstorm project files
 .idea
+# phpstorm project files
 /.idea
 
 # netbeans project files

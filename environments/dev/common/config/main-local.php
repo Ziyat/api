@@ -4,8 +4,8 @@ return [
         'db' => [
             'class' => 'yii\db\Connection',
             'dsn' => 'mysql:host=localhost;dbname=watch',
-            'username' => 'root',
-            'password' => 'Ype-fnM-UBT-v7e',
+            'username' => 'develop',
+            'password' => '1234567890@@',
             'charset' => 'utf8',
         ],
         'mailer' => [

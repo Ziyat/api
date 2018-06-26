@@ -36,7 +36,7 @@ class AuthService
         return $user;
     }
 
-    private function sendEmail(User $user): void
+    private function sendEmail(User $user)
     {
 
         $templateHtml = 'activateToken-html';
@@ -57,7 +57,7 @@ class AuthService
         }
     }
 
-    private function sendSms(User $user): void
+    private function sendSms(User $user)
     {
         $sent = true;
 

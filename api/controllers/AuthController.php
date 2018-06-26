@@ -34,11 +34,7 @@ class AuthController extends Controller
      *     @SWG\Response(
      *         response="200",
      *         description="Success response",
-     *         @SWG\Schema(
-     *             type="object",
-     *             @SWG\Property(property="token", type="string"),
-     *             @SWG\Property(property="expired", type="integer")
-     *         ),
+     *         @SWG\Schema(ref="#/definitions/Token")
      *     )
      * )
      */
@@ -91,6 +87,20 @@ class AuthController extends Controller
         return $form;
     }
 
+    /**
+     * @SWG\Get(
+     *     path="/activate/{activate_token}",
+     *     tags={"Activation User account"},
+     *     description={"Returns Token"},
+     *     @SWG\Parameter(name="activation_token", in="path", required=true, type="string"),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Success response",
+     *         @SWG\Schema(ref="#/definitions/Token")
+     *     )
+     * )
+     */
+
     public function actionActivateUser($token)
     {
         $user = User::Activate($token);
@@ -109,4 +119,14 @@ class AuthController extends Controller
             'activate-user' => ['get'],
         ];
     }
+
+
+    /**
+     * @SWG\Definition(
+     *     definition="Token",
+     *     type="object",
+     *     @SWG\Property(property="token", type="string"),
+     *     @SWG\Property(property="expired", type="integer"),
+     * )
+     **/
 }

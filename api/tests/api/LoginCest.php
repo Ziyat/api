@@ -25,6 +25,8 @@ class LoginCest
         ]);
     }
 
+
+
     public function badMethod(ApiTester $I)
     {
         $I->sendGET('/login');

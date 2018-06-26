@@ -43,15 +43,7 @@
                     "200": {
                         "description": "Success response",
                         "schema": {
-                            "properties": {
-                                "token": {
-                                    "type": "string"
-                                },
-                                "expired": {
-                                    "type": "integer"
-                                }
-                            },
-                            "type": "object"
+                            "$ref": "#/definitions/Token"
                         }
                     }
                 }
@@ -91,6 +83,32 @@
                 }
             }
         },
+        "/activate/{activate_token}": {
+            "get": {
+                "tags": [
+                    "Activation User account"
+                ],
+                "description": [
+                    "Returns Token"
+                ],
+                "parameters": [
+                    {
+                        "name": "activation_token",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/Token"
+                        }
+                    }
+                }
+            }
+        },
         "/": {
             "get": {
                 "tags": [
@@ -112,5 +130,17 @@
             }
         }
     },
-    "definitions": {}
+    "definitions": {
+        "Token": {
+            "properties": {
+                "token": {
+                    "type": "string"
+                },
+                "expired": {
+                    "type": "integer"
+                }
+            },
+            "type": "object"
+        }
+    }
 }

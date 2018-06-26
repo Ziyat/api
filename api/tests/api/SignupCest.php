@@ -123,7 +123,7 @@ class SignupCest
 
         $I->sendPOST('/signup',[
             'login' => 'signup@test.com',
-            'password' => ''
+            'password' => 'password_0'
         ]);
         $I->seeResponseCodeIs(422);
         $I->seeResponseContainsJson([

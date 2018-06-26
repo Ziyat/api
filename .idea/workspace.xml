@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cb1d24e8-344f-428c-be01-2c8c42288004" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/box/forms/auth/LoginForm.php" beforeDir="false" afterPath="$PROJECT_DIR$/box/forms/auth/LoginForm.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/tests/api.suite.yml" beforeDir="false" afterPath="$PROJECT_DIR$/api/tests/api.suite.yml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.idea/httpRequests/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -59,17 +58,58 @@
       <file leaf-file-name="LoginCest.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/api/tests/api/LoginCest.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="262">
+            <state relative-caret-position="393">
               <caret line="78" column="39" selection-start-line="78" selection-start-column="39" selection-end-line="78" selection-end-column="39" />
             </state>
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="_bootstrap.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/api/tests/_bootstrap.php">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="_bootstrap.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/api/tests/api/_bootstrap.php">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
       <file leaf-file-name="api.suite.yml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/api/tests/api.suite.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="20" lean-forward="true" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="20" />
+            <state relative-caret-position="210">
+              <caret line="14" column="16" lean-forward="true" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="codeception.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/codeception.yml">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="codeception.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/api/codeception.yml">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="AuthController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/api/controllers/AuthController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="59" column="15" selection-start-line="59" selection-start-column="12" selection-end-line="59" selection-end-column="15" />
+              <folding>
+                <element signature="e#104#126#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UserActivateCest.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/api/tests/api/UserActivateCest.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="302">
+              <caret line="80" column="30" selection-start-line="80" selection-start-column="30" selection-end-line="80" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -135,12 +175,12 @@
         <option value="$PROJECT_DIR$/common/config/main-local.php" />
         <option value="$PROJECT_DIR$/common/config/test-local.php" />
         <option value="$PROJECT_DIR$/environments/dev/common/config/test-local.php" />
-        <option value="$PROJECT_DIR$/api/tests/api/UserActivateCest.php" />
         <option value="$PROJECT_DIR$/box/repositories/UserRepository.php" />
         <option value="$PROJECT_DIR$/box/services/auth/AuthService.php" />
         <option value="$PROJECT_DIR$/api/tests/_data/user.php" />
         <option value="$PROJECT_DIR$/api/tests/api/LoginCest.php" />
         <option value="$PROJECT_DIR$/box/forms/auth/LoginForm.php" />
+        <option value="$PROJECT_DIR$/api/tests/api/UserActivateCest.php" />
         <option value="$PROJECT_DIR$/api/tests/api.suite.yml" />
       </list>
     </option>
@@ -1602,12 +1642,12 @@
       <updated>1529566622469</updated>
       <workItem from="1529566623641" duration="3217000" />
       <workItem from="1529570824091" duration="3872000" />
-      <workItem from="1529578599733" duration="95171000" />
+      <workItem from="1529578599733" duration="96430000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="102260000" />
+    <option name="totallyTimeSpent" value="103519000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -1646,52 +1686,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/backend/config/main.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="45" column="37" selection-start-line="45" selection-start-column="34" selection-end-line="45" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/yiisoft/yii2/base/InvalidConfigException.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="15" column="6" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/yiisoft/yii2/base/Model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="460" column="48" selection-start-line="460" selection-start-column="26" selection-end-line="460" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/composer.lock">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-9613" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/common/bootstrap/SetUp.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/common/config/bootstrap.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/yii2mod/yii2-swagger/OpenAPIRenderer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-16">
-          <caret line="16" column="6" selection-start-line="16" selection-start-column="6" selection-end-line="16" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/yii2mod/yii2-swagger/SwaggerUIRenderer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="11" column="6" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/api/controllers/definitions/Site.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -1887,13 +1881,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/api/tests/api/UserActivateCest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="377">
-          <caret line="80" column="55" selection-start-line="80" selection-start-column="55" selection-end-line="80" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/box/services/auth/AuthService.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -1932,10 +1919,29 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/api/tests/api/UserActivateCest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="302">
+          <caret line="80" column="30" selection-start-line="80" selection-start-column="30" selection-end-line="80" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/tests/_data/.gitignore">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/tests/_support/ApiTester.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/tests/_support/.gitignore">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/tests/_support/_generated/ApiTesterActions.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/api/controllers/AuthController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-189">
-          <caret line="51" column="25" selection-start-line="51" selection-start-column="25" selection-end-line="51" selection-end-column="25" />
+        <state relative-caret-position="162">
+          <caret line="59" column="15" selection-start-line="59" selection-start-column="12" selection-end-line="59" selection-end-column="15" />
           <folding>
             <element signature="e#104#126#0#PHP" expanded="true" />
           </folding>
@@ -1944,15 +1950,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/api/tests/api/LoginCest.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="262">
+        <state relative-caret-position="393">
           <caret line="78" column="39" selection-start-line="78" selection-start-column="39" selection-end-line="78" selection-end-column="39" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/api/tests/_bootstrap.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/tests/api/_bootstrap.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/codeception.yml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/codeception.yml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/api/tests/api.suite.yml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="20" lean-forward="true" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="20" />
+        <state relative-caret-position="210">
+          <caret line="14" column="16" lean-forward="true" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
         </state>
       </provider>
     </entry>

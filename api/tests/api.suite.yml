@@ -3,9 +3,15 @@ modules:
     enabled:
     - REST:
         depends: PhpBrowser
-#        url: 'http://api.watchvaultapp.com/index-test.php'
-        url: 'http://127.0.0.1:8080/index-test.php'
+        url: 'http://api.watchvaultapp.com/index-test.php'
+#        url: 'http://127.0.0.1:8080/index-test.php'
         part: [json]
     - Yii2:
         part: [orm, fixtures]
         entryScript: index-test.php
+    - PhpBrowser:
+        url: 'http://api.watchvaultapp.com/index-test.php'
+#        url: 'http://127.0.0.1:8080/index-test.php'
+        headers:
+           Accept: application/json
+           Content-Type: application/json

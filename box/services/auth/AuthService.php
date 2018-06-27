@@ -25,7 +25,8 @@ class AuthService
     {
         $form->setParams();
 
-        $user = User::signup($form->email, $form->phone, $form->password);
+        $user = User::signup($form);
+
 
         $this->users->save($user);
 

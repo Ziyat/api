@@ -4,34 +4,46 @@
  * Developer: Mirkhanov Z.S.
  */
 
-namespace forms\user;
+namespace box\forms\user;
 
 
 use box\entities\User;
+use yii\base\Model;
 use yii\web\UploadedFile;
+use Yii;
 
-class ProfileCreateForm
+/**
+ * Created by Madetec-Solution.
+ * Developer: Mirkhanov Z.S.
+ * Class ProfileCreateForm
+ * @package box\forms\user
+ * @property $photo
+ * @property $name
+ * @property $lastName
+ * @property $birthDate
+ * @property $userId
+ */
+class ProfileCreateForm extends Model
 {
-    public $gender;
     public $photo;
     public $name;
-    public $bio;
+    public $lastName;
     public $birthDate;
     public $userId;
+
 
     public function rules()
     {
         return [
-            [['name', 'bio'], 'string'],
-            [['gender'], 'integer'],
-            [['birthDate'], 'date','format' => 'php:d-m-Y'],
+            [['name', 'lastName'], 'string'],
+            [['birthDate'], 'date', 'format' => 'php:d-m-Y'],
             [['userId'], 'integer'],
             [['userId'], 'exist',
                 'skipOnError' => true,
                 'targetClass' => User::class,
                 'targetAttribute' => ['userId' => 'id']
             ],
-            ['photo', 'file', 'extensions' => 'jpeg, gif, png, jpg'],
+            ['photo', 'image'],
         ];
     }
 
@@ -40,9 +52,10 @@ class ProfileCreateForm
     {
         if (parent::beforeValidate()) {
             $this->photo = UploadedFile::getInstance($this, 'photo');
-            if($this->photo){
-                $this->photo->name = \Yii::$app->security->generateRandomString().'.'. $this->photo->extension;
+            if ($this->photo) {
+                $this->photo->name = Yii::$app->security->generateRandomString() . '.' . $this->photo->extension;
             }
+
             return true;
         }
         return false;

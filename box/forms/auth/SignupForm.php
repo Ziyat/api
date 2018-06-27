@@ -8,6 +8,8 @@ namespace box\forms\auth;
 
 use box\entities\Profile;
 use box\entities\User;
+use box\forms\CompositeForm;
+use box\forms\user\ProfileCreateForm;
 use yii\base\Model;
 
 /**
@@ -16,14 +18,23 @@ use yii\base\Model;
  * @property $phone
  * @property $email
  * @property $password
+ * @property ProfileCreateForm $profile
  */
 
-class SignupForm extends Model
+class SignupForm extends CompositeForm
 {
     public $email;
     public $phone;
     public $login;
     public $password;
+    public $profile;
+
+    public function __construct($config = [])
+    {
+        $this->profile = new ProfileCreateForm();
+        parent::__construct($config);
+    }
+
 
     public function rules()
     {
@@ -70,6 +81,11 @@ class SignupForm extends Model
     {
         $this->phone = $this->isPhone() ? $this->login : null;
         $this->email = $this->isEmail() ? $this->login : null;
+    }
+
+    protected function internalForms(): array
+    {
+        return ['profile'];
     }
 
 }

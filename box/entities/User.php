@@ -6,13 +6,13 @@
 
 namespace box\entities;
 
+use box\forms\auth\SignupForm;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use Yii;
-use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\VarDumper;
 use yii\web\IdentityInterface;
-use yii\web\NotFoundHttpException;
 
 /**
  * User model
@@ -41,18 +41,32 @@ class User extends ActiveRecord implements IdentityInterface
     const ACTIVATE_TOKEN = 'activate';
     const PASSWORD_TOKEN = 'password reset';
 
-    public static function signup($email, $phone, $password): self
+    public static function signup(SignupForm $form)
     {
         $user = new static();
-        $user->email = $email ?: null;
-        $user->phone = $phone ?: null;
+        $user->email = $form->email ?: null;
+        $user->phone = $form->phone ?: null;
 
-        $user->setPassword($password);
+        $user->setPassword($form->password);
         $user->created_at = time();
         $user->status = self::STATUS_WAIT;
         $user->generateAuthKey();
         $user->generateActivateToken();
-//        $user->profile = new Profile();
+        $user->profile = Profile::create($form->profile);
+        return $user;
+    }
+    public static function edit(UserEditForm $form)
+    {
+        $user = new static();
+        $user->email = $form->email ?: null;
+        $user->phone = $form->phone ?: null;
+
+        $user->setPassword($form->password);
+        $user->created_at = time();
+        $user->status = self::STATUS_WAIT;
+        $user->generateAuthKey();
+        $user->generateActivateToken();
+        $user->profile = Profile::create($form->profile);
         return $user;
     }
 

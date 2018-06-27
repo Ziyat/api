@@ -2,8 +2,10 @@
 
 namespace box\entities;
 
+use box\forms\user\ProfileCreateForm;
 use Yii;
-use box\entities\User;
+use yii\helpers\VarDumper;
+use yiidreamteam\upload\FileUploadBehavior;
 use yiidreamteam\upload\ImageUploadBehavior;
 
 /**
@@ -21,6 +23,27 @@ use yiidreamteam\upload\ImageUploadBehavior;
  */
 class Profile extends \yii\db\ActiveRecord
 {
+
+    public static function create(ProfileCreateForm $form)
+    {
+        $profile = new static();
+        $profile->photo = $form->photo;
+        $profile->last_name = $form->lastName;
+        $profile->name = $form->name;
+        $profile->date_of_birth = $form->birthDate;
+
+        return $profile;
+    }
+
+    public function edit($photo, $name, $lastName, $birthDate)
+    {
+        $this->photo = $photo;
+        $this->name = $name;
+        $this->last_name = $lastName;
+        $this->date_of_birth = $birthDate;
+    }
+
+
     /**
      * {@inheritdoc}
      */
@@ -32,30 +55,20 @@ class Profile extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            'class' => ImageUploadBehavior::class,
-            'attribute' => 'photo',
-            'thumbs' => [
-                'admin' => ['width' => 100, 'height' => 100],
-                'thumb' => ['width' => 480, 'height' => 480],
-            ],
-            'filePath' => '@staticPath/store/user/[[id]]/[[filename]].[[extension]]',
-            'fileUrl' => '@staticUrl/app-images/store/user/[[id]]/[[filename]].[[extension]]',
-            'thumbPath' => '@staticPath/cache/user/[[id]]/[[profile]]_[[filename]].[[extension]]',
-            'thumbUrl' => '@staticUrl/app-images/cache/user/[[id]]/[[profile]]_[[filename]].[[extension]]',
+            [
+                'class' => ImageUploadBehavior::class,
+                'attribute' => 'photo',
+                'thumbs' => [
+                    'admin' => ['width' => 100, 'height' => 100],
+                    'thumb' => ['width' => 480, 'height' => 480],
+                ],
+                'filePath' => '@staticPath/store/profile/[[id]]/[[filename]].[[extension]]',
+                'fileUrl' => '@staticUrl/app-images/store/profile/[[id]]/[[filename]].[[extension]]',
+                'thumbPath' => '@staticPath/cache/profile/[[id]]/[[profile]]_[[filename]].[[extension]]',
+                'thumbUrl' => '@staticUrl/app-images/cache/profile/[[id]]/[[profile]]_[[filename]].[[extension]]',
+            ]
         ];
     }
-//    /**
-//     * {@inheritdoc}
-//     */
-//    public function rules()
-//    {
-//        return [
-//            [['user_id'], 'required'],
-//            [['user_id', 'date_of_birth'], 'integer'],
-//            [['name', 'last_name'], 'string', 'max' => 255],
-//            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
-//        ];
-//    }
 
     /**
      * {@inheritdoc}
@@ -68,7 +81,6 @@ class Profile extends \yii\db\ActiveRecord
             'name' => 'Name',
             'last_name' => 'Last Name',
             'date_of_birth' => 'Date Of Birth',
-            'photo' => 'Photo',
         ];
     }
 
@@ -78,6 +90,11 @@ class Profile extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
+    public function getPhoto($profile = 'thumb')
+    {
+        return $this->getThumbFileUrl('photo', $profile,Yii::getAlias('@staticUrl').'/empty/no-photo.jpg');
     }
 
 

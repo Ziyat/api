@@ -10,8 +10,10 @@ use box\entities\User;
 use box\forms\auth\LoginForm;
 use box\forms\auth\SignupForm;
 use box\services\auth\AuthService;
+use yii\helpers\VarDumper;
 use yii\rest\Controller;
 use Yii;
+use yii\web\UploadedFile;
 
 
 class AuthController extends Controller

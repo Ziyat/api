@@ -12,6 +12,12 @@ use common\models\LoginForm;
  */
 class SiteController extends Controller
 {
+    public static function allowedDomains() {
+        return [
+             '*',
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -36,6 +42,16 @@ class SiteController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'logout' => ['post'],
+                ],
+            ],
+            'corsFilter'  => [
+                'class' => \yii\filters\Cors::class,
+                'cors'  => [
+                    // restrict access to domains:
+                    'Origin'                           => static::allowedDomains(),
+                    'Access-Control-Request-Method'    => ['POST'],
+                    'Access-Control-Allow-Credentials' => true,
+                    'Access-Control-Max-Age'           => 3600,                 // Cache (seconds)
                 ],
             ],
         ];

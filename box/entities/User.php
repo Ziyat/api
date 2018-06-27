@@ -6,6 +6,7 @@
 
 namespace box\entities;
 
+use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -28,6 +29,7 @@ use yii\web\NotFoundHttpException;
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
+ * @property Profile $profile
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -50,6 +52,7 @@ class User extends ActiveRecord implements IdentityInterface
         $user->status = self::STATUS_WAIT;
         $user->generateAuthKey();
         $user->generateActivateToken();
+//        $user->profile = new Profile();
         return $user;
     }
 
@@ -96,6 +99,11 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             TimestampBehavior::class,
+            [
+                'class' => SaveRelationsBehavior::class,
+                'relations' => ['profile']
+            ],
+
         ];
     }
 
@@ -279,5 +287,10 @@ class User extends ActiveRecord implements IdentityInterface
     public function getTokens()
     {
         return $this->hasOne(Token::class, ['user_id' => 'id']);
+    }
+
+    public function getProfile()
+    {
+        return $this->hasOne(Profile::class, ['user_id' => 'id']);
     }
 }

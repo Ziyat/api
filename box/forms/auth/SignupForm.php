@@ -6,6 +6,7 @@
 
 namespace box\forms\auth;
 
+use box\entities\Profile;
 use box\entities\User;
 use yii\base\Model;
 

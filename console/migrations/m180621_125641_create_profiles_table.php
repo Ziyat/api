@@ -24,7 +24,7 @@ class m180621_125641_create_profiles_table extends Migration
             'name' => $this->string()->null(),
             'last_name' => $this->string()->null(),
             'date_of_birth' => $this->integer()->null(),
-            'photo' => $this->integer()->null(),
+            'photo' => $this->string()->null(),
         ],$tableOptions);
 
         $this->createIndex('idx-profiles-user_id','{{%profiles}}','user_id');

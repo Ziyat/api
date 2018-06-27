@@ -4,6 +4,7 @@ namespace box\entities;
 
 use Yii;
 use box\entities\User;
+use yiidreamteam\upload\ImageUploadBehavior;
 
 /**
  * This is the model class for table "profiles".
@@ -13,9 +14,10 @@ use box\entities\User;
  * @property string $name
  * @property string $last_name
  * @property int $date_of_birth
- * @property int $photo
+ * @property string $photo
  *
  * @property User $user
+ * @mixin ImageUploadBehavior
  */
 class Profile extends \yii\db\ActiveRecord
 {
@@ -27,18 +29,33 @@ class Profile extends \yii\db\ActiveRecord
         return '{{%profiles}}';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
+    public function behaviors()
     {
         return [
-            [['user_id'], 'required'],
-            [['user_id', 'date_of_birth', 'photo'], 'integer'],
-            [['name', 'last_name'], 'string', 'max' => 255],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
+            'class' => ImageUploadBehavior::class,
+            'attribute' => 'photo',
+            'thumbs' => [
+                'admin' => ['width' => 100, 'height' => 100],
+                'thumb' => ['width' => 480, 'height' => 480],
+            ],
+            'filePath' => '@staticPath/store/user/[[id]]/[[filename]].[[extension]]',
+            'fileUrl' => '@staticUrl/app-images/store/user/[[id]]/[[filename]].[[extension]]',
+            'thumbPath' => '@staticPath/cache/user/[[id]]/[[profile]]_[[filename]].[[extension]]',
+            'thumbUrl' => '@staticUrl/app-images/cache/user/[[id]]/[[profile]]_[[filename]].[[extension]]',
         ];
     }
+//    /**
+//     * {@inheritdoc}
+//     */
+//    public function rules()
+//    {
+//        return [
+//            [['user_id'], 'required'],
+//            [['user_id', 'date_of_birth'], 'integer'],
+//            [['name', 'last_name'], 'string', 'max' => 255],
+//            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
+//        ];
+//    }
 
     /**
      * {@inheritdoc}
@@ -62,4 +79,6 @@ class Profile extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
+
+
 }

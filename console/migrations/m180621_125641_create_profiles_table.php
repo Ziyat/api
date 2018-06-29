@@ -29,7 +29,7 @@ class m180621_125641_create_profiles_table extends Migration
 
         $this->createIndex('idx-profiles-user_id','{{%profiles}}','user_id');
 
-        $this->addForeignKey('fk-profiles-user_id','{{%profiles}}','user_id','{{%users}}','id','CASCADE','RESTRICT');
+        $this->addForeignKey('fk-profiles-user_id','{{%profiles}}','user_id','{{%users}}','id','RESTRICT','RESTRICT');
 
     }
 

@@ -7,6 +7,7 @@
 namespace box\entities;
 
 use box\forms\auth\SignupForm;
+use box\forms\user\UserEditForm;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use Yii;
 use yii\behaviors\TimestampBehavior;
@@ -55,20 +56,19 @@ class User extends ActiveRecord implements IdentityInterface
         $user->profile = Profile::create($form->profile);
         return $user;
     }
-    public static function edit(UserEditForm $form)
-    {
-        $user = new static();
-        $user->email = $form->email ?: null;
-        $user->phone = $form->phone ?: null;
 
-        $user->setPassword($form->password);
-        $user->created_at = time();
-        $user->status = self::STATUS_WAIT;
-        $user->generateAuthKey();
-        $user->generateActivateToken();
-        $user->profile = Profile::create($form->profile);
-        return $user;
+    public function edit($email,$phone,$password, Profile $profile)
+    {
+        $this->email = $email;
+        $this->phone = $phone;
+        $this->profile = $profile;
+        if($password){
+            $this->setPassword($password);
+        }
+        $this->updated_at = time();
     }
+
+
 
 
     public static function Activate($token)

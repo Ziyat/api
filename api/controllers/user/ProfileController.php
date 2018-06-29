@@ -66,7 +66,6 @@ class ProfileController extends BearerController
 
         if($form->validate())
         {
-            return $form;
             try {
                 $user = $this->service->edit($user->id, $form);
                 return $this->serialize($user);

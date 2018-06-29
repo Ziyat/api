@@ -70,7 +70,6 @@ class AuthController extends Controller
 
     public function actionSignup()
     {
-
         $form = new SignupForm();
         $form->load(Yii::$app->request->bodyParams, '');
         if ($form->validate()) {
@@ -84,8 +83,6 @@ class AuthController extends Controller
                 ];
             }
         }
-
-
         return $form;
     }
 
@@ -111,7 +108,6 @@ class AuthController extends Controller
         }
         return $user;
     }
-
 
     protected function verbs()
     {

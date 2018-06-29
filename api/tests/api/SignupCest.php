@@ -96,7 +96,7 @@ class SignupCest
     {
         $I->sendPOST('/signup',[
             'login' => 'signup@test.com',
-            'password' => 'password_0'
+            'password' => 'password_1'
         ]);
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();

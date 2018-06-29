@@ -128,6 +128,48 @@
                     }
                 }
             }
+        },
+        "/profile": {
+            "get": {
+                "tags": [
+                    "Profile"
+                ],
+                "description": "Returns profile info",
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/Profile"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/profile/edit": {
+            "post": {
+                "tags": [
+                    "Profile edit"
+                ],
+                "description": "Returns profile info. To send an image add in the header content-type: multipart/form-data",
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/Profile"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
         }
     },
     "definitions": {
@@ -138,6 +180,38 @@
                 },
                 "expired": {
                     "type": "integer"
+                }
+            },
+            "type": "object"
+        },
+        "Profile": {
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "birthDate": {
+                    "type": "string"
+                },
+                "photo": {
+                    "type": "string"
                 }
             },
             "type": "object"

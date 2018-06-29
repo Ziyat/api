@@ -9,9 +9,9 @@ $params = array_merge(
 return [
     'id' => 'app-api',
     'basePath' => dirname(__DIR__),
-    'aliases'=>[
+    'aliases' => [
         '@staticPath' => $params['staticPath'],
-        '@staticUrl'   => $params['staticHostInfo'],
+        '@staticUrl' => $params['staticHostInfo'],
     ],
     'controllerNamespace' => 'api\controllers',
     'bootstrap' => [
@@ -25,8 +25,12 @@ return [
     ],
     'components' => [
         'request' => [
+            "csrfCookie" => [
+                "httpOnly" => false
+            ],
             'enableCookieValidation' => false,
             'enableCsrfValidation' => false,
+            "enableCsrfCookie" => false,
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
             ],
@@ -63,7 +67,8 @@ return [
                 'login' => 'auth/login',
                 'signup' => 'auth/signup',
                 'activate/<token:[\d_]+>' => 'auth/activate-user',
-                'profile' => 'user/profile/index'
+                'profile' => 'user/profile/index',
+                'profile/edit' => 'user/profile/edit',
             ],
         ],
 

@@ -35,12 +35,12 @@ class Profile extends \yii\db\ActiveRecord
         return $profile;
     }
 
-    public function edit($photo, $name, $lastName, $birthDate)
+    public function edit($name,$lastName,$birthDate,$photo)
     {
-        $this->photo = $photo;
         $this->name = $name;
+        $this->photo = $photo;
         $this->last_name = $lastName;
-        $this->date_of_birth = $birthDate;
+        $this->date_of_birth = strtotime($birthDate);
     }
 
 
@@ -63,9 +63,9 @@ class Profile extends \yii\db\ActiveRecord
                     'thumb' => ['width' => 480, 'height' => 480],
                 ],
                 'filePath' => '@staticPath/store/profile/[[id]]/[[filename]].[[extension]]',
-                'fileUrl' => '@staticUrl/app-images/store/profile/[[id]]/[[filename]].[[extension]]',
+                'fileUrl' => '@staticUrl/store/profile/[[id]]/[[filename]].[[extension]]',
                 'thumbPath' => '@staticPath/cache/profile/[[id]]/[[profile]]_[[filename]].[[extension]]',
-                'thumbUrl' => '@staticUrl/app-images/cache/profile/[[id]]/[[profile]]_[[filename]].[[extension]]',
+                'thumbUrl' => '@staticUrl/cache/profile/[[id]]/[[profile]]_[[filename]].[[extension]]',
             ]
         ];
     }

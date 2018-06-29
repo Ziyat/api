@@ -9,13 +9,75 @@ namespace api\controllers\user;
 use api\controllers\BearerController;
 use box\entities\User;
 use box\helpers\UserHelper;
+use box\services\UserService;
+use box\forms\user\UserEditForm;
 use Yii;
+use yii\web\UploadedFile;
 
 class ProfileController extends BearerController
 {
+
+    protected $service;
+
+    public function __construct($id, $module, UserService $service, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->service = $service;
+    }
+
+    /**
+     * @SWG\Get(
+     *     path="/profile",
+     *     tags={"Profile"},
+     *     description="Returns profile info",
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Schema(ref="#/definitions/Profile")
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     */
+
     public function actionIndex()
     {
-        return $this->serialize();
+        return $this->serialize($this->findUser());
+    }
+
+    /**
+     * @SWG\Post(
+     *     path="/profile/edit",
+     *     tags={"Profile edit"},
+     *     description="Returns profile info. To send an image add in the header content-type: multipart/form-data",
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Schema(ref="#/definitions/Profile")
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     */
+
+    public function actionEdit()
+    {
+        $user = $this->findUser();
+        $form = new UserEditForm($user);
+        $form->load(Yii::$app->request->bodyParams, '');
+
+        if($form->validate())
+        {
+            return $form;
+            try {
+                $user = $this->service->edit($user->id, $form);
+                return $this->serialize($user);
+            } catch (\DomainException $e) {
+                return [
+                    'field' => 'signup',
+                    'message' => $e->getMessage(),
+                ];
+            }
+        }
+        return $form;
     }
 
 
@@ -23,6 +85,7 @@ class ProfileController extends BearerController
     {
         return [
             'index' => ['get'],
+            'edit' => ['post'],
         ];
     }
 
@@ -32,9 +95,8 @@ class ProfileController extends BearerController
     }
 
 
-    protected function serialize()
+    protected function serialize(User $user)
     {
-        $user = $this->findUser();
         return[
             'id' => $user->id,
             'email' => $user->email,
@@ -47,4 +109,22 @@ class ProfileController extends BearerController
             'photo' => $user->profile->getPhoto()
         ];
     }
+
+
 }
+/**
+ *  @SWG\Definition(
+ *     definition="Profile",
+ *     type="object",
+ *     @SWG\Property(property="id", type="integer"),
+ *     @SWG\Property(property="email", type="string"),
+ *     @SWG\Property(property="phone", type="string"),
+ *     @SWG\Property(property="createdAt", type="integer"),
+ *     @SWG\Property(property="status", type="string"),
+ *     @SWG\Property(property="name", type="string"),
+ *     @SWG\Property(property="lastName", type="string"),
+ *     @SWG\Property(property="birthDate", type="string"),
+ *     @SWG\Property(property="photo", type="string"),
+ * )
+ */
+

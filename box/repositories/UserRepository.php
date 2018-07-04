@@ -7,9 +7,8 @@
 namespace box\repositories;
 
 
-use box\entities\Profile;
-use box\entities\User;
-use yii\web\NotFoundHttpException;
+use box\entities\user\Profile;
+use box\entities\user\User;
 
 class UserRepository
 {

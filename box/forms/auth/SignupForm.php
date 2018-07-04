@@ -6,11 +6,9 @@
 
 namespace box\forms\auth;
 
-use box\entities\Profile;
-use box\entities\User;
+use box\entities\user\User;
 use box\forms\CompositeForm;
 use box\forms\user\ProfileCreateForm;
-use yii\base\Model;
 
 /**
  * Signup form

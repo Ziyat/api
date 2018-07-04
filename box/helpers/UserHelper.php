@@ -7,7 +7,7 @@
 namespace box\helpers;
 
 
-use box\entities\User;
+use box\entities\user\User;
 
 class UserHelper
 {

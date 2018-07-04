@@ -6,9 +6,7 @@
 
 namespace box\forms\user;
 
-
-use box\entities\Profile;
-use box\entities\User;
+use box\entities\user\User;
 use yii\base\Model;
 use yii\web\UploadedFile;
 use Yii;

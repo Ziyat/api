@@ -3,3 +3,51 @@ server run
 php -S 127.0.0.1:8080 -t api/web
 test run
 php vendor/bin/codecept run -- -c api
+
+
+category
+    id
+    name
+    lft
+    rgt
+    depth
+
+generic_product
+    id
+    name
+    desc
+    category_id
+
+user_product
+    id
+    name
+    desc
+    category_id
+
+photo
+    id
+    type
+    name
+
+photo_assignment
+    generic_product_id
+    user_product_id
+    photo_id
+
+spec_name
+    id
+    name
+
+spec_um
+    id
+    name
+
+spec_assignment
+    spec_name_id
+    spec_um_id
+
+spec_product
+    generic_product_id
+    user_product_id
+    spec_name_id
+    value

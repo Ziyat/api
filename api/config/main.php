@@ -45,7 +45,7 @@ return [
             ],
         ],
         'user' => [
-            'identityClass' => 'box\entities\User',
+            'identityClass' => 'box\entities\user\User',
             'enableAutoLogin' => false,
             'enableSession' => false,
         ],

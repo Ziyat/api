@@ -6,21 +6,18 @@
 
 namespace api\controllers;
 
-use box\entities\User;
+use box\entities\user\User;
 use box\forms\auth\LoginForm;
 use box\forms\auth\SignupForm;
-use box\services\auth\AuthService;
-use yii\helpers\VarDumper;
+use box\services\UserService;
 use yii\rest\Controller;
 use Yii;
-use yii\web\UploadedFile;
-
 
 class AuthController extends Controller
 {
     public $service;
 
-    public function __construct(string $id, $module, AuthService $service, $config = [])
+    public function __construct(string $id, $module, UserService $service, $config = [])
     {
         parent::__construct($id, $module, $config);
 

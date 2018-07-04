@@ -4,6 +4,7 @@ include:
     - frontend
     - backend
     - api
+    - box
 paths:
     log: console/runtime/logs
 settings:

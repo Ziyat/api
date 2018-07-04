@@ -7,12 +7,11 @@
 namespace api\controllers\user;
 
 use api\controllers\BearerController;
-use box\entities\User;
+use box\entities\user\User;
 use box\helpers\UserHelper;
 use box\services\UserService;
 use box\forms\user\UserEditForm;
 use Yii;
-use yii\web\UploadedFile;
 
 class ProfileController extends BearerController
 {

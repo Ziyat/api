@@ -3,6 +3,7 @@
 namespace api\tests\functional;
 
 use api\tests\ApiTester;
+use common\fixtures\ProfileFixture;
 use common\fixtures\TokenFixture;
 use common\fixtures\UserFixture;
 
@@ -21,6 +22,10 @@ class LoginCest
             'token' => [
                 'class' => TokenFixture::class,
                 'dataFile' => codecept_data_dir() . 'token.php'
+            ],
+            'profile' => [
+                'class' => ProfileFixture::class,
+                'dataFile' => codecept_data_dir() . 'profile.php'
             ]
         ]);
     }

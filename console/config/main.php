@@ -22,6 +22,18 @@ return [
           ],
     ],
     'components' => [
+        'authManager' => [
+            'class' => 'common\components\AuthManager',
+            'itemFile' => '@common/components/rbac/items.php',
+            'assignmentFile' => '@common/components/rbac/assignments.php',
+            'ruleFile' => '@common/components/rbac/rules.php'
+        ],
+        'user' => [
+            'class' => 'yii\web\User',
+            'identityClass' => 'box\entities\user\User',
+            'enableAutoLogin' => false,
+            'enableSession' => false,
+        ],
         'log' => [
             'targets' => [
                 [
@@ -29,7 +41,7 @@ return [
                     'levels' => ['error', 'warning'],
                 ],
             ],
-        ],
+        ]
     ],
     'params' => $params,
 ];

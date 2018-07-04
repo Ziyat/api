@@ -1,0 +1,7 @@
+suite_namespace: box\tests\unit
+actor: BoxUnitTester
+modules:
+    enabled:
+        - Yii2:
+            part: [orm, email, fixtures]
+        - Asserts

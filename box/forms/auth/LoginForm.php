@@ -2,9 +2,8 @@
 
 namespace box\forms\auth;
 
-use box\entities\Token;
-use box\entities\User;
-use function foo\func;
+use box\entities\user\Token;
+use box\entities\user\User;
 use Yii;
 use yii\base\Model;
 

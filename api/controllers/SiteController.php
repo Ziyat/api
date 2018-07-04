@@ -6,6 +6,9 @@
 
 namespace api\controllers;
 
+use box\entities\Meta;
+use box\entities\shop\Brand;
+use yii\helpers\VarDumper;
 use yii\rest\Controller;
 
 /**

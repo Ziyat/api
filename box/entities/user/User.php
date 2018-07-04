@@ -4,15 +4,13 @@
  * User: Mirkhanov Z.C.
  */
 
-namespace box\entities;
+namespace box\entities\user;
 
 use box\forms\auth\SignupForm;
-use box\forms\user\UserEditForm;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
-use yii\helpers\VarDumper;
 use yii\web\IdentityInterface;
 
 /**
@@ -30,6 +28,7 @@ use yii\web\IdentityInterface;
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
+ * @property string $role role
  * @property Profile $profile
  */
 class User extends ActiveRecord implements IdentityInterface
@@ -296,6 +295,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->activate_token = null;
     }
+
 
 
     public function getTokens()

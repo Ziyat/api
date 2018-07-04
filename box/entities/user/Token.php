@@ -4,7 +4,7 @@
  * Developer: Mirkhanov Z.S.
  */
 
-namespace box\entities;
+namespace box\entities\user;
 
 use yii\db\ActiveRecord;
 use Yii;

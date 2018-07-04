@@ -1,11 +1,9 @@
 <?php
 
-namespace box\entities;
+namespace box\entities\user;
 
 use box\forms\user\ProfileCreateForm;
 use Yii;
-use yii\helpers\VarDumper;
-use yiidreamteam\upload\FileUploadBehavior;
 use yiidreamteam\upload\ImageUploadBehavior;
 
 /**

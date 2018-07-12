@@ -18,6 +18,12 @@ use yii\rest\Controller;
  *     schemes={"http"},
  *     produces={"application/json","application/xml"},
  *     consumes={"application/json","application/xml","application/x-www-form-urlencoded"},
+ *     @SWG\SecurityScheme(
+ *         securityDefinition="Bearer",
+ *         type="apiKey",
+ *         name="Authorization",
+ *         in="header"
+ *     ),
  *     @SWG\Info(
  *         version="1.0.0",
  *         title="Watch Vault apps API",

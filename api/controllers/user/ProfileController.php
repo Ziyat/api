@@ -53,6 +53,12 @@ class ProfileController extends BearerController
      *         description="Success response",
      *         @SWG\Schema(ref="#/definitions/Profile")
      *     ),
+     *     @SWG\SecurityScheme(
+     *         securityDefinition="Bearer",
+     *         type="apiKey",
+     *         name="Authorization",
+     *         in="header"
+     *     ),
      *     security={{"Bearer": {}}}
      * )
      */

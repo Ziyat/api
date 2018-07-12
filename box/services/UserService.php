@@ -76,7 +76,7 @@ class UserService
                 ['html' => $templateHtml, 'text' => $templateText],
                 ['user' => $user]
             )
-            ->setFrom(['noreply@watchvaltapp.com' => \Yii::$app->name])
+            ->setFrom(['noreply@api.watchvaultapp.com' => \Yii::$app->name])
             ->setTo($user->email)
             ->setSubject('Activation Code')
             ->send();

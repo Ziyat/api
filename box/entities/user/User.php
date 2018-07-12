@@ -171,7 +171,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByToken($token, $tokenType)
     {
-        if (!static::isTokenValid($token)) {
+        if (!static::isTokenValid($token) && $tokenType == static::PASSWORD_TOKEN) {
             return null;
         }
         $condition = null;
@@ -286,7 +286,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function generateActivateToken()
     {
-        $this->activate_token = rand(1, 10000000) . '_' . time();
+        $this->activate_token = rand(100000, 900000);
     }
 
     /**

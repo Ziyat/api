@@ -9,6 +9,7 @@ namespace box\forms\auth;
 use box\entities\user\User;
 use box\forms\CompositeForm;
 use box\forms\user\ProfileCreateForm;
+use box\validators\UniqueLoginValidator;
 
 /**
  * Signup form
@@ -51,15 +52,40 @@ class SignupForm extends CompositeForm
 
     public function validateLogin($attribute,$params)
     {
+
+
         if (!$this->hasErrors()) {
+
+            $attributeStatus = $this->generateAttributeLabel('status');
+
             if(!$this->isPhone() && !$this->isEmail()){
                 $this->addError($attribute, 'Please enter a valid mobile number or email address.');
             }
-            if($this->isEmail() && User::findByEmail($this->login) || is_object(User::findByEmailActive($this->login))){
-                $this->addError($attribute, 'This email address has already been taken.');
+
+            if($this->isEmail()){
+
+                if(User::findByEmail($this->login)){
+                    $this->addError($attribute, 'This email address already exists, but not activated');
+                    $this->addError($attributeStatus, User::STATUS_WAIT);
+                }
+                if(User::findByEmailActive($this->login)){
+                    $this->addError($attribute, 'This email address has already been taken.');
+                    $this->addError($attributeStatus, User::STATUS_ACTIVE);
+                }
             }
-            if($this->isPhone() && User::findByPhone($this->login) || is_object(User::findByPhoneActive($this->login))){
-                $this->addError($attribute, 'This mobile number has already been taken.');
+
+
+            if($this->isPhone()){
+
+                if(User::findByPhone($this->login)){
+                    $this->addError($attribute, 'This phone number already exists, but not activated');
+                    $this->addError($attributeStatus, User::STATUS_WAIT);
+                }
+                if(User::findByPhoneActive($this->login)){
+                    $this->addError($attribute, 'This phone number already exists, but not activated');
+                    $this->addError($attributeStatus, User::STATUS_WAIT);
+                }
+
             }
         }
     }

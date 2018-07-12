@@ -405,7 +405,7 @@ class Product extends ActiveRecord
                 return;
             }
         }
-        $assignments[] = CategoryAssignment::create($id);
+        $assignments[] = RelatedAssignment::create($id);
         $this->relatedAssignments = $assignments;
     }
 

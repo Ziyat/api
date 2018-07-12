@@ -91,12 +91,6 @@ class ProductController extends BearerController
         return $form;
     }
 
-    public function actionBrandsList()
-    {
-        $form = new ProductCreateForm();
-        return $form->brandsList();
-    }
-
     public function actionEdit($id)
     {
         return ['edit id: ' . $id, 'params' => \Yii::$app->request->bodyParams];

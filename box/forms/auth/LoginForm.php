@@ -51,8 +51,21 @@ class LoginForm extends Model
     {
 
         if (!$this->hasErrors()) {
+            $attributeStatus = $this->generateAttributeLabel('status');
+
             if (!$this->isPhone() && !$this->isEmail()) {
                 $this->addError($attribute, 'Please enter a valid mobile number or email address.');
+            }
+
+            if ($this->isEmail() && User::findByEmail($this->login)) {
+                $this->addError($attribute, 'This email address already exists, but not activated');
+                $this->addError($attributeStatus, User::STATUS_WAIT);
+            }
+
+            if ($this->isPhone() && User::findByPhone($this->login)) {
+                $this->addError($attribute, 'This phone number already exists, but not activated');
+                $this->addError($attributeStatus, User::STATUS_WAIT);
+
             }
         }
     }
@@ -120,7 +133,6 @@ class LoginForm extends Model
         if ($this->_user === null) {
             $this->_user = $this->isPhone() ? User::findByPhoneActive($this->login) : User::findByEmailActive($this->login);
         }
-
         return $this->_user;
     }
 

@@ -166,6 +166,7 @@ class User extends ActiveRecord implements IdentityInterface
      * Finds user by activate token
      *
      * @param string $token activate token
+     * @param string $tokenType
      * @return static|null
      */
     public static function findByToken($token, $tokenType)

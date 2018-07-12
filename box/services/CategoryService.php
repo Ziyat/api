@@ -5,18 +5,18 @@ namespace box\services;
 use box\entities\Meta;
 use box\entities\shop\Category;
 use box\forms\shop\CategoryForm;
-use box\repositories\Shop\CategoryRepository;
-use box\repositories\Shop\ProductRepository;
+use box\repositories\CategoryRepository;
+use box\repositories\ProductRepository;
 
 class CategoryService
 {
     private $categories;
-    private $products;
+//    private $products;
 
-    public function __construct(CategoryRepository $categories, ProductRepository $products)
+    public function __construct(CategoryRepository $categories /*, ProductRepository $products*/)
     {
         $this->categories = $categories;
-        $this->products = $products;
+//        $this->products = $products;
     }
 
     public function create(CategoryForm $form): Category
@@ -84,9 +84,9 @@ class CategoryService
     {
         $category = $this->categories->get($id);
         $this->assertIsNotRoot($category);
-        if ($this->products->existsByMainCategory($category->id)) {
-            throw new \DomainException('Unable to remove category with products.');
-        }
+//        if ($this->products->existsByMainCategory($category->id)) {
+//            throw new \DomainException('Unable to remove category with products.');
+//        }
         $this->categories->remove($category);
     }
 

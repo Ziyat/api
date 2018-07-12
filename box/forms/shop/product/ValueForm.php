@@ -1,9 +1,9 @@
 <?php
 
-namespace box\forms\shop\Product;
+namespace box\forms\shop\product;
 
-use box\entities\shop\Characteristic;
-use box\entities\shop\Product\Value;
+use box\entities\shop\characteristic;
+use box\entities\shop\product\Value;
 use yii\base\Model;
 
 /**

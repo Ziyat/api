@@ -10,13 +10,14 @@ use box\entities\Meta;
 use box\entities\shop\Brand;
 use Codeception\Test\Unit;
 
-class CreateTest extends Unit
+class BrandCreateTest extends Unit
 {
     public function testSuccess()
     {
         $brand = Brand::create(
             $name = 'Name',
             $slug = 'slug',
+            $photo = null,
             new Meta(
                 $metaTitle = 'Rolex',
                 $metaDesc ='Schweiz',

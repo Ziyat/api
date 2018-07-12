@@ -87,7 +87,7 @@ class AuthController extends Controller
      * @SWG\Get(
      *     path="/activate/{activate_token}",
      *     tags={"Activation User account"},
-     *     description={"Returns Token"},
+     *     description="Returns Token",
      *     @SWG\Parameter(name="activation_token", in="path", required=true, type="string"),
      *     @SWG\Response(
      *         response="200",

@@ -1,7 +1,11 @@
 <?php
 
 namespace box\entities;
-
+/**
+ * @property string $title
+ * @property string $description
+ * @property string $keywords
+ */
 class Meta
 {
     public $title;

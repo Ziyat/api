@@ -51,15 +51,14 @@ class SignupForm extends CompositeForm
 
     public function validateLogin($attribute,$params)
     {
-
         if (!$this->hasErrors()) {
             if(!$this->isPhone() && !$this->isEmail()){
                 $this->addError($attribute, 'Please enter a valid mobile number or email address.');
             }
-            if($this->isEmail() && User::findByEmail($this->login)){
+            if($this->isEmail() && User::findByEmail($this->login) || is_object(User::findByEmailActive($this->login))){
                 $this->addError($attribute, 'This email address has already been taken.');
             }
-            if($this->isPhone() && User::findByPhone($this->login)){
+            if($this->isPhone() && User::findByPhone($this->login) || is_object(User::findByPhoneActive($this->login))){
                 $this->addError($attribute, 'This mobile number has already been taken.');
             }
         }

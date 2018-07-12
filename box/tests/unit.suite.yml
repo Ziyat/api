@@ -4,4 +4,4 @@ modules:
     enabled:
         - Yii2:
             part: [orm, email, fixtures]
-        - Asserts
+            entryScript: index-test.php

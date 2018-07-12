@@ -88,9 +88,7 @@
                 "tags": [
                     "Activation User account"
                 ],
-                "description": [
-                    "Returns Token"
-                ],
+                "description": "Returns Token",
                 "parameters": [
                     {
                         "name": "activation_token",
@@ -127,6 +125,123 @@
                         }
                     }
                 }
+            }
+        },
+        "/user/products": {
+            "post": {
+                "tags": [
+                    "User Products"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "priceType",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "brandId",
+                        "in": "formData",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "categories",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "main": {
+                                    "type": "integer"
+                                },
+                                "others": {
+                                    "type": "array",
+                                    "items": {}
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    {
+                        "name": "values",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "properties": {
+                                    "value": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "tags",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "properties": {
+                                "existing": {
+                                    "type": "array",
+                                    "items": {}
+                                },
+                                "textNew": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    {
+                        "name": "meta",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "properties": {
+                                "title": {
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "type": "string"
+                                },
+                                "keywords": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ProductData"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
             }
         },
         "/profile": {
@@ -180,6 +295,14 @@
                 },
                 "expired": {
                     "type": "integer"
+                }
+            },
+            "type": "object"
+        },
+        "ProductData": {
+            "properties": {
+                "name": {
+                    "type": "string"
                 }
             },
             "type": "object"

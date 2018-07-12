@@ -9,7 +9,7 @@ namespace box\tests\unit\entities\Tag;
 use Codeception\Test\Unit;
 use box\entities\shop\Tag;
 
-class CreateTest extends Unit
+class TagCreateTest extends Unit
 {
     public function testSuccess()
     {

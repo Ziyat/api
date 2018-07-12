@@ -1,10 +1,10 @@
 <?php
 
-namespace shop\useCases\manage\Shop;
+namespace box\services;
 
 use box\entities\Meta;
 use box\entities\Shop\Brand;
-use box\forms\manage\Shop\BrandForm;
+use box\forms\shop\BrandForm;
 use box\repositories\BrandRepository;
 use box\repositories\ProductRepository;
 use yii\helpers\Inflector;
@@ -12,12 +12,12 @@ use yii\helpers\Inflector;
 class BrandService
 {
     private $brands;
-    private $products;
+//    private $products;
 
-    public function __construct(BrandRepository $brands, ProductRepository $products)
+    public function __construct(BrandRepository $brands /*, ProductRepository $products*/)
     {
         $this->brands = $brands;
-        $this->products = $products;
+//        $this->products = $products;
     }
 
     public function create(BrandForm $form)
@@ -25,6 +25,7 @@ class BrandService
         $brand = Brand::create(
             $form->name,
             $form->slug ?: Inflector::slug($form->name),
+            $form->photo,
             new Meta(
                 $form->meta->title,
                 $form->meta->description,
@@ -41,6 +42,7 @@ class BrandService
         $brand->edit(
             $form->name,
             $form->slug ?: Inflector::slug($form->name),
+            $form->photo,
             new Meta(
                 $form->meta->title,
                 $form->meta->description,
@@ -53,9 +55,9 @@ class BrandService
     public function remove($id)
     {
         $brand = $this->brands->get($id);
-        if ($this->products->existsByBrand($brand->id)) {
-            throw new \DomainException('Unable to remove brand with products.');
-        }
+//        if ($this->products->existsByBrand($brand->id)) {
+//            throw new \DomainException('Unable to remove brand with products.');
+//        }
         $this->brands->remove($brand);
     }
 }

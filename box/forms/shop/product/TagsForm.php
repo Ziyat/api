@@ -2,7 +2,7 @@
 
 namespace box\forms\shop\product;
 
-use box\entities\shop\product\product;
+use box\entities\shop\product\Product;
 use box\entities\shop\Tag;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;

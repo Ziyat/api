@@ -2,89 +2,84 @@
 
 namespace box\entities\shop\product;
 
-use box\entities\EventTrait;
+use box\entities\shop\product\queries\ProductQuery;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
-use box\entities\AggregateRoot;
 use box\entities\behaviors\MetaBehavior;
 use box\entities\Meta;
 use box\entities\shop\Brand;
 use box\entities\shop\Category;
-use box\entities\shop\product\events\ProductAppearedInStock;
-use box\entities\shop\product\queries\ProductQuery;
 use box\entities\shop\Tag;
-use box\entities\User\WishlistItem;
+use yii\behaviors\BlameableBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
-use yii\db\Exception;
 use yii\web\UploadedFile;
 
 /**
  * @property integer $id
  * @property integer $created_at
- * @property string $code
+ * @property integer $created_by
+ * @property integer $updated_at
+ * @property integer $updated_by
  * @property string $name
  * @property string $description
  * @property integer $category_id
  * @property integer $brand_id
+ * @property string $price_type
  * @property integer $rating
- * @property integer $main_photo_id
  * @property integer $status
- * @property integer $weight
- * @property integer $quantity
  *
  * @property Meta $meta
  * @property Brand $brand
  * @property Category $category
+ * @property RelatedAssignment[] $relatedAssignments
  * @property CategoryAssignment[] $categoryAssignments
  * @property Category[] $categories
- * @property TagAssignment[] $tagAssignments
  * @property Tag[] $tags
- * @property RelatedAssignment[] $relatedAssignments
- * @property Modification[] $modifications
  * @property Value[] $values
- * @property Photo[] $photos
- * @property Photo $mainPhoto
- * @property Review[] $reviews
+ * @property TagAssignment[] $tagAssignments
  */
-class Product extends ActiveRecord implements AggregateRoot
+class Product extends ActiveRecord
 {
-    use EventTrait;
 
     const STATUS_DRAFT = 0;
     const STATUS_ACTIVE = 1;
 
+    const PRICE_TYPE_AUCTION = 'auction';
+    const PRICE_TYPE_BARGAIN = 'bargain';
+    const PRICE_TYPE_FIX = 'fix';
+
     public $meta;
 
-    public static function create($brandId, $categoryId, $code, $name, $description, $weight, $quantity, Meta $meta): self
+    public static function create($brandId, $categoryId, $name, $description, Meta $meta): self
     {
         $product = new static();
         $product->brand_id = $brandId;
         $product->category_id = $categoryId;
-        $product->code = $code;
         $product->name = $name;
         $product->description = $description;
-        $product->weight = $weight;
-        $product->quantity = $quantity;
         $product->meta = $meta;
         $product->status = self::STATUS_DRAFT;
         $product->created_at = time();
+        $product->updated_at = time();
+//        $product->created_by = 1;
+//        $product->updated_by = 1;
         return $product;
     }
 
-    public function setPrice($new, $old): void
+    public function setPriceType($price_type): void
     {
-
+        $this->price_type = $price_type;
     }
 
-    public function changeQuantity($quantity): void
+    /*public function changeQuantity($quantity): void
     {
         if ($this->modifications) {
             throw new \DomainException('Change modifications quantity.');
         }
         $this->setQuantity($quantity);
-    }
+    }*/
 
-    public function edit($brandId, $code, $name, $description, $weight, Meta $meta): void
+    /*public function edit($brandId, $code, $name, $description, $weight, Meta $meta): void
     {
         $this->brand_id = $brandId;
         $this->code = $code;
@@ -92,7 +87,7 @@ class Product extends ActiveRecord implements AggregateRoot
         $this->description = $description;
         $this->weight = $weight;
         $this->meta = $meta;
-    }
+    }*/
 
     public function changeMainCategory($categoryId): void
     {
@@ -126,12 +121,12 @@ class Product extends ActiveRecord implements AggregateRoot
         return $this->status == self::STATUS_DRAFT;
     }
 
-    public function isAvailable(): bool
-    {
-        return $this->quantity > 0;
-    }
+//    public function isAvailable(): bool
+//    {
+//        return $this->quantity > 0;
+//    }
 
-    public function canChangeQuantity(): bool
+    /*public function canChangeQuantity(): bool
     {
         return !$this->modifications;
     }
@@ -142,9 +137,9 @@ class Product extends ActiveRecord implements AggregateRoot
             return $quantity <= $this->getModification($modificationId)->quantity;
         }
         return $quantity <= $this->quantity;
-    }
+    }*/
 
-    public function checkout($modificationId, $quantity): void
+    /*public function checkout($modificationId, $quantity): void
     {
         if ($modificationId) {
             $modifications = $this->modifications;
@@ -168,7 +163,7 @@ class Product extends ActiveRecord implements AggregateRoot
             $this->recordEvent(new ProductAppearedInStock($this));
         }
         $this->quantity = $quantity;
-    }
+    }*/
 
     public function getSeoTile(): string
     {
@@ -202,7 +197,7 @@ class Product extends ActiveRecord implements AggregateRoot
 
     // Modification
 
-    public function getModification($id): Modification
+    /*public function getModification($id): Modification
     {
         foreach ($this->modifications as $modification) {
             if ($modification->isIdEqualTo($id)) {
@@ -266,7 +261,7 @@ class Product extends ActiveRecord implements AggregateRoot
         $this->setQuantity(array_sum(array_map(function (Modification $modification) {
             return $modification->quantity;
         }, $this->modifications)));
-    }
+    }*/
 
     // Categories
 
@@ -334,7 +329,7 @@ class Product extends ActiveRecord implements AggregateRoot
 
     // Photos
 
-    public function addPhoto(UploadedFile $file): void
+    /*public function addPhoto(UploadedFile $file): void
     {
         $photos = $this->photos;
         $photos[] = Photo::create($file);
@@ -398,7 +393,7 @@ class Product extends ActiveRecord implements AggregateRoot
         }
         $this->photos = $photos;
         $this->populateRelation('mainPhoto', reset($photos));
-    }
+    }*/
 
     // Related products
 
@@ -429,7 +424,7 @@ class Product extends ActiveRecord implements AggregateRoot
 
     // Reviews
 
-    public function addReview($userId, $vote, $text): void
+    /*public function addReview($userId, $vote, $text): void
     {
         $reviews = $this->reviews;
         $reviews[] = Review::create($userId, $vote, $text);
@@ -497,7 +492,7 @@ class Product extends ActiveRecord implements AggregateRoot
 
         $this->reviews = $reviews;
         $this->rating = $amount ? $total / $amount : null;
-    }
+    }*/
 
     ##########################
 
@@ -531,45 +526,45 @@ class Product extends ActiveRecord implements AggregateRoot
         return $this->hasMany(Tag::class, ['id' => 'tag_id'])->via('tagAssignments');
     }
 
-    public function getModifications(): ActiveQuery
-    {
-        return $this->hasMany(Modification::class, ['product_id' => 'id']);
-    }
+//    public function getModifications(): ActiveQuery
+//    {
+//        return $this->hasMany(Modification::class, ['product_id' => 'id']);
+//    }
 
     public function getValues(): ActiveQuery
     {
         return $this->hasMany(Value::class, ['product_id' => 'id']);
     }
 
-    public function getPhotos(): ActiveQuery
-    {
-        return $this->hasMany(Photo::class, ['product_id' => 'id'])->orderBy('sort');
-    }
+//    public function getPhotos(): ActiveQuery
+//    {
+//        return $this->hasMany(Photo::class, ['product_id' => 'id'])->orderBy('sort');
+//    }
+//
+//    public function getMainPhoto(): ActiveQuery
+//    {
+//        return $this->hasOne(Photo::class, ['id' => 'main_photo_id']);
+//    }
 
-    public function getMainPhoto(): ActiveQuery
-    {
-        return $this->hasOne(Photo::class, ['id' => 'main_photo_id']);
-    }
-
-    public function getRelatedAssignments(): ActiveQuery
-    {
-        return $this->hasMany(RelatedAssignment::class, ['product_id' => 'id']);
-    }
-
-    public function getRelateds(): ActiveQuery
-    {
-        return $this->hasMany(Product::class, ['id' => 'related_id'])->via('relatedAssignments');
-    }
-
-    public function getReviews(): ActiveQuery
-    {
-        return $this->hasMany(Review::class, ['product_id' => 'id']);
-    }
-
-    public function getWishlistItems(): ActiveQuery
-    {
-        return $this->hasMany(WishlistItem::class, ['product_id' => 'id']);
-    }
+//    public function getRelatedAssignments(): ActiveQuery
+//    {
+//        return $this->hasMany(RelatedAssignment::class, ['product_id' => 'id']);
+//    }
+//
+//    public function getRelateds(): ActiveQuery
+//    {
+//        return $this->hasMany(Product::class, ['id' => 'related_id'])->via('relatedAssignments');
+//    }
+//
+//    public function getReviews(): ActiveQuery
+//    {
+//        return $this->hasMany(Review::class, ['product_id' => 'id']);
+//    }
+//
+//    public function getWishlistItems(): ActiveQuery
+//    {
+//        return $this->hasMany(WishlistItem::class, ['product_id' => 'id']);
+//    }
 
     ##########################
 
@@ -581,10 +576,11 @@ class Product extends ActiveRecord implements AggregateRoot
     public function behaviors(): array
     {
         return [
-            MetaBehavior::className(),
+            MetaBehavior::class,
+            BlameableBehavior::class,
             [
-                'class' => SaveRelationsBehavior::className(),
-                'relations' => ['categoryAssignments', 'tagAssignments', 'relatedAssignments', 'modifications', 'values', 'photos', 'reviews'],
+                'class' => SaveRelationsBehavior::class,
+                'relations' => ['categoryAssignments', 'tagAssignments', 'values'],
             ],
         ];
     }
@@ -596,25 +592,25 @@ class Product extends ActiveRecord implements AggregateRoot
         ];
     }
 
-    public function beforeDelete(): bool
-    {
-        if (parent::beforeDelete()) {
-            foreach ($this->photos as $photo) {
-                $photo->delete();
-            }
-            return true;
-        }
-        return false;
-    }
+//    public function beforeDelete(): bool
+//    {
+//        if (parent::beforeDelete()) {
+//            foreach ($this->photos as $photo) {
+//                $photo->delete();
+//            }
+//            return true;
+//        }
+//        return false;
+//    }
 
-    public function afterSave($insert, $changedAttributes): void
-    {
-        $related = $this->getRelatedRecords();
-        parent::afterSave($insert, $changedAttributes);
-        if (array_key_exists('mainPhoto', $related)) {
-            $this->updateAttributes(['main_photo_id' => $related['mainPhoto'] ? $related['mainPhoto']->id : null]);
-        }
-    }
+//    public function afterSave($insert, $changedAttributes): void
+//    {
+//        $related = $this->getRelatedRecords();
+//        parent::afterSave($insert, $changedAttributes);
+//        if (array_key_exists('mainPhoto', $related)) {
+//            $this->updateAttributes(['main_photo_id' => $related['mainPhoto'] ? $related['mainPhoto']->id : null]);
+//        }
+//    }
 
     public static function find(): ProductQuery
     {

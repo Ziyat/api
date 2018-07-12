@@ -15,6 +15,7 @@ class m180703_131727_create_brands_table extends Migration
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
             'slug' => $this->string()->notNull(),
+            'photo' => $this->string(),
             'meta_json' => $this->text(),
         ], $tableOptions);
 

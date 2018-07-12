@@ -5,3 +5,4 @@ Yii::setAlias('@backend', dirname(dirname(__DIR__)) . '/backend');
 Yii::setAlias('@console', dirname(dirname(__DIR__)) . '/console');
 Yii::setAlias('@api', dirname(dirname(__DIR__)) . '/api');
 Yii::setAlias('@box', dirname(dirname(__DIR__)) . '/box');
+Yii::setAlias('@staticPath', dirname(dirname(__DIR__)) . '/static');

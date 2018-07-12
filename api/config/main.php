@@ -10,7 +10,6 @@ return [
     'id' => 'app-api',
     'basePath' => dirname(__DIR__),
     'aliases' => [
-        '@staticPath' => $params['staticPath'],
         '@staticUrl' => $params['staticHostInfo'],
     ],
     'controllerNamespace' => 'api\controllers',
@@ -69,6 +68,21 @@ return [
                 'activate/<token:[\d_]+>' => 'auth/activate-user',
                 'profile' => 'user/profile/index',
                 'profile/edit' => 'user/profile/edit',
+
+                'GET user/products' => 'user/product/index',
+                'POST user/products' => 'user/product/create',
+                'PUT user/products/<id:\d+>' => 'user/product/edit',
+
+
+                'GET user/brand-list' => 'user/product/brands-list',
+
+
+
+                'GET shop/products/<id:\d+>' => 'shop/product/view',
+                'GET shop/products/category/<id:\d+>' => 'shop/product/category',
+                'GET shop/products/brand/<id:\d+>' => 'shop/product/brand',
+                'GET shop/products/tag/<id:\d+>' => 'shop/product/tag',
+                'GET shop/products' => 'shop/product/index',
             ],
         ],
 

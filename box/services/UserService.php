@@ -24,6 +24,7 @@ class UserService
     {
         $form->setParams();
 
+
         $user = User::signup($form);
 
         $this->users->save($user);

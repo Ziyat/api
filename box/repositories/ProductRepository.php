@@ -2,40 +2,29 @@
 
 namespace box\repositories;
 
-use box\entities\Shop\Product\Product;
+use box\entities\shop\product\Product;
 use box\repositories\NotFoundException;
 
 class ProductRepository
 {
-
     public function get($id): Product
     {
-        if (!$product = Product::findOne($id)) {
+        if (!$brand = Product::findOne($id)) {
             throw new NotFoundException('Product is not found.');
         }
-        return $product;
+        return $brand;
     }
 
-    public function existsByBrand($id): bool
+    public function save(Product $brand)
     {
-        return Product::find()->andWhere(['brand_id' => $id])->exists();
-    }
-
-    public function existsByMainCategory($id): bool
-    {
-        return Product::find()->andWhere(['category_id' => $id])->exists();
-    }
-
-    public function save(Product $product): void
-    {
-        if (!$product->save()) {
+        if (!$brand->save()) {
             throw new \RuntimeException('Saving error.');
         }
     }
 
-    public function remove(Product $product): void
+    public function remove(Product $brand)
     {
-        if (!$product->delete()) {
+        if (!$brand->delete()) {
             throw new \RuntimeException('Removing error.');
         }
     }

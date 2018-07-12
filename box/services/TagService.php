@@ -4,7 +4,7 @@
  * Developer: Mirkhanov Z.S.
  */
 
-namespace services;
+namespace box\services;
 
 
 use box\entities\shop\Tag;

@@ -75,12 +75,4 @@ class UserActivateCest
         $I->seeResponseJsonMatchesJsonPath('$.token');
         $I->seeResponseJsonMatchesJsonPath('$.expired');
     }
-
-    public function clearData()
-    {
-        passthru('php yii_test migrate/fresh --interactive=0');
-    }
-
-
-
 }

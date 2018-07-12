@@ -72,7 +72,6 @@ class AuthController extends Controller
         if ($form->validate()) {
             try {
                 $user = $this->service->signup($form);
-                Yii::$app->response->statusCode(200);
                 return $user;
             } catch (\DomainException $e) {
                 return [

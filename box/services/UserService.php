@@ -81,7 +81,7 @@ class UserService
             ->setSubject('Activation Code')
             ->send();
         if (!$sent) {
-            throw new \DomainException('send email error', 405);
+            throw new \DomainException('send email error');
         }
     }
 
@@ -90,7 +90,7 @@ class UserService
         $sent = true;
 
         if (!$sent) {
-            throw new \DomainException('send sms error', 405);
+            throw new \DomainException('send sms error');
         }
     }
 }

@@ -30,7 +30,7 @@ class SignupCest
 
     public function emptyPassword(ApiTester $I)
     {
-        $I->sendPOST('/signup',[
+        $I->sendPOST('/signup', [
             'phone' => 998974457018
         ]);
         $I->seeResponseCodeIs(422);
@@ -42,7 +42,7 @@ class SignupCest
 
     public function wrongEmail(ApiTester $I)
     {
-        $I->sendPOST('/signup',[
+        $I->sendPOST('/signup', [
             'login' => 'gsdgsdg@ffasfsadf432',
             'password' => 'fdfdsfsdfs'
         ]);
@@ -55,7 +55,7 @@ class SignupCest
 
     public function wrongPhone(ApiTester $I)
     {
-        $I->sendPOST('/signup',[
+        $I->sendPOST('/signup', [
             'login' => '998974457018a',
             'password' => 'fdfdsfsdfs'
         ]);
@@ -68,7 +68,7 @@ class SignupCest
 
     public function shortPhoneNumber(ApiTester $I)
     {
-        $I->sendPOST('/signup',[
+        $I->sendPOST('/signup', [
             'login' => '9989744',
             'password' => 'fdfdsfsdfs'
         ]);
@@ -81,7 +81,7 @@ class SignupCest
 
     public function longPhoneNumber(ApiTester $I)
     {
-        $I->sendPOST('/signup',[
+        $I->sendPOST('/signup', [
             'login' => '9989744570188888',
             'password' => 'fdfdsfsdfs'
         ]);
@@ -94,7 +94,7 @@ class SignupCest
 
     public function successEmail(ApiTester $I)
     {
-        $I->sendPOST('/signup',[
+        $I->sendPOST('/signup', [
             'login' => 'signup@test.com',
             'password' => 'password_1'
         ]);
@@ -107,7 +107,7 @@ class SignupCest
 
     public function successPhone(ApiTester $I)
     {
-        $I->sendPOST('/signup',[
+        $I->sendPOST('/signup', [
             'login' => 998974457020,
             'password' => 'fdfdsfsdfs'
         ]);
@@ -121,28 +121,40 @@ class SignupCest
     public function duplicateEmail(ApiTester $I)
     {
 
-        $I->sendPOST('/signup',[
+        $I->sendPOST('/signup', [
             'login' => 'signup@test.com',
             'password' => 'password_0'
         ]);
         $I->seeResponseCodeIs(422);
         $I->seeResponseContainsJson([
-            'field' => 'login',
-            'message' => 'This email address has already been taken.'
+            [
+                'field' => 'login',
+                'message' => 'This email address already exists, but not activated'
+            ],
+            [
+                'field' => 'Status',
+                'message' => 20
+            ],
         ]);
     }
 
 
     public function duplicatePhone(ApiTester $I)
     {
-        $I->sendPOST('/signup',[
+        $I->sendPOST('/signup', [
             'login' => 998974457020,
             'password' => 'password_0'
         ]);
         $I->seeResponseCodeIs(422);
         $I->seeResponseContainsJson([
-            'field' => 'login',
-            'message' => 'This mobile number has already been taken.'
+            [
+                'field' => 'login',
+                'message' => 'This phone number already exists, but not activated'
+            ],
+            [
+                'field' => 'Status',
+                'message' => 20
+            ],
         ]);
     }
 }

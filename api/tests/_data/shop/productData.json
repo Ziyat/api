@@ -1,0 +1,27 @@
+{
+  "brandId": 1,
+  "name": "rolex",
+  "description": "watch valt",
+  "priceType": "fix",
+  "categories": {
+    "main": 2,
+    "others": []
+  },
+  "values": [
+    {
+      "value": "test"
+    },
+    {
+      "value": "silver"
+    }
+  ],
+  "tags": {
+    "existing": [],
+    "textNew": "newtag,tagWatch,WatchValt"
+  },
+  "meta": {
+    "title": "Meta title",
+    "description": "Meta Desc",
+    "keywords": "watch valt company, watch sales"
+  }
+}

@@ -82,8 +82,8 @@ class SignupForm extends CompositeForm
                     $this->addError($attributeStatus, User::STATUS_WAIT);
                 }
                 if(User::findByPhoneActive($this->login)){
-                    $this->addError($attribute, 'This phone number already exists, but not activated');
-                    $this->addError($attributeStatus, User::STATUS_WAIT);
+                    $this->addError($attribute, 'This phone number has already been taken.');
+                    $this->addError($attributeStatus, User::STATUS_ACTIVE);
                 }
 
             }

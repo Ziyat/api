@@ -49,7 +49,7 @@ class LoginCest
         $I->seeResponseCodeIs(422);
         $I->seeResponseContainsJson([
             'field' => 'password',
-            'message' => 'Incorrect email|phone or password.'
+            'message' => 'Incorrect email / phone or password.'
         ]);
     }
 

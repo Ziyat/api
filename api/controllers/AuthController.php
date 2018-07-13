@@ -47,7 +47,6 @@ class AuthController extends Controller
         return $form->auth() ?: $form;
     }
 
-
     /**
      * @SWG\Post(
      *     path="/signup",

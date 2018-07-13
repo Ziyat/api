@@ -7,7 +7,6 @@
 namespace tests\unit\services\Product;
 
 use box\entities\shop\product\Product;
-use box\entities\user\User;
 use box\repositories\BrandRepository;
 use box\repositories\CategoryRepository;
 use box\repositories\ProductRepository;
@@ -17,9 +16,9 @@ use box\services\TransactionManager;
 use Codeception\Test\Unit;
 use common\fixtures\shop\BrandFixture;
 use common\fixtures\shop\CategoryFixture;
-use box\forms\shop\product\ProductCreateForm;
+use common\fixtures\shop\product\assignments\CategoryFixture as CategoryAssignmentFixture;
+use common\fixtures\shop\product\ProductFixture;
 use common\fixtures\shop\TagFixture;
-use yii\helpers\VarDumper;
 
 class ProductServiceEditTest extends Unit
 {
@@ -38,6 +37,14 @@ class ProductServiceEditTest extends Unit
             'tags' => [
                 'class' => TagFixture::class,
                 'dataFile' => codecept_data_dir() . 'tag.php'
+            ],
+            'products' => [
+                'class' => ProductFixture::class,
+                'dataFile' => codecept_data_dir() . 'product/product.php'
+            ],
+            'category_assignments' => [
+                'class' => CategoryAssignmentFixture::class,
+                'dataFile' => codecept_data_dir() . 'product/categoryAssignment.php'
             ]
         ];
     }
@@ -58,39 +65,17 @@ class ProductServiceEditTest extends Unit
 
     public function testSuccess()
     {
+        $product = Product::findOne(1);
 
-        $name = 'rolex';
-        $description = 'desc';
-        $metaTitle = 'titleMeta';
-        $metaDesc = 'descMeta';
-        $metaKey = 'KeyMeta';
+        $this->assertEquals($product->meta->title, 'metaTitle');
 
+        $this->assertEquals($product->category->name, 'Notebook');
 
+        foreach ($product->categories as $category)
+        {
+            $this->assertEquals($category->slug, 'notebook2');
+        }
 
-        $form = new ProductCreateForm();
-
-        $form->brandId = 1;
-        $form->categories->main = 1;
-        $form->name = $name;
-        $form->description = $description;
-        $form->meta->title = $metaTitle;
-        $form->meta->description = $metaDesc;
-        $form->meta->keywords = $metaKey;
-        $form->priceType = Product::PRICE_TYPE_FIX;
-
-        $product = $this->service->create($form);
-
-        $this->assertNotNull($product);
-        $this->assertEquals($product->name, $name);
-        $this->assertEquals($product->description, $description);
-        $this->assertEquals($product->price_type, Product::PRICE_TYPE_FIX);
-
-        $this->assertEquals($product->meta->title, $metaTitle);
-        $this->assertEquals($product->meta->description, $metaDesc);
-        $this->assertEquals($product->meta->keywords, $metaKey);
-
-        $this->assertEquals($product->category_id, 1);
-        $this->assertEquals($product->brand_id, 1);
     }
 
 

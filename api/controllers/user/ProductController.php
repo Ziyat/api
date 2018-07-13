@@ -10,6 +10,7 @@ use api\controllers\BearerController;
 use box\forms\shop\product\ProductCreateForm;
 use box\services\ProductService;
 use Yii;
+use yii\helpers\VarDumper;
 
 class ProductController extends BearerController
 {
@@ -79,7 +80,6 @@ class ProductController extends BearerController
     {
         $form = new ProductCreateForm();
         $form->load(Yii::$app->request->bodyParams, '');
-
         if ($form->validate()) {
             try {
                 $product = $this->productService->create($form);
@@ -88,13 +88,35 @@ class ProductController extends BearerController
                 return $e->getMessage();
             }
         }
-        return $form;
+        return $form->categories;
     }
 
     public function actionEdit($id)
     {
         return ['edit id: ' . $id, 'params' => \Yii::$app->request->bodyParams];
     }
+
+    public function actionActivate($id)
+    {
+        try {
+            $this->productService->activate($id);
+        } catch (\DomainException $e) {
+            return $e->getMessage();
+        }
+        return true;
+    }
+
+    public function actionDraft($id)
+    {
+        try {
+            $this->productService->draft($id);
+        } catch (\DomainException $e) {
+            return $e->getMessage();
+        }
+
+        return true;
+    }
+
 
     /**
      * @SWG\Definition(

@@ -145,7 +145,6 @@ class User extends ActiveRecord implements IdentityInterface
         return static::findOne(['email' => $email, 'status' => User::STATUS_WAIT]);
     }
 
-
     public static function findByPhone($phone)
     {
         return static::findOne(['phone' => $phone, 'status' => User::STATUS_WAIT]);
@@ -155,7 +154,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return static::findOne(['email' => $email, 'status' => User::STATUS_ACTIVE]);
     }
-
 
     public static function findByPhoneActive($phone)
     {

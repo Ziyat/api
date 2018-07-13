@@ -39,6 +39,7 @@ class ProductService
     public function create(ProductCreateForm $form)
     {
         $brand = $this->brands->get($form->brandId);
+
         $category = $this->categories->get($form->categories->main);
 
         $product = Product::create(
@@ -69,7 +70,13 @@ class ProductService
             $product->assignTag($tag->id);
         }
 
-        try{
+        if (is_array($form->photos->files)) {
+            foreach ($form->photos->files as $file) {
+                $product->addPhoto($file);
+            }
+        }
+
+        try {
             $this->transaction->wrap(function () use ($product, $form) {
                 foreach ($form->tags->newNames as $tagName) {
                     if (!$tag = $this->tags->findByName($tagName)) {
@@ -80,36 +87,25 @@ class ProductService
                 }
                 $this->products->save($product);
             });
-        }catch(\Exception $e){
-
+        } catch (\Exception $e) {
+            throw new $e;
         }
 
 
         return $product;
     }
 
-    public function edit($id, BrandForm $form): void
+    public function activate($id): void
     {
-        $brand = $this->brands->get($id);
-        $brand->edit(
-            $form->name,
-            $form->slug ?: Inflector::slug($form->name),
-            $form->photo,
-            new Meta(
-                $form->meta->title,
-                $form->meta->description,
-                $form->meta->keywords
-            )
-        );
-        $this->brands->save($brand);
+        $product = $this->products->get($id);
+        $product->activate();
+        $this->products->save($product);
     }
 
-    public function remove($id)
+    public function draft($id): void
     {
-        $brand = $this->brands->get($id);
-//        if ($this->products->existsByBrand($brand->id)) {
-//            throw new \DomainException('Unable to remove brand with products.');
-//        }
-        $this->brands->remove($brand);
+        $product = $this->products->get($id);
+        $product->draft();
+        $this->products->save($product);
     }
 }

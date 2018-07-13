@@ -49,7 +49,6 @@ class LoginForm extends Model
      */
     public function validateLogin($attribute, $params)
     {
-
         if (!$this->hasErrors()) {
             $attributeStatus = $this->generateAttributeLabel('status');
 
@@ -72,13 +71,13 @@ class LoginForm extends Model
 
     private function isEmail()
     {
-        return preg_match(self::emailPattern(), $this->login);
+        return preg_match(self::emailPattern(), strtolower($this->login));
     }
 
     private function isPhone()
     {
 
-        return preg_match(self::phonePattern(), $this->login) && strlen($this->login) > 8 && strlen($this->login) <= 15;
+        return preg_match(self::phonePattern(), strtolower($this->login)) && strlen($this->login) > 8 && strlen($this->login) <= 15;
     }
 
     /**
@@ -106,7 +105,7 @@ class LoginForm extends Model
         if ($this->validate()) {
             $token = new Token();
             $token->user_id = $this->getUser()->id;
-            $token->generateToken(time() + 3600 + 24);
+            $token->generateToken(time() + 3600 + 24 * 7);
             return $token->save() ? $token->getToken() : null;
         }
         return null;

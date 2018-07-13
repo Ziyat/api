@@ -9,22 +9,22 @@ class ProductRepository
 {
     public function get($id): Product
     {
-        if (!$brand = Product::findOne($id)) {
+        if (!$product = Product::findOne($id)) {
             throw new NotFoundException('Product is not found.');
         }
-        return $brand;
+        return $product;
     }
 
-    public function save(Product $brand)
+    public function save(Product $product)
     {
-        if (!$brand->save()) {
+        if (!$product->save()) {
             throw new \RuntimeException('Saving error.');
         }
     }
 
-    public function remove(Product $brand)
+    public function remove(Product $product)
     {
-        if (!$brand->delete()) {
+        if (!$product->delete()) {
             throw new \RuntimeException('Removing error.');
         }
     }

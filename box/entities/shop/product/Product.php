@@ -37,6 +37,7 @@ use yii\web\UploadedFile;
  * @property Tag[] $tags
  * @property Value[] $values
  * @property TagAssignment[] $tagAssignments
+ * @property Photo[] $photos
  */
 class Product extends ActiveRecord
 {
@@ -61,8 +62,6 @@ class Product extends ActiveRecord
         $product->status = self::STATUS_DRAFT;
         $product->created_at = time();
         $product->updated_at = time();
-//        $product->created_by = 1;
-//        $product->updated_by = 1;
         return $product;
     }
 
@@ -329,7 +328,7 @@ class Product extends ActiveRecord
 
     // Photos
 
-    /*public function addPhoto(UploadedFile $file): void
+    public function addPhoto(UploadedFile $file): void
     {
         $photos = $this->photos;
         $photos[] = Photo::create($file);
@@ -393,7 +392,7 @@ class Product extends ActiveRecord
         }
         $this->photos = $photos;
         $this->populateRelation('mainPhoto', reset($photos));
-    }*/
+    }
 
     // Related products
 
@@ -526,25 +525,25 @@ class Product extends ActiveRecord
         return $this->hasMany(Tag::class, ['id' => 'tag_id'])->via('tagAssignments');
     }
 
-//    public function getModifications(): ActiveQuery
-//    {
-//        return $this->hasMany(Modification::class, ['product_id' => 'id']);
-//    }
+    public function getModifications(): ActiveQuery
+    {
+        return $this->hasMany(Modification::class, ['product_id' => 'id']);
+    }
 
     public function getValues(): ActiveQuery
     {
         return $this->hasMany(Value::class, ['product_id' => 'id']);
     }
 
-//    public function getPhotos(): ActiveQuery
-//    {
-//        return $this->hasMany(Photo::class, ['product_id' => 'id'])->orderBy('sort');
-//    }
-//
-//    public function getMainPhoto(): ActiveQuery
-//    {
-//        return $this->hasOne(Photo::class, ['id' => 'main_photo_id']);
-//    }
+    public function getPhotos(): ActiveQuery
+    {
+        return $this->hasMany(Photo::class, ['product_id' => 'id'])->orderBy('sort');
+    }
+
+    public function getMainPhoto(): ActiveQuery
+    {
+        return $this->hasOne(Photo::class, ['id' => 'main_photo_id']);
+    }
 
 //    public function getRelatedAssignments(): ActiveQuery
 //    {
@@ -580,7 +579,7 @@ class Product extends ActiveRecord
             BlameableBehavior::class,
             [
                 'class' => SaveRelationsBehavior::class,
-                'relations' => ['categoryAssignments', 'tagAssignments', 'values'],
+                'relations' => ['categoryAssignments', 'tagAssignments', 'values', 'photos'],
             ],
         ];
     }
@@ -592,25 +591,25 @@ class Product extends ActiveRecord
         ];
     }
 
-//    public function beforeDelete(): bool
-//    {
-//        if (parent::beforeDelete()) {
-//            foreach ($this->photos as $photo) {
-//                $photo->delete();
-//            }
-//            return true;
-//        }
-//        return false;
-//    }
+    public function beforeDelete(): bool
+    {
+        if (parent::beforeDelete()) {
+            foreach ($this->photos as $photo) {
+                $photo->delete();
+            }
+            return true;
+        }
+        return false;
+    }
 
-//    public function afterSave($insert, $changedAttributes): void
-//    {
-//        $related = $this->getRelatedRecords();
-//        parent::afterSave($insert, $changedAttributes);
-//        if (array_key_exists('mainPhoto', $related)) {
-//            $this->updateAttributes(['main_photo_id' => $related['mainPhoto'] ? $related['mainPhoto']->id : null]);
-//        }
-//    }
+    public function afterSave($insert, $changedAttributes): void
+    {
+        $related = $this->getRelatedRecords();
+        parent::afterSave($insert, $changedAttributes);
+        if (array_key_exists('mainPhoto', $related)) {
+            $this->updateAttributes(['main_photo_id' => $related['mainPhoto'] ? $related['mainPhoto']->id : null]);
+        }
+    }
 
     public static function find(): ProductQuery
     {

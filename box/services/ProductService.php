@@ -3,15 +3,15 @@
 namespace box\services;
 
 use box\entities\Meta;
+use box\entities\shop\product\Price;
 use box\entities\shop\product\Product;
 use box\entities\shop\Tag;
-use box\forms\shop\BrandForm;
 use box\repositories\BrandRepository;
 use box\repositories\CategoryRepository;
 use box\repositories\ProductRepository;
 use box\forms\shop\product\ProductCreateForm;
 use box\repositories\TagRepository;
-use yii\helpers\Inflector;
+use yii\helpers\VarDumper;
 
 class ProductService
 {
@@ -47,6 +47,7 @@ class ProductService
             $category->id,
             $form->name,
             $form->description,
+            $form->quantity,
             new Meta(
                 $form->meta->title,
                 $form->meta->description,
@@ -55,6 +56,9 @@ class ProductService
         );
 
         $product->setPriceType($form->priceType);
+
+
+        $product->setPrice(Price::create($form->price->curPrice));
 
         foreach ($form->categories->others as $otherId) {
             $category = $this->categories->get($otherId);
@@ -86,10 +90,12 @@ class ProductService
                     $product->assignTag($tag->id);
                 }
                 $this->products->save($product);
+
             });
         } catch (\Exception $e) {
             throw new $e;
         }
+
 
 
         return $product;

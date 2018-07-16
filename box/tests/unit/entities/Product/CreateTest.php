@@ -19,6 +19,7 @@ class ProductCreateTest extends Unit
             $categoryId = 1,
             $name = 'Iphone 6',
             $description = 'Iphone 6',
+            $quantity = 22,
             $meta = new Meta($name,$description,'apple')
         );
 
@@ -29,6 +30,7 @@ class ProductCreateTest extends Unit
         $this->assertEquals($meta->title, $product->meta->title);
         $this->assertEquals($meta->description, $product->meta->description);
         $this->assertEquals($meta->keywords, $product->meta->keywords);
+        $this->assertEquals($quantity, $product->quantity);
     }
 
     public function testChangeStatus()
@@ -38,6 +40,7 @@ class ProductCreateTest extends Unit
             $categoryId = 1,
             $name = 'Iphone 6',
             $description = 'Iphone 6',
+            $quantity = 22,
             $meta = new Meta($name,$description,'apple')
         );
 
@@ -59,6 +62,7 @@ class ProductCreateTest extends Unit
             $categoryId = 1,
             $name = 'Iphone 6',
             $description = 'Iphone 6',
+            $quantity = 22,
             $meta = new Meta($name,$description,'apple')
         );
 

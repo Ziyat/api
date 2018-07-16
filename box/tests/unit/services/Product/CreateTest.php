@@ -76,6 +76,7 @@ class ProductServiceCreateTest extends Unit
 
         $tagTextNew = 'watch,hand';
         $tagExisting = [1,2];
+        $price = 22.5;
 
 
         $value = 'jojo';
@@ -90,6 +91,7 @@ class ProductServiceCreateTest extends Unit
         $form->name = $name;
         $form->description = $description;
         $form->priceType = Product::PRICE_TYPE_FIX;
+        $form->quantity = 20;
 
         $form->meta->title = $metaTitle;
         $form->meta->description = $metaDesc;
@@ -97,6 +99,8 @@ class ProductServiceCreateTest extends Unit
 
         $form->tags->textNew = $tagTextNew;
         $form->tags->existing = $tagExisting;
+
+        $form->price->curPrice = $price;
 
         $product = $this->service->create($form);
 
@@ -111,6 +115,7 @@ class ProductServiceCreateTest extends Unit
 
         $this->assertEquals($product->category_id, 2);
         $this->assertEquals($product->brand_id, 1);
+        $this->assertEquals($product->quantity, 20);
 
         // check Tags
 
@@ -130,8 +135,9 @@ class ProductServiceCreateTest extends Unit
         $this->assertEquals($product->brand->name,'name');
 
 
-
         $this->assertEquals($product->values[0]->value,$value);
+
+        $this->assertEquals($product->prices[0]->cur_price, $price);
 
     }
 

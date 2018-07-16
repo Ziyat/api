@@ -25,6 +25,7 @@ class BearerController extends Controller
 
         $behaviors['access'] = [
             'class' => AccessControl::class,
+
             'rules' => [
                 [
                     'allow' => true,

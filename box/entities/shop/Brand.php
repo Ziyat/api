@@ -14,6 +14,7 @@ use yiidreamteam\upload\ImageUploadBehavior;
  * @property string $slug
  * @property string $photo
  * @property Meta $meta
+ * @mixin ImageUploadBehavior
  */
 class Brand extends ActiveRecord
 {
@@ -57,14 +58,32 @@ class Brand extends ActiveRecord
                 'class' => ImageUploadBehavior::class,
                 'attribute' => 'photo',
                 'thumbs' => [
-                    'admin' => ['width' => 100, 'height' => 100],
-                    'thumb' => ['width' => 480, 'height' => 480],
+                    'admin' => ['width' => 120, 'height' => 100],
+                    'thumb' => ['width' => 600, 'height' => 480],
                 ],
-                'filePath' => '@staticPath/store/brand/[[id]]/[[filename]].[[extension]]',
-                'fileUrl' => '@staticUrl/store/brand/[[id]]/[[filename]].[[extension]]',
-                'thumbPath' => '@staticPath/cache/brand/[[id]]/[[profile]]_[[filename]].[[extension]]',
-                'thumbUrl' => '@staticUrl/cache/brand/[[id]]/[[profile]]_[[filename]].[[extension]]',
+                'filePath' => '@staticPath/store/brands/[[id]]/[[id]].[[extension]]',
+                'fileUrl' => '@staticUrl/store/brands/[[id]]/[[id]].[[extension]]',
+                'thumbPath' => '@staticPath/cache/brands/[[id]]/[[profile]]_[[id]].[[extension]]',
+                'thumbUrl' => '@staticUrl/cache/brands/[[id]]/[[profile]]_[[id]].[[extension]]',
             ]
         ];
+    }
+
+    public function fields()
+    {
+        return [
+            'id' => 'id',
+            'name' => 'name',
+            'slug' => 'slug',
+            'photo' => function (self $model) {
+                return $model->getPhoto();
+            },
+            'meta' => 'meta'
+        ];
+    }
+
+    public function getPhoto($profile = 'thumb')
+    {
+        return $this->getThumbFileUrl('photo', $profile, \Yii::getAlias('@staticUrl') . '/empty/no-photo.jpg');
     }
 }

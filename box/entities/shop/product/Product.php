@@ -27,6 +27,7 @@ use yii\web\UploadedFile;
  * @property string $price_type
  * @property integer $rating
  * @property integer $status
+ * @property integer $quantity
  *
  * @property Meta $meta
  * @property Brand $brand
@@ -38,7 +39,9 @@ use yii\web\UploadedFile;
  * @property Value[] $values
  * @property TagAssignment[] $tagAssignments
  * @property Photo[] $photos
+ * @property Price $prices
  */
+
 class Product extends ActiveRecord
 {
 
@@ -51,7 +54,7 @@ class Product extends ActiveRecord
 
     public $meta;
 
-    public static function create($brandId, $categoryId, $name, $description, Meta $meta): self
+    public static function create($brandId, $categoryId, $name, $description, $quantity, Meta $meta): self
     {
         $product = new static();
         $product->brand_id = $brandId;
@@ -59,6 +62,7 @@ class Product extends ActiveRecord
         $product->name = $name;
         $product->description = $description;
         $product->meta = $meta;
+        $product->quantity = $quantity;
         $product->status = self::STATUS_DRAFT;
         $product->created_at = time();
         $product->updated_at = time();
@@ -68,6 +72,11 @@ class Product extends ActiveRecord
     public function setPriceType($price_type): void
     {
         $this->price_type = $price_type;
+    }
+
+    public function setPrice(Price $price): void
+    {
+        $this->prices = $price;
     }
 
     /*public function changeQuantity($quantity): void
@@ -500,6 +509,11 @@ class Product extends ActiveRecord
         return $this->hasOne(Brand::class, ['id' => 'brand_id']);
     }
 
+//    public function getPrice(): ActiveQuery
+//    {
+//        return $this->hasOne(Price::class, ['product_id' => 'id'])->orderBy(['created_at' => SORT_DESC]);
+//    }
+
     public function getCategory(): ActiveQuery
     {
         return $this->hasOne(Category::class, ['id' => 'category_id']);
@@ -508,6 +522,11 @@ class Product extends ActiveRecord
     public function getCategoryAssignments(): ActiveQuery
     {
         return $this->hasMany(CategoryAssignment::class, ['product_id' => 'id']);
+    }
+
+    public function getPrices(): ActiveQuery
+    {
+        return $this->hasMany(Price::class, ['product_id' => 'id']);
     }
 
     public function getCategories(): ActiveQuery
@@ -579,7 +598,7 @@ class Product extends ActiveRecord
             BlameableBehavior::class,
             [
                 'class' => SaveRelationsBehavior::class,
-                'relations' => ['categoryAssignments', 'tagAssignments', 'values', 'photos'],
+                'relations' => ['categoryAssignments', 'tagAssignments', 'values', 'photos', 'prices'],
             ],
         ];
     }

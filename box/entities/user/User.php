@@ -6,6 +6,7 @@
 
 namespace box\entities\user;
 
+use box\entities\user\queries\UserQuery;
 use box\forms\auth\SignupForm;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use Yii;
@@ -142,22 +143,22 @@ class User extends ActiveRecord implements IdentityInterface
 
     public static function findByEmail($email)
     {
-        return static::findOne(['email' => $email, 'status' => User::STATUS_WAIT]);
+        return static::find()->where(['email' => $email])->wait()->one();
     }
 
     public static function findByPhone($phone)
     {
-        return static::findOne(['phone' => $phone, 'status' => User::STATUS_WAIT]);
+        return static::find()->where(['phone' => $phone])->wait()->one();
     }
 
     public static function findByEmailActive($email)
     {
-        return static::findOne(['email' => $email, 'status' => User::STATUS_ACTIVE]);
+        return static::find()->where(['email' => $email])->active()->one();
     }
 
     public static function findByPhoneActive($phone)
     {
-        return static::findOne(['phone' => $phone, 'status' => User::STATUS_ACTIVE]);
+        return static::find()->where(['phone' => $phone])->active()->one();
     }
 
     /**
@@ -295,8 +296,6 @@ class User extends ActiveRecord implements IdentityInterface
         $this->activate_token = null;
     }
 
-
-
     public function getTokens()
     {
         return $this->hasOne(Token::class, ['user_id' => 'id']);
@@ -305,5 +304,10 @@ class User extends ActiveRecord implements IdentityInterface
     public function getProfile()
     {
         return $this->hasOne(Profile::class, ['user_id' => 'id']);
+    }
+
+    public static function find(): UserQuery
+    {
+        return new UserQuery(static::class);
     }
 }

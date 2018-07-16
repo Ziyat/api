@@ -26,12 +26,13 @@ class Modification extends ActiveRecord
         return $modification;
     }
 
-    public function edit($value, $price, $characteristic_id, $quantity): void
+    public function edit($value, $price, $main_photo_id, $characteristic_id, $quantity): void
     {
         $this->value = $value;
         $this->price = $price;
         $this->characteristic_id = $characteristic_id;
         $this->quantity = $quantity;
+        $this->main_photo_id = $main_photo_id;
     }
 
     public function checkout($quantity): void

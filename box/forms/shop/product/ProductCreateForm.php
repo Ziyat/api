@@ -4,10 +4,11 @@ namespace box\forms\shop\product;
 
 use box\entities\shop\Brand;
 use box\entities\shop\Characteristic;
+use box\entities\shop\product\PriceFix;
+use box\entities\shop\product\Product;
 use box\forms\CompositeForm;
 use box\forms\manage\MetaForm;
 use yii\helpers\ArrayHelper;
-use yii\helpers\VarDumper;
 use yii\web\UploadedFile;
 
 /**
@@ -16,6 +17,7 @@ use yii\web\UploadedFile;
  * @property ValueForm[] $values
  * @property TagsForm $tags
  * @property PhotosForm $photos
+ * @property PriceForm $price
  */
 class ProductCreateForm extends CompositeForm
 {
@@ -23,6 +25,7 @@ class ProductCreateForm extends CompositeForm
     public $name;
     public $description;
     public $priceType;
+    public $quantity;
 
     public function __construct($config = [])
     {
@@ -30,6 +33,7 @@ class ProductCreateForm extends CompositeForm
         $this->categories = new CategoriesForm();
         $this->tags = new TagsForm();
         $this->photos = new PhotosForm();
+        $this->price = new PriceForm();
         $this->values = array_map(function (Characteristic $characteristic) {
             return new ValueForm($characteristic);
         }, Characteristic::find()->orderBy('sort')->all());
@@ -40,10 +44,8 @@ class ProductCreateForm extends CompositeForm
     {
         return [
             [['brandId', 'name', 'priceType'], 'required'],
-            [['name'], 'string', 'max' => 255],
-            [['brandId'], 'integer'],
-            ['description', 'string'],
-            ['priceType', 'string'],
+            [['name','description','priceType'], 'string', 'max' => 255],
+            [['brandId','quantity'], 'integer'],
         ];
     }
 
@@ -73,6 +75,6 @@ class ProductCreateForm extends CompositeForm
 
     protected function internalForms(): array
     {
-        return ['meta', 'categories', 'values', 'tags', 'photos'];
+        return ['meta', 'categories', 'values', 'tags', 'photos', 'price'];
     }
 }

@@ -1,5 +1,8 @@
 <?php
 return [
+    'create' => [
+        'type' => 2,
+    ],
     'user' => [
         'type' => 1,
         'description' => 'User',
@@ -8,6 +11,7 @@ return [
         'type' => 1,
         'description' => 'moderator',
         'children' => [
+            'create',
             'user',
         ],
     ],

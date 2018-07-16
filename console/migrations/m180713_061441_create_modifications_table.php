@@ -16,7 +16,7 @@ class m180713_061441_create_modifications_table extends Migration
             'product_id' => $this->integer()->notNull(),
             'characteristic_id' => $this->integer()->notNull(),
             'value' => $this->string()->notNull(),
-            'price' => $this->integer(),
+            'price' => $this->float(),
             'main_photo_id' => $this->integer(),
             'quantity' => $this->integer()
         ], $tableOptions);

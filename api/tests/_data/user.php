@@ -10,6 +10,7 @@ return [
         'updated_at' => 1392559490,
         'status' => 10,
         'email' => 'tests@mail.com',
+        'role' => 'moderator',
     ],
     [
         'id' => 2,
@@ -21,5 +22,6 @@ return [
         'updated_at' => 1392559500,
         'status' => 10,
         'phone' => 998974457088,
+        'role' => 'user',
     ],
 ];

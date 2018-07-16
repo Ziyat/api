@@ -77,12 +77,35 @@ return [
                 'GET user/brand-list' => 'user/product/brands-list',
 
 
-
                 'GET shop/products/<id:\d+>' => 'shop/product/view',
                 'GET shop/products/category/<id:\d+>' => 'shop/product/category',
                 'GET shop/products/brand/<id:\d+>' => 'shop/product/brand',
                 'GET shop/products/tag/<id:\d+>' => 'shop/product/tag',
                 'GET shop/products' => 'shop/product/index',
+
+                // shop Brands
+
+                'GET shop/brands' => 'shop/brand/index',
+                'POST shop/brands' => 'shop/brand/create',
+                'GET shop/brands/<id:\d+>' => 'shop/brand/view',
+                'POST shop/brands/<id:\d+>' => 'shop/brand/update',
+                'DELETE shop/brands/<id:\d+>' => 'shop/brand/delete',
+
+                // shop Categories
+
+                'GET shop/categories' => 'shop/category/index',
+                'POST shop/categories' => 'shop/category/create',
+                'GET shop/categories/<id:\d+>' => 'shop/category/view',
+                'POST shop/categories/<id:\d+>' => 'shop/category/update',
+                'DELETE shop/categories/<id:\d+>' => 'shop/category/delete',
+
+                // shop Categories
+
+                'GET shop/characteristics' => 'shop/characteristic/index',
+                'POST shop/characteristics' => 'shop/characteristic/create',
+                'GET shop/characteristics/<id:\d+>' => 'shop/characteristic/view',
+                'POST shop/characteristics/<id:\d+>' => 'shop/characteristic/update',
+                'DELETE shop/characteristics/<id:\d+>' => 'shop/characteristic/delete',
             ],
         ],
 

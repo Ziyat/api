@@ -9,6 +9,7 @@ namespace box\tests\unit\services\Brand;
 use box\entities\shop\Brand;
 use box\forms\shop\BrandForm;
 use box\repositories\BrandRepository;
+use box\repositories\ProductRepository;
 use box\services\BrandService;
 use Codeception\Test\Unit;
 use common\fixtures\shop\BrandFixture;
@@ -29,7 +30,7 @@ class BrandServiceRemoveTest extends Unit
     public function __construct(?string $name = null, array $data = [], string $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
-        $this->service = new BrandService(new BrandRepository());
+        $this->service = new BrandService(new BrandRepository(),new ProductRepository);
     }
 
     public function testSuccess()

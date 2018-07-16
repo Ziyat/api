@@ -23,5 +23,8 @@
     "title": "Meta title",
     "description": "Meta Desc",
     "keywords": "watch valt company, watch sales"
+  },
+  "price":{
+    "curPrice": 22.66
   }
 }

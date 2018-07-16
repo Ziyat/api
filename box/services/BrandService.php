@@ -12,12 +12,12 @@ use yii\helpers\Inflector;
 class BrandService
 {
     private $brands;
-//    private $products;
+    private $products;
 
-    public function __construct(BrandRepository $brands /*, ProductRepository $products*/)
+    public function __construct(BrandRepository $brands , ProductRepository $products)
     {
         $this->brands = $brands;
-//        $this->products = $products;
+        $this->products = $products;
     }
 
     public function create(BrandForm $form)
@@ -55,9 +55,9 @@ class BrandService
     public function remove($id)
     {
         $brand = $this->brands->get($id);
-//        if ($this->products->existsByBrand($brand->id)) {
-//            throw new \DomainException('Unable to remove brand with products.');
-//        }
+        if ($this->products->existsByBrand($brand->id)) {
+            throw new \DomainException('Unable to remove brand with products.');
+        }
         $this->brands->remove($brand);
     }
 }

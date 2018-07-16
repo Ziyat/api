@@ -7,5 +7,8 @@ return [
             'class' => 'yii\web\User',
             'identityClass' => 'box\entities\user\User',
         ],
+        'mailer' => [
+            'useFileTransport' => true,
+        ]
     ],
 ];

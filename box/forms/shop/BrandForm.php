@@ -6,6 +6,7 @@ use box\entities\Shop\Brand;
 use box\forms\CompositeForm;
 use box\forms\manage\MetaForm;
 use box\validators\SlugValidator;
+use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
 
 /**
@@ -56,36 +57,17 @@ class BrandForm extends CompositeForm
     {
         if (parent::beforeValidate()) {
             $this->photo = UploadedFile::getInstanceByName('photo');
-            $this->setParams('data');
-            if ($this->photo) {
-                try {
-                    $this->photo->name = \Yii::$app->security->generateRandomString() . '.' . $this->photo->extension;
-                } catch (\Exception $e) {
-                    $this->photo->name = time() . '.' . $this->photo->extension;
-                }
+            if($dataFile = UploadedFile::getInstanceByName('data')){
+                $data = file_get_contents($dataFile->tempName);
+                $data = ArrayHelper::toArray(json_decode($data));
+                $this->load($data,'');
             }
             return true;
         }
         return false;
     }
 
-    protected function setParams($name)
-    {
 
-        if ($data = $this->UploadedData($name)) {
-            foreach ($data as $key => $values) {
-                switch ($key) {
-                    case 'name':
-                        $this->name = $values;
-                        break;
-                    case 'slug':
-                        $this->slug = $values;
-                        break;
-                }
-            }
-        }
-
-    }
 
     protected function UploadedData($name)
     {

@@ -14,6 +14,8 @@ class RbacController extends Controller
         $auth = \Yii::$app->authManager;
         $auth->removeAll();
 
+        $create = $auth->createPermission('create');
+        $auth->add($create);
 
         $user = $auth->createRole('user');
         $user->description = 'User';
@@ -27,13 +29,15 @@ class RbacController extends Controller
         $administrator->description = 'administrator';
         $auth->add($administrator);
 
-
         // add children role
 
         $auth->addChild($administrator, $user);
         $auth->addChild($administrator, $moderator);
 
+        $auth->addChild($moderator,$create);
         $auth->addChild($moderator,$user);
+
+
 
         $this->stdout('Done!' . PHP_EOL);
     }

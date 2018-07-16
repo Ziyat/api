@@ -24,7 +24,7 @@ class BrandRepository
 
     public function remove(Brand $brand)
     {
-        if (!$brand->delete()) {
+        if (!$brand->delete() && $brand->cleanFiles()) {
             throw new \RuntimeException('Removing error.');
         }
     }

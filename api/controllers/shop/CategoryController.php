@@ -46,7 +46,7 @@ class CategoryController extends BearerController
     public function actionIndex()
     {
         return new ActiveDataProvider([
-            'query' => Category::find(),
+            'query' => Category::find()->where('depth > 0'),
         ]);
     }
 

@@ -266,6 +266,18 @@
                         "in": "formData",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "parentId",
+                        "in": "formData",
+                        "required": false,
+                        "type": "integer"
                     }
                 ],
                 "responses": {

@@ -91,10 +91,6 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByPasswordResetToken($token)
     {
-        if (!static::isPasswordResetTokenValid($token)) {
-            return null;
-        }
-
         return static::findOne([
             'password_reset_token' => $token,
             'status' => self::STATUS_ACTIVE,

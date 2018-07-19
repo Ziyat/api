@@ -70,6 +70,32 @@ class User extends ActiveRecord implements IdentityInterface
 
 
 
+    public function sendEmail($activateToken = true)
+    {
+        $templateHtml = 'activateToken-html';
+        $templateText = 'activateToken-text';
+        $subject = 'Activation Code';
+
+        if(!$activateToken){
+            $templateHtml = 'passwordResetToken-html';
+            $templateText = 'passwordResetToken-text';
+            $subject = 'Password reset Code';
+        }
+
+        $sent = Yii::$app
+            ->mailer
+            ->compose(
+                ['html' => $templateHtml, 'text' => $templateText],
+                ['user' => $this,'subject' => $subject]
+            )
+            ->setFrom(['noreply@api.watchvaultapp.com' => \Yii::$app->name])
+            ->setTo($this->email)
+            ->setSubject($subject)
+            ->send();
+        if (!$sent) {
+            throw new \DomainException('send email error');
+        }
+    }
 
     public static function Activate($token)
     {
@@ -269,7 +295,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function generatePasswordResetToken()
     {
-        $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
+        $this->password_reset_token = rand(100000, 900000);
     }
 
     /**

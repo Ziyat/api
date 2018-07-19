@@ -107,6 +107,65 @@
                 }
             }
         },
+        "/forgot": {
+            "post": {
+                "tags": [
+                    "Password reset"
+                ],
+                "description": "Returns Email",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "properties": {
+                                "email": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/forgot/set-password/{password_reset_token}": {
+            "post": {
+                "tags": [
+                    "Password reset"
+                ],
+                "description": "Returns Token",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "205": {
+                        "description": "Success response Reset Content",
+                        "schema": {
+                            "$ref": "#/definitions/Token"
+                        }
+                    }
+                }
+            }
+        },
         "/": {
             "get": {
                 "tags": [

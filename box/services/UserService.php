@@ -5,6 +5,8 @@
  */
 
 namespace box\services;
+use box\forms\auth\PasswordResetRequestForm;
+use box\forms\auth\SetPasswordForm;
 use Yii;
 use box\entities\user\User;
 use box\forms\auth\SignupForm;
@@ -33,7 +35,7 @@ class UserService
 
         $auth->assign($auth->getRole('user'), $user->id);
 
-        if ($user->email) $this->sendEmail($user);
+        if ($user->email) $user->sendEmail();
 
         if ($user->phone) $this->sendSms($user);
 
@@ -64,26 +66,27 @@ class UserService
         return $user;
     }
 
-    private function sendEmail(User $user)
+    public function passwordReset(PasswordResetRequestForm $form): void
     {
-
-        $templateHtml = 'activateToken-html';
-        $templateText = 'activateToken-text';
-
-        $sent = Yii::$app
-            ->mailer
-            ->compose(
-                ['html' => $templateHtml, 'text' => $templateText],
-                ['user' => $user]
-            )
-            ->setFrom(['noreply@api.watchvaultapp.com' => \Yii::$app->name])
-            ->setTo($user->email)
-            ->setSubject('Activation Code')
-            ->send();
-        if (!$sent) {
-            throw new \DomainException('send email error');
-        }
+        $user = $this->users->findByEmail($form->email);
+        $user->generatePasswordResetToken();
+        $user->sendEmail(false);
+        $this->users->save($user);
     }
+
+    public function setPassword($token, SetPasswordForm $form): User
+    {
+        $user = $this->users->findByPasswordResetToken($token);
+        $user->setPassword($form->password);
+        $user->removePasswordResetToken();
+        $this->users->save($user);
+
+        return $user;
+
+    }
+
+
+
 
     private function sendSms(User $user)
     {

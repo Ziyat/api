@@ -34,4 +34,21 @@ class UserRepository
         return $profile;
     }
 
+
+    public function findByEmail($email): User
+    {
+        if (!$user = User::find()->where(['email' => $email])->active()->one()) {
+            throw new NotFoundException('User is not found.');
+        }
+        return $user;
+    }
+
+    public function findByPasswordResetToken($token):User
+    {
+        if (!$user = User::find()->where(['password_reset_token' => $token])->active()->one()) {
+            throw new NotFoundException('User is not found.');
+        }
+        return $user;
+    }
+
 }

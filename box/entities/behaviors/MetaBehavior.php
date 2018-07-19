@@ -23,7 +23,7 @@ class MetaBehavior extends Behavior
         ];
     }
 
-    public function onAfterFind(Event $event): void
+    public function onAfterFind(Event $event)
     {
         $model = $event->sender;
         $meta = Json::decode($model->getAttribute($this->jsonAttribute));
@@ -34,7 +34,7 @@ class MetaBehavior extends Behavior
         );
     }
 
-    public function onBeforeSave(Event $event): void
+    public function onBeforeSave(Event $event)
     {
         $model = $event->sender;
         $model->setAttribute('meta_json', Json::encode([

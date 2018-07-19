@@ -15,14 +15,14 @@ class CategoryRepository
         return $category;
     }
 
-    public function save(Category $category): void
+    public function save(Category $category)
     {
         if (!$category->save()) {
             throw new \RuntimeException('Saving error.');
         }
     }
 
-    public function remove(Category $category): void
+    public function remove(Category $category)
     {
         if (!$category->delete()) {
             throw new \RuntimeException('Removing error.');

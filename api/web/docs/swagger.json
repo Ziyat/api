@@ -468,6 +468,13 @@
                 "tags": [
                     "User Products"
                 ],
+                "description": "Multipart/form-data",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
                 "parameters": [
                     {
                         "name": "name",
@@ -494,35 +501,33 @@
                         "type": "integer"
                     },
                     {
+                        "name": "files",
+                        "in": "formData",
+                        "required": true,
+                        "type": "file"
+                    },
+                    {
                         "name": "categories",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "properties": {
-                                "main": {
-                                    "type": "integer"
-                                },
-                                "others": {
-                                    "type": "array",
-                                    "items": {}
-                                }
-                            },
-                            "type": "object"
+                            "$ref": "#/definitions/CategoriesForm"
                         }
                     },
                     {
-                        "name": "values",
+                        "name": "characteristics",
                         "in": "body",
                         "required": false,
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "properties": {
-                                    "value": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
+                            "$ref": "#/definitions/CharacteristicsForm"
+                        }
+                    },
+                    {
+                        "name": "modifications",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/ModificationsForm"
                         }
                     },
                     {
@@ -530,16 +535,7 @@
                         "in": "body",
                         "required": false,
                         "schema": {
-                            "properties": {
-                                "existing": {
-                                    "type": "array",
-                                    "items": {}
-                                },
-                                "textNew": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
+                            "$ref": "#/definitions/TagsForm"
                         }
                     },
                     {
@@ -547,30 +543,22 @@
                         "in": "body",
                         "required": false,
                         "schema": {
-                            "properties": {
-                                "title": {
-                                    "type": "string"
-                                },
-                                "description": {
-                                    "type": "string"
-                                },
-                                "keywords": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
+                            "$ref": "#/definitions/MetaForm"
                         }
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "Success response",
+                    "201": {
+                        "description": "Created success response",
                         "schema": {
                             "type": "array",
                             "items": {
                                 "$ref": "#/definitions/ProductData"
                             }
                         }
+                    },
+                    "455": {
+                        "description": "Validation error"
                     }
                 },
                 "security": [
@@ -642,6 +630,76 @@
                 }
             },
             "type": "object"
+        },
+        "TagsForm": {
+            "properties": {
+                "existing": {
+                    "type": "array",
+                    "items": {}
+                },
+                "textNew": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "MetaForm": {
+            "properties": {
+                "title": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "keywords": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "CategoriesForm": {
+            "properties": {
+                "main": {
+                    "type": "integer"
+                },
+                "others": {
+                    "type": "array",
+                    "items": {}
+                }
+            },
+            "type": "object"
+        },
+        "CharacteristicsForm": {
+            "type": "array",
+            "items": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "value": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "ModificationsForm": {
+            "type": "array",
+            "items": {
+                "properties": {
+                    "characteristic_id": {
+                        "type": "integer"
+                    },
+                    "value": {
+                        "type": "string"
+                    },
+                    "quantity": {
+                        "type": "integer"
+                    },
+                    "price": {
+                        "type": "integer"
+                    }
+                }
+            }
         },
         "Profile": {
             "properties": {

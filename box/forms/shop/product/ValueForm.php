@@ -4,51 +4,39 @@ namespace box\forms\shop\product;
 
 use box\entities\shop\characteristic;
 use box\entities\shop\product\Value;
+use function Faker\Provider\pt_BR\check_digit;
 use yii\base\Model;
+use yii\helpers\ArrayHelper;
+use yii\helpers\VarDumper;
 
 /**
+ * @property string $value
  * @property integer $id
  */
 class ValueForm extends Model
 {
     public $value;
+    public $id;
 
-    private $_characteristic;
+    private $_oldValue;
 
-    public function __construct(Characteristic $characteristic, Value $value = null, $config = [])
+    public function __construct(Value $value= null, $config = [])
     {
-        if ($value) {
+        if($value){
             $this->value = $value->value;
+            $this->id = $value->characteristic_id;
+            $this->_oldValue = $value;
         }
-        $this->_characteristic = $characteristic;
+
+
         parent::__construct($config);
     }
 
     public function rules(): array
     {
-        return array_filter([
-            $this->_characteristic->required ? ['value', 'required'] : false,
-            $this->_characteristic->isString() ? ['value', 'string', 'max' => 255] : false,
-            $this->_characteristic->isInteger() ? ['value', 'integer'] : false,
-            $this->_characteristic->isFloat() ? ['value', 'number'] : false,
-            ['value', 'safe'],
-        ]);
-    }
-
-    public function attributeLabels(): array
-    {
         return [
-            'value' => $this->_characteristic->name,
+            ['value', 'string'],
+            ['id', 'integer'],
         ];
-    }
-
-    public function variantsList(): array
-    {
-        return $this->_characteristic->variants ? array_combine($this->_characteristic->variants, $this->_characteristic->variants) : [];
-    }
-
-    public function getId(): int
-    {
-        return $this->_characteristic->id;
     }
 }

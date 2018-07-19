@@ -5,6 +5,7 @@ namespace box\entities\shop\product;
 use box\entities\shop\Characteristic;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii\helpers\VarDumper;
 
 /**
  * @property integer $characteristic_id

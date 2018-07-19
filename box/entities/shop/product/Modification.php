@@ -2,6 +2,8 @@
 
 namespace box\entities\shop\product;
 
+use box\entities\shop\Characteristic;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -12,10 +14,12 @@ use yii\db\ActiveRecord;
  * @property integer $main_photo_id
  * @property integer $product_id
  * @property int $quantity
+ * @property Characteristic $characteristic
+ * @property Photo $mainPhoto
  */
 class Modification extends ActiveRecord
 {
-    public static function create($value, $price, $main_photo_id, $characteristic_id, $quantity): self
+    public static function create($characteristic_id, $value, $price, $quantity, $main_photo_id): self
     {
         $modification = new static();
         $modification->value = $value;
@@ -26,13 +30,36 @@ class Modification extends ActiveRecord
         return $modification;
     }
 
-    public function edit($value, $price, $main_photo_id, $characteristic_id, $quantity): void
+    public function edit($characteristic_id, $value, $price, $quantity, $main_photo_id): void
     {
         $this->value = $value;
         $this->price = $price;
         $this->characteristic_id = $characteristic_id;
         $this->quantity = $quantity;
         $this->main_photo_id = $main_photo_id;
+    }
+
+    public function change($value, $price, $main_photo_id, $quantity): void
+    {
+        $this->value = $value;
+        $this->price = $price;
+        $this->main_photo_id = $main_photo_id;
+        $this->quantity = $quantity;
+    }
+
+    public function isForCharacteristic($id): bool
+    {
+        return $this->characteristic_id == $id;
+    }
+
+    public function getCharacteristic(): ActiveQuery
+    {
+        return $this->hasOne(Characteristic::class, ['id' => 'characteristic_id']);
+    }
+
+    public function getMainPhoto(): ActiveQuery
+    {
+        return $this->hasOne(Photo::class, ['id' => 'main_photo_id']);
     }
 
     public function checkout($quantity): void

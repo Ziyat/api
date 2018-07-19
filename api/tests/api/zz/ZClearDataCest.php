@@ -4,7 +4,7 @@
  * Developer: Mirkhanov Z.S.
  */
 
-namespace api\tests\functional;
+namespace api\tests\api\zz;
 
 use api\tests\ApiTester;
 class ZClearDataCest

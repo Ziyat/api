@@ -83,10 +83,14 @@ class ProductServiceCreateTest extends Unit
 
         $form = new ProductCreateForm();
 
+        $characteristic = new ValueForm();
+        $characteristic->id = 1;
+        $characteristic->value = $value;
+
         $form->brandId = 1;
         $form->categories->main = 2;
         $form->categories->others = [3];
-        $form->values = [new ValueForm(Characteristic::findOne(1),Value::create(1,$value))];
+        $form->characteristics = [$characteristic];
 
         $form->name = $name;
         $form->description = $description;

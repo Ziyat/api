@@ -3,10 +3,11 @@
 namespace box\forms\shop\product;
 
 use box\entities\shop\Brand;
+use box\entities\shop\product\Product;
+use box\entities\shop\product\Value;
 use box\forms\CompositeForm;
 use box\forms\manage\MetaForm;
 use yii\helpers\ArrayHelper;
-use yii\helpers\VarDumper;
 use yii\web\UploadedFile;
 
 /**
@@ -18,7 +19,7 @@ use yii\web\UploadedFile;
  * @property PriceForm $price
  * @property ModificationForm[] $modifications
  */
-class ProductCreateForm extends CompositeForm
+class ProductEditForm extends CompositeForm
 {
     public $brandId;
     public $name;
@@ -26,15 +27,40 @@ class ProductCreateForm extends CompositeForm
     public $priceType;
     public $quantity;
 
-    public function __construct($config = [])
+    private $_product;
+
+    public function __construct(Product $product, $config = [])
     {
-        $this->meta = new MetaForm();
-        $this->categories = new CategoriesForm();
-        $this->tags = new TagsForm();
-        $this->photos = new PhotosForm();
-        $this->price = new PriceForm();
-        $this->characteristics = [];
-        $this->modifications = [];
+        $this->brandId = $product->brand_id;
+        $this->name = $product->name;
+        $this->description = $product->description;
+        $this->priceType = $product->price_type;
+        $this->quantity = $product->quantity;
+        $this->meta = new MetaForm($product->meta);
+        $this->categories = new CategoriesForm($product);
+        $this->tags = new TagsForm($product);
+        $this->price = new PriceForm($product);
+        if ($product->values) {
+            $characteristics = [];
+            foreach ($product->values as $value) {
+                $characteristics[] = new ValueForm($value);
+            }
+            $this->characteristics = $characteristics;
+        } else {
+            $this->characteristics = [];
+        }
+
+        if ($product->modifications) {
+            $modifications = [];
+            foreach ($product->modifications as $modification) {
+                $modifications[] = new ModificationForm($modification);
+            }
+            $this->modifications = $modifications;
+        } else {
+            $this->modifications = [];
+        }
+
+        $this->_product = $product;
         parent::__construct($config);
     }
 
@@ -94,9 +120,8 @@ class ProductCreateForm extends CompositeForm
         }
 
         if ($this::isNotEmptyParams($data[$modifications])) {
-            $this->setForms($modifications,$data[$modifications]);
+            $this->setForms($modifications, $data[$modifications]);
         }
-
 
         $this->load($data, '');
         return true;

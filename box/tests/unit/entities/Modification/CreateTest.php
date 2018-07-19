@@ -15,11 +15,11 @@ class ModificationCreateTest extends Unit
     public function testSuccess()
     {
         $modification = Modification::create(
+            $characteristic_id = 1,
             $value = 'red',
             $price = 350,
-            $main_photo_id = 1,
-            $characteristic_id = 1,
-            $quantity = 5
+            $quantity = 5,
+            $main_photo_id = 1
         );
 
         $this->assertEquals($modification->value, $value);

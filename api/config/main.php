@@ -71,7 +71,7 @@ return [
 
                 'GET user/products' => 'user/product/index',
                 'POST user/products' => 'user/product/create',
-                'PUT user/products/<id:\d+>' => 'user/product/edit',
+                'POST user/products/<id:\d+>' => 'user/product/edit',
 
 
                 'GET user/brand-list' => 'user/product/brands-list',

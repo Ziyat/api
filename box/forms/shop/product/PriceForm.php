@@ -6,6 +6,8 @@
 
 namespace box\forms\shop\product;
 
+use box\entities\shop\product\Price;
+use box\entities\shop\product\Product;
 use yii\base\Model;
 
 
@@ -19,6 +21,17 @@ class PriceForm extends Model
 {
     public $curPrice;
     public $deadline;
+
+    public function __construct(Product $product = null, array $config = [])
+    {
+        if($product){
+            $this->curPrice = $product->price->cur_price;
+            $this->deadline = $product->price->deadline;
+        }
+
+        parent::__construct($config);
+
+    }
 
     public function rules()
     {

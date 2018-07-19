@@ -105,8 +105,8 @@ class LoginForm extends Model
         if ($this->validate()) {
             $token = new Token();
             $token->user_id = $this->getUser()->id;
-            $token->generateToken(time() + 3600 + 24 * 7);
-            return $token->save() ? $token->getToken() : null;
+            $token->generateToken(time() + ((3600 + 24) * 7));
+            return $token->save() ? $token : null;
         }
         return null;
 
@@ -117,9 +117,9 @@ class LoginForm extends Model
         $token = new Token();
         if ($user) {
             $token->user_id = $user->id;
-            $token->generateToken(time() + 3600 + 24 * 7);
+            $token->generateToken(time() + ((3600 + 24) * 7));
         }
-        return $token->save() ? $token->getToken() : null;
+        return $token->save() ? $token : null;
     }
 
     /**

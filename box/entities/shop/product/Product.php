@@ -12,6 +12,8 @@ use box\entities\shop\Tag;
 use yii\behaviors\BlameableBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
+use yii\helpers\VarDumper;
 use yii\web\UploadedFile;
 
 /**
@@ -28,6 +30,7 @@ use yii\web\UploadedFile;
  * @property integer $rating
  * @property integer $status
  * @property integer $quantity
+ * @property integer $main_photo_id
  *
  * @property Meta $meta
  * @property Brand $brand
@@ -40,8 +43,10 @@ use yii\web\UploadedFile;
  * @property TagAssignment[] $tagAssignments
  * @property Photo[] $photos
  * @property Price $prices
+ * @property Price $price
+ * @property Modification[] $modifications
+ * @property Photo $mainPhoto
  */
-
 class Product extends ActiveRecord
 {
 
@@ -54,7 +59,7 @@ class Product extends ActiveRecord
 
     public $meta;
 
-    public static function create($brandId, $categoryId, $name, $description, $quantity, Meta $meta): self
+    public static function create($brandId, $categoryId, $name, $description, Meta $meta): self
     {
         $product = new static();
         $product->brand_id = $brandId;
@@ -62,7 +67,6 @@ class Product extends ActiveRecord
         $product->name = $name;
         $product->description = $description;
         $product->meta = $meta;
-        $product->quantity = $quantity;
         $product->status = self::STATUS_DRAFT;
         $product->created_at = time();
         $product->updated_at = time();
@@ -79,23 +83,21 @@ class Product extends ActiveRecord
         $this->prices = $price;
     }
 
-    /*public function changeQuantity($quantity): void
-    {
-        if ($this->modifications) {
-            throw new \DomainException('Change modifications quantity.');
-        }
-        $this->setQuantity($quantity);
-    }*/
+//    public function changeQuantity($quantity): void
+//    {
+//        if ($this->modifications) {
+//            throw new \DomainException('Change modifications quantity.');
+//        }
+//        $this->setQuantity($quantity);
+//    }
 
-    /*public function edit($brandId, $code, $name, $description, $weight, Meta $meta): void
+    public function edit($brandId, $name, $description, Meta $meta): void
     {
         $this->brand_id = $brandId;
-        $this->code = $code;
         $this->name = $name;
         $this->description = $description;
-        $this->weight = $weight;
         $this->meta = $meta;
-    }*/
+    }
 
     public function changeMainCategory($categoryId): void
     {
@@ -163,15 +165,12 @@ class Product extends ActiveRecord
             throw new \DomainException('Only ' . $this->quantity . ' items are available.');
         }
         $this->setQuantity($this->quantity - 1);
-    }
-
-    private function setQuantity($quantity): void
-    {
-        if ($this->quantity == 0 && $quantity > 0) {
-            $this->recordEvent(new ProductAppearedInStock($this));
-        }
-        $this->quantity = $quantity;
     }*/
+
+    public function setQuantity($quantity): void
+    {
+        $this->quantity = $quantity;
+    }
 
     public function getSeoTile(): string
     {
@@ -190,6 +189,21 @@ class Product extends ActiveRecord
         }
         $values[] = Value::create($id, $value);
         $this->values = $values;
+    }
+
+
+    public function setModification($characteristic_id, $value, $price, $quantity, $main_photo_id): void
+    {
+        $modifications = $this->modifications;
+        foreach ($modifications as $modification) {
+            if ($modification->isForCharacteristic($characteristic_id)) {
+                $modification->change($value, $price, $main_photo_id, $quantity);
+                $this->modifications = $modifications;
+                return;
+            }
+        }
+        $modifications[] = Modification::create($characteristic_id, $value, $price, $quantity, $main_photo_id);
+        $this->modifications = $modifications;
     }
 
     public function getValue($id): Value
@@ -509,11 +523,6 @@ class Product extends ActiveRecord
         return $this->hasOne(Brand::class, ['id' => 'brand_id']);
     }
 
-//    public function getPrice(): ActiveQuery
-//    {
-//        return $this->hasOne(Price::class, ['product_id' => 'id'])->orderBy(['created_at' => SORT_DESC]);
-//    }
-
     public function getCategory(): ActiveQuery
     {
         return $this->hasOne(Category::class, ['id' => 'category_id']);
@@ -527,6 +536,11 @@ class Product extends ActiveRecord
     public function getPrices(): ActiveQuery
     {
         return $this->hasMany(Price::class, ['product_id' => 'id']);
+    }
+
+    public function getPrice(): ActiveQuery
+    {
+        return $this->hasOne(Price::class, ['product_id' => 'id'])->orderBy(['created_at' => SORT_DESC]);
     }
 
     public function getCategories(): ActiveQuery
@@ -598,7 +612,7 @@ class Product extends ActiveRecord
             BlameableBehavior::class,
             [
                 'class' => SaveRelationsBehavior::class,
-                'relations' => ['categoryAssignments', 'tagAssignments', 'values', 'photos', 'prices'],
+                'relations' => ['categoryAssignments', 'tagAssignments', 'values', 'photos', 'prices', 'modifications'],
             ],
         ];
     }
@@ -634,4 +648,116 @@ class Product extends ActiveRecord
     {
         return new ProductQuery(static::class);
     }
+
+
+    public function fields()
+    {
+        return [
+            "id" => "id",
+            "category_id" => "category_id",
+            "brand_id" => "brand_id",
+            "status" => "status",
+            "name" => "name",
+            "description" => "description",
+            "quantity" => "quantity",
+
+            "photo" => function () {
+                return $this->responseMainPhotos();
+            },
+            "photos" => function () {
+                return $this->responsePhotos();
+            },
+
+            "price" => function () {
+                return $this->responsePrice();
+            },
+            "characteristics" => function () {
+                $result = [];
+                foreach ($this->values as $value) {
+                    $result[] = [
+                        'id'=>$value->characteristic->id,
+                        'name'=>$value->characteristic->name,
+                        'value'=>$value->value,
+                    ];
+                }
+                return $result;
+            },
+            "modifications" => function () {
+                $result = [];
+                foreach ($this->modifications as $modification) {
+                    if($modification->mainPhoto)
+                    {
+                        $result[] = $modification->mainPhoto->getThumbFileUrl('file', 'thumb');
+                    }
+                    $result[] = [
+                        'characteristic' => $modification->characteristic->name,
+                        'value' => $modification->value,
+                        'price' => $modification->price,
+                        'quantity' => $modification->quantity
+                    ];
+                }
+                return $result;
+            },
+            "price_type" => "price_type",
+            "rating" => "rating",
+            "meta_json" => "meta_json",
+            "created_at" => "created_at",
+            "updated_at" => "updated_at",
+        ];
+    }
+
+    public function responseMainPhotos(): array
+    {
+        $mainPhoto = [];
+        if ($main = $this->mainPhoto) {
+            $mainPhoto = [
+                'thumb' => $main->getThumbFileUrl('file', 'thumb'),
+                'cart_list' => $main->getThumbFileUrl('file', 'cart_list'),
+                'cart_widget_list' => $main->getThumbFileUrl('file', 'cart_widget_list'),
+                'catalog_list' => $main->getThumbFileUrl('file', 'catalog_list'),
+                'catalog_product_additional' => $main->getThumbFileUrl('file', 'catalog_product_additional'),
+            ];
+        }
+        return $mainPhoto;
+    }
+
+    public function responsePhotos(): array
+    {
+        $photos = [];
+        foreach ($this->photos as $photo) {
+            if ($photo->id != $this->main_photo_id) {
+                $photos[] = [
+                    'thumb' => $photo->getThumbFileUrl('file', 'thumb'),
+                    'cart_list' => $photo->getThumbFileUrl('file', 'cart_list'),
+                    'cart_widget_list' => $photo->getThumbFileUrl('file', 'cart_widget_list'),
+                    'catalog_list' => $photo->getThumbFileUrl('file', 'catalog_list'),
+                    'catalog_product_additional' => $photo->getThumbFileUrl('file', 'catalog_product_additional'),
+                ];
+            }
+        }
+        return $photos;
+    }
+
+    public function responsePrice()
+    {
+        if (!empty($prices = ArrayHelper::toArray($this->prices))) {
+
+            foreach (array_reverse($prices) as $k => $price) {
+                if ($k == 0) {
+                    $priceArr['current'] = [
+                        $price['cur_price'],
+                        $price['created_at']
+                    ];
+                } else {
+                    $priceArr['old'][] = [
+                        $price['cur_price'],
+                        $price['created_at']
+                    ];
+                }
+            }
+            return $priceArr;
+        }
+        return [];
+    }
+
 }

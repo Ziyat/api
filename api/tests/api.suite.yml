@@ -1,6 +1,7 @@
 class_name: ApiTester
 modules:
     enabled:
+    - Filesystem
     - REST:
         depends: PhpBrowser
 #        url: 'http://api.watchvaultapp.com/index-test.php'
@@ -14,5 +15,7 @@ modules:
         url: 'http://127.0.0.1:8080/index-test.php'
         headers:
            Accept: application/json
-           Content-Type: application/json
+#           Content-Type: application/json
            Cache-Control: no-cache
+        curl:
+           CURLOPT_TIMEOUT: 300

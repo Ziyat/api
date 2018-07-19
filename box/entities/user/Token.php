@@ -34,11 +34,11 @@ class Token extends ActiveRecord
     }
 
 
-    public function getToken()
+    public function fields()
     {
         return [
-            'token' => $this->token,
-            'expired' => $this->expired_at,
+            'token' => 'token',
+            'expired' => 'expired_at',
         ];
     }
 

@@ -15,18 +15,18 @@ class ModificationEditTest extends Unit
     public function testSuccess()
     {
         $modification = Modification::create(
+            $characteristic_id = 1,
             $value = 'red',
             $price = 350,
-            $main_photo_id = 1,
-            $characteristic_id = 1,
-            $quantity = 5
+            $quantity = 5,
+            $main_photo_id = 1
         );
 
         $modification->edit(
+            3,
             'blue',
             200,
             2,
-            3,
             2
         );
 

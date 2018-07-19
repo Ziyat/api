@@ -19,9 +19,10 @@ class ProductCreateTest extends Unit
             $categoryId = 1,
             $name = 'Iphone 6',
             $description = 'Iphone 6',
-            $quantity = 22,
             $meta = new Meta($name,$description,'apple')
         );
+
+        $product->setQuantity($quantity = 22);
 
         $this->assertEquals($brandId, 1);
         $this->assertEquals($categoryId, 1);
@@ -40,7 +41,6 @@ class ProductCreateTest extends Unit
             $categoryId = 1,
             $name = 'Iphone 6',
             $description = 'Iphone 6',
-            $quantity = 22,
             $meta = new Meta($name,$description,'apple')
         );
 
@@ -62,7 +62,6 @@ class ProductCreateTest extends Unit
             $categoryId = 1,
             $name = 'Iphone 6',
             $description = 'Iphone 6',
-            $quantity = 22,
             $meta = new Meta($name,$description,'apple')
         );
 

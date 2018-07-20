@@ -440,12 +440,7 @@
                     "200": {
                         "description": "Success response"
                     }
-                },
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ]
+                }
             }
         },
         "/shop/categories/{id}/parents": {
@@ -466,12 +461,7 @@
                     "200": {
                         "description": "Success response"
                     }
-                },
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ]
+                }
             }
         },
         "/shop/categories/{id}/children": {
@@ -492,12 +482,7 @@
                     "200": {
                         "description": "Success response"
                     }
-                },
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ]
+                }
             }
         },
         "/shop/characteristics": {

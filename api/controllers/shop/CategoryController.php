@@ -82,7 +82,6 @@ class CategoryController extends BearerCrudController
      *         response=200,
      *         description="Success response",
      *     ),
-     *     security={{"Bearer": {}}}
      * )
      * @param $id
      * @return array|null|\yii\db\ActiveRecord
@@ -106,7 +105,6 @@ class CategoryController extends BearerCrudController
      *         response=200,
      *         description="Success response",
      *     ),
-     *     security={{"Bearer": {}}}
      * )
      * @param $id
      * @return array|null|\yii\db\ActiveRecord
@@ -130,7 +128,6 @@ class CategoryController extends BearerCrudController
      *         response=200,
      *         description="Success response",
      *     ),
-     *     security={{"Bearer": {}}}
      * )
      * @param $id
      * @return array|null|\yii\db\ActiveRecord

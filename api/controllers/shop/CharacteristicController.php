@@ -7,6 +7,7 @@
 namespace api\controllers\shop;
 
 use api\controllers\BearerController;
+use api\controllers\BearerCrudController;
 use box\entities\shop\Characteristics;
 use box\entities\shop\Characteristic;
 use box\forms\Shop\CharacteristicsForm;
@@ -19,7 +20,7 @@ use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 
-class CharacteristicController extends BearerController
+class CharacteristicController extends BearerCrudController
 {
     private $characteristicService;
 

@@ -7,6 +7,7 @@
 namespace api\controllers\shop;
 
 use api\controllers\BearerController;
+use api\controllers\BearerCrudController;
 use box\entities\shop\Brand;
 use box\forms\Shop\BrandForm;
 use box\services\BrandService;
@@ -16,7 +17,7 @@ use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 
-class BrandController extends BearerController
+class BrandController extends BearerCrudController
 {
     private $brandService;
 

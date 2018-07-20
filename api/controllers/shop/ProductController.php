@@ -6,9 +6,9 @@
 
 namespace api\controllers\shop;
 
-use yii\rest\Controller;
+use api\controllers\BearerCrudController;
 
-class ProductController extends Controller
+class ProductController extends BearerCrudController
 {
     public function actionIndex()
     {

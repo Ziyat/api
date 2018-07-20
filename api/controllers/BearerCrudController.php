@@ -18,13 +18,11 @@ class BearerCrudController extends Controller
     {
         $behaviors = parent::behaviors();
 
-        $behaviors['authenticator'] = [
-            'only' => [ 'create', 'update', 'delete'],
-            'authMethods' => [
-                HttpBasicAuth::class,
-                HttpBearerAuth::class,
-            ],
+        $behaviors['authenticator']['authMethods'] = [
+            HttpBasicAuth::class,
+            HttpBearerAuth::class,
         ];
+        $behaviors['authenticator']['only'] = ['create', 'update', 'delete'];
 
         $behaviors['access'] = [
             'class' => AccessControl::class,
@@ -36,6 +34,7 @@ class BearerCrudController extends Controller
                 ],
             ],
         ];
+
 
         return $behaviors;
     }

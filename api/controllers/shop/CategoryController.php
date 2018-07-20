@@ -7,6 +7,7 @@
 namespace api\controllers\shop;
 
 use api\controllers\BearerController;
+use api\controllers\BearerCrudController;
 use box\entities\shop\Categories;
 use box\entities\shop\Category;
 use box\forms\Shop\CategoriesForm;
@@ -19,7 +20,7 @@ use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 
-class CategoryController extends BearerController
+class CategoryController extends BearerCrudController
 {
     private $categoryService;
 

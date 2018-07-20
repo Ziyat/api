@@ -354,7 +354,7 @@
         "/shop/categories/{id}": {
             "get": {
                 "tags": [
-                    "Category"
+                    "Categories"
                 ],
                 "parameters": [
                     {
@@ -412,6 +412,84 @@
                 ],
                 "responses": {
                     "204": {
+                        "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/shop/categories/{id}/parent": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "description": "return parent this category",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/shop/categories/{id}/parents": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "description": "return parents this category",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/shop/categories/{id}/children": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "description": "return children this category",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
                         "description": "Success response"
                     }
                 },
@@ -586,6 +664,14 @@
                         }
                     },
                     {
+                        "name": "price",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/PriceForm"
+                        }
+                    },
+                    {
                         "name": "characteristics",
                         "in": "body",
                         "required": false,
@@ -710,6 +796,17 @@
                 },
                 "textNew": {
                     "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "PriceForm": {
+            "properties": {
+                "curPrice": {
+                    "type": "number"
+                },
+                "deadline": {
+                    "type": "integer"
                 }
             },
             "type": "object"

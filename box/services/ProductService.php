@@ -7,6 +7,7 @@ use box\entities\shop\product\Price;
 use box\entities\shop\product\Product;
 use box\entities\shop\Tag;
 use box\forms\shop\product\ProductEditForm;
+use box\forms\shop\product\ValueForm;
 use box\repositories\BrandRepository;
 use box\repositories\CategoryRepository;
 use box\repositories\ProductRepository;
@@ -149,9 +150,12 @@ class ProductService
                     $product->assignCategory($category->id);
                 }
 
+
+
                 foreach ($form->characteristics as $characteristic) {
                     $product->setValue($characteristic->id, $characteristic->value);
                 }
+
                 $quantity = 0;
                 foreach ($form->modifications as $modification) {
                     $product->setModification(
@@ -186,6 +190,8 @@ class ProductService
         } catch (\Exception $e) {
             throw new \DomainException($e->getMessage());
         }
+
+        return $product;
     }
 
     public function activate($id): void

@@ -54,7 +54,7 @@ class CategoryController extends BearerCrudController
     /**
      * @SWG\GET(
      *     path="/shop/categories/{id}",
-     *     tags={"Category"},
+     *     tags={"Categories"},
      *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
      *     @SWG\Response(
      *         response=200,
@@ -70,6 +70,78 @@ class CategoryController extends BearerCrudController
     public function actionView($id)
     {
         return $this->findModel($id);
+    }
+
+    /**
+     * @SWG\GET(
+     *     path="/shop/categories/{id}/parent",
+     *     tags={"Categories"},
+     *     description="return parent this category",
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @param $id
+     * @return array|null|\yii\db\ActiveRecord
+     * @throws NotFoundHttpException
+     */
+
+    public function actionParent($id)
+    {
+        $category = $this->findModel($id);
+
+        return $category->parent;
+    }
+
+    /**
+     * @SWG\GET(
+     *     path="/shop/categories/{id}/parents",
+     *     tags={"Categories"},
+     *     description="return parents this category",
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @param $id
+     * @return array|null|\yii\db\ActiveRecord
+     * @throws NotFoundHttpException
+     */
+
+    public function actionParents($id)
+    {
+        $category = $this->findModel($id);
+
+        return $category->getParents()->andWhere(['>', 'depth', 0])->all();
+    }
+
+    /**
+     * @SWG\GET(
+     *     path="/shop/categories/{id}/children",
+     *     tags={"Categories"},
+     *     description="return children this category",
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @param $id
+     * @return array|null|\yii\db\ActiveRecord
+     * @throws NotFoundHttpException
+     */
+
+    public function actionChildren($id)
+    {
+        $category = $this->findModel($id);
+
+        return $category->children;
     }
 
     /**

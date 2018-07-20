@@ -66,6 +66,9 @@ class ProductController extends BearerController
      *     @SWG\Parameter(name="categories", in="body", required=true,
      *          @SWG\Schema(ref="#/definitions/CategoriesForm")
      *     ),
+     *     @SWG\Parameter(name="price", in="body", required=true,
+     *          @SWG\Schema(ref="#/definitions/PriceForm")
+     *     ),
      *     @SWG\Parameter(name="characteristics", in="body", required=false,
      *          @SWG\Schema(ref="#/definitions/CharacteristicsForm")
      *     ),
@@ -118,7 +121,7 @@ class ProductController extends BearerController
 
     /**
      * @param $id
-     * @return ProductEditForm
+     * @return Product
      * @throws BadRequestHttpException
      */
 
@@ -129,7 +132,10 @@ class ProductController extends BearerController
         $form->load(Yii::$app->request->bodyParams, '');
         if ($form->validate()) {
             try {
-                $this->service->edit($product->id,$form);
+                $product = $this->service->edit($product->id,$form);
+                $response = \Yii::$app->getResponse();
+                $response->setStatusCode(202);
+                return $product;
             } catch (\DomainException $e) {
                 throw new BadRequestHttpException($e->getMessage());
             }
@@ -173,6 +179,15 @@ class ProductController extends BearerController
      *     type="object",
      *     @SWG\Property(property="existing", type="array", @SWG\Items()),
      *     @SWG\Property(property="textNew", type="string"),
+     * )
+     */
+
+    /**
+     * @SWG\Definition(
+     *     definition="PriceForm",
+     *     type="object",
+     *     @SWG\Property(property="curPrice", type="number"),
+     *     @SWG\Property(property="deadline", type="integer"),
      * )
      */
 

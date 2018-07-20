@@ -7,6 +7,9 @@
 namespace tests\unit\services\Product;
 
 use box\entities\shop\product\Product;
+use box\entities\shop\product\Value;
+use box\forms\shop\product\ProductEditForm;
+use box\forms\shop\product\ValueForm;
 use box\repositories\BrandRepository;
 use box\repositories\CategoryRepository;
 use box\repositories\ProductRepository;
@@ -16,9 +19,12 @@ use box\services\TransactionManager;
 use Codeception\Test\Unit;
 use common\fixtures\shop\BrandFixture;
 use common\fixtures\shop\CategoryFixture;
+use common\fixtures\shop\CharacteristicFixture;
 use common\fixtures\shop\product\assignments\CategoryFixture as CategoryAssignmentFixture;
+use common\fixtures\shop\product\PriceFixture;
 use common\fixtures\shop\product\ProductFixture;
 use common\fixtures\shop\TagFixture;
+use yii\helpers\VarDumper;
 
 class ProductServiceEditTest extends Unit
 {
@@ -38,6 +44,10 @@ class ProductServiceEditTest extends Unit
                 'class' => TagFixture::class,
                 'dataFile' => codecept_data_dir() . 'tag.php'
             ],
+            'characteristic' => [
+                'class' => CharacteristicFixture::class,
+                'dataFile' => codecept_data_dir() . 'characteristic.php'
+            ],
             'products' => [
                 'class' => ProductFixture::class,
                 'dataFile' => codecept_data_dir() . 'product/product.php'
@@ -45,7 +55,12 @@ class ProductServiceEditTest extends Unit
             'category_assignments' => [
                 'class' => CategoryAssignmentFixture::class,
                 'dataFile' => codecept_data_dir() . 'product/categoryAssignment.php'
+            ],
+            'prices' => [
+                'class' => PriceFixture::class,
+                'dataFile' => codecept_data_dir() . 'product/price.php'
             ]
+
         ];
     }
 
@@ -67,7 +82,19 @@ class ProductServiceEditTest extends Unit
     {
         $product = Product::findOne(1);
 
-        $this->assertEquals($product->meta->title, 'metaTitle');
+        $form = new ProductEditForm($product);
+
+        $value  = new Value();
+        $value->characteristic_id = 1;
+        $value->value = 'Silver';
+
+        $values[] = new ValueForm($value);
+
+        $form->characteristics = $values;
+
+        $product = $this->service->edit($product->id, $form);
+
+        $this->assertEquals($product->values[0]->value, 'Silver');
 
         $this->assertEquals($product->category->name, 'Notebook');
 
@@ -77,6 +104,4 @@ class ProductServiceEditTest extends Unit
         }
 
     }
-
-
 }

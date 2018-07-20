@@ -95,6 +95,9 @@ return [
 
                 // shop Categories
 
+                'GET shop/categories/<id:\d+>/parent' => 'shop/category/parent',
+                'GET shop/categories/<id:\d+>/parents' => 'shop/category/parents',
+                'GET shop/categories/<id:\d+>/children' => 'shop/category/children',
                 'GET shop/categories' => 'shop/category/index',
                 'POST shop/categories' => 'shop/category/create',
                 'GET shop/categories/<id:\d+>' => 'shop/category/view',

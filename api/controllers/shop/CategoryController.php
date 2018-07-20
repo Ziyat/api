@@ -96,7 +96,7 @@ class CategoryController extends BearerCrudController
     {
         $category = $this->findModel($id);
 
-        return $category->getParent()->andWhere(['>', 'depth', 0])->one();
+        return $category->parent;
     }
 
     /**

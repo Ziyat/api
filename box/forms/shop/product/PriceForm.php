@@ -19,13 +19,16 @@ use yii\base\Model;
 
 class PriceForm extends Model
 {
-    public $curPrice;
+    public $current;
     public $deadline;
+    public $max;
+    public $end;
+    public $buyNow;
 
     public function __construct(Product $product = null, array $config = [])
     {
         if($product){
-            $this->curPrice = $product->price->cur_price;
+            $this->current = $product->price->current;
             $this->deadline = $product->price->deadline;
         }
 
@@ -36,8 +39,8 @@ class PriceForm extends Model
     public function rules()
     {
         return array_filter([
-            ['curPrice', 'required'],
-            ['curPrice', 'number'],
+            ['current', 'required'],
+            [['current','max','end','buyNow'], 'number'],
             $this->deadline ? ['deadline', 'integer'] : false
         ]);
     }

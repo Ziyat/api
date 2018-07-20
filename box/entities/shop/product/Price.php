@@ -13,20 +13,18 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property integer $product_id
  * @property integer $created_at
- * @property float $cur_price
- * @property float $end_price
- * @property float $max_price
+ * @property float $current
+ * @property float $end
+ * @property float $max
+ * @property float $buy_now
  * @property integer $deadline
  */
 class Price extends ActiveRecord
 {
-    public const DEAL_OPENED = 1;
-    public const DEAL_CLOSED = 0;
-
-    public static function create($curPrice): self
+    public static function create($current): self
     {
         $price = new static();
-        $price->cur_price = $curPrice;
+        $price->current = $current;
         $price->created_at = time();
         return $price;
     }
@@ -36,14 +34,19 @@ class Price extends ActiveRecord
         $this->deadline = $deadline;
     }
 
-    public function setEndPrice($endPrice)
+    public function setEndPrice($end)
     {
-        $this->end_price = $endPrice;
+        $this->end = $end;
     }
 
-    public function setMaxPrice($maxPrice)
+    public function setMaxPrice($max)
     {
-        $this->max_price = $maxPrice;
+        $this->max = $max;
+    }
+
+    public function setBuyNow($buyNow)
+    {
+        $this->buy_now = $buyNow;
     }
 
     public function getProduct(): ActiveQuery

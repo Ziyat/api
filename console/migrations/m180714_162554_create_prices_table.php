@@ -15,9 +15,10 @@ class m180714_162554_create_prices_table extends Migration
         $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
         $this->createTable('{{%prices}}', [
             'id' => $this->primaryKey(),
-            'cur_price' => $this->float()->notNull(),
-            'end_price' => $this->float(),
-            'max_price' => $this->float(),
+            'current' => $this->float()->notNull(),
+            'end' => $this->float(),
+            'max' => $this->float(),
+            'buy_now' => $this->float(),
             'deadline' => $this->integer(),
             'product_id' => $this->integer()->notNull(),
             'created_at' => $this->integer()->notNull()

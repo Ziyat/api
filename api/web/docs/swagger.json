@@ -342,6 +342,9 @@
                 "responses": {
                     "201": {
                         "description": "Success response"
+                    },
+                    "500": {
+                        "description": "Forbidden, the user does not have privileges"
                     }
                 },
                 "security": [
@@ -390,6 +393,9 @@
                 "responses": {
                     "202": {
                         "description": "Success response"
+                    },
+                    "500": {
+                        "description": "Forbidden, the user does not have privileges"
                     }
                 },
                 "security": [
@@ -413,6 +419,9 @@
                 "responses": {
                     "204": {
                         "description": "Success response"
+                    },
+                    "500": {
+                        "description": "Forbidden, the user does not have privileges"
                     }
                 },
                 "security": [
@@ -439,6 +448,9 @@
                 "responses": {
                     "200": {
                         "description": "Success response"
+                    },
+                    "404": {
+                        "description": "Not Found Category"
                     }
                 }
             }
@@ -460,6 +472,9 @@
                 "responses": {
                     "200": {
                         "description": "Success response"
+                    },
+                    "404": {
+                        "description": "Not Found Category"
                     }
                 }
             }
@@ -481,6 +496,9 @@
                 "responses": {
                     "200": {
                         "description": "Success response"
+                    },
+                    "404": {
+                        "description": "Not Found Category"
                     }
                 }
             }

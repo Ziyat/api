@@ -82,6 +82,10 @@ class CategoryController extends BearerCrudController
      *         response=200,
      *         description="Success response",
      *     ),
+     *     @SWG\Response(
+     *         response=404,
+     *         description="Not Found Category",
+     *     ),
      * )
      * @param $id
      * @return array|null|\yii\db\ActiveRecord
@@ -105,6 +109,10 @@ class CategoryController extends BearerCrudController
      *         response=200,
      *         description="Success response",
      *     ),
+     *     @SWG\Response(
+     *         response=404,
+     *         description="Not Found Category",
+     *     ),
      * )
      * @param $id
      * @return array|null|\yii\db\ActiveRecord
@@ -127,6 +135,10 @@ class CategoryController extends BearerCrudController
      *     @SWG\Response(
      *         response=200,
      *         description="Success response",
+     *     ),
+     *     @SWG\Response(
+     *         response=404,
+     *         description="Not Found Category",
      *     ),
      * )
      * @param $id
@@ -152,6 +164,10 @@ class CategoryController extends BearerCrudController
      *     @SWG\Response(
      *         response=201,
      *         description="Success response",
+     *     ),
+     *     @SWG\Response(
+     *         response=500,
+     *         description="Forbidden, the user does not have privileges",
      *     ),
      *     security={{"Bearer": {}}}
      * )
@@ -188,6 +204,10 @@ class CategoryController extends BearerCrudController
      *     @SWG\Response(
      *         response=202,
      *         description="Success response",
+     *     ),
+     *     @SWG\Response(
+     *         response=500,
+     *         description="Forbidden, the user does not have privileges",
      *     ),
      *     security={{"Bearer": {}}}
      * )
@@ -227,6 +247,10 @@ class CategoryController extends BearerCrudController
      *     @SWG\Response(
      *         response=204,
      *         description="Success response",
+     *     ),
+     *     @SWG\Response(
+     *         response=500,
+     *         description="Forbidden, the user does not have privileges",
      *     ),
      *     security={{"Bearer": {}}}
      * )

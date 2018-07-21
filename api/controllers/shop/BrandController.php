@@ -6,10 +6,9 @@
 
 namespace api\controllers\shop;
 
-use api\controllers\BearerController;
 use api\controllers\BearerCrudController;
 use box\entities\shop\Brand;
-use box\forms\Shop\BrandForm;
+use box\forms\shop\BrandForm;
 use box\services\BrandService;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;

@@ -6,7 +6,6 @@ use box\entities\shop\Brand;
 use box\forms\CompositeForm;
 use box\forms\manage\MetaForm;
 use yii\helpers\ArrayHelper;
-use yii\helpers\VarDumper;
 use yii\web\UploadedFile;
 
 /**

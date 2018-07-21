@@ -7,7 +7,6 @@
 namespace api\controllers\user;
 
 use api\controllers\BearerController;
-use box\entities\shop\Brand;
 use box\entities\shop\product\Product;
 use box\forms\shop\product\ProductCreateForm;
 use box\forms\shop\product\ProductEditForm;
@@ -16,7 +15,6 @@ use box\services\ProductService;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
-use yii\helpers\VarDumper;
 use yii\web\BadRequestHttpException;
 
 /**

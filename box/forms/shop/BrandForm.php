@@ -1,8 +1,8 @@
 <?php
 
-namespace box\forms\Shop;
+namespace box\forms\shop;
 
-use box\entities\Shop\Brand;
+use box\entities\shop\Brand;
 use box\forms\CompositeForm;
 use box\forms\manage\MetaForm;
 use box\validators\SlugValidator;

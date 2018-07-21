@@ -123,7 +123,7 @@ class AuthController extends Controller
      *          )
      *     )
      * )
-     * @return PasswordResetRequestForm
+     * @return PasswordResetRequestForm|array
      * @throws BadRequestHttpException
      */
     public function actionPasswordReset()
@@ -132,9 +132,12 @@ class AuthController extends Controller
         $form->load(Yii::$app->request->bodyParams,'');
         if($form->validate()){
             try{
-                $this->service->passwordReset($form);
+                $token = $this->service->passwordReset($form);
                 $response = Yii::$app->getResponse();
                 $response->setStatusCode(200);
+                return [
+                    'passwordResetToken' => $token
+                ];
             }catch (\Exception $e)
             {
                 throw new BadRequestHttpException($e->getMessage());

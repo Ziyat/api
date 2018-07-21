@@ -66,12 +66,13 @@ class UserService
         return $user;
     }
 
-    public function passwordReset(PasswordResetRequestForm $form): void
+    public function passwordReset(PasswordResetRequestForm $form)
     {
         $user = $this->users->findByEmail($form->email);
         $user->generatePasswordResetToken();
         $user->sendEmail(false);
         $this->users->save($user);
+        return $user->password_reset_token;
     }
 
     public function setPassword($token, SetPasswordForm $form): User

@@ -135,9 +135,6 @@ class AuthController extends Controller
                 $token = $this->service->passwordReset($form);
                 $response = Yii::$app->getResponse();
                 $response->setStatusCode(200);
-                return [
-                    'passwordResetToken' => $token
-                ];
             }catch (\Exception $e)
             {
                 throw new BadRequestHttpException($e->getMessage());

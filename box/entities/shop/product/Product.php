@@ -3,6 +3,7 @@
 namespace box\entities\shop\product;
 
 use box\entities\shop\product\queries\ProductQuery;
+use box\forms\shop\product\ModificationForm;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use box\entities\behaviors\MetaBehavior;
 use box\entities\Meta;
@@ -73,14 +74,33 @@ class Product extends ActiveRecord
         return $product;
     }
 
+
+    public function isFixPrice()
+    {
+        return $this->price_type == $this::PRICE_TYPE_FIX;
+    }
+
+    public function isAuctionPrice()
+    {
+        return $this->price_type == $this::PRICE_TYPE_AUCTION;
+    }
+
+    public function isBargainPrice()
+    {
+        return $this->price_type == $this::PRICE_TYPE_BARGAIN;
+    }
+
+
     public function setPriceType($price_type): void
     {
         $this->price_type = $price_type;
     }
 
-    public function setPrice(Price $price): void
+    public function setPrice($current, $end, $max, $deadline, $buyNow): void
     {
-        $this->prices = $price;
+        $prices = $this->prices;
+        $prices[] = Price::create($current, $end, $max, $deadline, $buyNow);
+        $this->prices = $prices;
     }
 
 //    public function changeQuantity($quantity): void
@@ -167,9 +187,17 @@ class Product extends ActiveRecord
         $this->setQuantity($this->quantity - 1);
     }*/
 
-    public function setQuantity($quantity): void
+    public function setQuantity($quantity = null): void
     {
-        $this->quantity = $quantity;
+        if (empty($this->modifications)) {
+            $this->quantity = $quantity ?? 1;
+
+        } else {
+            $this->quantity = array_sum(array_map(function (Modification $modification) {
+                return $modification->quantity;
+            }, $this->modifications));
+        }
+
     }
 
     public function getSeoTile(): string
@@ -419,30 +447,30 @@ class Product extends ActiveRecord
 
     // Related products
 
-    public function assignRelatedProduct($id): void
-    {
-        $assignments = $this->relatedAssignments;
-        foreach ($assignments as $assignment) {
-            if ($assignment->isForProduct($id)) {
-                return;
-            }
-        }
-        $assignments[] = RelatedAssignment::create($id);
-        $this->relatedAssignments = $assignments;
-    }
-
-    public function revokeRelatedProduct($id): void
-    {
-        $assignments = $this->relatedAssignments;
-        foreach ($assignments as $i => $assignment) {
-            if ($assignment->isForProduct($id)) {
-                unset($assignments[$i]);
-                $this->relatedAssignments = $assignments;
-                return;
-            }
-        }
-        throw new \DomainException('Assignment is not found.');
-    }
+//    public function assignRelatedProduct($id): void
+//    {
+//        $assignments = $this->relatedAssignments;
+//        foreach ($assignments as $assignment) {
+//            if ($assignment->isForProduct($id)) {
+//                return;
+//            }
+//        }
+//        $assignments[] = RelatedAssignment::create($id);
+//        $this->relatedAssignments = $assignments;
+//    }
+//
+//    public function revokeRelatedProduct($id): void
+//    {
+//        $assignments = $this->relatedAssignments;
+//        foreach ($assignments as $i => $assignment) {
+//            if ($assignment->isForProduct($id)) {
+//                unset($assignments[$i]);
+//                $this->relatedAssignments = $assignments;
+//                return;
+//            }
+//        }
+//        throw new \DomainException('Assignment is not found.');
+//    }
 
     // Reviews
 
@@ -675,9 +703,9 @@ class Product extends ActiveRecord
                 $result = [];
                 foreach ($this->values as $value) {
                     $result[] = [
-                        'id'=>$value->characteristic->id,
-                        'name'=>$value->characteristic->name,
-                        'value'=>$value->value,
+                        'id' => $value->characteristic->id,
+                        'name' => $value->characteristic->name,
+                        'value' => $value->value,
                     ];
                 }
                 return $result;
@@ -685,8 +713,7 @@ class Product extends ActiveRecord
             "modifications" => function () {
                 $result = [];
                 foreach ($this->modifications as $modification) {
-                    if($modification->mainPhoto)
-                    {
+                    if ($modification->mainPhoto) {
                         $result[] = $modification->mainPhoto->getThumbFileUrl('file', 'thumb');
                     }
                     $result[] = [
@@ -740,24 +767,19 @@ class Product extends ActiveRecord
 
     public function responsePrice()
     {
-        if (!empty($prices = ArrayHelper::toArray($this->prices))) {
-
-            foreach (array_reverse($prices) as $k => $price) {
-                if ($k == 0) {
-                    $priceArr['current'] = [
-                        $price['cur_price'],
-                        $price['created_at']
-                    ];
-                } else {
-                    $priceArr['old'][] = [
-                        $price['cur_price'],
-                        $price['created_at']
-                    ];
-                }
-            }
-            return $priceArr;
+        if (!empty($prices = $this->prices)) {
+            $current = array_pop($prices);
+            return [
+                'current' => [
+                    $this->price_type == $this::PRICE_TYPE_BARGAIN
+                        ? 'buyNow'
+                        : 'price' => $current->current,
+                    'max' => $current->max,
+                    'end' => $current->end
+                ],
+                'old' => $prices
+            ];
         }
         return [];
     }
-
 }

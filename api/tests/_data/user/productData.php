@@ -43,6 +43,6 @@ return [
         "keywords" => "watch valt company, watch sales"
     ],
     "price" => [
-        "curPrice" => 22.66
+        "current" => 22.66
     ]
 ];

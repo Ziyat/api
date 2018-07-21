@@ -13,8 +13,11 @@ use yii\base\Model;
 
 /**
  * @property integer $id
- * @property float $curPrice
+ * @property float $current
  * @property float $deadline
+ * @property float $max
+ * @property float $end
+ * @property float $buyNow
  */
 
 class PriceForm extends Model
@@ -25,11 +28,20 @@ class PriceForm extends Model
     public $end;
     public $buyNow;
 
+    private $_product;
+
     public function __construct(Product $product = null, array $config = [])
     {
         if($product){
             $this->current = $product->price->current;
-            $this->deadline = $product->price->deadline;
+
+            if($product->isBargainPrice())
+            {
+                $this->max = $product->price->max;
+                $this->end = $product->price->end;
+            }
+
+            $this->_product = $product;
         }
 
         parent::__construct($config);
@@ -40,8 +52,7 @@ class PriceForm extends Model
     {
         return array_filter([
             ['current', 'required'],
-            [['current','max','end','buyNow'], 'number'],
-            $this->deadline ? ['deadline', 'integer'] : false
+            [['current','max','end','buyNow'], 'number']
         ]);
     }
 }

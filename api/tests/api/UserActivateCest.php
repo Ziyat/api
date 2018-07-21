@@ -16,7 +16,7 @@ class UserActivateCest
     {
         $I->sendPOST('/activate/223344');
 
-        $I->seeResponseCodeIs(405);
+        $I->seeResponseCodeIs(404);
         $I->seeResponseIsJson();
     }
 

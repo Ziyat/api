@@ -17,6 +17,11 @@ use yii\web\UploadedFile;
  * @property PhotosForm $photos
  * @property PriceForm $price
  * @property ModificationForm[] $modifications
+ * @property integer $brandId
+ * @property integer $quantity
+ * @property string $name
+ * @property string $description
+ * @property string $priceType
  */
 class ProductCreateForm extends CompositeForm
 {

@@ -547,7 +547,7 @@
         "/shop/characteristics/{id}": {
             "get": {
                 "tags": [
-                    "Characteristic"
+                    "Characteristics"
                 ],
                 "parameters": [
                     {
@@ -805,10 +805,13 @@
         },
         "PriceForm": {
             "properties": {
-                "curPrice": {
+                "current": {
                     "type": "number"
                 },
                 "deadline": {
+                    "type": "integer"
+                },
+                "buyNow": {
                     "type": "integer"
                 }
             },

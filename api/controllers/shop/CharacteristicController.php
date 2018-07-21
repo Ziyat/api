@@ -26,7 +26,12 @@ class CharacteristicController extends BearerCrudController
 
     public $action;
 
-    public function __construct(string $id, $module, CharacteristicService $characteristicService, array $config = [])
+    public function __construct(
+        string $id,
+        $module,
+        CharacteristicService $characteristicService,
+        array $config = []
+    )
     {
         $this->characteristicService = $characteristicService;
         parent::__construct($id, $module, $config);
@@ -54,7 +59,7 @@ class CharacteristicController extends BearerCrudController
     /**
      * @SWG\GET(
      *     path="/shop/characteristics/{id}",
-     *     tags={"Characteristic"},
+     *     tags={"Characteristics"},
      *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
      *     @SWG\Response(
      *         response=200,

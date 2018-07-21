@@ -35,7 +35,7 @@ class CategoryCest
     public function access(ApiTester $I)
     {
         $I->sendGET('/shop/categories');
-        $I->seeResponseCodeIs(401);
+        $I->seeResponseCodeIs(200);
     }
 
     public function authenticated(ApiTester $I)

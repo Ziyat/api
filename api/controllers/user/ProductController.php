@@ -186,8 +186,9 @@ class ProductController extends BearerController
      * @SWG\Definition(
      *     definition="PriceForm",
      *     type="object",
-     *     @SWG\Property(property="curPrice", type="number"),
+     *     @SWG\Property(property="current", type="number"),
      *     @SWG\Property(property="deadline", type="integer"),
+     *     @SWG\Property(property="buyNow", type="integer"),
      * )
      */
 

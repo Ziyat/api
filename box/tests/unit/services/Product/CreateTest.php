@@ -24,6 +24,7 @@ use box\forms\shop\product\ProductCreateForm;
 use common\fixtures\shop\CharacteristicFixture;
 use common\fixtures\shop\TagFixture;
 use yii\helpers\ArrayHelper;
+use yii\helpers\VarDumper;
 
 class ProductServiceCreateTest extends Unit
 {
@@ -104,7 +105,7 @@ class ProductServiceCreateTest extends Unit
         $form->tags->textNew = $tagTextNew;
         $form->tags->existing = $tagExisting;
 
-        $form->price->curPrice = $price;
+        $form->price->current = $price;
 
         $product = $this->service->create($form);
 
@@ -138,10 +139,13 @@ class ProductServiceCreateTest extends Unit
 
         $this->assertEquals($product->brand->name,'name');
 
+        // check characteristic values
 
         $this->assertEquals($product->values[0]->value,$value);
 
-        $this->assertEquals($product->prices[0]->cur_price, $price);
+        // check current price
+
+        $this->assertEquals($product->price->current, $price);
 
     }
 

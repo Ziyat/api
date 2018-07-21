@@ -94,7 +94,7 @@ class UserProductCest
                 "name" => "rolex",
                 "description" => "watch valt",
                 "priceType" => "fix",
-                "quantity" => 4,
+                "quantity" => 3,
                 "categories" => [
                     "main" => 2,
                     "others" => []
@@ -111,13 +111,13 @@ class UserProductCest
                 ],
                 "modifications" => [
                     [
-                        "value" => "1336",
+                        "value" => "1336iu",
                         "characteristic_id" => 2,
                         "quantity" => 5,
                         "price" => 992
                     ],
                     [
-                        "value" => "43242",
+                        "value" => "0978",
                         "characteristic_id" => 1,
                         "quantity" => 9,
                         "price" => 100
@@ -133,7 +133,9 @@ class UserProductCest
                     "keywords" => "watch valt company, watch sales"
                 ],
                 "price" => [
-                    "curPrice" => 22.66
+                    "current" => 22.66,
+                    "max" => 20,
+                    "end" => 10,
                 ]
             ],
             [
@@ -144,6 +146,7 @@ class UserProductCest
             ]
         );
 
+        VarDumper::dump($response = $I->grabResponse());
         $I->seeResponseCodeIs(201);
     }
 }

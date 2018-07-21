@@ -35,7 +35,7 @@ class CharacteristicCest
     public function access(ApiTester $I)
     {
         $I->sendGET('/shop/characteristics');
-        $I->seeResponseCodeIs(401);
+        $I->seeResponseCodeIs(200);
     }
 
     public function authenticated(ApiTester $I)

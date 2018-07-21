@@ -80,28 +80,7 @@ class ProductServiceEditTest extends Unit
 
     public function testSuccess()
     {
-        $product = Product::findOne(1);
 
-        $form = new ProductEditForm($product);
-
-        $value  = new Value();
-        $value->characteristic_id = 1;
-        $value->value = 'Silver';
-
-        $values[] = new ValueForm($value);
-
-        $form->characteristics = $values;
-
-        $product = $this->service->edit($product->id, $form);
-
-        $this->assertEquals($product->values[0]->value, 'Silver');
-
-        $this->assertEquals($product->category->name, 'Notebook');
-
-        foreach ($product->categories as $category)
-        {
-            $this->assertEquals($category->slug, 'notebook2');
-        }
 
     }
 }

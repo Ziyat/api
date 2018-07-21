@@ -14,7 +14,7 @@ class SignupCest
     public function badMethod(ApiTester $I)
     {
         $I->sendGET('/signup');
-        $I->seeResponseCodeIs(405);
+        $I->seeResponseCodeIs(404);
         $I->seeResponseIsJson();
     }
 

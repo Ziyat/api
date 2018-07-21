@@ -35,7 +35,7 @@ class LoginCest
     public function badMethod(ApiTester $I)
     {
         $I->sendGET('/login');
-        $I->seeResponseCodeIs(405);
+        $I->seeResponseCodeIs(404);
         $I->seeResponseIsJson();
     }
 

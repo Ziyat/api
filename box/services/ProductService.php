@@ -3,17 +3,14 @@
 namespace box\services;
 
 use box\entities\Meta;
-use box\entities\shop\product\Price;
 use box\entities\shop\product\Product;
 use box\entities\shop\Tag;
 use box\forms\shop\product\ProductEditForm;
-use box\forms\shop\product\ValueForm;
 use box\repositories\BrandRepository;
 use box\repositories\CategoryRepository;
 use box\repositories\ProductRepository;
 use box\forms\shop\product\ProductCreateForm;
 use box\repositories\TagRepository;
-use yii\helpers\VarDumper;
 
 class ProductService
 {
@@ -41,7 +38,6 @@ class ProductService
     public function create(ProductCreateForm $form)
     {
         $brand = $this->brands->get($form->brandId);
-
         $category = $this->categories->get($form->categories->main);
 
         $product = Product::create(
@@ -58,8 +54,13 @@ class ProductService
 
         $product->setPriceType($form->priceType);
 
-
-        $product->setPrice(Price::create($form->price->curPrice));
+        $product->setPrice(
+            $form->price->current,
+            $form->price->end,
+            $form->price->max,
+            $form->price->deadline,
+            $form->price->buyNow
+        );
 
         foreach ($form->categories->others as $otherId) {
             $category = $this->categories->get($otherId);
@@ -70,8 +71,6 @@ class ProductService
             $product->setValue($characteristic->id, $characteristic->value);
         }
 
-        $product->setQuantity($form->quantity ?: 1);
-
         foreach ($form->modifications as $modification) {
             $product->setModification(
                 $modification->characteristic_id,
@@ -80,9 +79,8 @@ class ProductService
                 $modification->quantity,
                 $modification->main_photo_id
             );
-
-            $product->setQuantity($modification->quantity);
         }
+        $product->setQuantity($form->quantity);
 
         foreach ($form->tags->existing as $tagId) {
             $tag = $this->tags->get($tagId);
@@ -131,19 +129,27 @@ class ProductService
                 $form->meta->keywords
             )
         );
-
         $product->changeMainCategory($category->id);
+
+
         try {
             $this->transaction->wrap(function () use ($product, $form) {
                 $product->revokeCategories();
                 $product->revokeTags();
                 $product->setQuantity(0);
+
                 $this->products->save($product);
 
 
                 $product->setPriceType($form->priceType);
 
-                $product->setPrice(Price::create($form->price->curPrice));
+                $product->setPrice(
+                    $form->price->current,
+                    $form->price->end,
+                    $form->price->max,
+                    $form->price->deadline,
+                    $form->price->buyNow
+                );
 
                 foreach ($form->categories->others as $otherId) {
                     $category = $this->categories->get($otherId);
@@ -151,12 +157,9 @@ class ProductService
                 }
 
 
-
                 foreach ($form->characteristics as $characteristic) {
                     $product->setValue($characteristic->id, $characteristic->value);
                 }
-
-                $quantity = 0;
                 foreach ($form->modifications as $modification) {
                     $product->setModification(
                         $modification->characteristic_id,
@@ -165,11 +168,9 @@ class ProductService
                         $modification->quantity,
                         $modification->main_photo_id
                     );
-                    $quantity += $modification->quantity;
-
                 }
 
-                $product->setQuantity($quantity);
+                $product->setQuantity();
 
                 foreach ($form->tags->existing as $tagId) {
                     $tag = $this->tags->get($tagId);

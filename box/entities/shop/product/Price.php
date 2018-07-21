@@ -21,10 +21,14 @@ use yii\db\ActiveRecord;
  */
 class Price extends ActiveRecord
 {
-    public static function create($current): self
+    public static function create($current, $end, $max, $deadline, $buyNow): self
     {
         $price = new static();
         $price->current = $current;
+        $price->end = $end;
+        $price->max = $max;
+        $price->deadline = $deadline;
+        $price->buy_now = $buyNow;
         $price->created_at = time();
         return $price;
     }

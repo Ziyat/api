@@ -3,4 +3,4 @@
 /* @var $this yii\web\View */
 /* @var $user box\entities\user\User */
 ?>
-Activate Code: <?= $user->activate_token ?>
+Here is your confirmation code.: <?= $user->activate_token ?>

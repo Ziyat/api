@@ -23,15 +23,6 @@ class ProfileController extends BearerController
         parent::__construct($id, $module, $config);
         $this->service = $service;
     }
-
-
-    public function actionPublic($id)
-    {
-        $user = $this->findUser($id);
-
-        return $user->products;
-    }
-
     /**
      * @SWG\Get(
      *     path="/profile",
@@ -129,8 +120,6 @@ class ProfileController extends BearerController
  *     definition="Profile",
  *     type="object",
  *     @SWG\Property(property="id", type="integer"),
- *     @SWG\Property(property="email", type="string"),
- *     @SWG\Property(property="phone", type="string"),
  *     @SWG\Property(property="createdAt", type="integer"),
  *     @SWG\Property(property="status", type="string"),
  *     @SWG\Property(property="name", type="string"),

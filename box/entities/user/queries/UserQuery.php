@@ -36,4 +36,18 @@ class UserQuery extends ActiveQuery
             ($alias ? $alias . '.' : '') . 'status' => User::STATUS_DELETED,
         ]);
     }
+
+    public function roleUser($alias = null)
+    {
+        return $this->andWhere([
+            ($alias ? $alias . '.' : '') . 'role' => 'user',
+        ]);
+    }
+
+    public function roleAdmin($alias = null)
+    {
+        return $this->andWhere([
+            ($alias ? $alias . '.' : '') . 'role' => 'admin',
+        ]);
+    }
 }

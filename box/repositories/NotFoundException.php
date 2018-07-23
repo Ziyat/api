@@ -6,7 +6,9 @@
 
 namespace box\repositories;
 
-class NotFoundException extends \DomainException
+use yii\web\NotFoundHttpException;
+
+class NotFoundException extends NotFoundHttpException
 {
 
 }

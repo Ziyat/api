@@ -166,6 +166,46 @@
                 }
             }
         },
+        "/public/users": {
+            "get": {
+                "tags": [
+                    "Public"
+                ],
+                "description": "Public users, Return users array",
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/Users"
+                        }
+                    }
+                }
+            }
+        },
+        "/public/user/{id}": {
+            "get": {
+                "tags": [
+                    "Public"
+                ],
+                "description": "Public user by id, return user data",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                }
+            }
+        },
         "/": {
             "get": {
                 "tags": [
@@ -783,6 +823,38 @@
             },
             "type": "object"
         },
+        "Users": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/User"
+            }
+        },
+        "User": {
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "photo": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "birthDate": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "integer"
+                }
+            },
+            "type": "object"
+        },
         "ProductData": {
             "properties": {
                 "name": {
@@ -879,12 +951,6 @@
             "properties": {
                 "id": {
                     "type": "integer"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "phone": {
-                    "type": "string"
                 },
                 "createdAt": {
                     "type": "integer"

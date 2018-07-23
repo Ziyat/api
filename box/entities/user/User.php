@@ -9,6 +9,7 @@ namespace box\entities\user;
 use box\entities\shop\product\Product;
 use box\entities\user\queries\UserQuery;
 use box\forms\auth\SignupForm;
+use box\helpers\UserHelper;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use Yii;
 use yii\behaviors\TimestampBehavior;
@@ -59,17 +60,16 @@ class User extends ActiveRecord implements IdentityInterface
         return $user;
     }
 
-    public function edit($email,$phone,$password, Profile $profile)
+    public function edit($email, $phone, $password, Profile $profile)
     {
         $this->email = $email;
         $this->phone = $phone;
         $this->profile = $profile;
-        if($password){
+        if ($password) {
             $this->setPassword($password);
         }
         $this->updated_at = time();
     }
-
 
 
     public function sendEmail($activateToken = true)
@@ -78,7 +78,7 @@ class User extends ActiveRecord implements IdentityInterface
         $templateText = 'activateToken-text';
         $subject = 'Activation Code';
 
-        if(!$activateToken){
+        if (!$activateToken) {
             $templateHtml = 'passwordResetToken-html';
             $templateText = 'passwordResetToken-text';
             $subject = 'Password reset Code';
@@ -88,7 +88,7 @@ class User extends ActiveRecord implements IdentityInterface
             ->mailer
             ->compose(
                 ['html' => $templateHtml, 'text' => $templateText],
-                ['user' => $this,'subject' => $subject]
+                ['user' => $this, 'subject' => $subject]
             )
             ->setFrom(['noreply@api.watchvaultapp.com' => \Yii::$app->name])
             ->setTo($this->email)
@@ -165,7 +165,7 @@ class User extends ActiveRecord implements IdentityInterface
         return static::find()
             ->joinWith('tokens t')
             ->andWhere(['t.token' => $token])
-            ->andWhere(['>', 't.expired_at' , time()])
+            ->andWhere(['>', 't.expired_at', time()])
             ->one();
     }
 
@@ -341,6 +341,32 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function getProducts()
     {
-        return $this->hasMany(Product::class,['created_by' => 'id']);
+        return $this->hasMany(Product::class, ['created_by' => 'id']);
+    }
+
+
+    public function fields()
+    {
+        return [
+            'id' => 'id',
+            'name' => function (self $model) {
+                return $model->profile->name;
+            },
+            'lastName' => function (self $model) {
+                return $model->profile->last_name;
+            },
+            'photo' => function (self $model) {
+                return $model->profile->getPhoto();
+            },
+            'status' => function (self $model) {
+                return UserHelper::getStatus($model->status);
+
+            },
+            'birthDate' => function (self $model) {
+                return $model->profile->date_of_birth;
+
+            },
+            'createdAt' => 'created_at',
+        ];
     }
 }

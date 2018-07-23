@@ -23,11 +23,11 @@ class BearerController extends Controller
             HttpBearerAuth::class,
         ];
 
-        $behaviors['authenticator']['except'] = ['public'];
+//        $behaviors['authenticator']['except'] = ['public'];
 
         $behaviors['access'] = [
             'class' => AccessControl::class,
-            'except' => ['public'],
+//            'except' => ['public'],
             'rules' => [
                 [
                     'allow' => true,

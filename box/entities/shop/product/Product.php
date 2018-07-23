@@ -782,4 +782,5 @@ class Product extends ActiveRecord
         }
         return [];
     }
+
 }

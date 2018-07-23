@@ -63,20 +63,26 @@ return [
             'showScriptName' => false,
             'rules' => [
                 'GET,HEAD /' => 'site/index',
+
+                // auth
+
                 'POST login' => 'auth/login',
                 'POST signup' => 'auth/signup',
                 'GET activate/<token:[\d_]+>' => 'auth/activate-user',
-                'profile' => 'user/profile/index',
-                'profile/edit' => 'user/profile/edit',
                 'POST forgot' => 'auth/password-reset',
                 'POST forgot/set-password/<token:[\d_]+>' => 'auth/set-password',
 
+                // profile
+
+                'GET profile' => 'user/profile/index',
+                'POST profile/edit' => 'user/profile/edit',
                 'GET profile/public/<id:\d+>' => 'user/profile/public',
+
+                // user product
 
                 'GET user/products' => 'user/product/index',
                 'POST user/products' => 'user/product/create',
                 'POST user/products/<id:\d+>' => 'user/product/edit',
-
 
                 'GET user/brand-list' => 'user/product/brands-list',
 

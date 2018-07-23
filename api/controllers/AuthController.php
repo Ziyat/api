@@ -132,7 +132,7 @@ class AuthController extends Controller
         $form->load(Yii::$app->request->bodyParams,'');
         if($form->validate()){
             try{
-                $token = $this->service->passwordReset($form);
+                $this->service->passwordReset($form);
                 $response = Yii::$app->getResponse();
                 $response->setStatusCode(200);
             }catch (\Exception $e)

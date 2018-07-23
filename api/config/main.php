@@ -71,6 +71,8 @@ return [
                 'POST forgot' => 'auth/password-reset',
                 'POST forgot/set-password/<token:[\d_]+>' => 'auth/set-password',
 
+                'GET profile/public/<id:\d+>' => 'user/profile/public',
+
                 'GET user/products' => 'user/product/index',
                 'POST user/products' => 'user/product/create',
                 'POST user/products/<id:\d+>' => 'user/product/edit',

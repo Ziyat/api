@@ -6,6 +6,7 @@
 
 namespace box\entities\user;
 
+use box\entities\shop\product\Product;
 use box\entities\user\queries\UserQuery;
 use box\forms\auth\SignupForm;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
@@ -31,6 +32,7 @@ use yii\web\IdentityInterface;
  * @property string $password write-only password
  * @property string $role role
  * @property Profile $profile
+ * @property Product[] $products
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -335,5 +337,10 @@ class User extends ActiveRecord implements IdentityInterface
     public static function find(): UserQuery
     {
         return new UserQuery(static::class);
+    }
+
+    public function getProducts()
+    {
+        return $this->hasMany(Product::class,['created_by' => 'id']);
     }
 }

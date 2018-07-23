@@ -26,7 +26,6 @@ class UserService
     {
         $form->setParams();
 
-
         $user = User::signup($form);
 
         $this->users->save($user);
@@ -66,13 +65,12 @@ class UserService
         return $user;
     }
 
-    public function passwordReset(PasswordResetRequestForm $form)
+    public function passwordReset(PasswordResetRequestForm $form): void
     {
         $user = $this->users->findByEmail($form->email);
         $user->generatePasswordResetToken();
         $user->sendEmail(false);
         $this->users->save($user);
-        return $user->password_reset_token;
     }
 
     public function setPassword($token, SetPasswordForm $form): User

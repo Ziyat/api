@@ -24,6 +24,14 @@ class ProfileController extends BearerController
         $this->service = $service;
     }
 
+
+    public function actionPublic($id)
+    {
+        $user = $this->findUser($id);
+
+        return $user->products;
+    }
+
     /**
      * @SWG\Get(
      *     path="/profile",
@@ -40,7 +48,7 @@ class ProfileController extends BearerController
 
     public function actionIndex()
     {
-        return $this->serialize($this->findUser());
+        return $this->serialize($this->findUser(Yii::$app->user->id));
     }
 
     /**
@@ -65,7 +73,7 @@ class ProfileController extends BearerController
 
     public function actionEdit()
     {
-        $user = $this->findUser();
+        $user = $this->findUser(Yii::$app->user->id);
         $form = new UserEditForm($user);
         $form->load(Yii::$app->request->bodyParams, '');
 
@@ -93,9 +101,9 @@ class ProfileController extends BearerController
         ];
     }
 
-    protected function findUser()
+    protected function findUser($id)
     {
-        return User::findOne(Yii::$app->user->id);
+        return User::findOne($id);
     }
 
 

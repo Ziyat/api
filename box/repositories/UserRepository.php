@@ -37,7 +37,7 @@ class UserRepository
 
     public function findByEmail($email): User
     {
-        if (!$user = User::find()->where(['email' => $email])->active()->one()) {
+        if (!$user = User::find()->andWhere(['email' => $email])->active()->one()) {
             throw new NotFoundException('User is not found.');
         }
         return $user;
@@ -45,7 +45,7 @@ class UserRepository
 
     public function findByPasswordResetToken($token):User
     {
-        if (!$user = User::find()->where(['password_reset_token' => $token])->active()->one()) {
+        if (!$user = User::find()->andWhere(['password_reset_token' => $token])->active()->one()) {
             throw new NotFoundException('User is not found.');
         }
         return $user;

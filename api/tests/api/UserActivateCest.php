@@ -12,6 +12,16 @@ use common\fixtures\UserFixture;
 class UserActivateCest
 {
 
+    public function _before(ApiTester $I)
+    {
+        $I->haveFixtures([
+            'user' => [
+                'class' => UserFixture::class,
+                'dataFile' => codecept_data_dir() . 'user.php'
+            ],
+        ]);
+    }
+
     public function badMethod(ApiTester $I)
     {
         $I->sendPOST('/activate/223344');
@@ -35,19 +45,7 @@ class UserActivateCest
 
     public function successByEmail(ApiTester $I)
     {
-        $I->sendPOST('/signup',[
-            'login' => 'user_activate@test.com',
-            'password' => 'password_0'
-        ]);
-
-        $I->seeResponseCodeIs(200);
-        $I->seeResponseIsJson();
-        $I->seeResponseJsonMatchesJsonPath('$.activate_token');
-        $I->seeResponseJsonMatchesJsonPath('$.created_at');
-
-        $activate_code = $I->grabDataFromResponseByJsonPath('$.activate_token');
-
-        $I->sendGET('/activate/'.$activate_code[0]);
+        $I->sendGET('/activate/223355');
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
         $I->seeResponseJsonMatchesJsonPath('$.token');
@@ -57,19 +55,7 @@ class UserActivateCest
 
     public function successByPhone(ApiTester $I)
     {
-        $I->sendPOST('/signup',[
-            'login' => 998974457010,
-            'password' => 'fdfdsfsdfs'
-        ]);
-
-        $I->seeResponseCodeIs(200);
-        $I->seeResponseIsJson();
-        $I->seeResponseJsonMatchesJsonPath('$.activate_token');
-        $I->seeResponseJsonMatchesJsonPath('$.created_at');
-
-        $activate_code = $I->grabDataFromResponseByJsonPath('$.activate_token');
-
-        $I->sendGET('/activate/'.$activate_code[0]);
+        $I->sendGET('/activate/223355');
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
         $I->seeResponseJsonMatchesJsonPath('$.token');

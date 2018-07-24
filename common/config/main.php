@@ -1,6 +1,6 @@
 <?php
 return [
-    'name' => 'Watch Valt',
+    'name' => 'Watch Vault',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',

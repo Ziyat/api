@@ -2,82 +2,81 @@
 
 namespace box\entities\shop;
 
+use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\helpers\Json;
+use yii\helpers\VarDumper;
 
 /**
  * @property integer $id
  * @property string $name
- * @property string $type
- * @property string $required
- * @property string $default
- * @property array $variants
- * @property integer $sort
+ *
+ * @property CharacteristicAssignment[] $assignments
+ * @property Category[] $categories
  */
 class Characteristic extends ActiveRecord
 {
-    const TYPE_STRING = 'string';
-    const TYPE_INTEGER = 'integer';
-    const TYPE_FLOAT = 'float';
 
-    public $variants;
-
-    public static function create($name, $type, $required, $default, array $variants, $sort): self
+    public static function create($name): self
     {
         $object = new static();
         $object->name = $name;
-        $object->type = $type;
-        $object->required = $required;
-        $object->default = $default;
-        $object->variants = $variants;
-        $object->sort = $sort;
         return $object;
     }
 
-    public function edit($name, $type, $required, $default, array $variants, $sort): void
+    public function edit($name, $type, $required, $default, $sort): void
     {
         $this->name = $name;
-        $this->type = $type;
-        $this->required = $required;
-        $this->default = $default;
-        $this->variants = $variants;
-        $this->sort = $sort;
     }
 
-    public function isString(): bool
+
+    public function assignCategory($id,$variants): void
     {
-        return $this->type === self::TYPE_STRING;
+        $assignments = $this->assignments;
+
+        foreach ($assignments as $k => $assignment) {
+            if ($assignment->isForCategory($id)) {
+                $assignments[$k]->variants = $variants;
+                $assignments[$k]->variants_json = Json::encode(array_filter($variants));
+                $this->assignments = $assignments;
+                return;
+            }
+        }
+
+        $assignments[] = CharacteristicAssignment::create($id,$variants);
+        $this->assignments = $assignments;
+
+
     }
 
-    public function isInteger(): bool
+    public function getAssignments(): ActiveQuery
     {
-        return $this->type === self::TYPE_INTEGER;
+        return $this->hasMany(CharacteristicAssignment::class,['characteristic_id' => 'id']);
     }
 
-    public function isFloat(): bool
+    public function getCategories()
     {
-        return $this->type === self::TYPE_FLOAT;
+        return $this->hasMany(Category::class,['id' => 'category_id'])
+            ->via('assignments');
     }
 
-    public function isSelect(): bool
-    {
-        return count($this->variants) > 0;
-    }
+
 
     public static function tableName(): string
     {
         return '{{%characteristics}}';
     }
 
-    public function afterFind(): void
-    {
-        $this->variants = array_filter(Json::decode($this->getAttribute('variants_json')));
-        parent::afterFind();
-    }
 
-    public function beforeSave($insert): bool
+    public function behaviors()
     {
-        $this->setAttribute('variants_json', Json::encode(array_filter($this->variants)));
-        return parent::beforeSave($insert);
+        return [
+            [
+                'class' => SaveRelationsBehavior::class,
+                'relations' => ['assignments'],
+            ],
+        ];
+
     }
 }

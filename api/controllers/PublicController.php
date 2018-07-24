@@ -8,6 +8,7 @@ namespace api\controllers;
 
 use box\readModels\ProductReadRepository;
 use box\readModels\UserReadRepository;
+use box\repositories\NotFoundException;
 use yii\rest\Controller;
 
 class PublicController extends Controller
@@ -30,7 +31,10 @@ class PublicController extends Controller
      *     @SWG\Response(
      *         response=200,
      *         description="Success response",
-     *         @SWG\Schema(ref="#/definitions/Users")
+     *         @SWG\Schema(
+     *              type="array",
+     *              @SWG\Items()
+     *          )
      *     ),
      * )
      */
@@ -51,7 +55,12 @@ class PublicController extends Controller
      *         description="Success response",
      *         @SWG\Schema(ref="#/definitions/User")
      *     ),
+     *     @SWG\Response(
+     *         response=404,
+     *         description="User not found.",
+     *     ),
      * )
+     * @throws NotFoundException
      */
 
     public function actionUser($id)

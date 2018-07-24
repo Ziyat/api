@@ -176,7 +176,8 @@
                     "200": {
                         "description": "Success response",
                         "schema": {
-                            "$ref": "#/definitions/Users"
+                            "type": "array",
+                            "items": {}
                         }
                     }
                 }
@@ -188,6 +189,33 @@
                     "Public"
                 ],
                 "description": "Public user by id, return user data",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "404": {
+                        "description": "User not found."
+                    }
+                }
+            }
+        },
+        "/public/user/{id}/products": {
+            "get": {
+                "tags": [
+                    "Public"
+                ],
+                "description": "Public user products by id, return user products array data",
                 "parameters": [
                     {
                         "name": "id",
@@ -566,10 +594,12 @@
                         "type": "string"
                     },
                     {
-                        "name": "slug",
-                        "in": "formData",
+                        "name": "assignments",
+                        "in": "body",
                         "required": true,
-                        "type": "string"
+                        "schema": {
+                            "$ref": "#/definitions/CharacteristicsAssignments"
+                        }
                     }
                 ],
                 "responses": {
@@ -854,6 +884,20 @@
                 }
             },
             "type": "object"
+        },
+        "CharacteristicsAssignments": {
+            "type": "array",
+            "items": {
+                "properties": {
+                    "category_id": {
+                        "type": "integer"
+                    },
+                    "variants": {
+                        "type": "array",
+                        "items": {}
+                    }
+                }
+            }
         },
         "ProductData": {
             "properties": {

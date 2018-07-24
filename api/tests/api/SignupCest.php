@@ -100,8 +100,8 @@ class SignupCest
         ]);
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseJsonMatchesJsonPath('$.activate_token');
-        $I->seeResponseJsonMatchesJsonPath('$.created_at');
+        $I->seeResponseJsonMatchesJsonPath('$.status');
+        $I->seeResponseJsonMatchesJsonPath('$.createdAt');
 
     }
 
@@ -114,8 +114,8 @@ class SignupCest
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
-        $I->seeResponseJsonMatchesJsonPath('$.activate_token');
-        $I->seeResponseJsonMatchesJsonPath('$.created_at');
+        $I->seeResponseJsonMatchesJsonPath('$.status');
+        $I->seeResponseJsonMatchesJsonPath('$.createdAt');
     }
 
     public function duplicateEmail(ApiTester $I)

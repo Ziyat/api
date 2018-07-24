@@ -16,6 +16,7 @@ use box\services\CharacteristicsService;
 use box\services\CharacteristicService;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
+use yii\helpers\VarDumper;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -82,7 +83,9 @@ class CharacteristicController extends BearerCrudController
      *     path="/shop/characteristics",
      *     tags={"Characteristics"},
      *     @SWG\Parameter(name="name", in="formData", required=true, type="string"),
-     *     @SWG\Parameter(name="slug", in="formData", required=true, type="string"),
+     *     @SWG\Parameter(name="assignments", in="body", required=true,
+     *          @SWG\Schema(ref="#/definitions/CharacteristicsAssignments")
+     *     ),
      *     @SWG\Response(
      *         response=201,
      *         description="Success response",
@@ -167,6 +170,7 @@ class CharacteristicController extends BearerCrudController
      * @param $id
      * @throws BadRequestHttpException
      * @throws ForbiddenHttpException
+     * @throws \Throwable
      */
 
     public function actionDelete($id)
@@ -197,3 +201,15 @@ class CharacteristicController extends BearerCrudController
     }
 
 }
+
+
+/**
+ * @SWG\Definition(
+ *     definition="CharacteristicsAssignments",
+ *     type="array",
+ *     @SWG\Items(
+ *         @SWG\Property(property="category_id",type="integer"),
+ *         @SWG\Property(property="variants", type="array",@SWG\Items()),
+ *     )
+ * )
+ */

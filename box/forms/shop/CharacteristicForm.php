@@ -2,59 +2,48 @@
 
 namespace box\forms\shop;
 
-use box\entities\shop\Characteristic;
-use box\helpers\CharacteristicHelper;
-use yii\base\Model;
+use box\forms\CompositeForm;
+use yii\helpers\ArrayHelper;
+use yii\helpers\VarDumper;
 
 /**
- * @property array $variants
+ * @property CharacteristicAssignmentForm[] $assignments
  */
-class CharacteristicForm extends Model
+class CharacteristicForm extends CompositeForm
 {
     public $name;
-    public $type;
-    public $required;
-    public $default;
-    public $textVariants;
-    public $sort;
 
-    private $_characteristic;
-
-    public function __construct(Characteristic $characteristic = null, $config = [])
+    public function __construct($config = [])
     {
-        if ($characteristic) {
-            $this->name = $characteristic->name;
-            $this->type = $characteristic->type;
-            $this->required = $characteristic->required;
-            $this->default = $characteristic->default;
-            $this->textVariants = implode(PHP_EOL, $characteristic->variants);
-            $this->sort = $characteristic->sort;
-            $this->_characteristic = $characteristic;
-        } else {
-            $this->sort = Characteristic::find()->max('sort') + 1;
-        }
+        $this->assignments = [];
         parent::__construct($config);
     }
 
     public function rules(): array
     {
         return [
-            [['name', 'type', 'sort'], 'required'],
-            [['required'], 'boolean'],
-            [['default'], 'string', 'max' => 255],
-            [['textVariants'], 'string'],
-            [['sort'], 'integer'],
-            [['name'], 'unique', 'targetClass' => Characteristic::class, 'filter' => $this->_characteristic ? ['<>', 'id', $this->_characteristic->id] : null]
+            [['name'], 'required'],
         ];
     }
 
-    public function typesList(): array
+    public function beforeValidate()
     {
-        return CharacteristicHelper::typeList();
+        if (parent::beforeValidate()) {
+            $forms = [];
+            $assignments = ArrayHelper::getValue(\Yii::$app->request->bodyParams, 'assignments');
+            for ($i = 0; $i < count($assignments); $i++) {
+                $forms[$i] = new CharacteristicAssignmentForm();
+            }
+            $this->assignments = $forms;
+            $this->load(\Yii::$app->request->bodyParams,'');
+            return true;
+        }
+
+        return false;
     }
 
-    public function getVariants(): array
+    public function internalForms(): array
     {
-        return preg_split('#[\r\n]+#i', $this->textVariants);
+        return ['assignments'];
     }
 }

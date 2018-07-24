@@ -15,6 +15,14 @@ class CharacteristicRepository
         return $characteristic;
     }
 
+    public function findByName($name): Characteristic
+    {
+        if (!$characteristic = Characteristic::findOne(['name' => $name])) {
+            throw new NotFoundException('Characteristic is not found.');
+        }
+        return $characteristic;
+    }
+
     public function save(Characteristic $characteristic): void
     {
         if (!$characteristic->save()) {

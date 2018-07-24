@@ -2,7 +2,7 @@
 
 namespace box\repositories;
 
-use box\entities\Shop\Brand;
+use box\entities\shop\Brand;
 use box\repositories\NotFoundException;
 
 class BrandRepository

@@ -9,6 +9,7 @@ namespace api\tests\api;
 
 use api\tests\ApiTester;
 use common\fixtures\ProfileFixture;
+use common\fixtures\shop\CategoryFixture;
 use common\fixtures\TokenFixture;
 use common\fixtures\UserFixture;
 
@@ -28,6 +29,10 @@ class CharacteristicCest
             'profile' => [
                 'class' => ProfileFixture::class,
                 'dataFile' => codecept_data_dir() . 'profile.php'
+            ],
+            'category' => [
+                'class' => CategoryFixture::class,
+                'dataFile' => codecept_data_dir() . 'category.php'
             ]
         ]);
     }
@@ -65,53 +70,52 @@ class CharacteristicCest
         $I->amBearerAuthenticated('token-correct');
         $I->haveHttpHeader('Cache-Control', 'no-cache');
         $I->sendPOST('/shop/characteristics', [
-            'id' => 1,
-            'name' => 'metal',
-            'type' => 'string',
-            'sort' => 1,
-            'required' => 0,
-            'default' => null,
-            'variants_json' => '[]'
+            'name' => 'Color',
+            'assignments' => [
+                [
+                    'category_id' => 2,
+                    'variants' => ['red','blue'],
+                ],
+            ],
         ]);
 
         $I->seeResponseCodeIs(201);
         $I->seeResponseContainsJson([
-            'name' => 'metal',
-            'type' => 'string',
+            'name' => 'Color',
         ]);
     }
 
-    public function editCharacteristic(ApiTester $I)
-    {
-        $I->amBearerAuthenticated('token-correct');
-        $I->sendPOST('/shop/characteristics/1', [
-            'id' => 1,
-            'name' => 'metal',
-            'type' => 'string',
-            'sort' => 1,
-            'required' => 0,
-            'default' => null,
-            'variants_json' => '[]'
-        ]);
-        $I->seeResponseCodeIs(202);
-        $I->seeResponseContainsJson([
-            'name' => 'metal',
-            'type' => 'string',
-        ]);
-
-    }
-
-    public function viewCharacteristic(ApiTester $I)
-    {
-        $I->amBearerAuthenticated('token-correct');
-        $I->sendGET('/shop/characteristics/1');
-        $I->seeResponseCodeIs(200);
-        $I->seeResponseContainsJson([
-            'name' => 'metal',
-            'type' => 'string',
-        ]);
-
-    }
+//    public function editCharacteristic(ApiTester $I)
+//    {
+//        $I->amBearerAuthenticated('token-correct');
+//        $I->sendPOST('/shop/characteristics/1', [
+//            'id' => 1,
+//            'name' => 'metal',
+//            'type' => 'string',
+//            'sort' => 1,
+//            'required' => 0,
+//            'default' => null,
+//            'variants_json' => '[]'
+//        ]);
+//        $I->seeResponseCodeIs(202);
+//        $I->seeResponseContainsJson([
+//            'name' => 'metal',
+//            'type' => 'string',
+//        ]);
+//
+//    }
+//
+//    public function viewCharacteristic(ApiTester $I)
+//    {
+//        $I->amBearerAuthenticated('token-correct');
+//        $I->sendGET('/shop/characteristics/1');
+//        $I->seeResponseCodeIs(200);
+//        $I->seeResponseContainsJson([
+//            'name' => 'metal',
+//            'type' => 'string',
+//        ]);
+//
+//    }
 
     public function deleteCharacteristic(ApiTester $I)
     {

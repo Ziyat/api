@@ -8,6 +8,7 @@ namespace box\tests\unit\services\Characteristic;
 
 use box\entities\shop\Characteristic;
 use box\forms\shop\CharacteristicForm;
+use box\repositories\CategoryRepository;
 use box\repositories\CharacteristicRepository;
 use box\services\CharacteristicService;
 use Codeception\Test\Unit;
@@ -29,7 +30,7 @@ class CharacteristicServiceRemoveTest extends Unit
     public function __construct(?string $name = null, array $data = [], string $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
-        $this->service = new CharacteristicService(new CharacteristicRepository());
+        $this->service = new CharacteristicService(new CharacteristicRepository(),new CategoryRepository());
     }
 
     public function testSuccess()

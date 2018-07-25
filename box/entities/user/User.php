@@ -45,6 +45,13 @@ class User extends ActiveRecord implements IdentityInterface
     const ACTIVATE_TOKEN = 'activate';
     const PASSWORD_TOKEN = 'password reset';
 
+    public function init()
+    {
+        $this->on(self::ACTIVATE_TOKEN,[Yii::$app->emailService, 'sendActivateToken']);
+        $this->on(self::PASSWORD_TOKEN,[Yii::$app->emailService, 'sendResetPasswordToken']);
+        parent::init();
+    }
+
     public static function signup(SignupForm $form)
     {
         $user = new static();
@@ -60,6 +67,13 @@ class User extends ActiveRecord implements IdentityInterface
         return $user;
     }
 
+    /**
+     * @param $email
+     * @param $phone
+     * @param $password
+     * @param Profile $profile
+     * @throws \yii\base\Exception
+     */
     public function edit($email, $phone, $password, Profile $profile)
     {
         $this->email = $email;
@@ -69,34 +83,6 @@ class User extends ActiveRecord implements IdentityInterface
             $this->setPassword($password);
         }
         $this->updated_at = time();
-    }
-
-
-    public function sendEmail($activateToken = true)
-    {
-        $templateHtml = 'activateToken-html';
-        $templateText = 'activateToken-text';
-        $subject = 'Activation Code';
-
-        if (!$activateToken) {
-            $templateHtml = 'passwordResetToken-html';
-            $templateText = 'passwordResetToken-text';
-            $subject = 'Password reset Code';
-        }
-
-        $sent = Yii::$app
-            ->mailer
-            ->compose(
-                ['html' => $templateHtml, 'text' => $templateText],
-                ['user' => $this, 'subject' => $subject]
-            )
-            ->setFrom(['noreply@api.watchvaultapp.com' => \Yii::$app->name])
-            ->setTo($this->email)
-            ->setSubject($subject)
-            ->send();
-        if (!$sent) {
-            throw new \DomainException('send email error');
-        }
     }
 
     public static function Activate($token)
@@ -275,9 +261,8 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Generates password hash from password and sets it to the model
-     *
-     * @param string $password
+     * @param $password
+     * @throws \yii\base\Exception
      */
     public function setPassword($password)
     {
@@ -286,6 +271,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * Generates "remember me" authentication key
+     * @throws \yii\base\Exception
      */
     public function generateAuthKey()
     {

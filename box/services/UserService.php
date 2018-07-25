@@ -5,6 +5,8 @@
  */
 
 namespace box\services;
+
+use box\events\user\UserRegisterEvent;
 use box\forms\auth\PasswordResetRequestForm;
 use box\forms\auth\SetPasswordForm;
 use Yii;
@@ -16,10 +18,12 @@ use box\repositories\UserRepository;
 class UserService
 {
     private $users;
+    private $event;
 
-    public function __construct(UserRepository $repository)
+    public function __construct(UserRepository $repository, UserRegisterEvent $event)
     {
         $this->users = $repository;
+        $this->event = $event;
     }
 
     public function signup(SignupForm $form)
@@ -34,7 +38,11 @@ class UserService
 
         $auth->assign($auth->getRole('user'), $user->id);
 
-        if ($user->email) $user->sendEmail();
+        if ($user->email) {
+            $this->event->user = $user;
+            $this->event->subject = 'Activation Code';
+            $user->trigger($user::ACTIVATE_TOKEN, $this->event);
+        };
 
         if ($user->phone) $this->sendSms($user);
 
@@ -69,8 +77,11 @@ class UserService
     {
         $user = $this->users->findByEmail($form->email);
         $user->generatePasswordResetToken();
-        $user->sendEmail(false);
         $this->users->save($user);
+
+        $this->event->user = $user;
+        $this->event->subject = 'Password reset Code';
+        $user->trigger($user::PASSWORD_TOKEN, $this->event);
     }
 
     public function setPassword($token, SetPasswordForm $form): User
@@ -83,8 +94,6 @@ class UserService
         return $user;
 
     }
-
-
 
 
     private function sendSms(User $user)

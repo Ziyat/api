@@ -75,7 +75,7 @@ class CharacteristicCest
             'assignments' => [
                 [
                     'category_id' => 2,
-                    'variants' => ['red','blue'],
+                    'variants' => [],
                 ],
             ],
         ]);

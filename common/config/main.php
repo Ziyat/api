@@ -7,6 +7,9 @@ return [
     ],
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
+        'emailService' => [
+            'class' => 'box\components\EmailService'
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
@@ -15,6 +18,7 @@ return [
             'itemFile' => '@common/components/rbac/items.php',
             'assignmentFile' => '@common/components/rbac/assignments.php',
             'ruleFile' => '@common/components/rbac/rules.php'
-        ]
+        ],
+
     ],
 ];

@@ -578,7 +578,13 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Success response"
+                        "description": "Success response",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Characteristic"
+                            }
+                        }
                     }
                 }
             },
@@ -629,7 +635,10 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Success response"
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/Characteristic"
+                        }
                     }
                 },
                 "security": [
@@ -676,6 +685,38 @@
                 "responses": {
                     "204": {
                         "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/shop/characteristics/category/{id}": {
+            "get": {
+                "tags": [
+                    "Characteristics"
+                ],
+                "description": "send in path category_id, in response, characteristics list",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Characteristic"
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -880,6 +921,59 @@
                     "type": "string"
                 },
                 "createdAt": {
+                    "type": "integer"
+                }
+            },
+            "type": "object"
+        },
+        "Characteristic": {
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "variants": {
+                    "type": "array",
+                    "items": {}
+                },
+                "categories": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Category"
+                    }
+                }
+            },
+            "type": "object"
+        },
+        "Category": {
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "meta_json": {
+                    "type": "string"
+                },
+                "lft": {
+                    "type": "integer"
+                },
+                "rgt": {
+                    "type": "integer"
+                },
+                "depth": {
                     "type": "integer"
                 }
             },

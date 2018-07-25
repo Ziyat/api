@@ -6,6 +6,7 @@
 
 namespace box\entities\shop;
 
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\helpers\Json;
 use yii\helpers\VarDumper;
@@ -16,6 +17,7 @@ use yii\helpers\VarDumper;
  * @property integer $category_id
  * @property integer $characteristic_id
  * @property array $variants
+ * @property Characteristic[] $characteristics
  */
 class CharacteristicAssignment extends ActiveRecord
 {
@@ -45,6 +47,8 @@ class CharacteristicAssignment extends ActiveRecord
         $this->setAttribute('variants_json', Json::encode(array_filter($this->variants)));
         return parent::beforeSave($insert);
     }
+
+
 
     public static function tableName(): string
     {

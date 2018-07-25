@@ -65,6 +65,8 @@ return [
         'GET shop/characteristics/<id:\d+>' => 'shop/characteristic/view',
         'POST shop/characteristics/<id:\d+>' => 'shop/characteristic/update',
         'DELETE shop/characteristics/<id:\d+>' => 'shop/characteristic/delete',
+        'GET shop/characteristics/category/<id:\d+>' => 'shop/characteristic/category',
+
 
         // public
 

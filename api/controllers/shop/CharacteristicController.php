@@ -12,6 +12,7 @@ use box\entities\shop\Characteristics;
 use box\entities\shop\Characteristic;
 use box\forms\Shop\CharacteristicsForm;
 use box\forms\shop\CharacteristicForm;
+use box\readModels\CharacteristicReadModel;
 use box\services\CharacteristicsService;
 use box\services\CharacteristicService;
 use yii\data\ActiveDataProvider;
@@ -24,6 +25,7 @@ use yii\web\NotFoundHttpException;
 class CharacteristicController extends BearerCrudController
 {
     private $characteristicService;
+    private $characteristics;
 
     public $action;
 
@@ -31,10 +33,12 @@ class CharacteristicController extends BearerCrudController
         string $id,
         $module,
         CharacteristicService $characteristicService,
+        CharacteristicReadModel $characteristics,
         array $config = []
     )
     {
         $this->characteristicService = $characteristicService;
+        $this->characteristics = $characteristics;
         parent::__construct($id, $module, $config);
     }
 
@@ -45,6 +49,9 @@ class CharacteristicController extends BearerCrudController
      *     @SWG\Response(
      *         response=200,
      *         description="Success response",
+     *         @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref="#/definitions/Characteristic")),
      *     ),
      * )
      * @return ActiveDataProvider
@@ -65,6 +72,7 @@ class CharacteristicController extends BearerCrudController
      *     @SWG\Response(
      *         response=200,
      *         description="Success response",
+     *         @SWG\Property(ref="#/definitions/Characteristic"),
      *     ),
      *     security={{"Bearer": {}}}
      * )
@@ -75,7 +83,32 @@ class CharacteristicController extends BearerCrudController
 
     public function actionView($id)
     {
-        return $this->findModel($id);
+        return $this->characteristics->findById($id);
+    }
+
+    /**
+     * @SWG\GET(
+     *     path="/shop/characteristics/category/{id}",
+     *     tags={"Characteristics"},
+     *     description="send in path category_id, in response, characteristics list",
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref="#/definitions/Characteristic")),
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @param $id
+     * @throws NotFoundHttpException
+     * @return array
+     */
+
+    public function actionCategory($id)
+    {
+        return $this->characteristics->findByCategoryId($id);
     }
 
     /**
@@ -201,6 +234,34 @@ class CharacteristicController extends BearerCrudController
     }
 
 }
+/**
+ * @SWG\Definition(
+ *     definition="Characteristic",
+ *     type="object",
+ *     @SWG\Property(property="id", type="integer"),
+ *     @SWG\Property(property="name", type="string"),
+ *     @SWG\Property(property="variants", type="array", @SWG\Items()),
+ *     @SWG\Property(property="categories", type="array",
+ *          @SWG\Items(ref="#/definitions/Category")
+ *     )
+ * )
+ */
+
+/**
+ * @SWG\Definition(
+ *     definition="Category",
+ *     type="object",
+ *     @SWG\Property(property="id",type="integer"),
+ *     @SWG\Property(property="name", type="string"),
+ *     @SWG\Property(property="slug", type="string"),
+ *     @SWG\Property(property="title", type="string"),
+ *     @SWG\Property(property="description", type="string"),
+ *     @SWG\Property(property="meta_json", type="string"),
+ *     @SWG\Property(property="lft", type="integer"),
+ *     @SWG\Property(property="rgt", type="integer"),
+ *     @SWG\Property(property="depth", type="integer"),
+ * )
+ */
 
 
 /**

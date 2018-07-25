@@ -2,6 +2,7 @@
 
 namespace box\forms\shop;
 
+use box\entities\shop\Characteristic;
 use box\forms\CompositeForm;
 use yii\helpers\ArrayHelper;
 use yii\helpers\VarDumper;
@@ -13,9 +14,13 @@ class CharacteristicForm extends CompositeForm
 {
     public $name;
 
-    public function __construct($config = [])
+    public function __construct(Characteristic $characteristic = null, $config = [])
     {
-        $this->assignments = [];
+        if($characteristic){
+            $this->name = $characteristic->name;
+            $this->assignments = $characteristic->assignments;
+        }
+
         parent::__construct($config);
     }
 

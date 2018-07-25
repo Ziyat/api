@@ -25,13 +25,13 @@ class Characteristic extends ActiveRecord
         return $object;
     }
 
-    public function edit($name, $type, $required, $default, $sort): void
+    public function edit($name): void
     {
         $this->name = $name;
     }
 
 
-    public function assignCategory($id,$variants): void
+    public function assignCategory($id, $variants): void
     {
         $assignments = $this->assignments;
 
@@ -44,7 +44,7 @@ class Characteristic extends ActiveRecord
             }
         }
 
-        $assignments[] = CharacteristicAssignment::create($id,$variants);
+        $assignments[] = CharacteristicAssignment::create($id, $variants);
         $this->assignments = $assignments;
 
 
@@ -52,15 +52,24 @@ class Characteristic extends ActiveRecord
 
     public function getAssignments(): ActiveQuery
     {
-        return $this->hasMany(CharacteristicAssignment::class,['characteristic_id' => 'id']);
+        return $this->hasMany(CharacteristicAssignment::class, ['characteristic_id' => 'id']);
     }
 
     public function getCategories()
     {
-        return $this->hasMany(Category::class,['id' => 'category_id'])
+        return $this->hasMany(Category::class, ['id' => 'category_id'])
             ->via('assignments');
     }
 
+    public function fields()
+    {
+        return [
+            'id' => 'id',
+            'name' => 'name',
+            'variants' => function(self $model){return $model->assignments[0]->variants;},
+            'categories' => function(self $model){return $model->categories;},
+        ];
+    }
 
 
     public static function tableName(): string

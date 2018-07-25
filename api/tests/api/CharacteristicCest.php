@@ -12,6 +12,7 @@ use common\fixtures\ProfileFixture;
 use common\fixtures\shop\CategoryFixture;
 use common\fixtures\TokenFixture;
 use common\fixtures\UserFixture;
+use yii\helpers\VarDumper;
 
 class CharacteristicCest
 {
@@ -85,37 +86,29 @@ class CharacteristicCest
         ]);
     }
 
-//    public function editCharacteristic(ApiTester $I)
-//    {
-//        $I->amBearerAuthenticated('token-correct');
-//        $I->sendPOST('/shop/characteristics/1', [
-//            'id' => 1,
-//            'name' => 'metal',
-//            'type' => 'string',
-//            'sort' => 1,
-//            'required' => 0,
-//            'default' => null,
-//            'variants_json' => '[]'
-//        ]);
-//        $I->seeResponseCodeIs(202);
-//        $I->seeResponseContainsJson([
-//            'name' => 'metal',
-//            'type' => 'string',
-//        ]);
-//
-//    }
-//
-//    public function viewCharacteristic(ApiTester $I)
-//    {
-//        $I->amBearerAuthenticated('token-correct');
-//        $I->sendGET('/shop/characteristics/1');
-//        $I->seeResponseCodeIs(200);
-//        $I->seeResponseContainsJson([
-//            'name' => 'metal',
-//            'type' => 'string',
-//        ]);
-//
-//    }
+    public function editCharacteristic(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendPOST('/shop/characteristics/1', [
+            'name' => 'metal',
+        ]);
+        $I->seeResponseCodeIs(202);
+        $I->seeResponseContainsJson([
+            'name' => 'metal',
+        ]);
+
+    }
+
+    public function viewCharacteristic(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendGET('/shop/characteristics/1');
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseContainsJson([
+            'name' => 'metal',
+        ]);
+
+    }
 
     public function deleteCharacteristic(ApiTester $I)
     {

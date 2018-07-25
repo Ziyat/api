@@ -10,6 +10,7 @@ use api\controllers\BearerController;
 use box\entities\shop\product\Product;
 use box\forms\shop\product\ProductCreateForm;
 use box\forms\shop\product\ProductEditForm;
+use box\repositories\NotFoundException;
 use box\repositories\ProductRepository;
 use box\services\ProductService;
 use Yii;
@@ -120,7 +121,7 @@ class ProductController extends BearerController
     /**
      * @param $id
      * @return Product
-     * @throws BadRequestHttpException
+     * @throws BadRequestHttpException|NotFoundException
      */
 
     public function actionEdit($id)
@@ -206,7 +207,7 @@ class ProductController extends BearerController
      *     definition="CategoriesForm",
      *     type="object",
      *     @SWG\Property(property="main", type="integer"),
-     *              @SWG\Property(property="others", type="array",@SWG\Items()),
+     *     @SWG\Property(property="others", type="array",@SWG\Items()),
      * )
      */
 

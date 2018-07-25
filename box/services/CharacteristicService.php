@@ -44,11 +44,11 @@ class CharacteristicService
 
     public function edit($id, CharacteristicForm $form): void
     {
-//        $characteristic = $this->characteristics->get($id);
-//        $characteristic->edit(
-//            $form->name
-//        );
-//        $this->characteristics->save($characteristic);
+        $characteristic = $this->characteristics->get($id);
+        $characteristic->edit(
+            $form->name
+        );
+        $this->characteristics->save($characteristic);
     }
 
     /**

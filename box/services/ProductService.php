@@ -5,12 +5,15 @@ namespace box\services;
 use box\entities\Meta;
 use box\entities\shop\product\Product;
 use box\entities\shop\Tag;
+use box\forms\shop\product\PhotosForm;
 use box\forms\shop\product\ProductEditForm;
 use box\repositories\BrandRepository;
 use box\repositories\CategoryRepository;
+use box\repositories\NotFoundException;
 use box\repositories\ProductRepository;
 use box\forms\shop\product\ProductCreateForm;
 use box\repositories\TagRepository;
+use yii\helpers\VarDumper;
 
 class ProductService
 {
@@ -234,9 +237,79 @@ class ProductService
      * @param $modification_id
      * @throws \box\repositories\NotFoundException
      */
-    public function setModificationPhoto($product_id,$photo_id,$modification_id)
+    public function setModificationPhoto($product_id,$modification_id,$photo_id)
     {
         $product = $this->products->get($product_id);
+        if(empty($product->photos))
+        {
+            throw new NotFoundException('photo not found.');
+        }
+        foreach ($product->modifications as $modification)
+        {
+            if($modification->id == $modification_id)
+            {
+                $product->setModification(
+                    $modification->characteristic_id,
+                    $modification->value,
+                    $modification->price,
+                    $modification->quantity,
+                    $photo_id
+                );
+            }
+        }
 
+        $this->products->save($product);
+    }
+
+    /**
+     * @param $id
+     * @param PhotosForm $form
+     * @return Product
+     * @throws NotFoundException
+     */
+    public function addPhotos($id, PhotosForm $form)
+    {
+        $product = $this->products->get($id);
+        foreach ($form->files as $file) {
+            $product->addPhoto($file);
+        }
+        $this->products->save($product);
+        return $product;
+    }
+
+    /**
+     * @param $id
+     * @param $photoId
+     * @throws NotFoundException
+     */
+    public function movePhotoUp($id, $photoId): void
+    {
+        $product = $this->products->get($id);
+        $product->movePhotoUp($photoId);
+        $this->products->save($product);
+    }
+
+    /**
+     * @param $id
+     * @param $photoId
+     * @throws NotFoundException
+     */
+    public function movePhotoDown($id, $photoId): void
+    {
+        $product = $this->products->get($id);
+        $product->movePhotoDown($photoId);
+        $this->products->save($product);
+    }
+
+    /**
+     * @param $id
+     * @param $photoId
+     * @throws NotFoundException
+     */
+    public function removePhoto($id, $photoId): void
+    {
+        $product = $this->products->get($id);
+        $product->removePhoto($photoId);
+        $this->products->save($product);
     }
 }

@@ -712,15 +712,14 @@ class Product extends ActiveRecord
             },
             "modifications" => function () {
                 $result = [];
-                foreach ($this->modifications as $modification) {
-                    if ($modification->mainPhoto) {
-                        $result[] = $modification->mainPhoto->getThumbFileUrl('file', 'thumb');
-                    }
-                    $result[] = [
+                foreach ($this->modifications as $k => $modification) {
+                    $result[$k] = [
+                        'id' => $modification->id,
                         'characteristic' => $modification->characteristic->name,
                         'value' => $modification->value,
                         'price' => $modification->price,
-                        'quantity' => $modification->quantity
+                        'quantity' => $modification->quantity,
+                        'photo' => $modification->mainPhoto ? $modification->mainPhoto->getThumbFileUrl('file', 'thumb') : null
                     ];
                 }
                 return $result;
@@ -743,6 +742,7 @@ class Product extends ActiveRecord
         $mainPhoto = [];
         if ($main = $this->mainPhoto) {
             $mainPhoto = [
+                'id' => $main->id,
                 'thumb' => $main->getThumbFileUrl('file', 'thumb'),
                 'cart_list' => $main->getThumbFileUrl('file', 'cart_list'),
                 'cart_widget_list' => $main->getThumbFileUrl('file', 'cart_widget_list'),
@@ -759,6 +759,7 @@ class Product extends ActiveRecord
         foreach ($this->photos as $photo) {
             if ($photo->id != $this->main_photo_id) {
                 $photos[] = [
+                    'id' => $photo->id,
                     'thumb' => $photo->getThumbFileUrl('file', 'thumb'),
                     'cart_list' => $photo->getThumbFileUrl('file', 'cart_list'),
                     'cart_widget_list' => $photo->getThumbFileUrl('file', 'cart_widget_list'),

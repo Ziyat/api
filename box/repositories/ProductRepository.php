@@ -7,6 +7,11 @@ use box\repositories\NotFoundException;
 
 class ProductRepository
 {
+    /**
+     * @param $id
+     * @return Product
+     * @throws \box\repositories\NotFoundException
+     */
     public function get($id): Product
     {
         if (!$product = Product::findOne($id)) {

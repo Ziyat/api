@@ -8,6 +8,7 @@ namespace api\controllers\user;
 
 use api\controllers\BearerController;
 use box\entities\shop\product\Product;
+use box\forms\shop\product\PhotosForm;
 use box\forms\shop\product\ProductCreateForm;
 use box\forms\shop\product\ProductEditForm;
 use box\repositories\NotFoundException;
@@ -17,6 +18,7 @@ use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
 use yii\web\BadRequestHttpException;
+use yii\web\NotFoundHttpException;
 
 /**
  * Class ProductController
@@ -42,6 +44,7 @@ class ProductController extends BearerController
         $this->service = $service;
         $this->repository = $repository;
     }
+
     /**
      * @SWG\Get(
      *     path="/user/products",
@@ -143,7 +146,7 @@ class ProductController extends BearerController
         $form->load(Yii::$app->request->bodyParams, '');
         if ($form->validate()) {
             try {
-                $product = $this->service->edit($product->id,$form);
+                $product = $this->service->edit($product->id, $form);
                 $response = \Yii::$app->getResponse();
                 $response->setStatusCode(202);
                 return $product;
@@ -205,15 +208,142 @@ class ProductController extends BearerController
         return true;
     }
 
-
-    public function actionSetModificationPhoto($product_id,$photo_id,$modification_id)
+    /**
+     * @SWG\Put(
+     *     path="/user/products/{product_id}/{modification_id}/{photo_id}",
+     *     tags={"User Products"},
+     *     @SWG\Parameter(name="product_id", in="path", required=true, type="integer"),
+     *     @SWG\Parameter(name="modification_id", in="path", required=true, type="integer"),
+     *     @SWG\Parameter(name="photo_id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response"
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @param $product_id
+     * @param $modification_id
+     * @param $photo_id
+     * @return bool|string
+     * @throws NotFoundException
+     */
+    public function actionSetModificationPhoto($product_id, $modification_id, $photo_id)
     {
         try {
-            $this->service->setModificationPhoto($product_id,$photo_id,$modification_id);
+            $this->service->setModificationPhoto($product_id, $modification_id, $photo_id);
         } catch (\DomainException $e) {
             return $e->getMessage();
         }
 
+        return true;
+    }
+
+    /**
+     * @SWG\Post(
+     *     path="/user/products/{id}/photos",
+     *     tags={"User Products"},
+     *     description="added photos",
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     @SWG\Parameter(name="files", in="formData", required=true, type="file"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Schema(ref="#/definitions/ProductData")
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @param $id
+     * @return Product|PhotosForm
+     * @throws NotFoundHttpException
+     */
+    public function actionAddPhotos($id)
+    {
+        $form = new PhotosForm();
+        $form->load(Yii::$app->request->bodyParams, '');
+        $form->validate();
+        try {
+            $product = $this->service->addPhotos($id, $form);
+            $response = \Yii::$app->getResponse();
+            $response->setStatusCode(202);
+            return $product;
+        } catch (NotFoundHttpException $e) {
+            throw new NotFoundHttpException($e->getMessage());
+        }
+    }
+
+    /**
+     * @SWG\Delete(
+     *     path="/user/products/{id}/photos/{photo_id}",
+     *     tags={"User Products"},
+     *     description="delete photo",
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     @SWG\Parameter(name="photo_id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response"
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @param integer $id
+     * @param $photo_id
+     * @return mixed
+     * @throws NotFoundException
+     */
+    public function actionDeletePhoto($id, $photo_id)
+    {
+        try {
+            $this->service->removePhoto($id, $photo_id);
+        } catch (\DomainException $e) {
+            throw new $e;
+        }
+        return true;
+    }
+
+    /**
+     * @SWG\Patch(
+     *     path="/user/products/{id}/photos/{photo_id}/up",
+     *     tags={"User Products"},
+     *     description="move up photo",
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     @SWG\Parameter(name="photo_id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response"
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @param integer $id
+     * @param $photo_id
+     * @return mixed
+     * @throws NotFoundException
+     */
+    public function actionMovePhotoUp($id, $photo_id)
+    {
+        $this->service->movePhotoUp($id, $photo_id);
+        return true;
+    }
+
+    /**
+     * @SWG\Patch(
+     *     path="/user/products/{id}/photos/{photo_id}/down",
+     *     tags={"User Products"},
+     *     description="move down photo",
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     @SWG\Parameter(name="photo_id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response"
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @param integer $id
+     * @param $photo_id
+     * @return mixed
+     * @throws NotFoundException
+     */
+    public function actionMovePhotoDown($id, $photo_id)
+    {
+        $this->service->movePhotoDown($id, $photo_id);
         return true;
     }
 
@@ -254,6 +384,7 @@ class ProductController extends BearerController
  *     ),
  *     @SWG\Property(property="modifications", type="array",
  *          @SWG\Items(
+ *              @SWG\Property(property="id", type="integer"),
  *              @SWG\Property(property="characteristic", type="string"),
  *              @SWG\Property(property="value", type="string"),
  *              @SWG\Property(property="price", type="integer"),

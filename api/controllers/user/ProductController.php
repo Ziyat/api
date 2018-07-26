@@ -42,6 +42,21 @@ class ProductController extends BearerController
         $this->service = $service;
         $this->repository = $repository;
     }
+    /**
+     * @SWG\Get(
+     *     path="/user/products",
+     *     tags={"User Products"},
+     *     description="returns products array",
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Property(property="characteristics", type="array",
+     *          @SWG\Items(ref="#/definitions/ProductData"))
+     *
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     */
 
     public function actionIndex()
     {
@@ -61,7 +76,7 @@ class ProductController extends BearerController
      *     @SWG\Parameter(name="description", in="formData", required=false, type="string"),
      *     @SWG\Parameter(name="priceType", in="formData", required=true, type="string"),
      *     @SWG\Parameter(name="brandId", in="formData", required=true, type="integer"),
-     *     @SWG\Parameter(name="files", in="formData", required=true, type="file"),
+     *     @SWG\Parameter(name="files", in="formData", required=false, type="file"),
      *     @SWG\Parameter(name="categories", in="body", required=true,
      *          @SWG\Schema(ref="#/definitions/CategoriesForm")
      *     ),
@@ -146,11 +161,12 @@ class ProductController extends BearerController
      *     description="Send the product id and the product status will become active",
      *     @SWG\Response(
      *         response=200,
-     *         description="Success response",
-     *         @SWG\Schema(ref="#/definitions/Profile")
+     *         description="Success response"
      *     ),
      *     security={{"Bearer": {}}}
      * )
+     * @param $id
+     * @return boolean
      * @throws NotFoundException
      */
     public function actionActivate($id)
@@ -170,17 +186,30 @@ class ProductController extends BearerController
      *     description="Send the product id and the product status will become a draft",
      *     @SWG\Response(
      *         response=200,
-     *         description="Success response",
-     *         @SWG\Schema(ref="#/definitions/Profile")
+     *         description="Success response"
      *     ),
      *     security={{"Bearer": {}}}
      * )
+     * @param $id
+     * @return boolean
      * @throws NotFoundException
      */
     public function actionDraft($id)
     {
         try {
             $this->service->draft($id);
+        } catch (\DomainException $e) {
+            return $e->getMessage();
+        }
+
+        return true;
+    }
+
+
+    public function actionSetModificationPhoto($product_id,$photo_id,$modification_id)
+    {
+        try {
+            $this->service->setModificationPhoto($product_id,$photo_id,$modification_id);
         } catch (\DomainException $e) {
             return $e->getMessage();
         }

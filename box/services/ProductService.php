@@ -227,4 +227,16 @@ class ProductService
         $product->draft();
         $this->products->save($product);
     }
+
+    /**
+     * @param $product_id
+     * @param $photo_id
+     * @param $modification_id
+     * @throws \box\repositories\NotFoundException
+     */
+    public function setModificationPhoto($product_id,$photo_id,$modification_id)
+    {
+        $product = $this->products->get($product_id);
+
+    }
 }

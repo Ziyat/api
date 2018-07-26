@@ -15,7 +15,6 @@ use yii\web\UploadedFile;
  * @property CategoriesForm $categories
  * @property ValueForm[] $characteristics
  * @property TagsForm $tags
- * @property PhotosForm $photos
  * @property PriceForm $price
  * @property ModificationForm[] $modifications
  */
@@ -99,7 +98,7 @@ class ProductEditForm extends CompositeForm
 
     protected function internalForms(): array
     {
-        return ['meta', 'categories', 'characteristics', 'tags', 'photos', 'price', 'modifications'];
+        return ['meta', 'categories', 'characteristics', 'tags', 'price', 'modifications'];
     }
 
     //-----  loadData ------//

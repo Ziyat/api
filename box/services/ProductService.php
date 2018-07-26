@@ -35,6 +35,11 @@ class ProductService
         $this->transaction = $transaction;
     }
 
+    /**
+     * @param ProductCreateForm $form
+     * @return Product|string
+     * @throws \box\repositories\NotFoundException
+     */
     public function create(ProductCreateForm $form)
     {
         $brand = $this->brands->get($form->brandId);
@@ -112,6 +117,12 @@ class ProductService
         return $product;
     }
 
+    /**
+     * @param $id
+     * @param ProductEditForm $form
+     * @return Product
+     * @throws \box\repositories\NotFoundException
+     */
 
     public function edit($id, ProductEditForm $form)
     {
@@ -195,6 +206,10 @@ class ProductService
         return $product;
     }
 
+    /**
+     * @param $id
+     * @throws \box\repositories\NotFoundException
+     */
     public function activate($id): void
     {
         $product = $this->products->get($id);
@@ -202,6 +217,10 @@ class ProductService
         $this->products->save($product);
     }
 
+    /**
+     * @param $id
+     * @throws \box\repositories\NotFoundException
+     */
     public function draft($id): void
     {
         $product = $this->products->get($id);

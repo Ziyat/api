@@ -822,10 +822,7 @@
                     "201": {
                         "description": "Created success response",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/ProductData"
-                            }
+                            "$ref": "#/definitions/ProductData"
                         }
                     },
                     "455": {
@@ -995,8 +992,144 @@
         },
         "ProductData": {
             "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "category_id": {
+                    "type": "integer"
+                },
+                "brand_id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "integer"
+                },
                 "name": {
                     "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "quantity": {
+                    "type": "integer"
+                },
+                "price": {
+                    "properties": {
+                        "current": {
+                            "properties": {
+                                "price": {
+                                    "type": "number"
+                                },
+                                "max": {
+                                    "type": "number"
+                                },
+                                "end": {
+                                    "type": "number"
+                                },
+                                "deadline": {
+                                    "type": "integer"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "old": {
+                            "type": "array",
+                            "items": {
+                                "properties": {
+                                    "price": {
+                                        "type": "number"
+                                    },
+                                    "max": {
+                                        "type": "number"
+                                    },
+                                    "end": {
+                                        "type": "number"
+                                    },
+                                    "deadline": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "type": "object"
+                },
+                "characteristics": {
+                    "type": "array",
+                    "items": {
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "value": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "modifications": {
+                    "type": "array",
+                    "items": {
+                        "properties": {
+                            "characteristic": {
+                                "type": "string"
+                            },
+                            "value": {
+                                "type": "string"
+                            },
+                            "price": {
+                                "type": "integer"
+                            },
+                            "quantity": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "slug": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "price_type": {
+                    "type": "string"
+                },
+                "rating": {
+                    "type": "number"
+                },
+                "meta_json": {
+                    "properties": {
+                        "title": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "keywords": {
+                            "type": "integer"
+                        }
+                    },
+                    "type": "object"
+                },
+                "created_at": {
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "integer"
                 }
             },
             "type": "object"

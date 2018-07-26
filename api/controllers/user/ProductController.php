@@ -83,10 +83,7 @@ class ProductController extends BearerController
      *     @SWG\Response(
      *         response=201,
      *         description="Created success response",
-     *         @SWG\Schema(
-     *             type="array",
-     *             @SWG\Items(ref="#/definitions/ProductData")
-     *         ),
+     *         @SWG\Schema(ref="#/definitions/ProductData")
      *     ),
      *
      *    @SWG\Response(
@@ -96,7 +93,7 @@ class ProductController extends BearerController
      *     security={{"Bearer": {}}}
      * )
      * @return Product|ProductCreateForm
-     * @throws BadRequestHttpException
+     * @throws BadRequestHttpException|NotFoundException
      */
 
 
@@ -163,76 +160,128 @@ class ProductController extends BearerController
         return true;
     }
 
-
-    /**
-     * @SWG\Definition(
-     *     definition="ProductData",
-     *     type="object",
-     *     @SWG\Property(property="name", type="string")
-     * )
-     */
-
-    /**
-     * @SWG\Definition(
-     *     definition="TagsForm",
-     *     type="object",
-     *     @SWG\Property(property="existing", type="array", @SWG\Items()),
-     *     @SWG\Property(property="textNew", type="string"),
-     * )
-     */
-
-    /**
-     * @SWG\Definition(
-     *     definition="PriceForm",
-     *     type="object",
-     *     @SWG\Property(property="current", type="number"),
-     *     @SWG\Property(property="deadline", type="integer"),
-     *     @SWG\Property(property="buyNow", type="integer"),
-     * )
-     */
-
-
-    /**
-     * @SWG\Definition(
-     *     definition="MetaForm",
-     *     type="object",
-     *     @SWG\Property(property="title", type="string"),
-     *     @SWG\Property(property="description", type="string"),
-     *     @SWG\Property(property="keywords", type="string"),
-     * )
-     */
-
-    /**
-     * @SWG\Definition(
-     *     definition="CategoriesForm",
-     *     type="object",
-     *     @SWG\Property(property="main", type="integer"),
-     *     @SWG\Property(property="others", type="array",@SWG\Items()),
-     * )
-     */
-
-    /**
-     * @SWG\Definition(
-     *     definition="CharacteristicsForm",
-     *     type="array",
-     *     @SWG\Items(
-     *         @SWG\Property(property="id", type="integer"),
-     *         @SWG\Property(property="value", type="string"),
-     *     )
-     * )
-     */
-
-    /**
-     * @SWG\Definition(
-     *     definition="ModificationsForm",
-     *     type="array",
-     *     @SWG\Items(
-     *         @SWG\Property(property="characteristic_id", type="integer"),
-     *         @SWG\Property(property="value", type="string"),
-     *         @SWG\Property(property="quantity", type="integer"),
-     *         @SWG\Property(property="price", type="integer"),
-     *     )
-     * )
-     */
-
 }
+/**
+ * @SWG\Definition(
+ *     definition="ProductData",
+ *     type="object",
+ *     @SWG\Property(property="id", type="integer"),
+ *     @SWG\Property(property="category_id", type="integer"),
+ *     @SWG\Property(property="brand_id", type="integer"),
+ *     @SWG\Property(property="status", type="integer"),
+ *     @SWG\Property(property="name", type="string"),
+ *     @SWG\Property(property="description", type="string"),
+ *     @SWG\Property(property="quantity", type="integer"),
+ *     @SWG\Property(property="price", type="object",
+ *         @SWG\Property(property="current", type="object",
+ *              @SWG\Property(property="price", type="number"),
+ *              @SWG\Property(property="max", type="number"),
+ *              @SWG\Property(property="end", type="number"),
+ *              @SWG\Property(property="deadline", type="integer"),
+ *         ),
+ *         @SWG\Property(property="old", type="array",
+ *              @SWG\Items(
+ *                  @SWG\Property(property="price", type="number"),
+ *                  @SWG\Property(property="max", type="number"),
+ *                  @SWG\Property(property="end", type="number"),
+ *                  @SWG\Property(property="deadline", type="integer"),
+ *              )
+ *         ),
+ *     ),
+ *     @SWG\Property(property="characteristics", type="array",
+ *          @SWG\Items(
+ *              @SWG\Property(property="id", type="integer"),
+ *              @SWG\Property(property="name", type="string"),
+ *              @SWG\Property(property="value", type="string"),
+ *          )
+ *     ),
+ *     @SWG\Property(property="modifications", type="array",
+ *          @SWG\Items(
+ *              @SWG\Property(property="characteristic", type="string"),
+ *              @SWG\Property(property="value", type="string"),
+ *              @SWG\Property(property="price", type="integer"),
+ *              @SWG\Property(property="quantity", type="integer"),
+ *          )
+ *     ),
+ *     @SWG\Property(property="tags", type="array",
+ *          @SWG\Items(
+ *              @SWG\Property(property="id", type="integer"),
+ *              @SWG\Property(property="name", type="string"),
+ *              @SWG\Property(property="slug", type="string")
+ *          )
+ *     ),
+ *     @SWG\Property(property="price_type", type="string"),
+ *     @SWG\Property(property="rating", type="number"),
+ *     @SWG\Property(property="meta_json", type="object",
+ *          @SWG\Property(property="title", type="string"),
+ *          @SWG\Property(property="description", type="string"),
+ *          @SWG\Property(property="keywords", type="integer"),
+ *     ),
+ *     @SWG\Property(property="created_at", type="integer"),
+ *     @SWG\Property(property="updated_at", type="integer"),
+ * )
+ */
+
+
+/**
+ * @SWG\Definition(
+ *     definition="TagsForm",
+ *     type="object",
+ *     @SWG\Property(property="existing", type="array", @SWG\Items()),
+ *     @SWG\Property(property="textNew", type="string"),
+ * )
+ */
+
+/**
+ * @SWG\Definition(
+ *     definition="PriceForm",
+ *     type="object",
+ *     @SWG\Property(property="current", type="number"),
+ *     @SWG\Property(property="deadline", type="integer"),
+ *     @SWG\Property(property="buyNow", type="integer"),
+ * )
+ */
+
+
+/**
+ * @SWG\Definition(
+ *     definition="MetaForm",
+ *     type="object",
+ *     @SWG\Property(property="title", type="string"),
+ *     @SWG\Property(property="description", type="string"),
+ *     @SWG\Property(property="keywords", type="string"),
+ * )
+ */
+
+/**
+ * @SWG\Definition(
+ *     definition="CategoriesForm",
+ *     type="object",
+ *     @SWG\Property(property="main", type="integer"),
+ *     @SWG\Property(property="others", type="array",@SWG\Items()),
+ * )
+ */
+
+/**
+ * @SWG\Definition(
+ *     definition="CharacteristicsForm",
+ *     type="array",
+ *     @SWG\Items(
+ *         @SWG\Property(property="id", type="integer"),
+ *         @SWG\Property(property="value", type="string"),
+ *     )
+ * )
+ */
+
+/**
+ * @SWG\Definition(
+ *     definition="ModificationsForm",
+ *     type="array",
+ *     @SWG\Items(
+ *         @SWG\Property(property="characteristic_id", type="integer"),
+ *         @SWG\Property(property="value", type="string"),
+ *         @SWG\Property(property="quantity", type="integer"),
+ *         @SWG\Property(property="price", type="integer"),
+ *     )
+ * )
+ */

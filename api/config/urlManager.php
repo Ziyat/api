@@ -73,5 +73,10 @@ return [
         'GET public/users' => 'public/users',
         'GET public/user/<id:\d+>' => 'public/user',
         'GET public/user/<id:\d+>/products' => 'public/user-products',
+
+
+        // ocr
+
+        'POST ocr' => 'ocr/index',
     ],
 ];

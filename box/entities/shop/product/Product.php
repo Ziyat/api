@@ -725,9 +725,14 @@ class Product extends ActiveRecord
                 }
                 return $result;
             },
+            "tags" => function () {
+                return $this->tags;
+            },
             "price_type" => "price_type",
             "rating" => "rating",
-            "meta_json" => "meta_json",
+            "meta_json" => function () {
+                return $this->meta;
+            },
             "created_at" => "created_at",
             "updated_at" => "updated_at",
         ];

@@ -27,6 +27,7 @@ return [
             "csrfCookie" => [
                 "httpOnly" => false
             ],
+
             'enableCookieValidation' => false,
             'enableCsrfValidation' => false,
             "enableCsrfCookie" => false,

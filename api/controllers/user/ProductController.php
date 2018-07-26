@@ -139,6 +139,20 @@ class ProductController extends BearerController
         return $product;
     }
 
+    /**
+     * @SWG\Get(
+     *     path="/user/products/{id}/activate",
+     *     tags={"User Products"},
+     *     description="Send the product id and the product status will become active",
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Schema(ref="#/definitions/Profile")
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @throws NotFoundException
+     */
     public function actionActivate($id)
     {
         try {
@@ -149,6 +163,20 @@ class ProductController extends BearerController
         return true;
     }
 
+    /**
+     * @SWG\Get(
+     *     path="/user/products/{id}/draft",
+     *     tags={"User Products"},
+     *     description="Send the product id and the product status will become a draft",
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Schema(ref="#/definitions/Profile")
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @throws NotFoundException
+     */
     public function actionDraft($id)
     {
         try {

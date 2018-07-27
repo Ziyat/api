@@ -159,6 +159,28 @@ class ProductController extends BearerController
 
     /**
      * @SWG\Get(
+     *     path="/user/products/{id}",
+     *     tags={"User Products"},
+     *     description="Send the product id",
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response"
+     *         @SWG\Schema(ref="#/definitions/ProductData")
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @param $id
+     * @return Product
+     * @throws NotFoundException
+     */
+    public function actionView($id)
+    {
+        return $this->repository->get($id);
+    }
+
+    /**
+     * @SWG\Get(
      *     path="/user/products/{id}/activate",
      *     tags={"User Products"},
      *     description="Send the product id and the product status will become active",

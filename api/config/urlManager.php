@@ -29,6 +29,7 @@ return [
         'GET user/products' => 'user/product/index',
         'POST user/products' => 'user/product/create',
         'POST user/products/<id:\d+>' => 'user/product/edit',
+        'GET user/products/<id:\d+>' => 'user/product/view',
         'GET user/products/<id:\d+>/activate' => 'user/product/activate',
         'GET user/products/<id:\d+>/draft' => 'user/product/draft',
         'PUT user/products/<product_id:\d+>/<modification_id:\d+>/<photo_id:\d+>' => 'user/product/set-modification-photo',

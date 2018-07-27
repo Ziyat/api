@@ -94,12 +94,12 @@ class ProductCreateForm extends CompositeForm
             $data = ArrayHelper::toArray(json_decode($data));
         }
 
-        if ($this::isNotEmptyParams($data[$characteristics])) {
+        if (!empty($data[$characteristics]) && $this::isNotEmptyParams($data[$characteristics])) {
             $this->setForms($characteristics, $data[$characteristics]);
             $this->internalForms[] = $characteristics;
         }
 
-        if ($this::isNotEmptyParams($data[$modifications])) {
+        if (!empty($data[$modifications]) && $this::isNotEmptyParams($data[$modifications])) {
             $this->setForms($modifications, $data[$modifications]);
             $this->internalForms[] = $modifications;
         }

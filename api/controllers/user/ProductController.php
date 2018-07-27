@@ -165,7 +165,7 @@ class ProductController extends BearerController
      *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
      *     @SWG\Response(
      *         response=200,
-     *         description="Success response"
+     *         description="Success response",
      *         @SWG\Schema(ref="#/definitions/ProductData")
      *     ),
      *     security={{"Bearer": {}}}

@@ -859,6 +859,35 @@
                 ]
             }
         },
+        "/user/products/{id}": {
+            "get": {
+                "tags": [
+                    "User Products"
+                ],
+                "description": "Send the product id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/ProductData"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "/user/products/{id}/activate": {
             "get": {
                 "tags": [

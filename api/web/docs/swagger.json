@@ -937,6 +937,30 @@
                         }
                     },
                     {
+                        "name": "characteristics",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/CharacteristicsForm"
+                        }
+                    },
+                    {
+                        "name": "modifications",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/ModificationsForm"
+                        }
+                    },
+                    {
+                        "name": "tags",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/TagsForm"
+                        }
+                    },
+                    {
                         "name": "meta",
                         "in": "body",
                         "required": false,

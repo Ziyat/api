@@ -34,12 +34,9 @@ return [
         'GET user/products/<id:\d+>/draft' => 'user/product/draft',
         'PUT user/products/<product_id:\d+>/<modification_id:\d+>/<photo_id:\d+>' => 'user/product/set-modification-photo',
         'POST user/products/<id:\d+>/photos' => 'user/product/add-photos',
-        'PATH user/products/<id:\d+>/photos/<photo_id:\d+>/up' => 'user/product/move-photo-up',
-        'PATH user/products/<id:\d+>/photos/<photo_id:\d+>/down' => 'user/product/move-photo-down',
+        'PATCH user/products/<id:\d+>/photos/<photo_id:\d+>/up' => 'user/product/move-photo-up',
+        'PATCH user/products/<id:\d+>/photos/<photo_id:\d+>/down' => 'user/product/move-photo-down',
         'DELETE user/products/<id:\d+>/photos/<photo_id:\d+>' => 'user/product/delete-photo',
-
-        'GET user/brand-list' => 'user/product/brands-list',
-
 
         'GET shop/products/<id:\d+>' => 'shop/product/view',
         'GET shop/products/category/<id:\d+>' => 'shop/product/category',

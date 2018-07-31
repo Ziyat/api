@@ -1443,6 +1443,9 @@
                             },
                             "quantity": {
                                 "type": "integer"
+                            },
+                            "photo": {
+                                "type": "string"
                             }
                         }
                     }

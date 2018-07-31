@@ -453,6 +453,7 @@ class ProductController extends BearerController
  *              @SWG\Property(property="value", type="string"),
  *              @SWG\Property(property="price", type="integer"),
  *              @SWG\Property(property="quantity", type="integer"),
+ *              @SWG\Property(property="photo", type="string"),
  *          )
  *     ),
  *     @SWG\Property(property="tags", type="array",

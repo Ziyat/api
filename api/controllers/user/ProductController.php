@@ -149,6 +149,15 @@ class ProductController extends BearerController
      *     @SWG\Parameter(name="price", in="body", required=true,
      *          @SWG\Schema(ref="#/definitions/PriceForm")
      *     ),
+     *     @SWG\Parameter(name="characteristics", in="body", required=false,
+     *          @SWG\Schema(ref="#/definitions/CharacteristicsForm")
+     *     ),
+     *     @SWG\Parameter(name="modifications", in="body", required=false,
+     *          @SWG\Schema(ref="#/definitions/ModificationsForm")
+     *     ),
+     *     @SWG\Parameter(name="tags", in="body", required=false,
+     *          @SWG\Schema(ref="#/definitions/TagsForm")
+     *     ),
      *     @SWG\Parameter(name="meta", in="body", required=false,
      *          @SWG\Schema(ref="#/definitions/MetaForm")
      *     ),

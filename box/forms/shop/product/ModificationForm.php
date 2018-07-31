@@ -29,7 +29,7 @@ class ModificationForm extends Model
 
     private $_modification;
 
-    public function __construct(Modification $modification= null, $config = [])
+    public function __construct(Modification $modification = null, $config = [])
     {
         if($modification){
             $this->value = $modification->value;

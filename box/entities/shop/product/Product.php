@@ -563,7 +563,7 @@ class Product extends ActiveRecord
 
     public function getPrices(): ActiveQuery
     {
-        return $this->hasMany(Price::class, ['product_id' => 'id']);
+        return $this->hasMany(Price::class, ['product_id' => 'id'])->orderBy(['created_at' => SORT_DESC]);
     }
 
     public function getPrice(): ActiveQuery
@@ -774,7 +774,7 @@ class Product extends ActiveRecord
     public function responsePrice()
     {
         if (!empty($prices = $this->prices)) {
-            $current = array_pop($prices);
+            $current = array_shift($prices);
             return [
                 'current' => [
                     $this->price_type == $this::PRICE_TYPE_BARGAIN

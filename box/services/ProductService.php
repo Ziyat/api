@@ -174,6 +174,7 @@ class ProductService
                 foreach ($form->characteristics as $characteristic) {
                     $product->setValue($characteristic->id, $characteristic->value);
                 }
+
                 foreach ($form->modifications as $modification) {
                     $product->setModification(
                         $modification->characteristic_id,

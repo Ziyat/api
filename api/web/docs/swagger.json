@@ -886,6 +886,81 @@
                         "Bearer": []
                     }
                 ]
+            },
+            "post": {
+                "tags": [
+                    "User Products"
+                ],
+                "description": "edit product",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "priceType",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "brandId",
+                        "in": "formData",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "categories",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CategoriesForm"
+                        }
+                    },
+                    {
+                        "name": "price",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/PriceForm"
+                        }
+                    },
+                    {
+                        "name": "meta",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/MetaForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created success response",
+                        "schema": {
+                            "$ref": "#/definitions/ProductData"
+                        }
+                    },
+                    "455": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
             }
         },
         "/user/products/{id}/activate": {

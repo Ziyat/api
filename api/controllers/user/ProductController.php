@@ -134,6 +134,39 @@ class ProductController extends BearerController
     }
 
     /**
+     * @SWG\Post(
+     *     path="/user/products/{id}",
+     *     tags={"User Products"},
+     *     description="edit product",
+     *     produces={"application/json"},
+     *     @SWG\Parameter(name="name", in="formData", required=true, type="string"),
+     *     @SWG\Parameter(name="description", in="formData", required=false, type="string"),
+     *     @SWG\Parameter(name="priceType", in="formData", required=true, type="string"),
+     *     @SWG\Parameter(name="brandId", in="formData", required=true, type="integer"),
+     *     @SWG\Parameter(name="categories", in="body", required=true,
+     *          @SWG\Schema(ref="#/definitions/CategoriesForm")
+     *     ),
+     *     @SWG\Parameter(name="price", in="body", required=true,
+     *          @SWG\Schema(ref="#/definitions/PriceForm")
+     *     ),
+     *     @SWG\Parameter(name="meta", in="body", required=false,
+     *          @SWG\Schema(ref="#/definitions/MetaForm")
+     *     ),
+     *     @SWG\Response(
+     *         response=201,
+     *         description="Created success response",
+     *         @SWG\Schema(ref="#/definitions/ProductData")
+     *     ),
+     *
+     *    @SWG\Response(
+     *         response=455,
+     *         description="Validation error",
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @return Product|ProductCreateForm
+     * @throws BadRequestHttpException|NotFoundException
+     *
      * @param $id
      * @return Product
      * @throws BadRequestHttpException|NotFoundException
@@ -316,7 +349,7 @@ class ProductController extends BearerController
         try {
             $this->service->removePhoto($id, $photo_id);
         } catch (\DomainException $e) {
-            throw new $e;
+            throw new \DomainException($e->getMessage());
         }
         return true;
     }

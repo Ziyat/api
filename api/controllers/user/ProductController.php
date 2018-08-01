@@ -17,6 +17,7 @@ use box\services\ProductService;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
+use yii\helpers\VarDumper;
 use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
 
@@ -120,6 +121,7 @@ class ProductController extends BearerController
         $form = new ProductCreateForm();
         $form->load(Yii::$app->request->bodyParams, '');
         if ($form->validate()) {
+            VarDumper::dump($form);die;
             try {
                 $product = $this->service->create($form);
                 $response = \Yii::$app->getResponse();

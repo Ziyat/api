@@ -3,9 +3,11 @@
 namespace box\forms\generic;
 
 use box\entities\shop\Brand;
+use box\entities\shop\Characteristic;
 use box\forms\CompositeForm;
-use box\forms\manage\MetaForm;
+use box\forms\shop\CharacteristicForm;
 use yii\helpers\ArrayHelper;
+use yii\helpers\VarDumper;
 use yii\web\UploadedFile;
 
 /**
@@ -23,15 +25,16 @@ class ProductCreateForm extends CompositeForm
     public $brandId;
     public $name;
     public $description;
-    public $characteristics = [];
-    public $modifications = [];
-    public $internalForms = ['categories', 'tags', 'photos'];
+    public $internalForms = ['categories', 'tags', 'photos','characteristics', 'modifications'];
 
     public function __construct($config = [])
     {
         $this->categories = new CategoriesForm();
         $this->tags = new TagsForm();
         $this->photos = new PhotosForm();
+        $this->characteristics = new ValueForm();
+        $this->modifications = new ModificationForm();
+
         parent::__construct($config);
     }
 
@@ -46,9 +49,11 @@ class ProductCreateForm extends CompositeForm
 
     public function beforeValidate()
     {
+
         $result = false;
         $isFile = false;
         if (parent::beforeValidate()) {
+
             if (!empty($data = \Yii::$app->request->bodyParams)) {
             } elseif ($data = UploadedFile::getInstanceByName('data')) {
                 $isFile = true;
@@ -88,16 +93,19 @@ class ProductCreateForm extends CompositeForm
 
         if (!empty($data[$characteristics]) && $this::isNotEmptyParams($data[$characteristics])) {
             $this->setForms($characteristics, $data[$characteristics]);
-            $this->internalForms[] = $characteristics;
+        }else{
+            unset($this->internalForms[$characteristics]);
+            $this->characteristics = [];
         }
 
         if (!empty($data[$modifications]) && $this::isNotEmptyParams($data[$modifications])) {
             $this->setForms($modifications, $data[$modifications]);
-            $this->internalForms[] = $modifications;
+        }else{
+            unset($this->internalForms[$modifications]);
+            $this->modifications = [];
         }
-
-
         $this->load($data, '');
+
         return true;
     }
 
@@ -111,10 +119,13 @@ class ProductCreateForm extends CompositeForm
         for ($i = 0; $i < count($data); $i++) {
             $forms[] = $name == 'modifications' ? new ModificationForm() : new ValueForm();
         }
+
         if ($name == 'modifications') {
             $this->modifications = $forms;
         } else {
             $this->characteristics = $forms;
         }
+
+
     }
 }

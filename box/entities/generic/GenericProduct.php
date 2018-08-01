@@ -2,8 +2,6 @@
 
 namespace box\entities\generic;
 
-use box\entities\shop\product\GenericModification;
-use box\entities\shop\product\Photo;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use box\entities\shop\Brand;
 use box\entities\shop\Category;
@@ -177,7 +175,7 @@ class GenericProduct extends ActiveRecord
     public function addPhoto(UploadedFile $file): void
     {
         $photos = $this->photos;
-        $photos[] = Photo::create($file);
+        $photos[] = GenericPhoto::create($file);
         $this->updatePhotos($photos);
     }
 

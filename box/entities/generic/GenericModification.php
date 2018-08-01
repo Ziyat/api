@@ -1,8 +1,7 @@
 <?php
 
-namespace box\entities\shop\product;
+namespace box\entities\generic;
 
-use box\entities\generic\GenericPhoto;
 use box\entities\shop\Characteristic;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;

@@ -29,9 +29,7 @@ class ProductCreateForm extends CompositeForm
     public $description;
     public $priceType;
     public $quantity;
-    public $characteristics = [];
-    public $modifications = [];
-    public $internalForms = ['meta', 'categories', 'tags', 'photos', 'price'];
+    public $internalForms = ['meta', 'categories', 'tags', 'photos', 'price','characteristics', 'modifications'];
 
     public function __construct($config = [])
     {
@@ -40,6 +38,8 @@ class ProductCreateForm extends CompositeForm
         $this->tags = new TagsForm();
         $this->photos = new PhotosForm();
         $this->price = new PriceForm();
+        $this->characteristics = new ValueForm();
+        $this->modifications = new ModificationForm();
         parent::__construct($config);
     }
 
@@ -96,12 +96,16 @@ class ProductCreateForm extends CompositeForm
 
         if (!empty($data[$characteristics]) && $this::isNotEmptyParams($data[$characteristics])) {
             $this->setForms($characteristics, $data[$characteristics]);
-            $this->internalForms[] = $characteristics;
+        }else{
+            unset($this->internalForms[$characteristics]);
+            $this->characteristics = [];
         }
 
         if (!empty($data[$modifications]) && $this::isNotEmptyParams($data[$modifications])) {
             $this->setForms($modifications, $data[$modifications]);
-            $this->internalForms[] = $modifications;
+        }else{
+            unset($this->internalForms[$modifications]);
+            $this->modifications = [];
         }
 
 

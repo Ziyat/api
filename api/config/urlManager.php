@@ -44,6 +44,7 @@ return [
         'GET shop/products/tag/<id:\d+>' => 'shop/product/tag',
         'GET shop/products' => 'shop/product/index',
 
+
         // shop Brands
 
         'GET shop/brands' => 'shop/brand/index',
@@ -79,6 +80,10 @@ return [
         'GET public/user/<id:\d+>' => 'public/user',
         'GET public/user/<id:\d+>/products' => 'public/user-products',
 
+        // generic
+
+        'GET generic/products' => 'generic/product/index',
+        'POST generic/products' => 'generic/product/create',
 
         // ocr
 

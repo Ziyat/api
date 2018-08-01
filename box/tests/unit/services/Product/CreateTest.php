@@ -75,7 +75,7 @@ class ProductServiceCreateTest extends Unit
         $metaDesc = 'descMeta';
         $metaKey = 'KeyMeta';
 
-        $tagTextNew = 'watchdsa,handdasda';
+        $tagTextNew = 'watch,hand';
         $tagExisting = [1,2];
         $price = 22.5;
 
@@ -106,7 +106,6 @@ class ProductServiceCreateTest extends Unit
         $form->tags->existing = $tagExisting;
 
         $form->price->current = $price;
-
         $product = $this->service->create($form);
         $this->assertNotNull($product);
         $this->assertEquals($product->name, $name);

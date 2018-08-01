@@ -1368,6 +1368,56 @@
                 "quantity": {
                     "type": "integer"
                 },
+                "photo": {
+                    "properties": {
+                        "id": {
+                            "type": "integer"
+                        },
+                        "thumb": {
+                            "description": "450X675",
+                            "type": "string"
+                        },
+                        "large": {
+                            "description": "300X450",
+                            "type": "string"
+                        },
+                        "search": {
+                            "description": "100X150",
+                            "type": "string"
+                        },
+                        "original": {
+                            "description": "original",
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                },
+                "photos": {
+                    "type": "array",
+                    "items": {
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "thumb": {
+                                "description": "450X675",
+                                "type": "string"
+                            },
+                            "large": {
+                                "description": "300X450",
+                                "type": "string"
+                            },
+                            "search": {
+                                "description": "100X150",
+                                "type": "string"
+                            },
+                            "original": {
+                                "description": "original",
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
                 "price": {
                     "properties": {
                         "current": {

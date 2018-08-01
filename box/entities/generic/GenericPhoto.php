@@ -1,19 +1,20 @@
 <?php
 
-namespace box\entities\shop\product;
+namespace box\entities\generic;
 
 use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
 use yiidreamteam\upload\ImageUploadBehavior;
 
 /**
+ * class GenericPhoto
  * @property integer $id
  * @property string $file
  * @property integer $sort
  *
  * @mixin ImageUploadBehavior
  */
-class Photo extends ActiveRecord
+class GenericPhoto extends ActiveRecord
 {
     public static function create(UploadedFile $file): self
     {
@@ -34,7 +35,7 @@ class Photo extends ActiveRecord
 
     public static function tableName(): string
     {
-        return '{{%photos}}';
+        return '{{%generic_photos}}';
     }
 
     public function behaviors(): array
@@ -44,10 +45,10 @@ class Photo extends ActiveRecord
                 'class' => ImageUploadBehavior::class,
                 'attribute' => 'file',
                 'createThumbsOnRequest' => true,
-                'filePath' => '@staticPath/store/products/[[attribute_product_id]]/[[id]].[[extension]]',
-                'fileUrl' => '@staticUrl/store/products/[[attribute_product_id]]/[[id]].[[extension]]',
-                'thumbPath' => '@staticPath/cache/products/[[attribute_product_id]]/[[profile]]_[[id]].[[extension]]',
-                'thumbUrl' => '@staticUrl/cache/products/[[attribute_product_id]]/[[profile]]_[[id]].[[extension]]',
+                'filePath' => '@staticPath/store/generic_products/[[attribute_generic_product_id]]/[[id]].[[extension]]',
+                'fileUrl' => '@staticUrl/store/generic_products/[[attribute_generic_product_id]]/[[id]].[[extension]]',
+                'thumbPath' => '@staticPath/cache/generic_products/[[attribute_generic_product_id]]/[[profile]]_[[id]].[[extension]]',
+                'thumbUrl' => '@staticUrl/cache/generic_products/[[attribute_generic_product_id]]/[[profile]]_[[id]].[[extension]]',
                 'thumbs' => [
                     'thumb' => ['width' => 450, 'height' => 675],
                     'large' => ['width' => 300, 'height' => 450],

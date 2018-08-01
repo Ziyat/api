@@ -4,29 +4,26 @@
  * Developer: Mirkhanov Z.S.
  */
 
-namespace tests\unit\services\Product;
+namespace tests\unit\services\Generic\product;
 
-use box\entities\shop\Characteristic;
-use box\entities\shop\product\Product;
-use box\entities\shop\product\Value;
+use box\forms\generic\ProductCreateForm;
+use box\forms\generic\ValueForm;
+use box\services\generic\ProductService;
+use box\repositories\generic\ProductRepository;
+
 use box\entities\user\User;
-use box\forms\shop\product\ValueForm;
 use box\repositories\BrandRepository;
 use box\repositories\CategoryRepository;
-use box\repositories\ProductRepository;
 use box\repositories\TagRepository;
-use box\services\ProductService;
 use box\services\TransactionManager;
 use Codeception\Test\Unit;
 use common\fixtures\shop\BrandFixture;
 use common\fixtures\shop\CategoryFixture;
-use box\forms\shop\product\ProductCreateForm;
 use common\fixtures\shop\CharacteristicFixture;
 use common\fixtures\shop\TagFixture;
 use yii\helpers\ArrayHelper;
-use yii\helpers\VarDumper;
 
-class ProductServiceCreateTest extends Unit
+class GenericProductServiceCreateTest extends Unit
 {
 
     public function _fixtures()
@@ -71,16 +68,12 @@ class ProductServiceCreateTest extends Unit
         \Yii::$app->user->login(User::findOne(1));
         $name = 'rolex';
         $description = 'desc';
-        $metaTitle = 'titleMeta';
-        $metaDesc = 'descMeta';
-        $metaKey = 'KeyMeta';
 
-        $tagTextNew = 'watchdsa,handdasda';
+        $tagTextNew = 'watch,hand';
         $tagExisting = [1,2];
-        $price = 22.5;
 
 
-        $value = 'dasdas';
+        $value = 'jojo';
 
         $form = new ProductCreateForm();
 
@@ -95,31 +88,17 @@ class ProductServiceCreateTest extends Unit
 
         $form->name = $name;
         $form->description = $description;
-        $form->priceType = Product::PRICE_TYPE_FIX;
-        $form->quantity = 20;
-
-        $form->meta->title = $metaTitle;
-        $form->meta->description = $metaDesc;
-        $form->meta->keywords = $metaKey;
-
         $form->tags->textNew = $tagTextNew;
         $form->tags->existing = $tagExisting;
 
-        $form->price->current = $price;
 
         $product = $this->service->create($form);
         $this->assertNotNull($product);
         $this->assertEquals($product->name, $name);
         $this->assertEquals($product->description, $description);
-        $this->assertEquals($product->price_type, Product::PRICE_TYPE_FIX);
-
-        $this->assertEquals($product->meta->title, $metaTitle);
-        $this->assertEquals($product->meta->description, $metaDesc);
-        $this->assertEquals($product->meta->keywords, $metaKey);
 
         $this->assertEquals($product->category_id, 2);
         $this->assertEquals($product->brand_id, 1);
-        $this->assertEquals($product->quantity, 20);
 
         // check Tags
 
@@ -142,9 +121,6 @@ class ProductServiceCreateTest extends Unit
 
         $this->assertEquals($product->values[0]->value,$value);
 
-        // check current price
-
-        $this->assertEquals($product->price->current, $price);
 
     }
 

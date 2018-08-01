@@ -423,6 +423,23 @@ class ProductController extends BearerController
  *     @SWG\Property(property="name", type="string"),
  *     @SWG\Property(property="description", type="string"),
  *     @SWG\Property(property="quantity", type="integer"),
+ *     @SWG\Property(property="photo", type="object",
+ *          @SWG\Property(property="id", type="integer"),
+ *          @SWG\Property(property="thumb", type="string", description="450X675"),
+ *          @SWG\Property(property="large", type="string", description="300X450"),
+ *          @SWG\Property(property="search", type="string", description="100X150"),
+ *          @SWG\Property(property="original", type="string", description="original"),
+ *     ),
+ *     @SWG\Property(property="photos", type="array",
+ *          @SWG\Items(
+ *                  @SWG\Property(property="id", type="integer"),
+ *                  @SWG\Property(property="thumb", type="string", description="450X675"),
+ *                  @SWG\Property(property="large", type="string", description="300X450"),
+ *                  @SWG\Property(property="search", type="string", description="100X150"),
+ *                  @SWG\Property(property="original", type="string", description="original"),
+ *              )
+ *
+ *     ),
  *     @SWG\Property(property="price", type="object",
  *         @SWG\Property(property="current", type="object",
  *              @SWG\Property(property="price", type="number"),

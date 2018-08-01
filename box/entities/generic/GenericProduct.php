@@ -1,20 +1,16 @@
 <?php
 
-namespace box\entities\shop\product;
+namespace box\entities\generic;
 
-use box\entities\shop\product\queries\ProductQuery;
-use box\forms\shop\product\ModificationForm;
+use box\entities\shop\product\GenericModification;
+use box\entities\shop\product\Photo;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
-use box\entities\behaviors\MetaBehavior;
-use box\entities\Meta;
 use box\entities\shop\Brand;
 use box\entities\shop\Category;
 use box\entities\shop\Tag;
 use yii\behaviors\BlameableBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
-use yii\helpers\ArrayHelper;
-use yii\helpers\VarDumper;
 use yii\web\UploadedFile;
 
 /**
@@ -27,96 +23,41 @@ use yii\web\UploadedFile;
  * @property string $description
  * @property integer $category_id
  * @property integer $brand_id
- * @property string $price_type
  * @property integer $rating
- * @property integer $status
- * @property integer $quantity
  * @property integer $main_photo_id
  *
- * @property Meta $meta
  * @property Brand $brand
  * @property Category $category
  * @property RelatedAssignment[] $relatedAssignments
- * @property CategoryAssignment[] $categoryAssignments
+ * @property GenericCategoryAssignment[] $categoryAssignments
  * @property Category[] $categories
  * @property Tag[] $tags
- * @property Value[] $values
- * @property TagAssignment[] $tagAssignments
- * @property Photo[] $photos
- * @property Price $prices
- * @property Price $price
- * @property Modification[] $modifications
- * @property Photo $mainPhoto
+ * @property GenericValue[] $values
+ * @property GenericTagAssignment[] $tagAssignments
+ * @property GenericPhoto[] $photos
+ * @property GenericModification[] $modifications
+ * @property GenericPhoto $mainPhoto
  */
-class Product extends ActiveRecord
+class GenericProduct extends ActiveRecord
 {
-
-    const STATUS_DRAFT = 0;
-    const STATUS_ACTIVE = 1;
-
-    const PRICE_TYPE_AUCTION = 'auction';
-    const PRICE_TYPE_BARGAIN = 'bargain';
-    const PRICE_TYPE_FIX = 'fix';
-
-    public $meta;
-
-    public static function create($brandId, $categoryId, $name, $description, Meta $meta): self
+    public static function create($brandId, $categoryId, $name, $description): self
     {
         $product = new static();
         $product->brand_id = $brandId;
         $product->category_id = $categoryId;
         $product->name = $name;
         $product->description = $description;
-        $product->meta = $meta;
-        $product->status = self::STATUS_DRAFT;
         $product->created_at = time();
         $product->updated_at = time();
         return $product;
     }
 
 
-    public function isFixPrice()
-    {
-        return $this->price_type == $this::PRICE_TYPE_FIX;
-    }
-
-    public function isAuctionPrice()
-    {
-        return $this->price_type == $this::PRICE_TYPE_AUCTION;
-    }
-
-    public function isBargainPrice()
-    {
-        return $this->price_type == $this::PRICE_TYPE_BARGAIN;
-    }
-
-
-    public function setPriceType($price_type): void
-    {
-        $this->price_type = $price_type;
-    }
-
-    public function setPrice($current, $end, $max, $deadline, $buyNow): void
-    {
-        $prices = $this->prices;
-        $prices[] = Price::create($current, $end, $max, $deadline, $buyNow);
-        $this->prices = $prices;
-    }
-
-//    public function changeQuantity($quantity): void
-//    {
-//        if ($this->modifications) {
-//            throw new \DomainException('Change modifications quantity.');
-//        }
-//        $this->setQuantity($quantity);
-//    }
-
-    public function edit($brandId, $name, $description, Meta $meta): void
+    public function edit($brandId, $name, $description): void
     {
         $this->brand_id = $brandId;
         $this->name = $name;
         $this->description = $description;
-        $this->meta = $meta;
     }
 
     public function changeMainCategory($categoryId): void
@@ -124,86 +65,6 @@ class Product extends ActiveRecord
         $this->category_id = $categoryId;
     }
 
-    public function activate(): void
-    {
-        if ($this->isActive()) {
-            throw new \DomainException('Product is already active.');
-        }
-        $this->status = self::STATUS_ACTIVE;
-    }
-
-    public function draft(): void
-    {
-        if ($this->isDraft()) {
-            throw new \DomainException('Product is already draft.');
-        }
-        $this->status = self::STATUS_DRAFT;
-    }
-
-    public function isActive(): bool
-    {
-        return $this->status == self::STATUS_ACTIVE;
-    }
-
-
-    public function isDraft(): bool
-    {
-        return $this->status == self::STATUS_DRAFT;
-    }
-
-//    public function isAvailable(): bool
-//    {
-//        return $this->quantity > 0;
-//    }
-
-    /*public function canChangeQuantity(): bool
-    {
-        return !$this->modifications;
-    }
-
-    public function canBeCheckout($modificationId, $quantity): bool
-    {
-        if ($modificationId) {
-            return $quantity <= $this->getModification($modificationId)->quantity;
-        }
-        return $quantity <= $this->quantity;
-    }*/
-
-    /*public function checkout($modificationId, $quantity): void
-    {
-        if ($modificationId) {
-            $modifications = $this->modifications;
-            foreach ($modifications as $i => $modification) {
-                if ($modification->isIdEqualTo($modificationId)) {
-                    $modification->checkout($quantity);
-                    $this->updateModifications($modifications);
-                    return;
-                }
-            }
-        }
-        if ($quantity > $this->quantity) {
-            throw new \DomainException('Only ' . $this->quantity . ' items are available.');
-        }
-        $this->setQuantity($this->quantity - 1);
-    }*/
-
-    public function setQuantity($quantity = null): void
-    {
-        if (empty($this->modifications)) {
-            $this->quantity = $quantity ?? 1;
-
-        } else {
-            $this->quantity = array_sum(array_map(function (Modification $modification) {
-                return $modification->quantity;
-            }, $this->modifications));
-        }
-
-    }
-
-    public function getSeoTile(): string
-    {
-        return $this->meta->title ?: $this->name;
-    }
 
     public function setValue($id, $value): void
     {
@@ -215,26 +76,26 @@ class Product extends ActiveRecord
                 return;
             }
         }
-        $values[] = Value::create($id, $value);
+        $values[] = GenericValue::create($id, $value);
         $this->values = $values;
     }
 
 
-    public function setModification($characteristic_id, $value, $price, $quantity, $main_photo_id): void
+    public function setModification($characteristic_id, $value, $main_photo_id): void
     {
         $modifications = $this->modifications;
         foreach ($modifications as $modification) {
             if ($modification->isForCharacteristic($characteristic_id)) {
-                $modification->change($value, $price, $main_photo_id, $quantity);
+                $modification->change($value, $main_photo_id);
                 $this->modifications = $modifications;
                 return;
             }
         }
-        $modifications[] = Modification::create($characteristic_id, $value, $price, $quantity, $main_photo_id);
+        $modifications[] = GenericModification::create($characteristic_id, $value, $main_photo_id);
         $this->modifications = $modifications;
     }
 
-    public function getValue($id): Value
+    public function getValue($id): GenericValue
     {
         $values = $this->values;
         foreach ($values as $val) {
@@ -242,76 +103,10 @@ class Product extends ActiveRecord
                 return $val;
             }
         }
-        return Value::blank($id);
+        return GenericValue::blank($id);
     }
 
-    // Modification
 
-    /*public function getModification($id): Modification
-    {
-        foreach ($this->modifications as $modification) {
-            if ($modification->isIdEqualTo($id)) {
-                return $modification;
-            }
-        }
-        throw new \DomainException('Modification is not found.');
-    }
-
-    public function getModificationPrice($id): int
-    {
-        foreach ($this->modifications as $modification) {
-            if ($modification->isIdEqualTo($id)) {
-                return $modification->price ?: $this->price_new;
-            }
-        }
-        throw new \DomainException('Modification is not found.');
-    }
-
-    public function addModification($code, $name, $price, $quantity): void
-    {
-        $modifications = $this->modifications;
-        foreach ($modifications as $modification) {
-            if ($modification->isCodeEqualTo($code)) {
-                throw new \DomainException('Modification already exists.');
-            }
-        }
-        $modifications[] = Modification::create($code, $name, $price, $quantity);
-        $this->updateModifications($modifications);
-    }
-
-    public function editModification($id, $code, $name, $price, $quantity): void
-    {
-        $modifications = $this->modifications;
-        foreach ($modifications as $i => $modification) {
-            if ($modification->isIdEqualTo($id)) {
-                $modification->edit($code, $name, $price, $quantity);
-                $this->updateModifications($modifications);
-                return;
-            }
-        }
-        throw new \DomainException('Modification is not found.');
-    }
-
-    public function removeModification($id): void
-    {
-        $modifications = $this->modifications;
-        foreach ($modifications as $i => $modification) {
-            if ($modification->isIdEqualTo($id)) {
-                unset($modifications[$i]);
-                $this->updateModifications($modifications);
-                return;
-            }
-        }
-        throw new \DomainException('Modification is not found.');
-    }
-
-    private function updateModifications(array $modifications): void
-    {
-        $this->modifications = $modifications;
-        $this->setQuantity(array_sum(array_map(function (Modification $modification) {
-            return $modification->quantity;
-        }, $this->modifications)));
-    }*/
 
     // Categories
 
@@ -323,7 +118,7 @@ class Product extends ActiveRecord
                 return;
             }
         }
-        $assignments[] = CategoryAssignment::create($id);
+        $assignments[] = GenericCategoryAssignment::create($id);
         $this->categoryAssignments = $assignments;
     }
 
@@ -355,7 +150,7 @@ class Product extends ActiveRecord
                 return;
             }
         }
-        $assignments[] = TagAssignment::create($id);
+        $assignments[] = GenericTagAssignment::create($id);
         $this->tagAssignments = $assignments;
     }
 
@@ -445,32 +240,6 @@ class Product extends ActiveRecord
         $this->populateRelation('mainPhoto', reset($photos));
     }
 
-    // Related products
-
-//    public function assignRelatedProduct($id): void
-//    {
-//        $assignments = $this->relatedAssignments;
-//        foreach ($assignments as $assignment) {
-//            if ($assignment->isForProduct($id)) {
-//                return;
-//            }
-//        }
-//        $assignments[] = RelatedAssignment::create($id);
-//        $this->relatedAssignments = $assignments;
-//    }
-//
-//    public function revokeRelatedProduct($id): void
-//    {
-//        $assignments = $this->relatedAssignments;
-//        foreach ($assignments as $i => $assignment) {
-//            if ($assignment->isForProduct($id)) {
-//                unset($assignments[$i]);
-//                $this->relatedAssignments = $assignments;
-//                return;
-//            }
-//        }
-//        throw new \DomainException('Assignment is not found.');
-//    }
 
     // Reviews
 
@@ -558,18 +327,9 @@ class Product extends ActiveRecord
 
     public function getCategoryAssignments(): ActiveQuery
     {
-        return $this->hasMany(CategoryAssignment::class, ['product_id' => 'id']);
+        return $this->hasMany(GenericCategoryAssignment::class, ['generic_product_id' => 'id']);
     }
 
-    public function getPrices(): ActiveQuery
-    {
-        return $this->hasMany(Price::class, ['product_id' => 'id'])->orderBy(['created_at' => SORT_DESC]);
-    }
-
-    public function getPrice(): ActiveQuery
-    {
-        return $this->hasOne(Price::class, ['product_id' => 'id'])->orderBy(['created_at' => SORT_DESC]);
-    }
 
     public function getCategories(): ActiveQuery
     {
@@ -578,7 +338,7 @@ class Product extends ActiveRecord
 
     public function getTagAssignments(): ActiveQuery
     {
-        return $this->hasMany(TagAssignment::class, ['product_id' => 'id']);
+        return $this->hasMany(GenericTagAssignment::class, ['generic_product_id' => 'id']);
     }
 
     public function getTags(): ActiveQuery
@@ -588,22 +348,22 @@ class Product extends ActiveRecord
 
     public function getModifications(): ActiveQuery
     {
-        return $this->hasMany(Modification::class, ['product_id' => 'id']);
+        return $this->hasMany(GenericModification::class, ['generic_product_id' => 'id']);
     }
 
     public function getValues(): ActiveQuery
     {
-        return $this->hasMany(Value::class, ['product_id' => 'id']);
+        return $this->hasMany(GenericValue::class, ['generic_product_id' => 'id']);
     }
 
     public function getPhotos(): ActiveQuery
     {
-        return $this->hasMany(Photo::class, ['product_id' => 'id'])->orderBy('sort');
+        return $this->hasMany(GenericPhoto::class, ['generic_product_id' => 'id'])->orderBy('sort');
     }
 
     public function getMainPhoto(): ActiveQuery
     {
-        return $this->hasOne(Photo::class, ['id' => 'main_photo_id']);
+        return $this->hasOne(GenericPhoto::class, ['id' => 'main_photo_id']);
     }
 
 //    public function getRelatedAssignments(): ActiveQuery
@@ -630,13 +390,12 @@ class Product extends ActiveRecord
 
     public static function tableName(): string
     {
-        return '{{%products}}';
+        return '{{%generic_products}}';
     }
 
     public function behaviors(): array
     {
         return [
-            MetaBehavior::class,
             BlameableBehavior::class,
             [
                 'class' => SaveRelationsBehavior::class,
@@ -652,6 +411,11 @@ class Product extends ActiveRecord
         ];
     }
 
+    /**
+     * @return bool
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
     public function beforeDelete(): bool
     {
         if (parent::beforeDelete()) {
@@ -672,22 +436,14 @@ class Product extends ActiveRecord
         }
     }
 
-    public static function find(): ProductQuery
-    {
-        return new ProductQuery(static::class);
-    }
-
-
     public function fields()
     {
         return [
             "id" => "id",
             "category_id" => "category_id",
             "brand_id" => "brand_id",
-            "status" => "status",
             "name" => "name",
             "description" => "description",
-            "quantity" => "quantity",
 
             "photo" => function () {
                 return $this->responseMainPhotos();
@@ -696,9 +452,6 @@ class Product extends ActiveRecord
                 return $this->responsePhotos();
             },
 
-            "price" => function () {
-                return $this->responsePrice();
-            },
             "characteristics" => function () {
                 $result = [];
                 foreach ($this->values as $value) {
@@ -717,8 +470,6 @@ class Product extends ActiveRecord
                         'id' => $modification->id,
                         'characteristic' => $modification->characteristic->name,
                         'value' => $modification->value,
-                        'price' => $modification->price,
-                        'quantity' => $modification->quantity,
                         'photo' => $modification->mainPhoto ? $modification->mainPhoto->getThumbFileUrl('file', 'thumb') : null
                     ];
                 }
@@ -727,11 +478,7 @@ class Product extends ActiveRecord
             "tags" => function () {
                 return $this->tags;
             },
-            "price_type" => "price_type",
             "rating" => "rating",
-            "meta_json" => function () {
-                return $this->meta;
-            },
             "created_at" => "created_at",
             "updated_at" => "updated_at",
         ];
@@ -769,22 +516,5 @@ class Product extends ActiveRecord
         return $photos;
     }
 
-    public function responsePrice()
-    {
-        if (!empty($prices = $this->prices)) {
-            $current = array_shift($prices);
-            return [
-                'current' => [
-                    $this->price_type == $this::PRICE_TYPE_BARGAIN
-                        ? 'buyNow'
-                        : 'price' => $current->current,
-                    'max' => $current->max,
-                    'end' => $current->end
-                ],
-                'old' => $prices
-            ];
-        }
-        return [];
-    }
 
 }

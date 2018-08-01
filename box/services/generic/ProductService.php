@@ -1,19 +1,18 @@
 <?php
 
-namespace box\services;
+namespace box\services\generic;
 
-use box\entities\Meta;
-use box\entities\shop\product\Product;
+use box\entities\generic\GenericProduct;
 use box\entities\shop\Tag;
 use box\forms\shop\product\PhotosForm;
-use box\forms\shop\product\ProductEditForm;
+use box\forms\generic\ProductEditForm;
 use box\repositories\BrandRepository;
 use box\repositories\CategoryRepository;
+use box\repositories\generic\ProductRepository;
 use box\repositories\NotFoundException;
-use box\repositories\ProductRepository;
-use box\forms\shop\product\ProductCreateForm;
+use box\forms\generic\ProductCreateForm;
 use box\repositories\TagRepository;
-use yii\helpers\VarDumper;
+use box\services\TransactionManager;
 
 class ProductService
 {
@@ -40,7 +39,7 @@ class ProductService
 
     /**
      * @param ProductCreateForm $form
-     * @return Product|string
+     * @return GenericProduct|string
      * @throws \box\repositories\NotFoundException
      */
     public function create(ProductCreateForm $form)
@@ -48,51 +47,28 @@ class ProductService
         $brand = $this->brands->get($form->brandId);
         $category = $this->categories->get($form->categories->main);
 
-        $product = Product::create(
+        $product = GenericProduct::create(
             $brand->id,
             $category->id,
             $form->name,
-            $form->description,
-            new Meta(
-                $form->meta->title,
-                $form->meta->description,
-                $form->meta->keywords
-            )
+            $form->description
         );
-
-        $product->setPriceType($form->priceType);
-
-        $product->setPrice(
-            $form->price->current,
-            $form->price->end,
-            $form->price->max,
-            $form->price->deadline,
-            $form->price->buyNow
-        );
-
         foreach ($form->categories->others as $otherId) {
             $category = $this->categories->get($otherId);
             $product->assignCategory($category->id);
         }
-        if(isset($form->characteristics)){
-            foreach ($form->characteristics as $characteristic) {
-                $product->setValue($characteristic->id, $characteristic->value);
-            }
-        }
-        if(isset($form->modifications)){
-            foreach ($form->modifications as $modification) {
-                $product->setModification(
-                    $modification->characteristic_id,
-                    $modification->value,
-                    $modification->price,
-                    $modification->quantity,
-                    $modification->main_photo_id
-                );
-            }
+
+        foreach ($form->characteristics as $characteristic) {
+            $product->setValue($characteristic->id, $characteristic->value);
         }
 
-
-        $product->setQuantity($form->quantity);
+        foreach ($form->modifications as $modification) {
+            $product->setModification(
+                $modification->characteristic_id,
+                $modification->value,
+                $modification->main_photo_id
+            );
+        }
 
         foreach ($form->tags->existing as $tagId) {
             $tag = $this->tags->get($tagId);
@@ -127,7 +103,7 @@ class ProductService
     /**
      * @param $id
      * @param ProductEditForm $form
-     * @return Product
+     * @return GenericProduct
      * @throws \box\repositories\NotFoundException
      */
 
@@ -140,12 +116,7 @@ class ProductService
         $product->edit(
             $brand->id,
             $form->name,
-            $form->description,
-            new Meta(
-                $form->meta->title,
-                $form->meta->description,
-                $form->meta->keywords
-            )
+            $form->description
         );
         $product->changeMainCategory($category->id);
 
@@ -154,45 +125,26 @@ class ProductService
             $this->transaction->wrap(function () use ($product, $form) {
                 $product->revokeCategories();
                 $product->revokeTags();
-                $product->setQuantity(0);
 
                 $this->products->save($product);
-
-
-                $product->setPriceType($form->priceType);
-
-                $product->setPrice(
-                    $form->price->current,
-                    $form->price->end,
-                    $form->price->max,
-                    $form->price->deadline,
-                    $form->price->buyNow
-                );
 
                 foreach ($form->categories->others as $otherId) {
                     $category = $this->categories->get($otherId);
                     $product->assignCategory($category->id);
                 }
-                if(isset($form->characteristics)){
-                    foreach ($form->characteristics as $characteristic) {
-                        $product->setValue($characteristic->id, $characteristic->value);
-                    }
+
+
+                foreach ($form->characteristics as $characteristic) {
+                    $product->setValue($characteristic->id, $characteristic->value);
                 }
 
-                if(isset($form->modifications))
-                {
-                    foreach ($form->modifications as $modification) {
-                        $product->setModification(
-                            $modification->characteristic_id,
-                            $modification->value,
-                            $modification->price,
-                            $modification->quantity,
-                            $modification->main_photo_id
-                        );
-                    }
+                foreach ($form->modifications as $modification) {
+                    $product->setModification(
+                        $modification->characteristic_id,
+                        $modification->value,
+                        $modification->main_photo_id
+                    );
                 }
-
-                $product->setQuantity();
 
                 foreach ($form->tags->existing as $tagId) {
                     $tag = $this->tags->get($tagId);
@@ -206,7 +158,6 @@ class ProductService
                     }
                     $product->assignTag($tag->id);
                 }
-
                 $this->products->save($product);
 
             });
@@ -215,28 +166,6 @@ class ProductService
         }
 
         return $product;
-    }
-
-    /**
-     * @param $id
-     * @throws \box\repositories\NotFoundException
-     */
-    public function activate($id): void
-    {
-        $product = $this->products->get($id);
-        $product->activate();
-        $this->products->save($product);
-    }
-
-    /**
-     * @param $id
-     * @throws \box\repositories\NotFoundException
-     */
-    public function draft($id): void
-    {
-        $product = $this->products->get($id);
-        $product->draft();
-        $this->products->save($product);
     }
 
     /**
@@ -259,8 +188,6 @@ class ProductService
                 $product->setModification(
                     $modification->characteristic_id,
                     $modification->value,
-                    $modification->price,
-                    $modification->quantity,
                     $photo_id
                 );
             }
@@ -272,7 +199,7 @@ class ProductService
     /**
      * @param $id
      * @param PhotosForm $form
-     * @return Product
+     * @return GenericProduct
      * @throws NotFoundException
      */
     public function addPhotos($id, PhotosForm $form)

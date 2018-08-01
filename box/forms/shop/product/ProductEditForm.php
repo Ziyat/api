@@ -118,7 +118,7 @@ class ProductEditForm extends CompositeForm
             $this->setForms($characteristics, $data[$characteristics]);
         }
 
-        if (!empty($data[$characteristics]) && $this::isNotEmptyParams($data[$modifications])) {
+        if (!empty($data[$modifications]) && $this::isNotEmptyParams($data[$modifications])) {
             $this->setForms($modifications, $data[$modifications]);
         }
 

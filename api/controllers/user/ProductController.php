@@ -121,7 +121,6 @@ class ProductController extends BearerController
         $form = new ProductCreateForm();
         $form->load(Yii::$app->request->bodyParams, '');
         if ($form->validate()) {
-            VarDumper::dump($form);die;
             try {
                 $product = $this->service->create($form);
                 $response = \Yii::$app->getResponse();

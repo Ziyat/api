@@ -1,0 +1,33 @@
+{
+  "brandId": 1,
+  "name": "rolex",
+  "description": "watch valt",
+  "categories": {
+    "main": 2,
+    "others": []
+  },
+  "characteristics": [
+    {
+      "value": "1336",
+      "id": "2"
+    },
+    {
+      "value": "XL",
+      "id": "1"
+    }
+  ],
+  "modifications": [
+    {
+      "value": "1336",
+      "characteristic_id": 2
+    },
+    {
+      "value": "43242",
+      "characteristic_id": 1
+    }
+  ],
+  "tags": {
+    "existing": [],
+    "textNew": "newtag,tagWatch,WatchValt"
+  }
+}

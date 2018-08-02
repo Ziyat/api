@@ -4,13 +4,13 @@ namespace box\services\generic;
 
 use box\entities\generic\GenericProduct;
 use box\entities\shop\Tag;
-use box\forms\shop\product\PhotosForm;
+use box\forms\generic\PhotosForm;
 use box\forms\generic\ProductEditForm;
+use box\forms\generic\ProductCreateForm;
 use box\repositories\BrandRepository;
 use box\repositories\CategoryRepository;
 use box\repositories\generic\ProductRepository;
 use box\repositories\NotFoundException;
-use box\forms\generic\ProductCreateForm;
 use box\repositories\TagRepository;
 use box\services\TransactionManager;
 
@@ -53,6 +53,8 @@ class ProductService
             $form->name,
             $form->description
         );
+
+
         foreach ($form->categories->others as $otherId) {
             $category = $this->categories->get($otherId);
             $product->assignCategory($category->id);
@@ -61,7 +63,6 @@ class ProductService
         foreach ($form->characteristics as $characteristic) {
             $product->setValue($characteristic->id, $characteristic->value);
         }
-
         foreach ($form->modifications as $modification) {
             $product->setModification(
                 $modification->characteristic_id,
@@ -80,6 +81,7 @@ class ProductService
                 $product->addPhoto($file);
             }
         }
+
         try {
             $this->transaction->wrap(function () use ($product, $form) {
                 foreach ($form->tags->newNames as $tagName) {
@@ -89,6 +91,7 @@ class ProductService
                     }
                     $product->assignTag($tag->id);
                 }
+
                 $this->products->save($product);
 
             });

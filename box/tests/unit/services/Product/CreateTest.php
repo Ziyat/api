@@ -92,6 +92,7 @@ class ProductServiceCreateTest extends Unit
         $form->categories->main = 2;
         $form->categories->others = [3];
         $form->characteristics = [$characteristic];
+        $form->modifications = [];
 
         $form->name = $name;
         $form->description = $description;

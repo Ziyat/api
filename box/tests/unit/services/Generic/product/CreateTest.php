@@ -22,6 +22,7 @@ use common\fixtures\shop\CategoryFixture;
 use common\fixtures\shop\CharacteristicFixture;
 use common\fixtures\shop\TagFixture;
 use yii\helpers\ArrayHelper;
+use yii\helpers\VarDumper;
 
 class GenericProductServiceCreateTest extends Unit
 {
@@ -85,11 +86,13 @@ class GenericProductServiceCreateTest extends Unit
         $form->categories->main = 2;
         $form->categories->others = [3];
         $form->characteristics = [$characteristic];
+        $form->modifications = [];
 
         $form->name = $name;
         $form->description = $description;
         $form->tags->textNew = $tagTextNew;
         $form->tags->existing = $tagExisting;
+
 
 
         $product = $this->service->create($form);

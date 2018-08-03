@@ -100,7 +100,7 @@ class Product extends ActiveRecord
     {
         $prices = $this->prices;
         foreach ($prices as $price){
-            if($price->isEquel($current, $end, $max, $deadline, $buyNow))
+            if($price->isEqual($current, $end, $max, $deadline, $buyNow))
             {
                 return;
             }

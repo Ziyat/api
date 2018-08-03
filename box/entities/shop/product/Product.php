@@ -99,6 +99,12 @@ class Product extends ActiveRecord
     public function setPrice($current, $end, $max, $deadline, $buyNow): void
     {
         $prices = $this->prices;
+        foreach ($prices as $price){
+            if($price->isEquel($current, $end, $max, $deadline, $buyNow))
+            {
+                return;
+            }
+        }
         $prices[] = Price::create($current, $end, $max, $deadline, $buyNow);
         $this->prices = $prices;
     }

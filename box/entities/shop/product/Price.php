@@ -33,6 +33,15 @@ class Price extends ActiveRecord
         return $price;
     }
 
+
+    public function isEqual($current, $end, $max, $deadline, $buyNow){
+        return $this->current == $current
+            && $this->end == $end
+            && $this->max == $max
+            && $this->deadline == $deadline
+            && $this->buy_now == $buyNow;
+    }
+
     public function setDeadline($deadline)
     {
         $this->deadline = $deadline;

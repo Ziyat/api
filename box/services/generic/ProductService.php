@@ -2,11 +2,11 @@
 
 namespace box\services\generic;
 
-use box\entities\generic\GenericProduct;
 use box\entities\shop\Tag;
-use box\forms\generic\PhotosForm;
-use box\forms\generic\ProductEditForm;
+use box\entities\generic\GenericProduct;
 use box\forms\generic\ProductCreateForm;
+use box\forms\generic\ProductEditForm;
+use box\forms\generic\PhotosForm;
 use box\repositories\BrandRepository;
 use box\repositories\CategoryRepository;
 use box\repositories\generic\ProductRepository;

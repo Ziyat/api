@@ -84,6 +84,7 @@ return [
 
         'GET generic/products' => 'generic/product/index',
         'POST generic/products' => 'generic/product/create',
+        'GET generic/products/<id:\d+>' => 'generic/product/view',
 
         // ocr
 

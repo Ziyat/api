@@ -26,7 +26,8 @@
     "yii-dream-team/yii2-upload-behavior": "^1.1",
     "la-haute-societe/yii2-save-relations-behavior": "*",
     "paulzi/yii2-nested-sets": "^1.0",
-    "thiagoalessio/tesseract_ocr": "^2.6"
+    "thiagoalessio/tesseract_ocr": "^2.6",
+    "elasticsearch/elasticsearch": "^5.2"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.0.0",

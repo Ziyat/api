@@ -100,10 +100,7 @@ class Product extends ActiveRecord
     {
         $prices = $this->prices;
         foreach ($prices as $price){
-            if($price->isEqual($current, $end, $max, $deadline, $buyNow))
-            {
-                return;
-            }
+            if($price->isEqual($current, $end, $max, $deadline, $buyNow)) return;
         }
         $prices[] = Price::create($current, $end, $max, $deadline, $buyNow);
         $this->prices = $prices;

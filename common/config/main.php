@@ -1,6 +1,10 @@
 <?php
 return [
     'name' => 'Watch Vault',
+    'bootstrap' => [
+        'log',
+        'common\bootstrap\SetUp',
+    ],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',

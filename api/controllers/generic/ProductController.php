@@ -134,9 +134,9 @@ class ProductController extends BearerCrudController
             try {
                 $product = $this->service->create($form);
 
-                $response = \Yii::$app->getResponse();
-                $response->setStatusCode(201);
-                $response->getHeaders()->set('Location', Url::to(['generic/products/' . $product->id], true));
+//                $response = \Yii::$app->getResponse();
+//                $response->setStatusCode(201);
+//                $response->getHeaders()->set('Location', Url::to(['generic/products/' . $product->id], true));
                 return $product;
             } catch (\DomainException $e) {
                 throw new BadRequestHttpException($e->getMessage());

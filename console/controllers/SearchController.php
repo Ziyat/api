@@ -8,9 +8,14 @@ namespace console\controllers;
 
 
 use box\entities\generic\GenericProduct;
+use box\entities\generic\GenericValue;
+use box\entities\shop\Category;
+use box\entities\shop\product\Value;
 use Elasticsearch\Client;
 use Elasticsearch\Common\Exceptions\Missing404Exception;
+use function foo\func;
 use yii\console\Controller;
+use yii\helpers\ArrayHelper;
 
 class SearchController extends Controller
 {
@@ -30,17 +35,16 @@ class SearchController extends Controller
     public function actionReindex()
     {
         $query = GenericProduct::find()
-            ->with(['categoryAssignments','tagAssignments','modifications','values'])
+            ->with(['categoryAssignments', 'tagAssignments', 'modifications', 'values'])
             ->orderBy('id');
 
         $this->stdout('Cleaning' . PHP_EOL);
 
-        try{
+        try {
             $this->client->indices()->delete([
                 'index' => 'watch'
             ]);
-        }catch (Missing404Exception $e)
-        {
+        } catch (Missing404Exception $e) {
             $this->stdout('Index is empty' . PHP_EOL);
         }
 
@@ -48,7 +52,7 @@ class SearchController extends Controller
 
         $this->stdout('Indexing of Generic Products' . PHP_EOL);
 
-        foreach ($query->each() as $product){
+        foreach ($query->each() as $product) {
             /**
              * @var GenericProduct $product
              */
@@ -59,7 +63,13 @@ class SearchController extends Controller
                 'id' => $product->id,
                 'body' => [
                     'name' => $product->name,
-                    'description' => $product->description,
+                    'categoryId' => $product->category->id,
+                    'categoryName' => $product->category->name,
+                    'categoryBreadcrumbs' => implode(' / ', array_filter(ArrayHelper::getColumn($product->category->parents, function (Category $category) {
+                        return $category->depth > 0 ? $category->name : null;
+                    }))) . ' / ' . $product->category->name,
+                    'brandId' => $product->brand->id,
+                    'brandName' => $product->brand->name,
                 ],
             ]);
         }

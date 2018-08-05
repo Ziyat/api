@@ -6,6 +6,8 @@
 
 namespace api\controllers\generic;
 
+use box\forms\SearchForm;
+use box\readModels\GenericProductReadRepository;
 use box\repositories\generic\ProductRepository;
 use api\controllers\BearerCrudController;
 use box\services\generic\ProductService;
@@ -13,6 +15,7 @@ use box\forms\generic\ProductCreateForm;
 use box\entities\generic\GenericProduct;
 use box\repositories\NotFoundException;
 use box\forms\generic\ProductEditForm;
+use Elasticsearch\Client;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -26,17 +29,20 @@ use Yii;
  * @package api\controllers\user
  * @property ProductService $service
  * @property ProductRepository $repository
+ * @property GenericProductReadRepository $readRepository
  */
 class ProductController extends BearerCrudController
 {
     public $service;
     public $repository;
+    public $readRepository;
 
     public function __construct(
         string $id,
         $module,
         ProductService $service,
         ProductRepository $repository,
+        GenericProductReadRepository $readRepository,
         array $config = []
     )
     {
@@ -44,6 +50,19 @@ class ProductController extends BearerCrudController
 
         $this->service = $service;
         $this->repository = $repository;
+        $this->readRepository = $readRepository;
+    }
+
+
+    public function actionSearch()
+    {
+        $response = null;
+        $form = new SearchForm();
+        $form->load(Yii::$app->request->bodyParams,'');
+        if($form->validate()) {
+            $response = $this->readRepository->search($form);
+        }
+        return $response;
     }
 
     /**

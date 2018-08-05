@@ -15,13 +15,12 @@ use box\forms\generic\ProductCreateForm;
 use box\entities\generic\GenericProduct;
 use box\repositories\NotFoundException;
 use box\forms\generic\ProductEditForm;
-use Elasticsearch\Client;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use box\forms\generic\PhotosForm;
 use yii\data\ActiveDataProvider;
-use yii\helpers\Url;
+use yii\web\Application;
 use Yii;
 
 /**
@@ -111,6 +110,11 @@ class ProductController extends BearerCrudController
      *     @SWG\Parameter(name="tags", in="body", required=false,
      *          @SWG\Schema(ref="#/definitions/TagsForm")
      *     ),
+     *     @SWG\Response(
+     *         response=201,
+     *         description="Created success response",
+     *         @SWG\Schema(ref="#/definitions/ProductData")
+     *     ),
      *
      *    @SWG\Response(
      *         response=455,
@@ -120,6 +124,7 @@ class ProductController extends BearerCrudController
      * )
      * @return GenericProduct|ProductCreateForm
      * @throws BadRequestHttpException|NotFoundException|ForbiddenHttpException
+     * @var Application $response
      */
 
 
@@ -133,10 +138,7 @@ class ProductController extends BearerCrudController
         if ($form->validate()) {
             try {
                 $product = $this->service->create($form);
-
-//                $response = \Yii::$app->getResponse();
-//                $response->setStatusCode(201);
-//                $response->getHeaders()->set('Location', Url::to(['generic/products/' . $product->id], true));
+                Yii::$app->response->setStatusCode(201);
                 return $product;
             } catch (\DomainException $e) {
                 throw new BadRequestHttpException($e->getMessage());

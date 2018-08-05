@@ -111,11 +111,6 @@ class ProductController extends BearerCrudController
      *     @SWG\Parameter(name="tags", in="body", required=false,
      *          @SWG\Schema(ref="#/definitions/TagsForm")
      *     ),
-     *     @SWG\Response(
-     *         response=201,
-     *         description="Created success response",
-     *         @SWG\Schema(ref="#/definitions/ProductData")
-     *     ),
      *
      *    @SWG\Response(
      *         response=455,

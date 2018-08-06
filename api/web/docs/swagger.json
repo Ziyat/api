@@ -254,6 +254,39 @@
                 }
             }
         },
+        "/generic/products/search": {
+            "post": {
+                "tags": [
+                    "ElasticSearch"
+                ],
+                "description": "returns elasticSearch data array",
+                "parameters": [
+                    {
+                        "name": "text",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "property": "characteristics",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/SearchData"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "/generic/products": {
             "get": {
                 "tags": [
@@ -1670,6 +1703,50 @@
                 }
             },
             "type": "object"
+        },
+        "SearchData": {
+            "description": "ElasticSearch result data",
+            "type": "array",
+            "items": {
+                "properties": {
+                    "_index": {
+                        "type": "string"
+                    },
+                    "_type": {
+                        "type": "string"
+                    },
+                    "_id": {
+                        "type": "string"
+                    },
+                    "_score": {
+                        "type": "integer"
+                    },
+                    "_source": {
+                        "properties": {
+                            "categoryName": {
+                                "type": "string"
+                            },
+                            "categoryBreadcrumbs": {
+                                "description": "example: parent / parent / mainCategory",
+                                "type": "string"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "categoryId": {
+                                "type": "integer"
+                            },
+                            "brandId": {
+                                "type": "integer"
+                            },
+                            "brandName": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                }
+            }
         },
         "Characteristic": {
             "properties": {

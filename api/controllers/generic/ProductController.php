@@ -52,7 +52,22 @@ class ProductController extends BearerCrudController
         $this->readRepository = $readRepository;
     }
 
-
+    /**
+     * @SWG\Post(
+     *     path="/generic/products/search",
+     *     tags={"ElasticSearch"},
+     *     description="returns elasticSearch data array",
+     *     @SWG\Parameter(name="text", in="formData", required=false, type="string"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Property(property="characteristics", type="array",
+     *          @SWG\Items(ref="#/definitions/SearchData"))
+     *
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     */
     public function actionSearch()
     {
         $response = null;
@@ -372,3 +387,26 @@ class ProductController extends BearerCrudController
     }
 
 }
+
+/**
+ * @SWG\Definition(
+ *     definition="SearchData",
+ *     description="ElasticSearch result data",
+ *     type="array",
+ *     @SWG\Items(
+ *          @SWG\Property(property="_index", type="string"),
+ *          @SWG\Property(property="_type", type="string"),
+ *          @SWG\Property(property="_id", type="string"),
+ *          @SWG\Property(property="_score", type="integer"),
+ *          @SWG\Property(property="_source", type="object",
+ *              @SWG\Property(property="categoryName", type="string"),
+ *              @SWG\Property(property="categoryBreadcrumbs", type="string",description="example: parent / parent / mainCategory"),
+ *              @SWG\Property(property="name", type="string"),
+ *              @SWG\Property(property="categoryId", type="integer"),
+ *              @SWG\Property(property="brandId", type="integer"),
+ *              @SWG\Property(property="brandName", type="string"),
+ *          ),
+ *     ),
+ *
+ * )
+ */

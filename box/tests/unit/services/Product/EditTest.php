@@ -81,6 +81,9 @@ class ProductServiceEditTest extends Unit
     public function testSuccess()
     {
 
+        $product = Product::findOne(1);
+        $form = new ProductEditForm($product);
 
+        VarDumper::dump($form);die;
     }
 }

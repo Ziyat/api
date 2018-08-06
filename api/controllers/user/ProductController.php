@@ -467,10 +467,12 @@ class ProductController extends BearerController
  *     @SWG\Property(property="modifications", type="array",
  *          @SWG\Items(
  *              @SWG\Property(property="id", type="integer"),
+ *              @SWG\Property(property="characteristic_id", type="integer"),
  *              @SWG\Property(property="characteristic", type="string"),
  *              @SWG\Property(property="value", type="string"),
  *              @SWG\Property(property="price", type="integer"),
  *              @SWG\Property(property="quantity", type="integer"),
+ *              @SWG\Property(property="main_photo_id", type="integer"),
  *              @SWG\Property(property="photo", type="string"),
  *          )
  *     ),

@@ -1952,6 +1952,9 @@
                             "id": {
                                 "type": "integer"
                             },
+                            "characteristic_id": {
+                                "type": "integer"
+                            },
                             "characteristic": {
                                 "type": "string"
                             },
@@ -1962,6 +1965,9 @@
                                 "type": "integer"
                             },
                             "quantity": {
+                                "type": "integer"
+                            },
+                            "main_photo_id": {
                                 "type": "integer"
                             },
                             "photo": {

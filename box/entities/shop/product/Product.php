@@ -718,10 +718,12 @@ class Product extends ActiveRecord
                 foreach ($this->modifications as $k => $modification) {
                     $result[$k] = [
                         'id' => $modification->id,
+                        'characteristic_id' => $modification->characteristic->id,
                         'characteristic' => $modification->characteristic->name,
                         'value' => $modification->value,
                         'price' => $modification->price,
                         'quantity' => $modification->quantity,
+                        'main_photo_id' => $modification->mainPhoto->id,
                         'photo' => $modification->mainPhoto ? $modification->mainPhoto->getThumbFileUrl('file', 'thumb') : null
                     ];
                 }

@@ -155,6 +155,8 @@ class ProductService
                 $product->revokeCategories();
                 $product->revokeTags();
                 $product->setQuantity(0);
+                $product->modifications = [];
+                $product->values = [];
 
                 $this->products->save($product);
 

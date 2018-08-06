@@ -147,4 +147,61 @@ class UserProductCest
         );
         $I->seeResponseCodeIs(201);
     }
+
+
+    public function editWithDataWithoutAFile(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendPOST(
+            '/user/products/2',
+            [
+                "brandId" => 1,
+                "name" => "rolex2",
+                "description" => "watch valt",
+                "priceType" => "fix",
+                "quantity" => 3,
+                "categories" => [
+                    "main" => 2,
+                    "others" => []
+                ],
+                "characteristics" => [
+                    [
+                        "value" => "1336",
+                        "id" => "2"
+                    ]
+                ],
+                "modifications" => [
+                    [
+                        "value" => "1336iu",
+                        "characteristic_id" => 2,
+                        "quantity" => 5,
+                        "price" => 992
+                    ]
+                ],
+                "tags" => [
+                    "existing" => [],
+                    "textNew" => "newtag,tagWatch,WatchValt"
+                ],
+                "meta" => [
+                    "title" => "Meta title",
+                    "description" => "Meta Desc",
+                    "keywords" => "watch valt company, watch sales"
+                ],
+                "price" => [
+                    "current" => 22.66,
+                    "max" => 20,
+                    "end" => 10,
+                ]
+            ],
+            [
+                'files' => [
+                    codecept_data_dir('user/photos/photo1.jpg'),
+                    codecept_data_dir('user/photos/photo2.jpg'),
+                ]
+            ]
+        );
+        $I->seeResponseCodeIs(202);
+
+        VarDumper::dump($I->grabResponse());
+    }
 }

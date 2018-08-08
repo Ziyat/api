@@ -26,8 +26,8 @@ return [
 
         //followers
 
-        'GET user/follow/<follow_id:\d+>' => 'user/follower/follow',
-        'GET user/unfollow/<follow_id:\d+>' => 'user/follower/un-follow',
+        'PATCH user/follow/<follow_id:\d+>' => 'user/follower/follow',
+        'PATCH user/unfollow/<follow_id:\d+>' => 'user/follower/un-follow',
         'GET user/following' => 'user/follower/following',
         'GET user/followers' => 'user/follower/followers',
 

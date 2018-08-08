@@ -1152,6 +1152,100 @@
                 ]
             }
         },
+        "/user/follow": {
+            "patch": {
+                "tags": [
+                    "Followers"
+                ],
+                "description": "Returns boolean true",
+                "parameters": [
+                    {
+                        "name": "follow_id",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response boolean"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/user/unfollow": {
+            "patch": {
+                "tags": [
+                    "Followers"
+                ],
+                "description": "Returns boolean true",
+                "parameters": [
+                    {
+                        "name": "follow_id",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response boolean"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/user/following": {
+            "get": {
+                "tags": [
+                    "Followers"
+                ],
+                "description": "Returns data array",
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/ArrayProfile"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/user/followers": {
+            "get": {
+                "tags": [
+                    "Followers"
+                ],
+                "description": "Returns data array",
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/ArrayProfile"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "/user/products": {
             "get": {
                 "tags": [
@@ -1813,6 +1907,12 @@
                         "items": {}
                     }
                 }
+            }
+        },
+        "ArrayProfile": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Profile"
             }
         },
         "ProductData": {

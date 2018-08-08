@@ -13,6 +13,7 @@ use box\readModels\UserReadRepository;
 use box\services\UserService;
 use box\forms\user\UserEditForm;
 use Yii;
+use yii\data\ArrayDataProvider;
 use yii\web\BadRequestHttpException;
 
 class FollowerController extends BearerController
@@ -35,10 +36,11 @@ class FollowerController extends BearerController
     }
 
     /**
-     * @SWG\Get(
+     * @SWG\Patch(
      *     path="/user/follow",
      *     tags={"Followers"},
      *     description="Returns boolean true",
+     *     @SWG\Parameter(name="follow_id", in="formData", required=true, type="string"),
      *     @SWG\Response(
      *         response=200,
      *         description="Success response boolean"
@@ -61,6 +63,17 @@ class FollowerController extends BearerController
     }
 
     /**
+     * @SWG\Patch(
+     *     path="/user/unfollow",
+     *     tags={"Followers"},
+     *     description="Returns boolean true",
+     *     @SWG\Parameter(name="follow_id", in="formData", required=true, type="string"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response boolean"
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
      * @param $follow_id
      * @return bool
      * @throws BadRequestHttpException
@@ -77,14 +90,51 @@ class FollowerController extends BearerController
         return true;
     }
 
+    /**
+     * @SWG\Get(
+     *     path="/user/following",
+     *     tags={"Followers"},
+     *     description="Returns data array",
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Schema(ref="#/definitions/ArrayProfile")
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @return ArrayDataProvider
+     */
+
     public function actionFollowing()
     {
         return $this->users->getFollowing(Yii::$app->user->id);
     }
+
+    /**
+     * @SWG\Get(
+     *     path="/user/followers",
+     *     tags={"Followers"},
+     *     description="Returns data array",
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Schema(ref="#/definitions/ArrayProfile")
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @return ArrayDataProvider
+     */
 
     public function actionFollowers()
     {
         return $this->users->getFollowers(Yii::$app->user->id);
     }
 }
+/**
+ * @SWG\Definition(
+ *     definition="ArrayProfile",
+ *     type="array",
+ *     @SWG\Items(ref="#/definitions/Profile")
+ *)
+ */
 

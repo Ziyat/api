@@ -6,6 +6,7 @@
 
 namespace box\services;
 
+use box\entities\user\Follower;
 use box\events\user\UserRegisterEvent;
 use box\forms\auth\PasswordResetRequestForm;
 use box\forms\auth\SetPasswordForm;
@@ -19,11 +20,13 @@ class UserService
 {
     private $users;
     private $event;
+    private $transaction;
 
-    public function __construct(UserRepository $repository, UserRegisterEvent $event)
+    public function __construct(UserRepository $repository, UserRegisterEvent $event, TransactionManager $transaction)
     {
         $this->users = $repository;
         $this->event = $event;
+        $this->transaction = $transaction;
     }
 
     public function signup(SignupForm $form)
@@ -95,11 +98,50 @@ class UserService
 
     }
 
+    public function setFollow($follow_id, $follower_id): void
+    {
+        $follow = $this->users->find($follow_id);
+        $follower = $this->users->find($follower_id);
+        if ($follow->id === $follower->id) {
+            throw new \LogicException('You can not follow yourself');
+        }
+        $follower->setFollow(
+            $follow->id,
+            $follow->private ? Follower::APPROVE : Follower::NOT_APPROVE
+        );
+        $this->users->save($follower);
+    }
+
+    public function unFollow($follow_id, $follower_id): void
+    {
+        $follow = $this->users->find($follow_id);
+        $follower = $this->users->find($follower_id);
+        if ($follow->id === $follower->id) {
+            throw new \LogicException('You can not unfollow yourself');
+        }
+
+        try {
+            $this->transaction->wrap(function () use ($follower, $follow_id) {
+                $following = $follower->followingAssignments;
+                $follower->unFollow();
+                $this->users->save($follower);
+                foreach ($following as $i => $follow) {
+                    if ($follow->user_id == $follow_id) {
+                        unset($following[$i]);
+                    }
+                }
+                $follower->followingAssignments = $following;
+                $this->users->save($follower);
+            });
+        } catch (\Exception $e) {
+            throw new \DomainException($e->getMessage());
+        }
+    }
+
 
     private function sendSms(User $user)
     {
         $sent = true;
-
         if (!$sent) {
             throw new \DomainException('send sms error');
         }

@@ -6,6 +6,7 @@
 
 namespace box\entities\user;
 
+use box\components\EmailService;
 use box\entities\shop\product\Product;
 use box\entities\user\queries\UserQuery;
 use box\forms\auth\SignupForm;
@@ -13,6 +14,7 @@ use box\helpers\UserHelper;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
@@ -28,12 +30,17 @@ use yii\web\IdentityInterface;
  * @property string $phone
  * @property string $auth_key
  * @property integer $status
+ * @property integer $private
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
  * @property string $role role
  * @property Profile $profile
  * @property Product[] $products
+ * @property User[] $followers
+ * @property User[] $following
+ * @property Follower[] $followersAssignments
+ * @property Follower[] $followingAssignments
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -42,13 +49,17 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
     const STATUS_WAIT = 20;
+
     const ACTIVATE_TOKEN = 'activate';
     const PASSWORD_TOKEN = 'password reset';
 
+    const PRIVATE = 1;
+    const NOT_PRIVATE = 0;
+
     public function init()
     {
-        $this->on(self::ACTIVATE_TOKEN,[Yii::$app->emailService, 'sendActivateToken']);
-        $this->on(self::PASSWORD_TOKEN,[Yii::$app->emailService, 'sendResetPasswordToken']);
+        $this->on(self::ACTIVATE_TOKEN, [Yii::$app->emailService, 'sendActivateToken']);
+        $this->on(self::PASSWORD_TOKEN, [Yii::$app->emailService, 'sendResetPasswordToken']);
         parent::init();
     }
 
@@ -57,7 +68,6 @@ class User extends ActiveRecord implements IdentityInterface
         $user = new static();
         $user->email = $form->email ?: null;
         $user->phone = $form->phone ?: null;
-
         $user->setPassword($form->password);
         $user->created_at = time();
         $user->status = self::STATUS_WAIT;
@@ -65,6 +75,34 @@ class User extends ActiveRecord implements IdentityInterface
         $user->generateActivateToken();
         $user->profile = Profile::create($form->profile);
         return $user;
+    }
+
+    public function setFollow($follow_id, $follow_status)
+    {
+        $following = $this->followingAssignments;
+        foreach ($following as $follow) {
+            if ($follow->isFollower($follow_id)) {
+                return;
+            }
+        }
+        $following[] = Follower::create($follow_id, $follow_status);
+
+        $this->followingAssignments = $following;
+    }
+
+    public function unFollow()
+    {
+        $this->followingAssignments = [];
+    }
+
+    public function setPrivate($private)
+    {
+        $this->private = $private;
+    }
+
+    public function changePrivate()
+    {
+        $this->private = $this->private ? self::NOT_PRIVATE : self::PRIVATE;
     }
 
     /**
@@ -129,7 +167,7 @@ class User extends ActiveRecord implements IdentityInterface
             TimestampBehavior::class,
             [
                 'class' => SaveRelationsBehavior::class,
-                'relations' => ['profile']
+                'relations' => ['profile', 'followingAssignments']
             ],
 
         ];
@@ -328,6 +366,26 @@ class User extends ActiveRecord implements IdentityInterface
     public function getProducts()
     {
         return $this->hasMany(Product::class, ['created_by' => 'id']);
+    }
+
+    public function getFollowersAssignments(): ActiveQuery
+    {
+        return $this->hasMany(Follower::class, ['user_id' => 'id']);
+    }
+
+    public function getFollowingAssignments(): ActiveQuery
+    {
+        return $this->hasMany(Follower::class, ['follower_id' => 'id']);
+    }
+
+    public function getFollowers(): ActiveQuery
+    {
+        return $this->hasMany(User::class, ['id' => 'user_id'])->via('followersAssignments');
+    }
+
+    public function getFollowing(): ActiveQuery
+    {
+        return $this->hasMany(User::class, ['id' => 'user_id'])->via('followingAssignments');
     }
 
 

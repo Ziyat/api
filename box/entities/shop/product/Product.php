@@ -723,7 +723,7 @@ class Product extends ActiveRecord
                         'value' => $modification->value,
                         'price' => $modification->price,
                         'quantity' => $modification->quantity,
-                        'main_photo_id' => $modification->mainPhoto->id,
+                        'main_photo_id' => $modification->mainPhoto ? $modification->mainPhoto->id : null,
                         'photo' => $modification->mainPhoto ? $modification->mainPhoto->getThumbFileUrl('file', 'thumb') : null
                     ];
                 }

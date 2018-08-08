@@ -24,6 +24,13 @@ return [
         'GET profile' => 'user/profile/index',
         'POST profile/edit' => 'user/profile/edit',
 
+        //followers
+
+        'GET user/follow/<follow_id:\d+>' => 'user/follower/follow',
+        'GET user/unfollow/<follow_id:\d+>' => 'user/follower/un-follow',
+        'GET user/following' => 'user/follower/following',
+        'GET user/followers' => 'user/follower/followers',
+
         // user product
 
         'GET user/products' => 'user/product/index',

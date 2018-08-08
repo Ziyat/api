@@ -3,6 +3,7 @@
 namespace common\bootstrap;
 
 
+use box\components\EmailService;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 use yii\base\BootstrapInterface;

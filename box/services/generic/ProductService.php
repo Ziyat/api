@@ -136,7 +136,6 @@ class ProductService
                     $product->assignCategory($category->id);
                 }
 
-
                 foreach ($form->characteristics as $characteristic) {
                     $product->setValue($characteristic->id, $characteristic->value);
                 }

@@ -14,12 +14,15 @@ use yii\db\ActiveRecord;
  * @property integer $follower_id
  * @property integer $created_at
  * @property integer $status
+ *
+ * @property User $following
+ * @property User $follower
  */
 
 class Follower extends ActiveRecord
 {
-    const APPROVE = 1;
-    const NOT_APPROVE = 0;
+    const APPROVE = 0;
+    const NOT_APPROVE = 1;
 
     public static function create($follow_id, $status): self
     {
@@ -33,6 +36,16 @@ class Follower extends ActiveRecord
     public function isFollower($user_id): bool
     {
        return $this->user_id === $user_id;
+    }
+
+    public function getFollowing()
+    {
+        return $this->hasOne(User::class,['id' => 'user_id']);
+    }
+
+    public function getFollower()
+    {
+        return $this->hasOne(User::class,['id' => 'follower_id']);
     }
 
     public static function tableName(): string

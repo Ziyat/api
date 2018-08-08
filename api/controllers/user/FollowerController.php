@@ -83,11 +83,10 @@ class FollowerController extends BearerController
     {
         try {
             $this->service->unFollow($follow_id, Yii::$app->user->id);
+            return true;
         } catch (\Exception $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
-
-        return true;
     }
 
     /**
@@ -98,16 +97,39 @@ class FollowerController extends BearerController
      *     @SWG\Response(
      *         response=200,
      *         description="Success response",
+     *         @SWG\Schema(ref="#/definitions/ArrayProfile"),
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @SWG\Patch(
+     *     path="/user/following/{following_id}",
+     *     tags={"Followers"},
+     *     description="Returns data array",
+     *     @SWG\Parameter(name="following_id", in="formData", required=true, type="string"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
      *         @SWG\Schema(ref="#/definitions/ArrayProfile")
      *     ),
      *     security={{"Bearer": {}}}
      * )
-     * @return ArrayDataProvider
+     * @return ArrayDataProvider|array
+     * @throws BadRequestHttpException
      */
 
-    public function actionFollowing()
+    public function actionFollowing($following_id = null)
     {
-        return $this->users->getFollowing(Yii::$app->user->id);
+        if ($following_id) {
+            try {
+                $result = $this->users->getFollowing(Yii::$app->user->id, $following_id);
+            } catch (\Exception $e) {
+                throw new BadRequestHttpException($e->getMessage());
+            }
+        } else {
+            $result = $this->users->getFollowing(Yii::$app->user->id);
+        }
+
+        return $result;
     }
 
     /**
@@ -118,18 +140,97 @@ class FollowerController extends BearerController
      *     @SWG\Response(
      *         response=200,
      *         description="Success response",
+     *         @SWG\Schema(ref="#/definitions/ArrayProfile"),
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @SWG\Patch(
+     *     path="/user/followers/{follower_id}",
+     *     tags={"Followers"},
+     *     description="Returns data array",
+     *     @SWG\Parameter(name="follower_id", in="formData", required=true, type="string"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
      *         @SWG\Schema(ref="#/definitions/ArrayProfile")
      *     ),
      *     security={{"Bearer": {}}}
      * )
-     * @return ArrayDataProvider
+     * @return ArrayDataProvider|array
+     * @throws BadRequestHttpException
      */
 
-    public function actionFollowers()
+    public function actionFollowers($follower_id = null)
     {
-        return $this->users->getFollowers(Yii::$app->user->id);
+        if ($follower_id) {
+            try {
+                $result = $this->users->getFollowers(Yii::$app->user->id, $follower_id);
+            } catch (\Exception $e) {
+                throw new BadRequestHttpException($e->getMessage());
+            }
+        } else {
+            $result = $this->users->getFollowers(Yii::$app->user->id);
+        }
+
+        return $result;
+    }
+
+
+    /**
+     * @SWG\Patch(
+     *     path="/user/followers/approve/{follower_id}",
+     *     tags={"Followers"},
+     *     description="Returns boolean",
+     *     @SWG\Parameter(name="follower_id", in="formData", required=false, type="string"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response boolean",
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @param $follower_id
+     * @return bool
+     * @throws BadRequestHttpException
+     */
+
+    public function actionApprove($follower_id)
+    {
+        try {
+            $this->service->approve($follower_id, Yii::$app->user->id);
+            return true;
+        } catch (\Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+    }
+
+    /**
+     * @SWG\Patch(
+     *     path="/user/followers/disapprove/{follower_id}",
+     *     tags={"Followers"},
+     *     description="Return boolean",
+     *     @SWG\Parameter(name="follower_id", in="formData", required=false, type="string"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response boolean",
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @param $follower_id
+     * @return bool
+     * @throws BadRequestHttpException
+     */
+
+    public function actionDisapprove($follower_id)
+    {
+        try {
+            $this->service->approve($follower_id, Yii::$app->user->id);
+            return true;
+        } catch (\Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
     }
 }
+
 /**
  * @SWG\Definition(
  *     definition="ArrayProfile",

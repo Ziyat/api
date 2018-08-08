@@ -44,7 +44,7 @@ class UserEditForm extends Model
 
             ['password', 'string', 'min' => 6],
             ['email', 'email'],
-            [['name','lastName','lastName'], 'string'],
+            [['name','lastName'], 'string'],
             [['birthDate'], 'date', 'format' => 'php:d-m-Y'],
             ['photo', 'file', 'extensions' => 'jpeg, gif, png, jpg'],
         ];

@@ -12,6 +12,7 @@ use box\helpers\UserHelper;
 use box\services\UserService;
 use box\forms\user\UserEditForm;
 use Yii;
+use yii\web\BadRequestHttpException;
 
 class ProfileController extends BearerController
 {
@@ -23,6 +24,7 @@ class ProfileController extends BearerController
         parent::__construct($id, $module, $config);
         $this->service = $service;
     }
+
     /**
      * @SWG\Get(
      *     path="/profile",
@@ -45,8 +47,14 @@ class ProfileController extends BearerController
     /**
      * @SWG\Post(
      *     path="/profile/edit",
-     *     tags={"Profile edit"},
+     *     tags={"Profile"},
      *     description="Returns profile info. To send an image add in the header content-type: multipart/form-data",
+     *     @SWG\Parameter(name="email", in="formData", required=false, type="string"),
+     *     @SWG\Parameter(name="password", in="formData", required=false, type="string"),
+     *     @SWG\Parameter(name="name", in="formData", required=false, type="string"),
+     *     @SWG\Parameter(name="lastName", in="formData", required=false, type="string"),
+     *     @SWG\Parameter(name="birthDate", in="formData", required=false, type="string"),
+     *     @SWG\Parameter(name="photo", in="formData", required=false, type="file"),
      *     @SWG\Response(
      *         response=200,
      *         description="Success response",
@@ -68,8 +76,7 @@ class ProfileController extends BearerController
         $form = new UserEditForm($user);
         $form->load(Yii::$app->request->bodyParams, '');
 
-        if($form->validate())
-        {
+        if ($form->validate()) {
             try {
                 $user = $this->service->edit($user->id, $form);
                 return $this->serialize($user);
@@ -81,6 +88,32 @@ class ProfileController extends BearerController
             }
         }
         return $form;
+    }
+
+    /**
+     * @SWG\Patch(
+     *     path="/profile/private",
+     *     tags={"Profile"},
+     *     description="you can change private status",
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response boolean",
+     *         @SWG\Schema(ref="#/definitions/Profile")
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @throws BadRequestHttpException
+     * @return User
+     * @throws BadRequestHttpException
+     */
+    public function actionChangePrivate()
+    {
+        try {
+            $user = $this->service->changePrivate(Yii::$app->user->id);
+            return $user;
+        } catch (\Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
     }
 
 
@@ -97,15 +130,15 @@ class ProfileController extends BearerController
         return User::findOne($id);
     }
 
-
     protected function serialize(User $user)
     {
-        return[
+        return [
             'id' => $user->id,
             'email' => $user->email,
             'phone' => $user->phone,
             'createdAt' => $user->created_at,
             'status' => UserHelper::getStatus($user->status),
+            'private' => UserHelper::getPrivate($user->private),
             'name' => $user->profile->name,
             'lastName' => $user->profile->last_name,
             'birthDate' => $user->profile->date_of_birth,
@@ -114,14 +147,17 @@ class ProfileController extends BearerController
     }
 
 
+
+
 }
 /**
- *  @SWG\Definition(
+ * @SWG\Definition(
  *     definition="Profile",
  *     type="object",
  *     @SWG\Property(property="id", type="integer"),
  *     @SWG\Property(property="createdAt", type="integer"),
  *     @SWG\Property(property="status", type="string"),
+ *     @SWG\Property(property="private", type="string"),
  *     @SWG\Property(property="name", type="string"),
  *     @SWG\Property(property="lastName", type="string"),
  *     @SWG\Property(property="birthDate", type="string"),

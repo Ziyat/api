@@ -1225,6 +1225,35 @@
                 ]
             }
         },
+        "/user/following/{following_id}": {
+            "patch": {
+                "tags": [
+                    "Followers"
+                ],
+                "description": "Returns data array",
+                "parameters": [
+                    {
+                        "name": "following_id",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/ArrayProfile"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "/user/followers": {
             "get": {
                 "tags": [
@@ -1237,6 +1266,87 @@
                         "schema": {
                             "$ref": "#/definitions/ArrayProfile"
                         }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/user/followers/{follower_id}": {
+            "patch": {
+                "tags": [
+                    "Followers"
+                ],
+                "description": "Returns data array",
+                "parameters": [
+                    {
+                        "name": "follower_id",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/ArrayProfile"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/user/followers/approve/{follower_id}": {
+            "patch": {
+                "tags": [
+                    "Followers"
+                ],
+                "description": "Returns boolean",
+                "parameters": [
+                    {
+                        "name": "follower_id",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response boolean"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/user/followers/disapprove/{follower_id}": {
+            "patch": {
+                "tags": [
+                    "Followers"
+                ],
+                "description": "Return boolean",
+                "parameters": [
+                    {
+                        "name": "follower_id",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response boolean"
                     }
                 },
                 "security": [
@@ -1735,12 +1845,71 @@
         "/profile/edit": {
             "post": {
                 "tags": [
-                    "Profile edit"
+                    "Profile"
                 ],
                 "description": "Returns profile info. To send an image add in the header content-type: multipart/form-data",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "name",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "lastName",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "birthDate",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "photo",
+                        "in": "formData",
+                        "required": false,
+                        "type": "file"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/Profile"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/profile/private": {
+            "patch": {
+                "tags": [
+                    "Profile"
+                ],
+                "description": "you can change private status",
+                "responses": {
+                    "200": {
+                        "description": "Success response boolean",
                         "schema": {
                             "$ref": "#/definitions/Profile"
                         }
@@ -2214,6 +2383,9 @@
                     "type": "integer"
                 },
                 "status": {
+                    "type": "string"
+                },
+                "private": {
                     "type": "string"
                 },
                 "name": {

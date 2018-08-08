@@ -12,6 +12,7 @@ return [
         'status' => 10,
         'email' => 'tests@mail.com',
         'role' => 'moderator',
+        'private' => 1,
     ],
     [
         'id' => 2,
@@ -37,5 +38,6 @@ return [
         'status' => 10,
         'phone' => 998974457089,
         'role' => 'user',
+        'private' => 0,
     ],
 ];

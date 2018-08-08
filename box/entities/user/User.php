@@ -37,6 +37,14 @@ use yii\web\IdentityInterface;
  * @property string $role role
  * @property Profile $profile
  * @property Product[] $products
+ * @property User[] $notApproveFollowers
+ * @property User[] $notApproveFollowing
+ * @property Follower[] $notApproveFollowersAssignments
+ * @property Follower[] $notApproveFollowingAssignments
+ * @property User[] $approveFollowers
+ * @property User[] $approveFollowing
+ * @property Follower[] $approveFollowersAssignments
+ * @property Follower[] $approveFollowingAssignments
  * @property User[] $followers
  * @property User[] $following
  * @property Follower[] $followersAssignments
@@ -150,28 +158,6 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->status === self::STATUS_WAIT;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return '{{%users}}';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            TimestampBehavior::class,
-            [
-                'class' => SaveRelationsBehavior::class,
-                'relations' => ['profile', 'followingAssignments']
-            ],
-
-        ];
-    }
 
     /**
      * @inheritdoc
@@ -343,30 +329,34 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Removes activate token
      */
+
     public function removeActivateToken()
     {
         $this->activate_token = null;
     }
+
+    // tokens
 
     public function getTokens()
     {
         return $this->hasOne(Token::class, ['user_id' => 'id']);
     }
 
+    // profiles
+
     public function getProfile()
     {
         return $this->hasOne(Profile::class, ['user_id' => 'id']);
     }
 
-    public static function find(): UserQuery
-    {
-        return new UserQuery(static::class);
-    }
+    // products
 
     public function getProducts()
     {
         return $this->hasMany(Product::class, ['created_by' => 'id']);
     }
+
+    // followers
 
     public function getFollowersAssignments(): ActiveQuery
     {
@@ -380,12 +370,65 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function getFollowers(): ActiveQuery
     {
-        return $this->hasMany(User::class, ['id' => 'user_id'])->via('followersAssignments');
+        return $this->hasMany(User::class, ['id' => 'follower_id'])
+            ->via('followersAssignments');
     }
 
     public function getFollowing(): ActiveQuery
     {
-        return $this->hasMany(User::class, ['id' => 'user_id'])->via('followingAssignments');
+        return $this->hasMany(User::class, ['id' => 'user_id'])
+            ->via('followingAssignments');
+    }
+
+
+    public function getNotApproveFollowersAssignments(): ActiveQuery
+    {
+        return $this->hasMany(Follower::class, ['user_id' => 'id'])
+            ->andWhere(['status' => Follower::NOT_APPROVE])
+            ->orderBy(['created_at' => SORT_DESC]);
+    }
+
+    public function getNotApproveFollowingAssignments(): ActiveQuery
+    {
+        return $this->hasMany(Follower::class, ['follower_id' => 'id'])
+            ->andWhere(['status' => Follower::NOT_APPROVE])
+            ->orderBy(['created_at' => SORT_DESC]);
+    }
+
+    public function getNotApproveFollowers(): ActiveQuery
+    {
+        return $this->hasMany(User::class, ['id' => 'follower_id'])
+            ->via('notApproveFollowersAssignments');
+    }
+
+    public function getNotApproveFollowing(): ActiveQuery
+    {
+        return $this->hasMany(User::class, ['id' => 'user_id'])
+            ->via('notApproveFollowingAssignments');
+    }
+
+    public function getApproveFollowersAssignments(): ActiveQuery
+    {
+        return $this->hasMany(Follower::class, ['user_id' => 'id'])
+            ->andWhere(['status' => Follower::APPROVE]);
+    }
+
+    public function getApproveFollowingAssignments(): ActiveQuery
+    {
+        return $this->hasMany(Follower::class, ['follower_id' => 'id'])
+            ->andWhere(['status' => Follower::APPROVE]);
+    }
+
+    public function getApproveFollowers(): ActiveQuery
+    {
+        return $this->hasMany(User::class, ['id' => 'follower_id'])
+            ->via('approveFollowersAssignments');
+    }
+
+    public function getApproveFollowing(): ActiveQuery
+    {
+        return $this->hasMany(User::class, ['id' => 'user_id'])
+            ->via('approveFollowingAssignments');
     }
 
 
@@ -406,6 +449,10 @@ class User extends ActiveRecord implements IdentityInterface
                 return UserHelper::getStatus($model->status);
 
             },
+            'private' => function (self $model) {
+                return UserHelper::getPrivate($model->private);
+
+            },
             'birthDate' => function (self $model) {
                 return $model->profile->date_of_birth;
 
@@ -413,4 +460,33 @@ class User extends ActiveRecord implements IdentityInterface
             'createdAt' => 'created_at',
         ];
     }
+
+    public static function find(): UserQuery
+    {
+        return new UserQuery(static::class);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return '{{%users}}';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::class,
+            [
+                'class' => SaveRelationsBehavior::class,
+                'relations' => ['profile', 'followingAssignments', 'followersAssignments']
+            ],
+
+        ];
+    }
+
 }

@@ -17,4 +17,9 @@ return [
         'token' => 'token-correct-id-2',
         'expired_at' => time() + 3600
     ],
+    [
+        'user_id' => 3,
+        'token' => 'token-correct-id-3',
+        'expired_at' => time() + 3600
+    ],
 ];

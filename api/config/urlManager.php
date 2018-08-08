@@ -23,6 +23,7 @@ return [
 
         'GET profile' => 'user/profile/index',
         'POST profile/edit' => 'user/profile/edit',
+        'PATCH profile/private' => 'user/profile/change-private',
 
         //followers
 
@@ -30,6 +31,11 @@ return [
         'PATCH user/unfollow/<follow_id:\d+>' => 'user/follower/un-follow',
         'GET user/following' => 'user/follower/following',
         'GET user/followers' => 'user/follower/followers',
+        'PATCH user/following/<following_id:\d+>' => 'user/follower/following',
+        'PATCH user/followers/<follower_id:\d+>' => 'user/follower/followers',
+
+        'PATCH user/followers/approve/<follower_id:\d+>' => 'user/follower/approve',
+        'PATCH user/followers/disapprove/<follower_id:\d+>' => 'user/follower/disapprove',
 
         // user product
 

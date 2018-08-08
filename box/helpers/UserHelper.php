@@ -24,4 +24,15 @@ class UserHelper
                 return 'Unknown';
         }
     }
+    public static function getPrivate($private)
+    {
+        switch ($private){
+            case User::PRIVATE:
+                return 'Private';
+            case User::NOT_PRIVATE:
+                return 'Not private';
+            default:
+                return 'Unknown';
+        }
+    }
 }

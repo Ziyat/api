@@ -15,6 +15,7 @@ use box\entities\user\User;
 use box\forms\auth\SignupForm;
 use box\forms\user\UserEditForm;
 use box\repositories\UserRepository;
+use yii\helpers\VarDumper;
 
 class UserService
 {
@@ -136,6 +137,62 @@ class UserService
         } catch (\Exception $e) {
             throw new \DomainException($e->getMessage());
         }
+    }
+
+
+    public function changePrivate($id)
+    {
+        $user = $this->users->find($id);
+        $user->changePrivate();
+        $this->users->save($user);
+        return $user;
+    }
+
+
+    public function approve($follower_id, $user_id)
+    {
+        $user = $this->users->find($user_id);
+        $follower = $this->users->find($follower_id);
+
+        try {
+            $followersAssignments = $user->followersAssignments;
+            $user->followersAssignments = [];
+            $this->users->save($user);
+            foreach ($followersAssignments as $i => $followerAssignment) {
+                if ($followerAssignment->follower_id == $follower->id && $followerAssignment->user_id == $user->id) {
+                    $followerAssignment->status = $followerAssignment::APPROVE;
+                    $followersAssignments[$i] = $followerAssignment;
+                }
+            }
+            $user->followersAssignments = $followersAssignments;
+            $this->users->save($user);
+        } catch (\Exception $e) {
+            throw new \DomainException($e->getMessage());
+        }
+
+    }
+
+    public function disApprove($follower_id, $user_id)
+    {
+        $user = $this->users->find($user_id);
+        $follower = $this->users->find($follower_id);
+
+        try {
+            $followersAssignments = $user->followersAssignments;
+            $user->followersAssignments = [];
+            $this->users->save($user);
+            foreach ($followersAssignments as $i => $followerAssignment) {
+                if ($followerAssignment->follower_id == $follower->id && $followerAssignment->user_id == $user->id) {
+                    $followerAssignment->status = $followerAssignment::NOT_APPROVE;
+                    $followersAssignments[$i] = $followerAssignment;
+                }
+            }
+            $user->followersAssignments = $followersAssignments;
+            $this->users->save($user);
+        } catch (\Exception $e) {
+            throw new \DomainException($e->getMessage());
+        }
+
     }
 
 

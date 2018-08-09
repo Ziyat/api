@@ -140,7 +140,10 @@ class FollowerController extends BearerController
      *     @SWG\Response(
      *         response=200,
      *         description="Success response",
-     *         @SWG\Schema(ref="#/definitions/ArrayProfile"),
+     *         @SWG\Items(
+     *              @SWG\Property(property="0 {approve}", type="object", ref="#/definitions/ArrayProfile"),
+     *              @SWG\Property(property="1 {not approve}", type="object", ref="#/definitions/ArrayProfile"),
+     *          ),
      *     ),
      *     security={{"Bearer": {}}}
      * )

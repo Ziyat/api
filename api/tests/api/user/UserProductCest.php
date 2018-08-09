@@ -172,10 +172,16 @@ class UserProductCest
                 ],
                 "modifications" => [
                     [
-                        "value" => "1336iu",
+                        "value" => "1336x768",
                         "characteristic_id" => 2,
                         "quantity" => 5,
                         "price" => 992
+                    ],
+                    [
+                        "value" => "2600x1600",
+                        "characteristic_id" => 2,
+                        "quantity" => 4,
+                        "price" => 34
                     ]
                 ],
                 "tags" => [
@@ -200,6 +206,7 @@ class UserProductCest
                 ]
             ]
         );
+        VarDumper::dump($I->grabResponse());
         $I->seeResponseCodeIs(202);
     }
 }

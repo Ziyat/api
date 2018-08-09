@@ -194,14 +194,13 @@ class FollowersCest
     {
         $I->amBearerAuthenticated('token-correct');
         $I->sendPATCH('/user/followers/1');
-        VarDumper::dump($I->grabResponse());
-//        $I->seeResponseCodeIs(200);
-//        $I->seeResponseContainsJson([
-//            0 => [
-//                'id' => 1
-//            ],
-//            1 => null,
-//        ]);
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseContainsJson([
+            0 => [
+                'id' => 1
+            ],
+            1 => null,
+        ]);
     }
 
 

@@ -227,7 +227,7 @@ class Product extends ActiveRecord
     {
         $modifications = $this->modifications;
         foreach ($modifications as $modification) {
-            if ($modification->isForCharacteristic($characteristic_id)) {
+            if ($modification->isForCharacteristic($characteristic_id,$value)) {
                 $modification->change($value, $price, $main_photo_id, $quantity);
                 $this->modifications = $modifications;
                 return;

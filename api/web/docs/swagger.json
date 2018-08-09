@@ -1264,7 +1264,16 @@
                     "200": {
                         "description": "Success response",
                         "schema": {
-                            "$ref": "#/definitions/ArrayProfile"
+                            "properties": {
+                                "0 {approve}": {
+                                    "type": "object",
+                                    "$ref": "#/definitions/ArrayProfile"
+                                },
+                                "1 {not approve}": {
+                                    "type": "object",
+                                    "$ref": "#/definitions/ArrayProfile"
+                                }
+                            }
                         }
                     }
                 },

@@ -49,9 +49,7 @@ class Modification extends ActiveRecord
 
     public function isForCharacteristic($id,$modificationId = null): bool
     {
-        return $modificationId
-            ? $this->characteristic_id == $id && $this->id == $modificationId
-            : $this->characteristic_id == $id;
+        return $this->characteristic_id == $id && $this->id == $modificationId;
     }
 
     public function changeMainPhoto($mainPhotoId)

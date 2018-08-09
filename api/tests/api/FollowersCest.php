@@ -197,7 +197,7 @@ class FollowersCest
         $I->seeResponseCodeIs(200);
         $I->seeResponseContainsJson([
             0 => [
-                'id' => 1
+                'id' => 3
             ],
             1 => null,
         ]);

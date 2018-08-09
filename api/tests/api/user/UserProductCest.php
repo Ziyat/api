@@ -172,16 +172,11 @@ class UserProductCest
                 ],
                 "modifications" => [
                     [
-                        "value" => "1336x768",
+                        "id" => 1,
+                        "value" => "1334",
                         "characteristic_id" => 2,
-                        "quantity" => 5,
-                        "price" => 992
-                    ],
-                    [
-                        "value" => "2600x1600",
-                        "characteristic_id" => 2,
-                        "quantity" => 4,
-                        "price" => 34
+                        "quantity" => 10,
+                        "price" => 550
                     ]
                 ],
                 "tags" => [

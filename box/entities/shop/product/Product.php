@@ -223,11 +223,11 @@ class Product extends ActiveRecord
     }
 
 
-    public function setModification($characteristic_id, $value, $price, $quantity, $main_photo_id): void
+    public function setModification($characteristic_id, $value, $price, $quantity, $main_photo_id,$modificationId=null): void
     {
         $modifications = $this->modifications;
         foreach ($modifications as $modification) {
-            if ($modification->isForCharacteristic($characteristic_id,$value)) {
+            if ($modification->isForCharacteristic($characteristic_id,$modificationId)) {
                 $modification->change($value, $price, $main_photo_id, $quantity);
                 $this->modifications = $modifications;
                 return;

@@ -187,7 +187,8 @@ class ProductService
                             $modification->value,
                             $modification->price,
                             $modification->quantity,
-                            $modification->main_photo_id
+                            $modification->main_photo_id,
+                            $modification->id
                         );
                     }
                 }

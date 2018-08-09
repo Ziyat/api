@@ -21,6 +21,7 @@ use yii\base\Model;
 
 class ModificationForm extends Model
 {
+    public $id;
     public $value;
     public $price;
     public $characteristic_id;
@@ -32,6 +33,7 @@ class ModificationForm extends Model
     public function __construct(Modification $modification = null, $config = [])
     {
         if($modification){
+            $this->id = $modification->id;
             $this->value = $modification->value;
             $this->characteristic_id = $modification->characteristic_id;
             $this->price = $modification->price;
@@ -51,6 +53,7 @@ class ModificationForm extends Model
             ['value','trim'],
             ['value','string'],
             [['price','main_photo_id','quantity'],'integer'],
+            ['id','safe'],
             ['characteristic_id', 'exist',
                 'targetAttribute' => 'id',
                 'targetClass' => Characteristic::class,

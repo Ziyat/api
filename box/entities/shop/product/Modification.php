@@ -47,9 +47,11 @@ class Modification extends ActiveRecord
         $this->quantity = $quantity;
     }
 
-    public function isForCharacteristic($id,$value): bool
+    public function isForCharacteristic($id,$modificationId = null): bool
     {
-        return $this->characteristic_id == $id && $this->characteristic_id == $value;
+        return $modificationId
+            ? $this->characteristic_id == $id && $this->id == $modificationId
+            : $this->characteristic_id == $id;
     }
 
     public function getCharacteristic(): ActiveQuery

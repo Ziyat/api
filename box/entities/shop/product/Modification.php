@@ -54,6 +54,11 @@ class Modification extends ActiveRecord
             : $this->characteristic_id == $id;
     }
 
+    public function changeMainPhoto($mainPhotoId)
+    {
+        $this->main_photo_id = $mainPhotoId;
+    }
+
     public function getCharacteristic(): ActiveQuery
     {
         return $this->hasOne(Characteristic::class, ['id' => 'characteristic_id']);

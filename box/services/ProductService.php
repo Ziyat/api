@@ -253,20 +253,16 @@ class ProductService
         {
             throw new NotFoundException('photo not found.');
         }
-        foreach ($product->modifications as $modification)
+        $modifications = $product->modifications;
+        foreach ($modifications as $k => $modification)
         {
             if($modification->id == $modification_id)
             {
-                $product->setModification(
-                    $modification->characteristic_id,
-                    $modification->value,
-                    $modification->price,
-                    $modification->quantity,
-                    $photo_id
-                );
+                $modification->changeMainPhoto($photo_id);
+                $modifications[$k] = $modification;
             }
         }
-
+        $product->modifications = $modifications;
         $this->products->save($product);
     }
 

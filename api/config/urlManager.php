@@ -107,6 +107,10 @@ return [
         'PATCH generic/products/<id:\d+>/photos/<photo_id:\d+>/down' => 'generic/product/move-photo-down',
         'DELETE generic/products/<id:\d+>/photos/<photo_id:\d+>' => 'generic/product/delete-photo',
 
+        // Carousel
+        'POST carousels' => 'carousel/create',
+
+
         // ocr
 
         'POST ocr' => 'ocr/index',

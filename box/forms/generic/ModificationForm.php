@@ -7,7 +7,7 @@
 namespace box\forms\generic;
 
 use box\entities\shop\Characteristic;
-use box\entities\shop\product\GenericModification;
+use box\entities\generic\GenericModification;
 use yii\base\Model;
 
 /**

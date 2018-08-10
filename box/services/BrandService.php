@@ -3,7 +3,7 @@
 namespace box\services;
 
 use box\entities\Meta;
-use box\entities\Shop\Brand;
+use box\entities\shop\Brand;
 use box\forms\shop\BrandForm;
 use box\repositories\BrandRepository;
 use box\repositories\ProductRepository;

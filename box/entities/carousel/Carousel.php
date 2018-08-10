@@ -9,6 +9,7 @@ namespace box\entities\carousel;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
+use yiidreamteam\upload\ImageUploadBehavior;
 
 /**
  * Carousel
@@ -20,6 +21,8 @@ use yii\web\UploadedFile;
  * @property integer $item_id
  * @property integer $appointment
  * @property Image[] $images
+ *
+ * @mixin ImageUploadBehavior
  */
 class Carousel extends ActiveRecord
 {

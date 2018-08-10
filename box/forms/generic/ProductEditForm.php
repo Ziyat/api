@@ -58,7 +58,7 @@ class ProductEditForm extends CompositeForm
     public function rules(): array
     {
         return [
-            [['brandId', 'name'], 'required'],
+//            [['brandId', 'name'], 'required'],
             [['name', 'description'], 'string', 'max' => 255],
             [['brandId', 'quantity'], 'integer'],
         ];

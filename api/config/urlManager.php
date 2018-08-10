@@ -97,6 +97,7 @@ return [
 
         'GET generic/products' => 'generic/product/index',
         'POST generic/products' => 'generic/product/create',
+        'POST generic/products/<id:\d+>' => 'generic/product/edit',
         'GET generic/products/<id:\d+>' => 'generic/product/view',
         'POST generic/products/search' => 'generic/product/search',
 

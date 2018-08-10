@@ -83,7 +83,5 @@ class ProductServiceEditTest extends Unit
 
         $product = Product::findOne(1);
         $form = new ProductEditForm($product);
-
-        VarDumper::dump($form);die;
     }
 }

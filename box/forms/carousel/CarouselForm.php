@@ -21,12 +21,11 @@ class CarouselForm extends CompositeForm
     public function __construct(Carousel $carousel = null, array $config = [])
     {
         if($carousel){
-            $carousel->title = $title;
-            $carousel->description = $description;
-            $carousel->text = $text;
-            $carousel->type = $type;
-            $carousel->item_id = $item_id;
-            $carousel->appointment = $appointment ?: self::APPOINTMENT_NEWS;
+            $this->title = $carousel->title;
+            $this->description = $carousel->description;
+            $this->text = $carousel->text;
+            $this->type = $carousel->type;
+            $this->item_id = $carousel->item_id;
         }
         parent::__construct($config);
     }

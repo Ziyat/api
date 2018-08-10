@@ -101,6 +101,12 @@ return [
         'GET generic/products/<id:\d+>' => 'generic/product/view',
         'POST generic/products/search' => 'generic/product/search',
 
+        'PUT generic/products/<product_id:\d+>/<modification_id:\d+>/<photo_id:\d+>' => 'generic/product/set-modification-photo',
+        'POST generic/products/<id:\d+>/photos' => 'generic/product/add-photos',
+        'PATCH generic/products/<id:\d+>/photos/<photo_id:\d+>/up' => 'generic/product/move-photo-up',
+        'PATCH generic/products/<id:\d+>/photos/<photo_id:\d+>/down' => 'generic/product/move-photo-down',
+        'DELETE generic/products/<id:\d+>/photos/<photo_id:\d+>' => 'generic/product/delete-photo',
+
         // ocr
 
         'POST ocr' => 'ocr/index',

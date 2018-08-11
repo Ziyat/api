@@ -144,7 +144,8 @@ class ProductService
                     $product->setModification(
                         $modification->characteristic_id,
                         $modification->value,
-                        $modification->main_photo_id
+                        $modification->main_photo_id,
+                        $modification->id
                     );
                 }
 

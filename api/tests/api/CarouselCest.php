@@ -11,6 +11,7 @@ use api\tests\ApiTester;
 use common\fixtures\ProfileFixture;
 use common\fixtures\TokenFixture;
 use common\fixtures\UserFixture;
+use yii\helpers\VarDumper;
 
 class CarouselCest
 {
@@ -36,14 +37,16 @@ class CarouselCest
     {
         $I->sendPOST('/carousels');
         $I->seeResponseCodeIs(401);
+
     }
 
     public function authenticated(ApiTester $I)
     {
         $I->amBearerAuthenticated('token-correct');
-        $I->sendGET('/shop/brands');
-        $I->seeResponseCodeIs(200);
-        $I->seeResponseContainsJson([]);
+        $I->sendPOST('/carousels');
+        VarDumper::dump($I->grabResponse());
+//        $I->seeResponseCodeIs(200);
+//        $I->seeResponseContainsJson([]);
     }
 
     public function accessRole(ApiTester $I)

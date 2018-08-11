@@ -39,9 +39,9 @@ class GenericModification extends ActiveRecord
         $this->main_photo_id = $main_photo_id;
     }
 
-    public function isForCharacteristic($id): bool
+    public function isForCharacteristic($id,$modificationId = null): bool
     {
-        return $this->characteristic_id == $id;
+        return $this->characteristic_id == $id && $this->id == $modificationId;
     }
 
     public function getCharacteristic(): ActiveQuery

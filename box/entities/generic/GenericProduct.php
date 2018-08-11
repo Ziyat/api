@@ -2,10 +2,10 @@
 
 namespace box\entities\generic;
 
-use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use box\entities\shop\Brand;
 use box\entities\shop\Category;
 use box\entities\shop\Tag;
+use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\behaviors\BlameableBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -78,12 +78,11 @@ class GenericProduct extends ActiveRecord
         $this->values = $values;
     }
 
-
-    public function setModification($characteristic_id, $value, $main_photo_id): void
+    public function setModification($characteristic_id, $value, $main_photo_id, $modificationId = null): void
     {
         $modifications = $this->modifications;
         foreach ($modifications as $modification) {
-            if ($modification->isForCharacteristic($characteristic_id)) {
+            if ($modification->isForCharacteristic($characteristic_id, $modificationId)) {
                 $modification->change($value, $main_photo_id);
                 $this->modifications = $modifications;
                 return;
@@ -466,6 +465,7 @@ class GenericProduct extends ActiveRecord
                 foreach ($this->modifications as $k => $modification) {
                     $result[$k] = [
                         'id' => $modification->id,
+                        'characteristic_id' => $modification->characteristic->id,
                         'characteristic' => $modification->characteristic->name,
                         'value' => $modification->value,
                         'photo' => $modification->mainPhoto ? $modification->mainPhoto->getThumbFileUrl('file', 'thumb') : null

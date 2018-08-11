@@ -12,12 +12,14 @@ use yii\base\Model;
 
 /**
  * @property string $value
+ * @property integer $id
  * @property integer $characteristic_id
  * @property integer $main_photo_id
  */
 
 class ModificationForm extends Model
 {
+    public $id;
     public $value;
     public $characteristic_id;
     public $main_photo_id;
@@ -27,6 +29,7 @@ class ModificationForm extends Model
     public function __construct(GenericModification $modification = null, $config = [])
     {
         if($modification){
+            $this->id = $modification->id;
             $this->value = $modification->value;
             $this->characteristic_id = $modification->characteristic_id;
             $this->main_photo_id = $modification->main_photo_id;
@@ -44,6 +47,7 @@ class ModificationForm extends Model
             ['value','trim'],
             ['value','string'],
             [['main_photo_id'],'integer'],
+            ['id','safe'],
             ['characteristic_id', 'exist',
                 'targetAttribute' => 'id',
                 'targetClass' => Characteristic::class,

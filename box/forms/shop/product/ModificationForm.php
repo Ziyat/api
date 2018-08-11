@@ -13,6 +13,7 @@ use yii\base\Model;
 
 /**
  * @property string $value
+ * @property integer $id
  * @property integer $price
  * @property integer $characteristic_id
  * @property integer $main_photo_id

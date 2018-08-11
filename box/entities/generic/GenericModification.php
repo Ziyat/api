@@ -44,6 +44,11 @@ class GenericModification extends ActiveRecord
         return $this->characteristic_id == $id && $this->id == $modificationId;
     }
 
+    public function changeMainPhoto($mainPhotoId)
+    {
+        $this->main_photo_id = $mainPhotoId;
+    }
+
     public function getCharacteristic(): ActiveQuery
     {
         return $this->hasOne(Characteristic::class, ['id' => 'characteristic_id']);

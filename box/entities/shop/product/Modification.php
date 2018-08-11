@@ -52,7 +52,7 @@ class Modification extends ActiveRecord
         return $this->characteristic_id == $id && $this->id == $modificationId;
     }
 
-    public function changeMainPhoto($mainPhotoId)
+    public function changeMainPhoto($mainPhotoId): void
     {
         $this->main_photo_id = $mainPhotoId;
     }

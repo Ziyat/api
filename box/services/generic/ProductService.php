@@ -176,6 +176,7 @@ class ProductService
      * @param $photo_id
      * @param $modification_id
      * @throws \box\repositories\NotFoundException
+     * @return GenericProduct
      */
     public function setModificationPhoto($product_id,$modification_id,$photo_id)
     {
@@ -194,8 +195,8 @@ class ProductService
             }
         }
         $product->modifications = $modifications;
-
         $this->products->save($product);
+        return $product;
     }
 
     /**

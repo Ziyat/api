@@ -131,4 +131,13 @@ class GenericProductCest
         );
         $I->seeResponseCodeIs(201);
     }
+
+    public function changeMainPhotoModification(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendPUT('/generic/products/1/1/1');
+        VarDumper::dump($I->grabResponse());
+//        $I->seeResponseCodeIs(200);
+//        $I->seeResponseContainsJson([]);
+    }
 }

@@ -6,14 +6,13 @@ use box\entities\Meta;
 use box\entities\shop\product\Product;
 use box\entities\shop\Tag;
 use box\forms\shop\product\PhotosForm;
+use box\forms\shop\product\ProductCreateForm;
 use box\forms\shop\product\ProductEditForm;
 use box\repositories\BrandRepository;
 use box\repositories\CategoryRepository;
 use box\repositories\NotFoundException;
 use box\repositories\ProductRepository;
-use box\forms\shop\product\ProductCreateForm;
 use box\repositories\TagRepository;
-use yii\helpers\VarDumper;
 
 class ProductService
 {
@@ -264,6 +263,7 @@ class ProductService
         }
         $product->modifications = $modifications;
         $this->products->save($product);
+        return $product;
     }
 
     /**

@@ -73,6 +73,7 @@ class PublicController extends Controller
      * @SWG\Get(
      *     path="/public/user/{id}/products",
      *     tags={"Public"},
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
      *     description="Public user products by id, return user products array data",
      *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
      *     @SWG\Response(
@@ -90,8 +91,9 @@ class PublicController extends Controller
 
     /**
      * @SWG\Get(
-     *     path="/public/users/{user_id}/followers",
+     *     path="/public/user/{id}/followers",
      *     tags={"Public"},
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
      *     description="Return user followers array",
      *     @SWG\Response(
      *         response=200,
@@ -114,8 +116,9 @@ class PublicController extends Controller
 
     /**
      * @SWG\Get(
-     *     path="/public/users/{user_id}/following",
+     *     path="/public/user/{id}/following",
      *     tags={"Public"},
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
      *     description="Return user following array",
      *     @SWG\Response(
      *         response=200,

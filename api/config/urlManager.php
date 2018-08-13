@@ -92,6 +92,8 @@ return [
         'GET public/users' => 'public/users',
         'GET public/user/<id:\d+>' => 'public/user',
         'GET public/user/<id:\d+>/products' => 'public/user-products',
+        'GET public/user/<user_id:\d+>/following' => 'public/user-following',
+        'GET public/user/<user_id:\d+>/followers' => 'public/user-followers',
 
         // generic
 

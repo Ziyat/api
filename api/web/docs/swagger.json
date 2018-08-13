@@ -184,6 +184,58 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "tags": [
+                    "Carousels"
+                ],
+                "description": "Return carousels array",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "subTitle",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "text",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "type",
+                        "in": "formData",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "item_id",
+                        "in": "formData",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/CarouselData"
+                        }
+                    }
+                }
             }
         },
         "/carousels/{id}": {
@@ -273,6 +325,70 @@
                         "description": "Success response",
                         "schema": {
                             "$ref": "#/definitions/User"
+                        }
+                    }
+                }
+            }
+        },
+        "/public/users/{user_id}/followers": {
+            "get": {
+                "tags": [
+                    "Public"
+                ],
+                "description": "Return user followers array",
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "properties": {
+                                    "KEY [0] -> {approve}": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/definitions/Profile"
+                                        }
+                                    },
+                                    "KEY [1] -> {not approve}": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/definitions/Profile"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/public/users/{user_id}/following": {
+            "get": {
+                "tags": [
+                    "Public"
+                ],
+                "description": "Return user following array",
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "properties": {
+                                    "KEY [0] -> {approve}": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/definitions/Profile"
+                                        }
+                                    },
+                                    "KEY [1] -> {not approve}": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/definitions/Profile"
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }

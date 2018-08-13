@@ -23,6 +23,7 @@ class PublicController extends Controller
         $this->products = $products;
     }
 
+
     /**
      * @SWG\Get(
      *     path="/public/users",
@@ -86,6 +87,55 @@ class PublicController extends Controller
     {
         return $this->products->getUserProducts($id);
     }
+
+    /**
+     * @SWG\Get(
+     *     path="/public/users/{user_id}/followers",
+     *     tags={"Public"},
+     *     description="Return user followers array",
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Schema(
+     *              type="array",
+     *          @SWG\Items(
+     *              @SWG\Property(property="KEY [0] -> {approve}", type="array", @SWG\Items(ref="#/definitions/Profile")),
+     *              @SWG\Property(property="KEY [1] -> {not approve}", type="array", @SWG\Items(ref="#/definitions/Profile")),
+     *          ),
+     *          )
+     *     ),
+     * )
+     */
+
+    public function actionFollowers($user_id)
+    {
+        return $this->users->getFollowers($user_id);
+    }
+
+    /**
+     * @SWG\Get(
+     *     path="/public/users/{user_id}/following",
+     *     tags={"Public"},
+     *     description="Return user following array",
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Schema(
+     *              type="array",
+     *          @SWG\Items(
+     *              @SWG\Property(property="KEY [0] -> {approve}", type="array", @SWG\Items(ref="#/definitions/Profile")),
+     *              @SWG\Property(property="KEY [1] -> {not approve}", type="array", @SWG\Items(ref="#/definitions/Profile")),
+     *          ),
+     *          )
+     *     ),
+     * )
+     */
+
+    public function actionFollowing($user_id)
+    {
+        return $this->users->getFollowing($user_id);
+    }
+
 }
 
 /**

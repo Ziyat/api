@@ -37,10 +37,10 @@ class FollowerController extends BearerController
 
     /**
      * @SWG\Patch(
-     *     path="/user/follow",
+     *     path="/user/follow/{follow_id}",
      *     tags={"Followers"},
      *     description="Returns boolean true",
-     *     @SWG\Parameter(name="follow_id", in="formData", required=true, type="string"),
+     *     @SWG\Parameter(name="follow_id", in="path", required=true, type="string"),
      *     @SWG\Response(
      *         response=200,
      *         description="Success response boolean"
@@ -64,10 +64,10 @@ class FollowerController extends BearerController
 
     /**
      * @SWG\Patch(
-     *     path="/user/unfollow",
+     *     path="/user/unfollow/{follow_id}",
      *     tags={"Followers"},
      *     description="Returns boolean true",
-     *     @SWG\Parameter(name="follow_id", in="formData", required=true, type="string"),
+     *     @SWG\Parameter(name="follow_id", in="path", required=true, type="integer"),
      *     @SWG\Response(
      *         response=200,
      *         description="Success response boolean"
@@ -97,7 +97,10 @@ class FollowerController extends BearerController
      *     @SWG\Response(
      *         response=200,
      *         description="Success response",
-     *         @SWG\Schema(ref="#/definitions/ArrayProfile"),
+     *         @SWG\Items(
+     *              @SWG\Property(property="KEY [0] -> {approve}", type="array", @SWG\Items(ref="#/definitions/Profile")),
+     *              @SWG\Property(property="KEY [1] -> {not approve}", type="array", @SWG\Items(ref="#/definitions/Profile"))
+     *         ),
      *     ),
      *     security={{"Bearer": {}}}
      * )
@@ -105,11 +108,11 @@ class FollowerController extends BearerController
      *     path="/user/following/{following_id}",
      *     tags={"Followers"},
      *     description="Returns data array",
-     *     @SWG\Parameter(name="following_id", in="formData", required=true, type="string"),
+     *     @SWG\Parameter(name="following_id", in="path", required=true, type="integer"),
      *     @SWG\Response(
      *         response=200,
      *         description="Success response",
-     *         @SWG\Schema(ref="#/definitions/ArrayProfile")
+     *         @SWG\Schema(ref="#/definitions/Profile")
      *     ),
      *     security={{"Bearer": {}}}
      * )
@@ -141,8 +144,8 @@ class FollowerController extends BearerController
      *         response=200,
      *         description="Success response",
      *         @SWG\Items(
-     *              @SWG\Property(property="0 {approve}", type="object", ref="#/definitions/ArrayProfile"),
-     *              @SWG\Property(property="1 {not approve}", type="object", ref="#/definitions/ArrayProfile"),
+     *              @SWG\Property(property="KEY [0] -> {approve}", type="array", @SWG\Items(ref="#/definitions/Profile")),
+     *              @SWG\Property(property="KEY [1] -> {not approve}", type="array", @SWG\Items(ref="#/definitions/Profile")),
      *          ),
      *     ),
      *     security={{"Bearer": {}}}
@@ -151,11 +154,11 @@ class FollowerController extends BearerController
      *     path="/user/followers/{follower_id}",
      *     tags={"Followers"},
      *     description="Returns data array",
-     *     @SWG\Parameter(name="follower_id", in="formData", required=true, type="string"),
+     *     @SWG\Parameter(name="follower_id", in="path", required=true, type="integer"),
      *     @SWG\Response(
      *         response=200,
      *         description="Success response",
-     *         @SWG\Schema(ref="#/definitions/ArrayProfile")
+     *         @SWG\Property(ref="#/definitions/Profile")
      *     ),
      *     security={{"Bearer": {}}}
      * )
@@ -184,7 +187,7 @@ class FollowerController extends BearerController
      *     path="/user/followers/approve/{follower_id}",
      *     tags={"Followers"},
      *     description="Returns boolean",
-     *     @SWG\Parameter(name="follower_id", in="formData", required=false, type="string"),
+     *     @SWG\Parameter(name="follower_id", in="path", required=false, type="string"),
      *     @SWG\Response(
      *         response=200,
      *         description="Success response boolean",
@@ -211,7 +214,7 @@ class FollowerController extends BearerController
      *     path="/user/followers/disapprove/{follower_id}",
      *     tags={"Followers"},
      *     description="Return boolean",
-     *     @SWG\Parameter(name="follower_id", in="formData", required=false, type="string"),
+     *     @SWG\Parameter(name="follower_id", in="path", required=false, type="string"),
      *     @SWG\Response(
      *         response=200,
      *         description="Success response boolean",
@@ -233,12 +236,4 @@ class FollowerController extends BearerController
         }
     }
 }
-
-/**
- * @SWG\Definition(
- *     definition="ArrayProfile",
- *     type="array",
- *     @SWG\Items(ref="#/definitions/Profile")
- *)
- */
 

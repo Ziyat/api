@@ -55,7 +55,7 @@ class ProductController extends BearerController
      *         response=200,
      *         description="Success response",
      *         @SWG\Property(property="characteristics", type="array",
-     *          @SWG\Items(ref="#/definitions/ProductData"))
+     *         @SWG\Items(ref="#/definitions/ProductData"))
      *
      *     ),
      *     security={{"Bearer": {}}}

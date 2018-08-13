@@ -166,6 +166,50 @@
                 }
             }
         },
+        "/carousels": {
+            "get": {
+                "tags": [
+                    "Carousels"
+                ],
+                "description": "Return carousels array",
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "property": "characteristics",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/CarouselData"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/carousels/{id}": {
+            "get": {
+                "tags": [
+                    "Carousels"
+                ],
+                "description": "Return carousels array",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/CarouselData"
+                        }
+                    }
+                }
+            }
+        },
         "/public/users": {
             "get": {
                 "tags": [
@@ -1152,7 +1196,7 @@
                 ]
             }
         },
-        "/user/follow": {
+        "/user/follow/{follow_id}": {
             "patch": {
                 "tags": [
                     "Followers"
@@ -1161,7 +1205,7 @@
                 "parameters": [
                     {
                         "name": "follow_id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
                         "type": "string"
                     }
@@ -1178,7 +1222,7 @@
                 ]
             }
         },
-        "/user/unfollow": {
+        "/user/unfollow/{follow_id}": {
             "patch": {
                 "tags": [
                     "Followers"
@@ -1187,9 +1231,9 @@
                 "parameters": [
                     {
                         "name": "follow_id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
-                        "type": "string"
+                        "type": "integer"
                     }
                 ],
                 "responses": {
@@ -1214,7 +1258,20 @@
                     "200": {
                         "description": "Success response",
                         "schema": {
-                            "$ref": "#/definitions/ArrayProfile"
+                            "properties": {
+                                "KEY [0] -> {approve}": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Profile"
+                                    }
+                                },
+                                "KEY [1] -> {not approve}": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Profile"
+                                    }
+                                }
+                            }
                         }
                     }
                 },
@@ -1234,16 +1291,16 @@
                 "parameters": [
                     {
                         "name": "following_id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
-                        "type": "string"
+                        "type": "integer"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "Success response",
                         "schema": {
-                            "$ref": "#/definitions/ArrayProfile"
+                            "$ref": "#/definitions/Profile"
                         }
                     }
                 },
@@ -1265,13 +1322,17 @@
                         "description": "Success response",
                         "schema": {
                             "properties": {
-                                "0 {approve}": {
-                                    "type": "object",
-                                    "$ref": "#/definitions/ArrayProfile"
+                                "KEY [0] -> {approve}": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Profile"
+                                    }
                                 },
-                                "1 {not approve}": {
-                                    "type": "object",
-                                    "$ref": "#/definitions/ArrayProfile"
+                                "KEY [1] -> {not approve}": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/Profile"
+                                    }
                                 }
                             }
                         }
@@ -1293,16 +1354,16 @@
                 "parameters": [
                     {
                         "name": "follower_id",
-                        "in": "formData",
+                        "in": "path",
                         "required": true,
-                        "type": "string"
+                        "type": "integer"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "Success response",
                         "schema": {
-                            "$ref": "#/definitions/ArrayProfile"
+                            "$ref": "#/definitions/Profile"
                         }
                     }
                 },
@@ -1322,7 +1383,7 @@
                 "parameters": [
                     {
                         "name": "follower_id",
-                        "in": "formData",
+                        "in": "path",
                         "required": false,
                         "type": "string"
                     }
@@ -1348,7 +1409,7 @@
                 "parameters": [
                     {
                         "name": "follower_id",
-                        "in": "formData",
+                        "in": "path",
                         "required": false,
                         "type": "string"
                     }
@@ -1944,6 +2005,36 @@
             },
             "type": "object"
         },
+        "CarouselData": {
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "item_id": {
+                    "type": "integer"
+                },
+                "item_photo": {
+                    "type": "string"
+                },
+                "photos": {
+                    "type": "array",
+                    "items": {}
+                }
+            },
+            "type": "object"
+        },
         "Users": {
             "type": "array",
             "items": {
@@ -2085,12 +2176,6 @@
                         "items": {}
                     }
                 }
-            }
-        },
-        "ArrayProfile": {
-            "type": "array",
-            "items": {
-                "$ref": "#/definitions/Profile"
             }
         },
         "ProductData": {

@@ -7,6 +7,8 @@ use yii\web\UploadedFile;
 use yiidreamteam\upload\ImageUploadBehavior;
 
 /**
+ * Class Image
+ *
  * @property integer $id
  * @property string $file
  * @property integer $sort

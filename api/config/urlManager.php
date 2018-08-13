@@ -108,7 +108,11 @@ return [
         'DELETE generic/products/<id:\d+>/photos/<photo_id:\d+>' => 'generic/product/delete-photo',
 
         // Carousel
+        'GET carousels' => 'carousel/index',
         'POST carousels' => 'carousel/create',
+        'GET carousels/<id:\d+>' => 'carousel/view',
+        'POST carousels/<id:\d+>' => 'carousel/update',
+        'DELETE carousels/<id:\d+>' => 'carousel/delete',
 
 
         // ocr

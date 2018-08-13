@@ -44,22 +44,20 @@ class CarouselCest
     {
         $I->amBearerAuthenticated('token-correct');
         $I->sendPOST('/carousels');
-        VarDumper::dump($I->grabResponse());
-//        $I->seeResponseCodeIs(200);
-//        $I->seeResponseContainsJson([]);
+        $I->seeResponseCodeIs(422);
     }
 
     public function accessRole(ApiTester $I)
     {
         $I->amBearerAuthenticated('token-correct-id-2');
-        $I->sendPOST('/shop/brands');
+        $I->sendPOST('/carousels');
         $I->seeResponseCodeIs(403);
     }
 
     public function authenticatedRole(ApiTester $I)
     {
         $I->amBearerAuthenticated('token-correct');
-        $I->sendPOST('/shop/brands');
+        $I->sendPOST('/carousels');
         $I->seeResponseCodeIs(422);
     }
 
@@ -67,15 +65,70 @@ class CarouselCest
     {
         $I->amBearerAuthenticated('token-correct');
         $I->haveHttpHeader('Cache-Control', 'no-cache');
-        $I->sendPOST('/shop/brands', [
-            'name' => 'name',
-            'slug' => 'slug',
+        $I->sendPOST('/carousels', [
+            'title' => 'name',
+            'type' => 1,
+            'item_id' => 1,
+        ], [
+            'files' => [
+                codecept_data_dir('user/photos/photo1.jpg'),
+                codecept_data_dir('user/photos/photo2.jpg'),
+            ]
         ]);
 
         $I->seeResponseCodeIs(201);
         $I->seeResponseContainsJson([
-            'name' => 'name',
-            'slug' => 'slug'
+            'title' => 'name',
+            'type' => 'user_product',
+            'item_id' => 1,
+        ]);
+    }
+
+    public function updateCarousel(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->haveHttpHeader('Cache-Control', 'no-cache');
+        $I->sendPOST('/carousels/1', [
+            'title' => 'update',
+            'type' => 2,
+            'item_id' => 3
+        ]);
+
+        $I->seeResponseCodeIs(202);
+        $I->seeResponseContainsJson([
+            'title' => 'update',
+            'type' => 'brand',
+            'item_id' => 3
+        ]);
+    }
+
+    public function viewCarousel(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->haveHttpHeader('Cache-Control', 'no-cache');
+        $I->sendGET('/carousels/1');
+
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseContainsJson([
+            'title' => 'update',
+            'type' => 'brand',
+            'item_id' => 3
+        ]);
+    }
+
+    public function Carousels(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->haveHttpHeader('Cache-Control', 'no-cache');
+        $I->sendGET('/carousels');
+        VarDumper::dump($I->grabResponse());
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseContainsJson([
+            [
+                'title' => 'update',
+                'type' => 'brand',
+                'item_id' => 3
+            ]
         ]);
     }
 }

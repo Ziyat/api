@@ -2,7 +2,6 @@
 
 namespace box\services;
 
-use box\entities\Meta;
 use box\entities\carousel\Carousel;
 use box\forms\carousel\CarouselForm;
 use box\repositories\CarouselRepository;
@@ -16,40 +15,56 @@ class CarouselService
         $this->carousels = $carousels;
     }
 
-    public function create(CarouselForm $form)
+    public function create(CarouselForm $form): Carousel
     {
         $carousel = Carousel::create(
-                    $form->title,
-                    $form->description,
-                    $form->text,
-                    $form->type,
-                    $form->item_id);
+            $form->title,
+            $form->subTitle,
+            $form->description,
+            $form->text,
+            $form->type,
+            $form->item_id
+        );
+
+        if (is_array($form->images->files)) {
+            foreach ($form->images->files as $file) {
+                $carousel->addImage($file);
+            }
+        }
         $this->carousels->save($carousel);
         return $carousel;
     }
 
-//    public function edit($id, CarouselForm $form): void
-//    {
-//        $carousel = $this->carousels->get($id);
-//        $carousel->edit(
-//            $form->name,
-//            $form->slug ?: Inflector::slug($form->name),
-//            $form->photo,
-//            new Meta(
-//                $form->meta->title,
-//                $form->meta->description,
-//                $form->meta->keywords
-//            )
-//        );
-//        $this->carousels->save($carousel);
-//    }
+    /**
+     * @param $id
+     * @param CarouselForm $form
+     * @return Carousel
+     * @throws \box\repositories\NotFoundException
+     */
+    public function edit($id, CarouselForm $form)
+    {
+        $carousel = $this->carousels->get($id);
+        $carousel->edit(
+            $form->title,
+            $form->subTitle,
+            $form->description,
+            $form->text,
+            $form->type,
+            $form->item_id
+        );
+        $this->carousels->save($carousel);
+        return $carousel;
+    }
 
-//    public function remove($id)
-//    {
-//        $carousel = $this->carousels->get($id);
-//        if ($this->products->existsByCarousel($carousel->id)) {
-//            throw new \DomainException('Unable to remove carousel with products.');
-//        }
-//        $this->carousels->remove($carousel);
-//    }
+    /**
+     * @param $id
+     * @throws \Throwable
+     * @throws \box\repositories\NotFoundException
+     * @throws \yii\db\StaleObjectException
+     */
+    public function remove($id)
+    {
+        $carousel = $this->carousels->get($id);
+        $this->carousels->remove($carousel);
+    }
 }

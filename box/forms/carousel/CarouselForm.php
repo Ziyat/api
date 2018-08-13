@@ -20,6 +20,7 @@ use box\forms\CompositeForm;
 class CarouselForm extends CompositeForm
 {
     public $title;
+    public $subTitle;
     public $description;
     public $text;
     public $type;
@@ -29,13 +30,14 @@ class CarouselForm extends CompositeForm
     {
         if ($carousel) {
             $this->title = $carousel->title;
+            $this->subTitle = $carousel->sub_title;
             $this->description = $carousel->description;
             $this->text = $carousel->text;
             $this->type = $carousel->type;
             $this->item_id = $carousel->item_id;
-        } else {
-            $this->images = new ImageForm();
         }
+        $this->images = new ImageForm();
+
         parent::__construct($config);
     }
 
@@ -43,7 +45,7 @@ class CarouselForm extends CompositeForm
     {
         return [
             [['title', 'type', 'item_id'], 'required'],
-            [['title', 'description', 'text'], 'string'],
+            [['title', 'description', 'text', 'subTitle'], 'string'],
             [['type', 'item_id'], 'integer'],
         ];
     }

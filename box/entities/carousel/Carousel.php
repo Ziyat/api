@@ -6,8 +6,13 @@
 
 namespace box\entities\carousel;
 
+use box\entities\generic\GenericProduct;
+use box\entities\shop\Brand;
+use box\entities\shop\product\Product;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
 use yiidreamteam\upload\ImageUploadBehavior;
 
@@ -15,6 +20,7 @@ use yiidreamteam\upload\ImageUploadBehavior;
  * Carousel
  * @property integer $id
  * @property string $title
+ * @property string $sub_title
  * @property string $description
  * @property string $text
  * @property integer $type
@@ -32,16 +38,27 @@ class Carousel extends ActiveRecord
 
     const APPOINTMENT_NEWS = 0;
 
-    public static function create($title, $description, $text, $type, $item_id, $appointment = null): self
+    public static function create($title, $subTitle, $description, $text, $type, $item_id, $appointment = null): self
     {
         $carousel = new static();
         $carousel->title = $title;
+        $carousel->sub_title = $subTitle;
         $carousel->description = $description;
         $carousel->text = $text;
         $carousel->type = $type;
         $carousel->item_id = $item_id;
         $carousel->appointment = $appointment ?: self::APPOINTMENT_NEWS;
         return $carousel;
+    }
+
+    public function edit($title, $subTitle,$description, $text, $type, $item_id): void
+    {
+        $this->title = $title;
+        $this->sub_title = $subTitle;
+        $this->description = $description;
+        $this->text = $text;
+        $this->type = $type;
+        $this->item_id = $item_id;
     }
 
     // Images
@@ -111,12 +128,17 @@ class Carousel extends ActiveRecord
         $this->images = $images;
     }
 
-    public function getImages()
+    public function getImages(): ActiveQuery
     {
-        return $this->hasMany(Image::class, ['carousel_id', 'id'])->orderBy('sort');
+        return $this->hasMany(Image::class, ['carousel_id' => 'id'])->orderBy('sort');
     }
 
-    public function behaviors()
+    public static function tableName(): string
+    {
+        return '{{%carousels}}';
+    }
+
+    public function behaviors(): array
     {
         return [
             [
@@ -126,8 +148,65 @@ class Carousel extends ActiveRecord
         ];
     }
 
-    public static function tableName(): string
+    public function fields()
     {
-        return '{{%carousels}}';
+        return [
+            'id' => 'id',
+            'title' => 'title',
+            'description' => 'description',
+            'text' => 'text',
+            'type' => function (self $model) {
+                return $model->getTypeName();
+            },
+            'item_id' =>'item_id',
+            'item_photo' => function (self $model) {
+                return $model->getMainPhotoItem();
+            },
+            'photos' => function(self $model){
+                return ArrayHelper::getColumn($model->images,function(Image $image){
+                    return $image->getThumbFileUrl('file');
+                });
+            },
+        ];
+    }
+
+
+    protected function getTypeName()
+    {
+        switch ($this->type){
+            case self::TYPE_GENERIC_PRODUCT:
+                return 'generic_product';
+            case self::TYPE_USER_PRODUCT:
+                return 'user_product';
+            case self::TYPE_BRAND:
+                return 'brand';
+            default:
+                return 'undefined';
+        }
+    }
+
+
+    protected function getMainPhotoItem()
+    {
+        switch ($this->type){
+            case self::TYPE_GENERIC_PRODUCT:
+                $product = GenericProduct::findOne($this->item_id);
+                return !$product->mainPhoto ? null : $product->mainPhoto->getThumbFileUrl('file');
+            case self::TYPE_USER_PRODUCT:
+                $product = Product::findOne($this->item_id);
+                return !$product->mainPhoto ? null : $product->mainPhoto->getThumbFileUrl('file');
+            case self::TYPE_BRAND:
+                $brand = Brand::findOne($this->item_id);
+                return !$brand->photo ? null : $brand->getPhoto();
+            default:
+                return 'undefined';
+        }
+    }
+
+    public function transactions()
+    {
+        return [
+            self::SCENARIO_DEFAULT => self::OP_ALL,
+        ];
     }
 }

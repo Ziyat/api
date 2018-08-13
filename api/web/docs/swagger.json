@@ -318,6 +318,12 @@
                         "in": "path",
                         "required": true,
                         "type": "integer"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
                     }
                 ],
                 "responses": {
@@ -330,12 +336,20 @@
                 }
             }
         },
-        "/public/users/{user_id}/followers": {
+        "/public/user/{id}/followers": {
             "get": {
                 "tags": [
                     "Public"
                 ],
                 "description": "Return user followers array",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success response",
@@ -362,12 +376,20 @@
                 }
             }
         },
-        "/public/users/{user_id}/following": {
+        "/public/user/{id}/following": {
             "get": {
                 "tags": [
                     "Public"
                 ],
                 "description": "Return user following array",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success response",

@@ -87,6 +87,9 @@ class ProductServiceEditTest extends Unit
         );
     }
 
+    /**
+     * @throws \box\repositories\NotFoundException
+     */
     public function testChangeMainPhotoModificationSuccess()
     {
 
@@ -94,5 +97,18 @@ class ProductServiceEditTest extends Unit
         $product = $this->service->setModificationPhoto(1,$product->modifications[0]->id, 1);
         $this->assertEquals($product->modifications[0]->main_photo_id , 1);
 
+    }
+
+    /**
+     * @throws \Throwable
+     * @throws \box\repositories\NotFoundException
+     * @throws \yii\db\StaleObjectException
+     */
+
+    public function testDeleteModificationSuccess()
+    {
+        $product = Product::findOne(1);
+        $product = $this->service->removeModification(1,$product->modifications[0]->id);
+        $this->assertNotEquals($product->modifications[0]->id , 1);
     }
 }

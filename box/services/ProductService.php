@@ -241,9 +241,10 @@ class ProductService
 
     /**
      * @param $product_id
-     * @param $photo_id
      * @param $modification_id
-     * @throws \box\repositories\NotFoundException
+     * @param $photo_id
+     * @return Product
+     * @throws NotFoundException
      */
     public function setModificationPhoto($product_id,$modification_id,$photo_id)
     {
@@ -263,6 +264,31 @@ class ProductService
         }
         $product->modifications = $modifications;
         $this->products->save($product);
+        return $product;
+    }
+
+    /**
+     * @param $product_id
+     * @param $modification_id
+     * @return Product
+     * @throws NotFoundException
+     */
+
+    public function removeModification($product_id, $modification_id)
+    {
+        $product = $this->products->get($product_id);
+        $modifications = $product->modifications;
+        foreach ($modifications as $k => $modification)
+        {
+            if($modification->id == $modification_id)
+            {
+                unset($modifications[$k]);
+                break;
+            }
+        }
+        $product->modifications = $modifications;
+        $this->products->save($product);
+
         return $product;
     }
 

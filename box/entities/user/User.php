@@ -458,6 +458,18 @@ class User extends ActiveRecord implements IdentityInterface
 
             },
             'createdAt' => 'created_at',
+            'approveFollowers' => function(self $model){
+                return count($model->approveFollowers);
+            },
+            'notApproveFollowers' => function(self $model){
+                return count($model->notApproveFollowing);
+            },
+            'approveFollowing' => function(self $model){
+                return count($model->approveFollowers);
+            },
+            'notApproveFollowing' => function(self $model){
+                return count($model->notApproveFollowing);
+            },
         ];
     }
 

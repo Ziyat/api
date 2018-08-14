@@ -14,13 +14,22 @@ class CarouselCreateTest extends Unit
     public function testSuccess()
     {
         $title = 'Title';
+        $subTitle = 'subTitle';
         $description = 'description';
         $text = 'Text';
         $type = Carousel::TYPE_GENERIC_PRODUCT;
         $item_id = 1;
         $appointment = Carousel::APPOINTMENT_NEWS;
 
-        $carousel = Carousel::create($title, $description, $text, $type, $item_id, $appointment);
+        $carousel = Carousel::create(
+            $title,
+            $subTitle,
+            $description,
+            $text,
+            $type,
+            $item_id,
+            $appointment
+        );
         $this->isTrue($carousel->save());
         $carouselDb = Carousel::findOne(['text' => $text]);
         $this->assertEquals($carouselDb->text, $text);

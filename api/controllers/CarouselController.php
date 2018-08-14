@@ -91,6 +91,22 @@ class CarouselController extends BearerCrudController
     }
 
     /**
+     * @SWG\Post(
+     *     path="/carousels",
+     *     tags={"Carousels"},
+     *     @SWG\Parameter(name="title", in="formData", required=true, type="string"),
+     *     @SWG\Parameter(name="subTitle", in="formData", required=false, type="string"),
+     *     @SWG\Parameter(name="description", in="formData", required=true, type="string"),
+     *     @SWG\Parameter(name="text", in="formData", required=true, type="string"),
+     *     @SWG\Parameter(name="type", in="formData", required=true, type="integer"),
+     *     @SWG\Parameter(name="item_id", in="formData", required=true, type="integer"),
+     *     description="Return carousels array",
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Property(ref="#/definitions/CarouselData")
+     *     ),
+     * )
      * @param $id
      * @return Carousel|CarouselForm|null
      * @throws BadRequestHttpException
@@ -139,6 +155,16 @@ class CarouselController extends BearerCrudController
     }
 
     /**
+     * @SWG\Delete(
+     *     path="/carousels/{id}",
+     *     tags={"Carousels"},
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     description="Return carousels array",
+     *     @SWG\Response(
+     *         response=204,
+     *         description="Success response",
+     *     ),
+     * )
      * @param $id
      * @throws BadRequestHttpException
      * @throws ForbiddenHttpException

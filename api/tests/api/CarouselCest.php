@@ -121,7 +121,6 @@ class CarouselCest
         $I->amBearerAuthenticated('token-correct');
         $I->haveHttpHeader('Cache-Control', 'no-cache');
         $I->sendGET('/carousels');
-        VarDumper::dump($I->grabResponse());
         $I->seeResponseCodeIs(200);
         $I->seeResponseContainsJson([
             [
@@ -130,5 +129,13 @@ class CarouselCest
                 'item_id' => 3
             ]
         ]);
+    }
+
+    public function deleteCarousels(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->haveHttpHeader('Cache-Control', 'no-cache');
+        $I->sendDELETE('/carousels/1');
+        $I->seeResponseCodeIs(204);
     }
 }

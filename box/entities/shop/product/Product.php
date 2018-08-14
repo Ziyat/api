@@ -306,15 +306,15 @@ class Product extends ActiveRecord
             }
         }
         throw new \DomainException('Modification is not found.');
-    }
-
-    private function updateModifications(array $modifications): void
-    {
-        $this->modifications = $modifications;
-        $this->setQuantity(array_sum(array_map(function (Modification $modification) {
-            return $modification->quantity;
-        }, $this->modifications)));
     }*/
+
+//    private function updateModifications(array $modifications): void
+//    {
+//        $this->modifications = $modifications;
+//        $this->setQuantity(array_sum(array_map(function (Modification $modification) {
+//            return $modification->quantity;
+//        }, $this->modifications)));
+//    }
 
     // Categories
 

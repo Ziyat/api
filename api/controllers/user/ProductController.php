@@ -303,6 +303,17 @@ class ProductController extends BearerController
         return true;
     }
 
+    public function actionDeleteModification($product_id, $modification_id)
+    {
+        try {
+            $this->service->removeModification($product_id, $modification_id);
+        } catch (\DomainException $e) {
+            return $e->getMessage();
+        }
+
+        return true;
+    }
+
     /**
      * @SWG\Post(
      *     path="/user/products/{id}/photos",

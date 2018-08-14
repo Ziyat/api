@@ -6,25 +6,32 @@
 
 namespace api\controllers;
 
-use box\entities\user\User;
 use box\forms\auth\LoginForm;
 use box\forms\auth\PasswordResetRequestForm;
 use box\forms\auth\SetPasswordForm;
 use box\forms\auth\SignupForm;
+use box\repositories\NotFoundException;
+use box\services\AuthService;
 use box\services\UserService;
-use yii\rest\Controller;
 use Yii;
+use yii\rest\Controller;
 use yii\web\BadRequestHttpException;
 
 class AuthController extends Controller
 {
     public $service;
+    public $authService;
 
-    public function __construct(string $id, $module, UserService $service, $config = [])
+    public function __construct(
+        string $id,
+        $module,
+        AuthService $authService,
+        UserService $service, $config = [])
     {
         parent::__construct($id, $module, $config);
 
         $this->service = $service;
+        $this->authService = $authService;
     }
 
     /**
@@ -39,6 +46,7 @@ class AuthController extends Controller
      *         @SWG\Schema(ref="#/definitions/Token")
      *     )
      * )
+     * @throws BadRequestHttpException
      */
 
     public function actionLogin()
@@ -47,7 +55,16 @@ class AuthController extends Controller
 
         $form->load(Yii::$app->request->bodyParams, '');
 
-        return $form->auth() ?: $form;
+        if ($form->validate()) {
+            try {
+                $token = $this->authService->auth($form);
+                return $token;
+            } catch (\Exception $e) {
+                throw new BadRequestHttpException($e->getMessage());
+            }
+        }
+
+        return $form;
     }
 
     /**
@@ -96,16 +113,22 @@ class AuthController extends Controller
      *         description="Success response",
      *         @SWG\Schema(ref="#/definitions/Token")
      *     )
+     *      @SWG\Response(
+     *         response="404",
+     *         description="User is not found",
+     *     )
      * )
+     * @throws NotFoundException
      */
 
     public function actionActivateUser($token)
     {
-        $user = User::Activate($token);
-        if (!is_array($user)) {
-            return LoginForm::login($user);
+        try {
+            $token = $this->authService->activate($token);
+            return $token;
+        } catch (NotFoundException $e) {
+            throw new NotFoundException($e->getMessage());
         }
-        return $user;
     }
 
     /**

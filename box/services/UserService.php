@@ -33,7 +33,6 @@ class UserService
     public function signup(SignupForm $form)
     {
         $form->setParams();
-
         $user = User::signup($form);
 
         $this->users->save($user);

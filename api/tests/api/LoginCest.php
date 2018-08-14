@@ -6,6 +6,7 @@ use api\tests\ApiTester;
 use common\fixtures\ProfileFixture;
 use common\fixtures\TokenFixture;
 use common\fixtures\UserFixture;
+use yii\helpers\VarDumper;
 
 /**
  * Class LoginCest
@@ -72,7 +73,6 @@ class LoginCest
                 'login' => 'tests@mail.com',
                 'password' => 'password_0'
             ]);
-
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
         $I->seeResponseJsonMatchesJsonPath('$.token');

@@ -97,27 +97,12 @@ class LoginForm extends Model
         }
     }
 
-    /**
-     * @return Token|null
-     */
-    public function auth()
-    {
-        if ($this->validate()) {
-            $token = new Token();
-            $token->user_id = $this->getUser()->id;
-            $token->generateToken(time() + ((3600 + 24) * 7));
-            return $token->save() ? $token : null;
-        }
-        return null;
-
-    }
-
     public static function login(User $user)
     {
         $token = new Token();
         if ($user) {
             $token->user_id = $user->id;
-            $token->generateToken(time() + ((3600 + 24) * 7));
+            $token->generateToken(time() + 3600 + 24 * 7);
         }
         return $token->save() ? $token : null;
     }

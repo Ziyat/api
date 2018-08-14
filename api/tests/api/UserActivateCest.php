@@ -36,7 +36,6 @@ class UserActivateCest
 
         $I->seeResponseCodeIs(404);
         $I->seeResponseContainsJson([
-            'field' => 'User',
             'message' => 'User not found.'
         ]);
     }

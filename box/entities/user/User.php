@@ -6,7 +6,6 @@
 
 namespace box\entities\user;
 
-use box\components\EmailService;
 use box\entities\shop\product\Product;
 use box\entities\user\queries\UserQuery;
 use box\forms\auth\SignupForm;
@@ -131,21 +130,21 @@ class User extends ActiveRecord implements IdentityInterface
         $this->updated_at = time();
     }
 
-    public static function Activate($token)
+    // Change Status
+
+    public function setActiveStatus()
     {
+        $this->status = self::STATUS_ACTIVE;
+    }
 
-        if ($user = static::findByToken($token, static::ACTIVATE_TOKEN)) {
-            $user->status = static::STATUS_ACTIVE;
-            $user->removeActivateToken();
-            $user->save();
-            return $user;
-        }
-        Yii::$app->response->statusCode = 404;
-        return [
-            'field' => 'User',
-            'message' => 'User not found.'
-        ];
+    public function setWaitStatus()
+    {
+        $this->status = self::STATUS_WAIT;
+    }
 
+    public function setDeleteStatus()
+    {
+        $this->status = self::STATUS_DELETED;
     }
 
     public function isActive(): bool
@@ -462,10 +461,10 @@ class User extends ActiveRecord implements IdentityInterface
                 return count($model->approveFollowers);
             },
             'notApproveFollowers' => function(self $model){
-                return count($model->notApproveFollowing);
+                return count($model->notApproveFollowers);
             },
             'approveFollowing' => function(self $model){
-                return count($model->approveFollowers);
+                return count($model->approveFollowing);
             },
             'notApproveFollowing' => function(self $model){
                 return count($model->notApproveFollowing);

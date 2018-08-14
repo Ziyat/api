@@ -203,6 +203,12 @@ class FollowersCest
         ]);
     }
 
+    public function publicFollowers(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendGET('/public/user/1/followers');
+        $I->seeResponseCodeIs(200);
+    }
 
     public function successUnFollow(ApiTester $I)
     {
@@ -213,6 +219,10 @@ class FollowersCest
             0 => true
         ]);
     }
+
+
+
+
 
     public function errorUnFollow(ApiTester $I)
     {

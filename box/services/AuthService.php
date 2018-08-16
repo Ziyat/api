@@ -118,7 +118,7 @@ class AuthService
     {
         $this->token->user_id = $user->id;
 
-        $this->token->generateToken(time() + 3600 * 24 * 7);
+        $this->token->generateToken(time() + (3600 * 24 * 7));
 
         $this->tokens->save($this->token);
 

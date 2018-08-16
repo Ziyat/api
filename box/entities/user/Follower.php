@@ -21,8 +21,8 @@ use yii\db\ActiveRecord;
 
 class Follower extends ActiveRecord
 {
-    const APPROVE = 0;
-    const NOT_APPROVE = 1;
+    const APPROVE = 1;
+    const NOT_APPROVE = 0;
 
     public static function create($follow_id, $status): self
     {

@@ -103,7 +103,7 @@ class UserService
         }
         $follower->setFollow(
             $follow->id,
-            $follow->private ? Follower::NOT_APPROVE : Follower::APPROVE
+            $follow->private == User::PRIVATE ? Follower::NOT_APPROVE : Follower::APPROVE
         );
         $this->users->save($follower);
     }

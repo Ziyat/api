@@ -15,10 +15,6 @@ use box\repositories\NotFoundException;
 use box\services\AuthService;
 use box\services\UserService;
 use Yii;
-use yii\filters\AccessControl;
-use yii\filters\auth\HttpBasicAuth;
-use yii\filters\auth\HttpBearerAuth;
-use yii\helpers\VarDumper;
 use yii\rest\Controller;
 use yii\web\BadRequestHttpException;
 
@@ -43,7 +39,7 @@ class AuthController extends Controller
     /**
      * @SWG\Post(
      *     path="/login",
-     *     tags={"Login"},
+     *     tags={"Authentication"},
      *     @SWG\Parameter(name="login", in="formData", required=true, type="string"),
      *     @SWG\Parameter(name="password", in="formData", required=true, type="string"),
      *     @SWG\Response(
@@ -76,7 +72,7 @@ class AuthController extends Controller
     /**
      * @SWG\Post(
      *     path="/signup",
-     *     tags={"Sign up"},
+     *     tags={"Authentication"},
      *     @SWG\Parameter(name="login", in="formData", required=true, type="string"),
      *     @SWG\Parameter(name="password", in="formData", required=true, type="string"),
      *     @SWG\Response(
@@ -111,14 +107,14 @@ class AuthController extends Controller
     /**
      * @SWG\Get(
      *     path="/activate/{activate_token}",
-     *     tags={"Activation User account"},
+     *     tags={"Authentication"},
      *     description="Returns Token",
      *     @SWG\Parameter(name="activation_token", in="path", required=true, type="string"),
      *     @SWG\Response(
      *         response="200",
      *         description="Success response",
      *         @SWG\Schema(ref="#/definitions/Token")
-     *     )
+     *     ),
      *      @SWG\Response(
      *         response="404",
      *         description="User is not found",
@@ -140,7 +136,7 @@ class AuthController extends Controller
     /**
      * @SWG\POST(
      *     path="/forgot",
-     *     tags={"Password reset"},
+     *     tags={"Authentication"},
      *     description="Returns Email",
      *     @SWG\Parameter(name="email", in="path", required=true, type="string"),
      *     @SWG\Response(
@@ -176,7 +172,7 @@ class AuthController extends Controller
     /**
      * @SWG\POST(
      *     path="/forgot/set-password/{password_reset_token}",
-     *     tags={"Password reset"},
+     *     tags={"Authentication"},
      *     description="Returns Token",
      *     @SWG\Parameter(name="password_reset_token", in="path", required=true, type="string"),
      *     @SWG\Parameter(name="password", in="formData", required=true, type="string"),
@@ -210,6 +206,17 @@ class AuthController extends Controller
     }
 
     /**
+     * @SWG\PATCH(
+     *     path="/token-refresh/{refresherToken}",
+     *     tags={"Authentication"},
+     *     description="Returns Token",
+     *     @SWG\Parameter(name="refresherToken", in="path", required=true, type="string"),
+     *     @SWG\Response(
+     *         response="205",
+     *         description="Success response refresh token",
+     *         @SWG\Schema(ref="#/definitions/Token")
+     *     )
+     * )
      * @param $refresherToken
      * @return array|Token|null|\yii\db\ActiveRecord
      * @throws BadRequestHttpException

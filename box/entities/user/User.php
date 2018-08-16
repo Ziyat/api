@@ -422,15 +422,13 @@ class User extends ActiveRecord implements IdentityInterface
     public function getNotApproveFollowersAssignments(): ActiveQuery
     {
         return $this->hasMany(Follower::class, ['user_id' => 'id'])
-            ->andWhere(['status' => Follower::NOT_APPROVE])
-            ->orderBy(['created_at' => SORT_DESC]);
+            ->andWhere(['status' => Follower::NOT_APPROVE]);
     }
 
     public function getNotApproveFollowingAssignments(): ActiveQuery
     {
         return $this->hasMany(Follower::class, ['follower_id' => 'id'])
-            ->andWhere(['status' => Follower::NOT_APPROVE])
-            ->orderBy(['created_at' => SORT_DESC]);
+            ->andWhere(['status' => Follower::NOT_APPROVE]);
     }
 
     public function getNotApproveFollowers(): ActiveQuery

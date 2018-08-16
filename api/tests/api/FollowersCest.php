@@ -3,10 +3,10 @@
 namespace api\tests\functional;
 
 use api\tests\ApiTester;
+use box\entities\user\Follower;
 use common\fixtures\ProfileFixture;
 use common\fixtures\TokenFixture;
 use common\fixtures\UserFixture;
-use yii\helpers\VarDumper;
 
 /**
  * Class FollowersCest
@@ -79,13 +79,12 @@ class FollowersCest
         $I->sendGET('/user/following');
         $I->seeResponseCodeIs(200);
         $I->seeResponseContainsJson([
-            1 => [],
-            0 => [
-                [
-                    'id' => 1
-                ]
+            Follower::NOT_APPROVE => [
+                'id' => 1
             ],
+            Follower::APPROVE => []
         ]);
+
     }
 
     public function successNotApproveFollowers(ApiTester $I)
@@ -94,12 +93,10 @@ class FollowersCest
         $I->sendGET('/user/followers');
         $I->seeResponseCodeIs(200);
         $I->seeResponseContainsJson([
-            1 => [],
-            0 => [
-                [
-                    'id' => 3
-                ]
+            Follower::NOT_APPROVE => [
+                'id' => 3
             ],
+            Follower::APPROVE => []
         ]);
     }
 
@@ -119,12 +116,10 @@ class FollowersCest
         $I->sendGET('/user/followers');
         $I->seeResponseCodeIs(200);
         $I->seeResponseContainsJson([
-            0 => [
-                [
-                    'id' => 3
-                ]
-            ],
-            1 => [],
+            Follower::NOT_APPROVE => [],
+            Follower::APPROVE => [
+                'id' => 3
+            ]
         ]);
     }
 
@@ -134,19 +129,17 @@ class FollowersCest
         $I->sendGET('/user/following');
         $I->seeResponseCodeIs(200);
         $I->seeResponseContainsJson([
-            0 => [
-                [
-                    'id' => 1
-                ]
-            ],
-            1 => [],
+            Follower::NOT_APPROVE => [],
+            Follower::APPROVE => [
+                'id' => 1
+            ]
         ]);
     }
 
     public function successDisapprove(ApiTester $I)
     {
         $I->amBearerAuthenticated('token-correct');
-        $I->sendPATCH('/user/followers/approve/3');
+        $I->sendPATCH('/user/followers/disapprove/3');
         $I->seeResponseCodeIs(200);
         $I->seeResponseContainsJson([
             0 => true,
@@ -156,24 +149,20 @@ class FollowersCest
         $I->sendGET('/user/followers');
         $I->seeResponseCodeIs(200);
         $I->seeResponseContainsJson([
-            0 => [],
-            1 => [
-                [
-                    'id' => 3
-                ]
+            Follower::NOT_APPROVE => [
+                'id' => 3
             ],
+            Follower::APPROVE => []
         ]);
 
         $I->amBearerAuthenticated('token-correct-id-3');
         $I->sendGET('/user/following');
         $I->seeResponseCodeIs(200);
         $I->seeResponseContainsJson([
-            0 => [],
-            1 => [
-                [
-                    'id' => 1
-                ]
+            Follower::NOT_APPROVE => [
+                'id' => 1
             ],
+            Follower::APPROVE => []
         ]);
     }
 
@@ -183,10 +172,10 @@ class FollowersCest
         $I->sendPATCH('/user/following/1');
         $I->seeResponseCodeIs(200);
         $I->seeResponseContainsJson([
-            0 => [
+            Follower::NOT_APPROVE => [
                 'id' => 1
             ],
-            1 => null,
+            Follower::APPROVE => null
         ]);
     }
 
@@ -196,18 +185,35 @@ class FollowersCest
         $I->sendPATCH('/user/followers/1');
         $I->seeResponseCodeIs(200);
         $I->seeResponseContainsJson([
-            0 => [
+            Follower::NOT_APPROVE => [
                 'id' => 3
             ],
-            1 => null,
+            Follower::APPROVE => null
         ]);
     }
 
     public function publicFollowers(ApiTester $I)
     {
-        $I->amBearerAuthenticated('token-correct');
         $I->sendGET('/public/user/1/followers');
         $I->seeResponseCodeIs(200);
+        $I->seeResponseContainsJson([
+            Follower::NOT_APPROVE => [
+                'id' => 3
+            ],
+            Follower::APPROVE => []
+        ]);
+    }
+
+    public function publicFollowing(ApiTester $I)
+    {
+        $I->sendGET('/public/user/3/following');
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseContainsJson([
+            Follower::NOT_APPROVE => [
+                'id' => 1
+            ],
+            Follower::APPROVE => []
+        ]);
     }
 
     public function successUnFollow(ApiTester $I)
@@ -217,6 +223,13 @@ class FollowersCest
         $I->seeResponseCodeIs(200);
         $I->seeResponseContainsJson([
             0 => true
+        ]);
+
+        $I->sendGET('/public/user/3/following');
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseContainsJson([
+            Follower::NOT_APPROVE => [],
+            Follower::APPROVE => []
         ]);
     }
 

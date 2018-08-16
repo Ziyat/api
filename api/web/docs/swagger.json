@@ -23,7 +23,7 @@
         "/login": {
             "post": {
                 "tags": [
-                    "Login"
+                    "Authentication"
                 ],
                 "parameters": [
                     {
@@ -52,7 +52,7 @@
         "/signup": {
             "post": {
                 "tags": [
-                    "Sign up"
+                    "Authentication"
                 ],
                 "parameters": [
                     {
@@ -86,7 +86,7 @@
         "/activate/{activate_token}": {
             "get": {
                 "tags": [
-                    "Activation User account"
+                    "Authentication"
                 ],
                 "description": "Returns Token",
                 "parameters": [
@@ -103,6 +103,9 @@
                         "schema": {
                             "$ref": "#/definitions/Token"
                         }
+                    },
+                    "404": {
+                        "description": "User is not found"
                     }
                 }
             }
@@ -110,7 +113,7 @@
         "/forgot": {
             "post": {
                 "tags": [
-                    "Password reset"
+                    "Authentication"
                 ],
                 "description": "Returns Email",
                 "parameters": [
@@ -139,12 +142,12 @@
         "/forgot/set-password/{password_reset_token}": {
             "post": {
                 "tags": [
-                    "Password reset"
+                    "Authentication"
                 ],
                 "description": "Returns Token",
                 "parameters": [
                     {
-                        "name": "token",
+                        "name": "password_reset_token",
                         "in": "path",
                         "required": true,
                         "type": "string"
@@ -158,7 +161,31 @@
                 ],
                 "responses": {
                     "205": {
-                        "description": "Success response Reset Content",
+                        "description": "Success response set password",
+                        "schema": {
+                            "$ref": "#/definitions/Token"
+                        }
+                    }
+                }
+            }
+        },
+        "/token-refresh/{refresherToken}": {
+            "patch": {
+                "tags": [
+                    "Authentication"
+                ],
+                "description": "Returns Token",
+                "parameters": [
+                    {
+                        "name": "refresherToken",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "205": {
+                        "description": "Success response refresh token",
                         "schema": {
                             "$ref": "#/definitions/Token"
                         }
@@ -258,6 +285,83 @@
                         "schema": {
                             "$ref": "#/definitions/CarouselData"
                         }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Carousels"
+                ],
+                "description": "Return carousels array",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "title",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "subTitle",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "text",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "type",
+                        "in": "formData",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "item_id",
+                        "in": "formData",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/CarouselData"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Carousels"
+                ],
+                "description": "Return carousels array",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Success response"
                     }
                 }
             }
@@ -2135,6 +2239,9 @@
         "Token": {
             "properties": {
                 "token": {
+                    "type": "string"
+                },
+                "refresherToken": {
                     "type": "string"
                 },
                 "expired": {

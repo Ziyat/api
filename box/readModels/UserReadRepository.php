@@ -7,14 +7,11 @@
 namespace box\readModels;
 
 
-use box\entities\shop\product\Product;
 use box\entities\user\Follower;
-use box\entities\user\queries\UserQuery;
 use box\entities\user\User;
 use box\repositories\NotFoundException;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
-use yii\web\NotFoundHttpException;
 
 class UserReadRepository
 {
@@ -50,16 +47,19 @@ class UserReadRepository
                 }
             }
         } else {
-            $result = new ArrayDataProvider([
-                'allModels' => [$user->notApproveFollowing, $user->approveFollowing],
-                'sort' => [
-                    'attributes' => ['created_at'],
-                ],
-            ]);
+            $result = [
+                Follower::NOT_APPROVE => $user->notApproveFollowing,
+                Follower::APPROVE => $user->approveFollowing
+            ];
         }
 
 
-        return $result;
+        return new ArrayDataProvider([
+            'allModels' => $result,
+            'sort' => [
+                'attributes' => ['created_at'],
+            ],
+        ]);
     }
 
     public function getFollowers($id, $follower_id = null)
@@ -89,15 +89,19 @@ class UserReadRepository
                 }
             }
         } else {
-            $result = new ArrayDataProvider([
-                'allModels' => [$user->notApproveFollowers, $user->approveFollowers],
-                'sort' => [
-                    'attributes' => ['created_at'],
-                ],
-            ]);
+
+            $result = [
+                Follower::NOT_APPROVE => $user->notApproveFollowers,
+                Follower::APPROVE => $user->approveFollowers
+            ];
         }
 
-        return $result;
+        return new ArrayDataProvider([
+            'allModels' => $result,
+            'sort' => [
+                'attributes' => ['created_at'],
+            ],
+        ]);
     }
 
     /**

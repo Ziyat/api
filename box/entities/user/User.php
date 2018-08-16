@@ -37,7 +37,8 @@ use yii\web\UnauthorizedHttpException;
  * @property string $role role
  * @property Profile $profile
  *
- * @property Token $tokens
+ * @property Token[] $tokens
+ * @property Token $token
  *
  * @property Product[] $products
  *
@@ -199,8 +200,11 @@ class User extends ActiveRecord implements IdentityInterface
             ->joinWith('tokens t')
             ->andWhere(['t.token' => $token])
             ->one()) {
-            if ($user->tokens->expired_at < time()) {
-                throw new UnauthorizedHttpException('token expired');
+
+            foreach ($user->tokens as $tokenDb){
+                if ($tokenDb->token == $token && $tokenDb->expired_at < time()) {
+                    throw new UnauthorizedHttpException('token expired');
+                }
             }
         }
         return $user;
@@ -366,7 +370,12 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function getTokens()
     {
-        return $this->hasOne(Token::class, ['user_id' => 'id']);
+        return $this->hasMany(Token::class, ['user_id' => 'id']);
+    }
+
+    public function getToken()
+    {
+        return $this->hasMany(Token::class, ['user_id' => 'id'])->andWhere(['>','expired_at', time()]);
     }
 
     // profiles
@@ -378,7 +387,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     // products
 
-    public function getProducts()
+    public function getProducts(): ActiveQuery
     {
         return $this->hasMany(Product::class, ['created_by' => 'id']);
     }

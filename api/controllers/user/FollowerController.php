@@ -98,8 +98,8 @@ class FollowerController extends BearerController
      *         response=200,
      *         description="Success response",
      *         @SWG\Items(
-     *              @SWG\Property(property="KEY [0] -> {approve}", type="array", @SWG\Items(ref="#/definitions/Profile")),
-     *              @SWG\Property(property="KEY [1] -> {not approve}", type="array", @SWG\Items(ref="#/definitions/Profile"))
+     *              @SWG\Property(property="KEY [0] -> {not approve}", type="array", @SWG\Items(ref="#/definitions/Profile")),
+     *              @SWG\Property(property="KEY [1] -> {approve}", type="array", @SWG\Items(ref="#/definitions/Profile"))
      *         ),
      *     ),
      *     security={{"Bearer": {}}}
@@ -144,8 +144,8 @@ class FollowerController extends BearerController
      *         response=200,
      *         description="Success response",
      *         @SWG\Items(
-     *              @SWG\Property(property="KEY [0] -> {approve}", type="array", @SWG\Items(ref="#/definitions/Profile")),
-     *              @SWG\Property(property="KEY [1] -> {not approve}", type="array", @SWG\Items(ref="#/definitions/Profile")),
+     *              @SWG\Property(property="KEY [0] -> {not approve}", type="array", @SWG\Items(ref="#/definitions/Profile")),
+     *              @SWG\Property(property="KEY [1] -> {approve}", type="array", @SWG\Items(ref="#/definitions/Profile")),
      *          ),
      *     ),
      *     security={{"Bearer": {}}}

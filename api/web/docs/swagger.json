@@ -1501,13 +1501,13 @@
                         "description": "Success response",
                         "schema": {
                             "properties": {
-                                "KEY [0] -> {approve}": {
+                                "KEY [0] -> {not approve}": {
                                     "type": "array",
                                     "items": {
                                         "$ref": "#/definitions/Profile"
                                     }
                                 },
-                                "KEY [1] -> {not approve}": {
+                                "KEY [1] -> {approve}": {
                                     "type": "array",
                                     "items": {
                                         "$ref": "#/definitions/Profile"
@@ -1564,13 +1564,13 @@
                         "description": "Success response",
                         "schema": {
                             "properties": {
-                                "KEY [0] -> {approve}": {
+                                "KEY [0] -> {not approve}": {
                                     "type": "array",
                                     "items": {
                                         "$ref": "#/definitions/Profile"
                                     }
                                 },
-                                "KEY [1] -> {not approve}": {
+                                "KEY [1] -> {approve}": {
                                     "type": "array",
                                     "items": {
                                         "$ref": "#/definitions/Profile"

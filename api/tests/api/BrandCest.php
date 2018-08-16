@@ -48,7 +48,7 @@ class BrandCest
 
     public function accessRole(ApiTester $I)
     {
-        $I->amBearerAuthenticated('token-correct-id-2');
+        $I->amBearerAuthenticated('token-correct-id-3');
         $I->sendPOST('/shop/brands');
         $I->seeResponseCodeIs(403);
     }

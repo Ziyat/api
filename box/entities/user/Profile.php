@@ -4,6 +4,7 @@ namespace box\entities\user;
 
 use box\forms\user\ProfileCreateForm;
 use Yii;
+use yii\db\ActiveQuery;
 use yiidreamteam\upload\ImageUploadBehavior;
 
 /**
@@ -41,13 +42,14 @@ class Profile extends \yii\db\ActiveRecord
         $this->date_of_birth = strtotime($birthDate);
     }
 
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
+    public function getUser(): ActiveQuery
     {
-        return '{{%profiles}}';
+        return $this->hasOne(User::class, ['id' => 'user_id']);
+    }
+
+    public function getPhoto($profile = 'thumb')
+    {
+        return $this->getThumbFileUrl('photo', $profile, Yii::getAlias('@staticUrl') . '/empty/no-photo.jpg');
     }
 
     public function behaviors()
@@ -68,9 +70,6 @@ class Profile extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [
@@ -82,17 +81,9 @@ class Profile extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUser()
+    public static function tableName()
     {
-        return $this->hasOne(User::class, ['id' => 'user_id']);
-    }
-
-    public function getPhoto($profile = 'thumb')
-    {
-        return $this->getThumbFileUrl('photo', $profile,Yii::getAlias('@staticUrl').'/empty/no-photo.jpg');
+        return '{{%profiles}}';
     }
 
 

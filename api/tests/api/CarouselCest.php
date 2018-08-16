@@ -49,7 +49,7 @@ class CarouselCest
 
     public function accessRole(ApiTester $I)
     {
-        $I->amBearerAuthenticated('token-correct-id-2');
+        $I->amBearerAuthenticated('token-correct-id-3');
         $I->sendPOST('/carousels');
         $I->seeResponseCodeIs(403);
     }

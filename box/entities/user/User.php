@@ -16,6 +16,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use yii\web\UnauthorizedHttpException;
 
 /**
  * User model
@@ -35,17 +36,26 @@ use yii\web\IdentityInterface;
  * @property string $password write-only password
  * @property string $role role
  * @property Profile $profile
+ *
+ * @property Token $tokens
+ *
  * @property Product[] $products
+ *
  * @property User[] $notApproveFollowers
  * @property User[] $notApproveFollowing
+ *
  * @property Follower[] $notApproveFollowersAssignments
  * @property Follower[] $notApproveFollowingAssignments
+ *
  * @property User[] $approveFollowers
  * @property User[] $approveFollowing
+ *
  * @property Follower[] $approveFollowersAssignments
  * @property Follower[] $approveFollowingAssignments
+ *
  * @property User[] $followers
  * @property User[] $following
+ *
  * @property Follower[] $followersAssignments
  * @property Follower[] $followingAssignments
  */
@@ -84,6 +94,28 @@ class User extends ActiveRecord implements IdentityInterface
         return $user;
     }
 
+    /**
+     * @param $email
+     * @param $phone
+     * @param $password
+     * @param Profile $profile
+     * @throws \yii\base\Exception
+     */
+
+    public function edit($email, $phone, $password, Profile $profile)
+    {
+        $this->email = $email;
+        $this->phone = $phone;
+        $this->profile = $profile;
+        if ($password) {
+            $this->setPassword($password);
+        }
+        $this->updated_at = time();
+    }
+
+
+    // followers
+
     public function setFollow($follow_id, $follow_status)
     {
         $following = $this->followingAssignments;
@@ -102,6 +134,8 @@ class User extends ActiveRecord implements IdentityInterface
         $this->followingAssignments = [];
     }
 
+    // private
+
     public function setPrivate($private)
     {
         $this->private = $private;
@@ -112,23 +146,6 @@ class User extends ActiveRecord implements IdentityInterface
         $this->private = $this->private ? self::NOT_PRIVATE : self::PRIVATE;
     }
 
-    /**
-     * @param $email
-     * @param $phone
-     * @param $password
-     * @param Profile $profile
-     * @throws \yii\base\Exception
-     */
-    public function edit($email, $phone, $password, Profile $profile)
-    {
-        $this->email = $email;
-        $this->phone = $phone;
-        $this->profile = $profile;
-        if ($password) {
-            $this->setPassword($password);
-        }
-        $this->updated_at = time();
-    }
 
     // Change Status
 
@@ -167,15 +184,26 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @inheritdoc
+     * @param mixed $token
+     * @param null $type
+     * @return array|null|ActiveRecord|IdentityInterface
+     * @throws UnauthorizedHttpException
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        return static::find()
+        /**
+         * @var self $user
+         */
+        $user = null;
+        if ($user = static::find()
             ->joinWith('tokens t')
             ->andWhere(['t.token' => $token])
-            ->andWhere(['>', 't.expired_at', time()])
-            ->one();
+            ->one()) {
+            if ($user->tokens->expired_at < time()) {
+                throw new UnauthorizedHttpException('token expired');
+            }
+        }
+        return $user;
     }
 
     public static function findByEmail($email)

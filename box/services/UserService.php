@@ -23,7 +23,11 @@ class UserService
     private $event;
     private $transaction;
 
-    public function __construct(UserRepository $repository, UserRegisterEvent $event, TransactionManager $transaction)
+    public function __construct(
+        UserRepository $repository,
+        UserRegisterEvent $event,
+        TransactionManager $transaction
+    )
     {
         $this->users = $repository;
         $this->event = $event;
@@ -33,6 +37,7 @@ class UserService
     public function signup(SignupForm $form)
     {
         $form->setParams();
+
         $user = User::signup($form);
 
         $this->users->save($user);
@@ -87,16 +92,7 @@ class UserService
         $user->trigger($user::PASSWORD_TOKEN, $this->event);
     }
 
-    public function setPassword($token, SetPasswordForm $form): User
-    {
-        $user = $this->users->findByPasswordResetToken($token);
-        $user->setPassword($form->password);
-        $user->removePasswordResetToken();
-        $this->users->save($user);
 
-        return $user;
-
-    }
 
     public function setFollow($follow_id, $follower_id): void
     {
@@ -107,7 +103,7 @@ class UserService
         }
         $follower->setFollow(
             $follow->id,
-            $follow->private ? Follower::APPROVE : Follower::NOT_APPROVE
+            $follow->private ? Follower::NOT_APPROVE : Follower::APPROVE
         );
         $this->users->save($follower);
     }

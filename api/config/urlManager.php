@@ -17,7 +17,8 @@ return [
         'POST signup' => 'auth/signup',
         'GET activate/<token:[\d_]+>' => 'auth/activate-user',
         'POST forgot' => 'auth/password-reset',
-        'POST forgot/set-password/<token:[\d_]+>' => 'auth/set-password',
+        'POST forgot/set-password/<password_reset_token:[\d_]+>' => 'auth/set-password',
+        'PATCH token-refresh/<refresherToken:[A-Za-z0-9_-]+>' => 'auth/token-refresh',
 
         // profile
 

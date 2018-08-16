@@ -6,6 +6,7 @@
 
 namespace box\entities\user;
 
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use Yii;
 
@@ -13,9 +14,10 @@ use Yii;
  * Token entity
  *
  * @property integer $id
- * @property string $user_id
+ * @property integer $user_id
  * @property string $token
- * @property string $expired_at
+ * @property integer $expired_at
+ * @property User $user
  *
  */
 class Token extends ActiveRecord
@@ -25,6 +27,10 @@ class Token extends ActiveRecord
         return '{{%tokens}}';
     }
 
+    /**
+     * @param $expire
+     * @throws \yii\base\Exception
+     */
     public function generateToken($expire)
     {
         $this->expired_at = $expire;
@@ -36,8 +42,16 @@ class Token extends ActiveRecord
     {
         return [
             'token' => 'token',
+            'refresherToken' => function(self $model){
+                return $model->user->auth_key;
+            },
             'expired' => 'expired_at',
         ];
+    }
+
+    public function getUser(): ActiveQuery
+    {
+        return $this->hasOne(User::class,['id' => 'user_id']);
     }
 
 }

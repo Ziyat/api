@@ -6,6 +6,7 @@
 
 namespace api\controllers;
 
+use box\entities\user\Token;
 use box\forms\auth\LoginForm;
 use box\forms\auth\PasswordResetRequestForm;
 use box\forms\auth\SetPasswordForm;
@@ -14,6 +15,10 @@ use box\repositories\NotFoundException;
 use box\services\AuthService;
 use box\services\UserService;
 use Yii;
+use yii\filters\AccessControl;
+use yii\filters\auth\HttpBasicAuth;
+use yii\filters\auth\HttpBearerAuth;
+use yii\helpers\VarDumper;
 use yii\rest\Controller;
 use yii\web\BadRequestHttpException;
 
@@ -33,6 +38,7 @@ class AuthController extends Controller
         $this->service = $service;
         $this->authService = $authService;
     }
+
 
     /**
      * @SWG\Post(
@@ -118,7 +124,7 @@ class AuthController extends Controller
      *         description="User is not found",
      *     )
      * )
-     * @throws NotFoundException
+     * @throws
      */
 
     public function actionActivateUser($token)
@@ -146,7 +152,7 @@ class AuthController extends Controller
      *          )
      *     )
      * )
-     * @return PasswordResetRequestForm|array
+     * @return PasswordResetRequestForm|bool
      * @throws BadRequestHttpException
      */
     public function actionPasswordReset()
@@ -158,6 +164,7 @@ class AuthController extends Controller
                 $this->service->passwordReset($form);
                 $response = Yii::$app->getResponse();
                 $response->setStatusCode(200);
+                return true;
             }catch (\Exception $e)
             {
                 throw new BadRequestHttpException($e->getMessage());
@@ -171,35 +178,49 @@ class AuthController extends Controller
      *     path="/forgot/set-password/{password_reset_token}",
      *     tags={"Password reset"},
      *     description="Returns Token",
-     *     @SWG\Parameter(name="token", in="path", required=true, type="string"),
+     *     @SWG\Parameter(name="password_reset_token", in="path", required=true, type="string"),
      *     @SWG\Parameter(name="password", in="formData", required=true, type="string"),
      *     @SWG\Response(
      *         response="205",
-     *         description="Success response Reset Content",
+     *         description="Success response set password",
      *         @SWG\Schema(ref="#/definitions/Token")
      *     )
      * )
-     * @param $token
-     * @return SetPasswordForm
+     * @param $password_reset_token
+     * @return SetPasswordForm|Token
      * @throws BadRequestHttpException
      */
 
-    public function actionSetPassword($token)
+    public function actionSetPassword($password_reset_token)
     {
         $form = new SetPasswordForm();
         $form->load(Yii::$app->request->bodyParams,'');
         if($form->validate()){
             try{
-                $user = $this->service->setPassword($token,$form);
+                $token = $this->authService->setPassword($password_reset_token,$form);
                 $response = Yii::$app->getResponse();
                 $response->setStatusCode(205);
-                return LoginForm::login($user);
+                return $token;
             }catch (\Exception $e)
             {
                 throw new BadRequestHttpException($e->getMessage());
             }
         }
         return $form;
+    }
+
+
+    public function actionTokenRefresh($refresherToken)
+    {
+        try{
+            $token = $this->authService->tokenRefresh($refresherToken);
+            $response = Yii::$app->getResponse();
+            $response->setStatusCode(205);
+            return $token;
+        }catch (\Exception $e)
+        {
+            throw new BadRequestHttpException($e->getMessage());
+        }
     }
 }
 
@@ -208,6 +229,7 @@ class AuthController extends Controller
  *     definition="Token",
  *     type="object",
  *     @SWG\Property(property="token", type="string"),
+ *     @SWG\Property(property="refresherToken", type="string"),
  *     @SWG\Property(property="expired", type="integer"),
  * )
  **/

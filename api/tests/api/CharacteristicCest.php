@@ -54,7 +54,7 @@ class CharacteristicCest
 
     public function accessRole(ApiTester $I)
     {
-        $I->amBearerAuthenticated('token-correct-id-2');
+        $I->amBearerAuthenticated('token-correct-id-3');
         $I->sendPOST('/shop/characteristics');
         $I->seeResponseCodeIs(403);
     }

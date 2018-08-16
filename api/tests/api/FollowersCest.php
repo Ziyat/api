@@ -79,8 +79,8 @@ class FollowersCest
         $I->sendGET('/user/following');
         $I->seeResponseCodeIs(200);
         $I->seeResponseContainsJson([
-            0 => [],
-            1 => [
+            1 => [],
+            0 => [
                 [
                     'id' => 1
                 ]
@@ -94,8 +94,8 @@ class FollowersCest
         $I->sendGET('/user/followers');
         $I->seeResponseCodeIs(200);
         $I->seeResponseContainsJson([
-            0 => [],
-            1 => [
+            1 => [],
+            0 => [
                 [
                     'id' => 3
                 ]

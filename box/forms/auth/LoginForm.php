@@ -97,16 +97,6 @@ class LoginForm extends Model
         }
     }
 
-    public static function login(User $user)
-    {
-        $token = new Token();
-        if ($user) {
-            $token->user_id = $user->id;
-            $token->generateToken(time() + 3600 + 24 * 7);
-        }
-        return $token->save() ? $token : null;
-    }
-
     /**
      * Finds user by [[username]]
      *

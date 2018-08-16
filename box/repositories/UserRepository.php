@@ -9,6 +9,7 @@ namespace box\repositories;
 
 use box\entities\user\Profile;
 use box\entities\user\User;
+use yii\helpers\VarDumper;
 
 class UserRepository
 {
@@ -100,6 +101,19 @@ class UserRepository
     public function findByActivateToken($token): User
     {
         if (!$user = User::find()->andWhere(['activate_token' => $token])->one()) {
+            throw new NotFoundException('User not found.');
+        }
+        return $user;
+    }
+
+    /**
+     * @param $auth_key
+     * @return User
+     * @throws NotFoundException
+     */
+    public function findByAuthKey($auth_key): User
+    {
+        if (!$user = User::find()->where(['auth_key' => $auth_key])->active()->one()) {
             throw new NotFoundException('User not found.');
         }
         return $user;

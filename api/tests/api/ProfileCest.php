@@ -6,6 +6,7 @@ use api\tests\ApiTester;
 use common\fixtures\ProfileFixture;
 use common\fixtures\TokenFixture;
 use common\fixtures\UserFixture;
+use yii\helpers\VarDumper;
 use yii\web\Response;
 
 /**
@@ -53,6 +54,16 @@ class ProfileCest
         $I->amBearerAuthenticated('token-expired');
         $I->sendGET('/profile');
         $I->seeResponseCodeIs(401);
+        $I->seeResponseContainsJson([
+            'message' => 'token expired'
+        ]);
+
+    }
+
+    public function refreshToken(ApiTester $I)
+    {
+        $I->sendPATCH('/token-refresh/refresherToken');
+        $I->seeResponseCodeIs(205);
 
     }
 

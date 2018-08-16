@@ -93,4 +93,24 @@ class LoginCest
     }
 
 
+    public function successSetPassword(ApiTester $I)
+    {
+        $I->sendPOST('/forgot/set-password/334455',[
+            'password' => 555666888
+        ]);
+        $I->seeResponseCodeIs(205);
+        $I->seeResponseIsJson();
+        $I->seeResponseJsonMatchesJsonPath('$.token');
+        $I->seeResponseJsonMatchesJsonPath('$.expired');
+    }
+
+    public function successForgot(ApiTester $I)
+    {
+        $I->sendPOST('/forgot', [
+                'email' => 'tests@mail.com',
+            ]);
+        $I->seeResponseCodeIs(200);
+    }
+
+
 }

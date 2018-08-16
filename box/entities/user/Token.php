@@ -37,7 +37,6 @@ class Token extends ActiveRecord
         $this->token = Yii::$app->security->generateRandomString();
     }
 
-
     public function fields()
     {
         return [

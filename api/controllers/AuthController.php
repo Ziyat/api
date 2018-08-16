@@ -209,6 +209,11 @@ class AuthController extends Controller
         return $form;
     }
 
+    /**
+     * @param $refresherToken
+     * @return array|Token|null|\yii\db\ActiveRecord
+     * @throws BadRequestHttpException
+     */
 
     public function actionTokenRefresh($refresherToken)
     {

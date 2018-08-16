@@ -142,7 +142,11 @@ class ProfileController extends BearerController
             'name' => $user->profile->name,
             'lastName' => $user->profile->last_name,
             'birthDate' => $user->profile->date_of_birth,
-            'photo' => $user->profile->getPhoto()
+            'photo' => $user->profile->getPhoto(),
+            'notApproveFollowers' => count($user->notApproveFollowers),
+            'approveFollowing' =>  count($user->approveFollowing),
+            'notApproveFollowing' => count($user->notApproveFollowing),
+            'products' => count($user->products),
         ];
     }
 

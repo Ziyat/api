@@ -375,7 +375,9 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function getToken()
     {
-        return $this->hasMany(Token::class, ['user_id' => 'id'])->andWhere(['>','expired_at', time()]);
+        return $this->hasOne(Token::class, ['user_id' => 'id'])
+            ->andWhere(['>','expired_at', time()])
+            ->orderBy(['id' => SORT_DESC]);
     }
 
     // profiles
@@ -494,6 +496,7 @@ class User extends ActiveRecord implements IdentityInterface
 
             },
             'createdAt' => 'created_at',
+
             'approveFollowers' => function(self $model){
                 return count($model->approveFollowers);
             },
@@ -505,6 +508,9 @@ class User extends ActiveRecord implements IdentityInterface
             },
             'notApproveFollowing' => function(self $model){
                 return count($model->notApproveFollowing);
+            },
+            'products' => function(self $model){
+                return count($model->products);
             },
         ];
     }

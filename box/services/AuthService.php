@@ -90,21 +90,16 @@ class AuthService
 
     /**
      * @param $refresherToken
-     * @return array|Token|null|\yii\db\ActiveRecord
+     * @return Token
      * @throws \box\repositories\NotFoundException
      * @throws \yii\base\Exception
      */
 
     public function tokenRefresh($refresherToken)
     {
-        /**
-         * @var Token $token
-         */
-
         $user = $this->users->findByAuthKey($refresherToken);
-        $token = $user->tokens;
-        if ($token->expired_at < time()) {
-            return $this->generateToken($user);
+        if (!$token = $user->token) {
+            $token = $this->generateToken($user);
         }
         return $token;
     }

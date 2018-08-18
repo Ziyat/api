@@ -119,6 +119,16 @@ return [
         'POST carousels/<id:\d+>' => 'carousel/update',
         'DELETE carousels/<id:\d+>' => 'carousel/delete',
 
+        // Carousel Items
+
+        'GET carousels/<carousel_id:\d+>/items/<item_id:\d+>' => 'carousel/view-item',
+        'POST carousels/<carousel_id:\d+>/items' => 'carousel/add-item',
+        'POST carousels/<carousel_id:\d+>/items/<item_id:\d+>' => 'carousel/update-item',
+        'DELETE carousels/<carousel_id:\d+>/items/<item_id:\d+>' => 'carousel/delete-item',
+
+        'POST carousels/<carousel_id:\d+>/items/<item_id:\d+>/images' => 'carousel/add-item-images',
+        'DELETE carousels/<carousel_id:\d+>/items/<item_id:\d+>/images/<image_id:\d+>' => 'carousel/delete-item-image',
+
 
         // ocr
 

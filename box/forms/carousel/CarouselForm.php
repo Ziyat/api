@@ -8,35 +8,39 @@ namespace box\forms\carousel;
 
 
 use box\entities\carousel\Carousel;
+use box\entities\carousel\Item;
 use box\forms\CompositeForm;
+use yii\base\Model;
 
 /**
  * Created by Madetec-Solution.
  * Developer: Mirkhanov Z.S.
  * Class CarouselForm
  * @package box\forms\carousel
- * @property ImageForm $images
+ *
+ * @property string $title
+ * @property string $subTitle
+ * @property integer $type
+ * @property integer $template_id
+ * @property integer $status
  */
-class CarouselForm extends CompositeForm
+class CarouselForm extends Model
 {
     public $title;
     public $subTitle;
-    public $description;
-    public $text;
     public $type;
-    public $item_id;
+    public $template_id;
+    public $status;
 
     public function __construct(Carousel $carousel = null, array $config = [])
     {
         if ($carousel) {
             $this->title = $carousel->title;
             $this->subTitle = $carousel->sub_title;
-            $this->description = $carousel->description;
-            $this->text = $carousel->text;
             $this->type = $carousel->type;
-            $this->item_id = $carousel->item_id;
+            $this->template_id = $carousel->template_id;
+            $this->status = $carousel->status;
         }
-        $this->images = new ImageForm();
 
         parent::__construct($config);
     }
@@ -44,15 +48,9 @@ class CarouselForm extends CompositeForm
     public function rules()
     {
         return [
-            [['title', 'type', 'item_id'], 'required'],
-            [['title', 'description', 'text', 'subTitle'], 'string'],
-            [['type', 'item_id'], 'integer'],
+            [['title', 'type', 'template_id'], 'required'],
+            [['title', 'subTitle'], 'string'],
+            [['template_id', 'status','type'], 'integer'],
         ];
-    }
-
-
-    protected function internalForms(): array
-    {
-        return ['images'];
     }
 }

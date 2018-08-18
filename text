@@ -3,6 +3,7 @@ server run
 php -S 127.0.0.1:8080 -t api/web
 test run
 php vendor/bin/codecept run -- -c api
+php ../vendor/bin/codecept run
 
 php ../vendor/bin/codecept run
 

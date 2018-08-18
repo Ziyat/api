@@ -8,6 +8,7 @@ namespace api\tests\api;
 
 
 use api\tests\ApiTester;
+use box\entities\carousel\Carousel;
 use common\fixtures\ProfileFixture;
 use common\fixtures\TokenFixture;
 use common\fixtures\UserFixture;
@@ -66,21 +67,17 @@ class CarouselCest
         $I->amBearerAuthenticated('token-correct');
         $I->haveHttpHeader('Cache-Control', 'no-cache');
         $I->sendPOST('/carousels', [
-            'title' => 'name',
-            'type' => 1,
-            'item_id' => 1,
-        ], [
-            'files' => [
-                codecept_data_dir('user/photos/photo1.jpg'),
-                codecept_data_dir('user/photos/photo2.jpg'),
-            ]
+            'title' => 'title',
+            'subTitle' => 'subTitle',
+            'type' => Carousel::TYPE_GENERIC_PRODUCT,
+            'template_id' => 1
         ]);
-
         $I->seeResponseCodeIs(201);
         $I->seeResponseContainsJson([
-            'title' => 'name',
-            'type' => 'user_product',
-            'item_id' => 1,
+            'title' => 'title',
+            'sub_title' => 'subTitle',
+            'type' => Carousel::TYPE_GENERIC_PRODUCT,
+            'template_id' => 1,
         ]);
     }
 
@@ -89,16 +86,18 @@ class CarouselCest
         $I->amBearerAuthenticated('token-correct');
         $I->haveHttpHeader('Cache-Control', 'no-cache');
         $I->sendPOST('/carousels/1', [
-            'title' => 'update',
-            'type' => 2,
-            'item_id' => 3
+            'title' => 'title Edit',
+            'subTitle' => 'subTitle Edit',
+            'type' => Carousel::TYPE_GENERIC_PRODUCT,
+            'template_id' => 2
         ]);
 
         $I->seeResponseCodeIs(202);
         $I->seeResponseContainsJson([
-            'title' => 'update',
-            'type' => 'brand',
-            'item_id' => 3
+            'title' => 'title Edit',
+            'sub_title' => 'subTitle Edit',
+            'type' => Carousel::TYPE_GENERIC_PRODUCT,
+            'template_id' => 2
         ]);
     }
 
@@ -110,9 +109,10 @@ class CarouselCest
 
         $I->seeResponseCodeIs(200);
         $I->seeResponseContainsJson([
-            'title' => 'update',
-            'type' => 'brand',
-            'item_id' => 3
+            'title' => 'title Edit',
+            'sub_title' => 'subTitle Edit',
+            'type' => Carousel::TYPE_GENERIC_PRODUCT,
+            'template_id' => 2
         ]);
     }
 
@@ -124,12 +124,89 @@ class CarouselCest
         $I->seeResponseCodeIs(200);
         $I->seeResponseContainsJson([
             [
-                'title' => 'update',
-                'type' => 'brand',
-                'item_id' => 3
+                'id' => 1,
+                'title' => 'title Edit',
+                'sub_title' => 'subTitle Edit',
+                'type' => Carousel::TYPE_GENERIC_PRODUCT,
+                'template_id' => 2
             ]
         ]);
     }
+
+
+    public function CarouselAddItem(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->haveHttpHeader('Cache-Control', 'no-cache');
+        $I->sendPOST('/carousels/1/items', [
+            'title' => 'Item 1 Carousel 1 Title',
+            'description' => 'Item 1 Carousel 1 Desc',
+            'text' => 'Item 1 Carousel 1 Text',
+            'item_id' => 1
+        ], [
+            'files' => [
+                codecept_data_dir('user/photos/photo1.jpg'),
+                codecept_data_dir('user/photos/photo2.jpg'),
+            ]
+        ]);
+        $I->seeResponseCodeIs(201);
+    }
+
+    public function CarouselEditItem(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->haveHttpHeader('Cache-Control', 'no-cache');
+        $I->sendPOST('/carousels/1/items/1', [
+            'title' => 'Item 1 Carousel 1 Title Edit',
+            'description' => 'Item 1 Carousel 1 Desc Edit',
+            'text' => 'Item 1 Carousel 1 Text Edit',
+            'item_id' => 1
+        ]);
+        $I->seeResponseCodeIs(202);
+    }
+
+    public function CarouselViewItem(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->haveHttpHeader('Cache-Control', 'no-cache');
+        $I->sendGET('/carousels/1/items/1');
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseContainsJson([
+            'title' => 'Item 1 Carousel 1 Title Edit'
+        ]);
+    }
+
+    public function CarouselAddItemImages(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->haveHttpHeader('Cache-Control', 'no-cache');
+        $I->sendPOST('/carousels/1/items/1/images', [], [
+            'files' => [
+                codecept_data_dir('carousel/image1.JPG'),
+                codecept_data_dir('carousel/image2.JPG'),
+            ]
+        ]);
+        $I->seeResponseCodeIs(201);
+
+    }
+
+    public function CarouselDeleteItemImage(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->haveHttpHeader('Cache-Control', 'no-cache');
+        $I->sendDELETE('/carousels/1/items/1/images/3');
+        $I->seeResponseCodeIs(204);
+    }
+
+    public function CarouselDeleteItem(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->haveHttpHeader('Cache-Control', 'no-cache');
+        $I->sendDELETE('/carousels/1/items/1');
+        $I->seeResponseCodeIs(204);
+    }
+
+
 
     public function deleteCarousels(ApiTester $I)
     {

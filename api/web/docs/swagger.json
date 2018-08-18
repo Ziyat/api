@@ -231,25 +231,13 @@
                         "type": "string"
                     },
                     {
-                        "name": "description",
-                        "in": "formData",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "text",
-                        "in": "formData",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "type",
                         "in": "formData",
                         "required": true,
                         "type": "integer"
                     },
                     {
-                        "name": "item_id",
+                        "name": "template_id",
                         "in": "formData",
                         "required": true,
                         "type": "integer"
@@ -295,12 +283,6 @@
                 "description": "Return carousels array",
                 "parameters": [
                     {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "title",
                         "in": "formData",
                         "required": true,
@@ -313,25 +295,13 @@
                         "type": "string"
                     },
                     {
-                        "name": "description",
-                        "in": "formData",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "text",
-                        "in": "formData",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "type",
                         "in": "formData",
                         "required": true,
                         "type": "integer"
                     },
                     {
-                        "name": "item_id",
+                        "name": "template_id",
                         "in": "formData",
                         "required": true,
                         "type": "integer"
@@ -362,6 +332,261 @@
                 "responses": {
                     "204": {
                         "description": "Success response"
+                    }
+                }
+            }
+        },
+        "/carousels/{carousel_id}/items": {
+            "get": {
+                "tags": [
+                    "Carousels"
+                ],
+                "description": "Return carousels array",
+                "parameters": [
+                    {
+                        "name": "carousel_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/CarouselItemData"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Carousels"
+                ],
+                "description": "Return carousels array",
+                "parameters": [
+                    {
+                        "name": "carousel_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "title",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "item_id",
+                        "in": "formData",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "description",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "text",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "files",
+                        "in": "formData",
+                        "required": false,
+                        "type": "file"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/CarouselData"
+                        }
+                    }
+                }
+            }
+        },
+        "/carousels/{carousel_id}/items/{item_id}": {
+            "get": {
+                "tags": [
+                    "Carousels"
+                ],
+                "description": "Return carousels array",
+                "parameters": [
+                    {
+                        "name": "carousel_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "item_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/CarouselItemData"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Carousels"
+                ],
+                "description": "Return carousels array",
+                "parameters": [
+                    {
+                        "name": "carousel_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "item_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "title",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "item_id",
+                        "in": "formData",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "description",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "text",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/CarouselData"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Carousels"
+                ],
+                "description": "Return carousels array",
+                "parameters": [
+                    {
+                        "name": "carousel_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "item_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Success response"
+                    }
+                }
+            }
+        },
+        "/carousels/{carousel_id}/items/{item_id}/images": {
+            "post": {
+                "tags": [
+                    "Carousels"
+                ],
+                "description": "Return carousels array",
+                "parameters": [
+                    {
+                        "name": "carousel_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "item_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "files",
+                        "in": "formData",
+                        "required": true,
+                        "type": "file"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/CarouselData"
+                        }
+                    }
+                }
+            }
+        },
+        "/carousels/{carousel_id}/items/{item_id}/images/{image_id}": {
+            "delete": {
+                "tags": [
+                    "Carousels"
+                ],
+                "description": "Return carousels array",
+                "parameters": [
+                    {
+                        "name": "carousel_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "item_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "image_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/CarouselData"
+                        }
                     }
                 }
             }
@@ -2258,24 +2483,59 @@
                 "title": {
                     "type": "string"
                 },
+                "type": {
+                    "type": "string"
+                },
+                "template_id": {
+                    "type": "integer"
+                },
+                "sub_title": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CarouselItemData"
+                    }
+                }
+            },
+            "type": "object"
+        },
+        "CarouselItemData": {
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
                 "description": {
                     "type": "string"
                 },
                 "text": {
                     "type": "string"
                 },
-                "type": {
-                    "type": "string"
-                },
                 "item_id": {
                     "type": "integer"
                 },
-                "item_photo": {
+                "item_img": {
                     "type": "string"
                 },
-                "photos": {
+                "images": {
                     "type": "array",
-                    "items": {}
+                    "items": {
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "url": {
+                                "type": "string"
+                            }
+                        }
+                    }
                 }
             },
             "type": "object"

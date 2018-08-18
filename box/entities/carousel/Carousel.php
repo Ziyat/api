@@ -6,13 +6,10 @@
 
 namespace box\entities\carousel;
 
-use box\entities\generic\GenericProduct;
-use box\entities\shop\Brand;
-use box\entities\shop\product\Product;
+use box\forms\carousel\ImageForm;
+use box\repositories\NotFoundException;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
-use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
-use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
 use yiidreamteam\upload\ImageUploadBehavior;
 
@@ -20,13 +17,12 @@ use yiidreamteam\upload\ImageUploadBehavior;
  * Carousel
  * @property integer $id
  * @property string $title
- * @property string $sub_title
- * @property string $description
- * @property string $text
  * @property integer $type
- * @property integer $item_id
- * @property integer $appointment
- * @property Image[] $images
+ * @property integer $template_id
+ * @property string $sub_title
+ * @property integer $status
+ *
+ * @property Item[] $items
  *
  * @mixin ImageUploadBehavior
  */
@@ -36,101 +32,115 @@ class Carousel extends ActiveRecord
     const TYPE_USER_PRODUCT = 1;
     const TYPE_BRAND = 2;
 
-    const APPOINTMENT_NEWS = 0;
-
-    public static function create($title, $subTitle, $description, $text, $type, $item_id, $appointment = null): self
+    public static function create($title, $subTitle, $type, $template_id): self
     {
         $carousel = new static();
         $carousel->title = $title;
         $carousel->sub_title = $subTitle;
-        $carousel->description = $description;
-        $carousel->text = $text;
         $carousel->type = $type;
-        $carousel->item_id = $item_id;
-        $carousel->appointment = $appointment ?: self::APPOINTMENT_NEWS;
+        $carousel->template_id = $template_id;
         return $carousel;
     }
 
-    public function edit($title, $subTitle,$description, $text, $type, $item_id): void
+    public function edit($title, $subTitle, $type, $template_id): void
     {
         $this->title = $title;
         $this->sub_title = $subTitle;
-        $this->description = $description;
-        $this->text = $text;
         $this->type = $type;
-        $this->item_id = $item_id;
+        $this->template_id = $template_id;
     }
 
-    // Images
+    // Items
 
-    public function addImage(UploadedFile $file): void
+    public function addItem($title, $description, $text, $item_id, ImageForm $images)
     {
-        $images = $this->images;
-        $images[] = Image::create($file);
-        $this->updateImages($images);
+        $item = Item::create($title, $description, $text, $item_id);
+        foreach ($images->files as $file) {
+            $item->addImage($file);
+        }
+        $items = $this->items;
+        $items[] = $item;
+        $this->updateItem($items);
     }
 
-    public function removeImage($id): void
+    public function editItem($id, $title, $description, $text, $item_id)
     {
-        $images = $this->images;
-        foreach ($images as $i => $image) {
-            if ($image->isIdEqualTo($id)) {
-                unset($images[$i]);
-                $this->updateImages($images);
+        $items = $this->items;
+        foreach ($items as $k => $item) {
+            if ($item->isIdEqualTo($id)) {
+                $items[$k]->edit($title, $description, $text, $item_id);
+                $this->updateItem($items);
                 return;
             }
         }
-        throw new \DomainException('Image is not found.');
     }
 
-    public function removeImages(): void
+    /**
+     * @param $id
+     * @throws NotFoundException
+     */
+    public function removeItem($id)
     {
-        $this->updateImages([]);
+        $items = $this->items;
+        foreach ($items as $k => $item) {
+
+            if ($item->isIdEqualTo($id)) {
+                unset($items[$k]);
+                $this->updateItem($items);
+                return;
+            }
+        }
+        throw new NotFoundException('Item not found.');
     }
 
-    public function moveImageUp($id): void
+    /**
+     * @param $id
+     * @param UploadedFile $file
+     * @throws NotFoundException
+     */
+
+    public function addItemImage($item_id, UploadedFile $file)
     {
-        $images = $this->images;
-        foreach ($images as $i => $image) {
-            if ($image->isIdEqualTo($id)) {
-                if ($prev = $images[$i - 1] ?? null) {
-                    $images[$i - 1] = $image;
-                    $images[$i] = $prev;
-                    $this->updateImages($images);
+        $items = $this->items;
+        foreach ($items as $k => $item) {
+            if ($item->isIdEqualTo($item_id)) {
+                $item->addImage($file);
+                if($item->save()){
+                    $items[$k] = $item;
+                    $this->updateItem($items);
+                    return;
                 }
-                return;
+                throw new \DomainException('save item image error');
             }
         }
-        throw new \DomainException('Image is not found.');
+        throw new NotFoundException('Item not found.');
     }
 
-    public function moveImageDown($id): void
+    /**
+     * @param $item_id
+     * @param $image_id
+     * @throws NotFoundException
+     */
+    public function removeItemImage($item_id, $image_id)
     {
-        $images = $this->images;
-        foreach ($images as $i => $image) {
-            if ($image->isIdEqualTo($id)) {
-                if ($next = $images[$i + 1] ?? null) {
-                    $images[$i] = $next;
-                    $images[$i + 1] = $image;
-                    $this->updateImages($images);
+        $items = $this->items;
+        foreach ($items as $k => $item) {
+            if ($item->isIdEqualTo($item_id)) {
+                $item->removeImage($image_id);
+                if($item->save()){
+                    $items[$k] = $item;
+                    $this->updateItem($items);
+                    return;
                 }
-                return;
+                throw new \DomainException('save item image error');
             }
         }
-        throw new \DomainException('Image is not found.');
+        throw new NotFoundException('Item not found.');
     }
 
-    private function updateImages(array $images): void
+    private function updateItem(array $items): void
     {
-        foreach ($images as $i => $image) {
-            $image->setSort($i);
-        }
-        $this->images = $images;
-    }
-
-    public function getImages(): ActiveQuery
-    {
-        return $this->hasMany(Image::class, ['carousel_id' => 'id'])->orderBy('sort');
+        $this->items = $items;
     }
 
     public static function tableName(): string
@@ -138,14 +148,9 @@ class Carousel extends ActiveRecord
         return '{{%carousels}}';
     }
 
-    public function behaviors(): array
+    public function getItems()
     {
-        return [
-            [
-                'class' => SaveRelationsBehavior::class,
-                'relations' => ['images'],
-            ]
-        ];
+        return $this->hasMany(Item::class, ['carousel_id' => 'id']);
     }
 
     public function fields()
@@ -153,54 +158,24 @@ class Carousel extends ActiveRecord
         return [
             'id' => 'id',
             'title' => 'title',
-            'description' => 'description',
-            'text' => 'text',
-            'type' => function (self $model) {
-                return $model->getTypeName();
-            },
-            'item_id' =>'item_id',
-            'item_photo' => function (self $model) {
-                return $model->getMainPhotoItem();
-            },
-            'photos' => function(self $model){
-                return ArrayHelper::getColumn($model->images,function(Image $image){
-                    return $image->getThumbFileUrl('file');
-                });
-            },
+            'type' => 'type',
+            'template_id' => 'template_id',
+            'sub_title' => 'sub_title',
+            'status' => 'status',
+            'items' => function (self $carousel) {
+                return $carousel->items;
+            }
         ];
     }
 
-
-    protected function getTypeName()
+    public function behaviors(): array
     {
-        switch ($this->type){
-            case self::TYPE_GENERIC_PRODUCT:
-                return 'generic_product';
-            case self::TYPE_USER_PRODUCT:
-                return 'user_product';
-            case self::TYPE_BRAND:
-                return 'brand';
-            default:
-                return 'undefined';
-        }
-    }
-
-
-    protected function getMainPhotoItem()
-    {
-        switch ($this->type){
-            case self::TYPE_GENERIC_PRODUCT:
-                $product = GenericProduct::findOne($this->item_id);
-                return !$product->mainPhoto ? null : $product->mainPhoto->getThumbFileUrl('file');
-            case self::TYPE_USER_PRODUCT:
-                $product = Product::findOne($this->item_id);
-                return !$product->mainPhoto ? null : $product->mainPhoto->getThumbFileUrl('file');
-            case self::TYPE_BRAND:
-                $brand = Brand::findOne($this->item_id);
-                return !$brand->photo ? null : $brand->getPhoto();
-            default:
-                return 'undefined';
-        }
+        return [
+            [
+                'class' => SaveRelationsBehavior::class,
+                'relations' => ['items'],
+            ]
+        ];
     }
 
     public function transactions()

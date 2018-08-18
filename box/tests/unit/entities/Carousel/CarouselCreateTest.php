@@ -15,23 +15,11 @@ class CarouselCreateTest extends Unit
     {
         $title = 'Title';
         $subTitle = 'subTitle';
-        $description = 'description';
-        $text = 'Text';
         $type = Carousel::TYPE_GENERIC_PRODUCT;
-        $item_id = 1;
-        $appointment = Carousel::APPOINTMENT_NEWS;
 
-        $carousel = Carousel::create(
-            $title,
-            $subTitle,
-            $description,
-            $text,
-            $type,
-            $item_id,
-            $appointment
-        );
+        $carousel = Carousel::create($title, $subTitle, $type);
         $this->isTrue($carousel->save());
-        $carouselDb = Carousel::findOne(['text' => $text]);
-        $this->assertEquals($carouselDb->text, $text);
+        $carouselDb = Carousel::findOne(['title' => $title]);
+        $this->assertEquals($carouselDb->title, $title);
     }
 }

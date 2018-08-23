@@ -490,7 +490,7 @@ class CarouselController extends BearerCrudController
  *          @SWG\Property(property="text",type="string"),
  *          @SWG\Property(property="item_id",type="integer"),
  *          @SWG\Property(property="item_img",type="string"),
- *          @SWG\Property(property="images",type="array",@SWG\Items(
+ *          @SWG\Property(property="images",type="array", @SWG\Items(
  *               @SWG\Property(property="id",type="integer"),
  *               @SWG\Property(property="url",type="string"),
  *          )),

@@ -21,11 +21,13 @@ use yii\web\UploadedFile;
  * @property string $name
  * @property string $description
  * @property string $priceType
+ * @property string $condition
  */
 class ProductCreateForm extends CompositeForm
 {
     public $brandId;
     public $name;
+    public $condition;
     public $description;
     public $priceType;
     public $quantity;
@@ -47,7 +49,7 @@ class ProductCreateForm extends CompositeForm
     {
         return [
             [['brandId', 'name', 'priceType'], 'required'],
-            [['name', 'description', 'priceType'], 'string', 'max' => 255],
+            [['name', 'description', 'priceType','condition'], 'string', 'max' => 255],
             [['brandId', 'quantity'], 'integer'],
         ];
     }

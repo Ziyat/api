@@ -95,6 +95,7 @@ class UserProductCest
                 "description" => "watch valt",
                 "priceType" => "fix",
                 "quantity" => 3,
+                "condition" => 'used',
                 "categories" => [
                     "main" => 2,
                     "others" => []
@@ -145,6 +146,7 @@ class UserProductCest
                 ]
             ]
         );
+
         $I->seeResponseCodeIs(201);
     }
 

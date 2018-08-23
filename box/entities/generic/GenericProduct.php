@@ -448,7 +448,6 @@ class GenericProduct extends ActiveRecord
             "photos" => function () {
                 return $this->responsePhotos();
             },
-
             "characteristics" => function () {
                 $result = [];
                 foreach ($this->values as $value) {

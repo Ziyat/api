@@ -79,7 +79,7 @@ class GenericProductCest
                     codecept_data_dir('generic/productData.json'),
             ]
         );
-
+        VarDumper::dump($I->grabResponse());
         $I->seeResponseCodeIs(201);
     }
 

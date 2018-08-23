@@ -2,19 +2,16 @@
 
 namespace box\entities\shop\product;
 
-use box\entities\shop\product\queries\ProductQuery;
-use box\forms\shop\product\ModificationForm;
-use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use box\entities\behaviors\MetaBehavior;
 use box\entities\Meta;
 use box\entities\shop\Brand;
 use box\entities\shop\Category;
+use box\entities\shop\product\queries\ProductQuery;
 use box\entities\shop\Tag;
+use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\behaviors\BlameableBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
-use yii\helpers\ArrayHelper;
-use yii\helpers\VarDumper;
 use yii\web\UploadedFile;
 
 /**
@@ -30,6 +27,7 @@ use yii\web\UploadedFile;
  * @property string $price_type
  * @property integer $rating
  * @property integer $status
+ * @property string $condition
  * @property integer $quantity
  * @property integer $main_photo_id
  *
@@ -53,6 +51,7 @@ class Product extends ActiveRecord
 
     const STATUS_DRAFT = 0;
     const STATUS_ACTIVE = 1;
+    const STATUS_MARKET = 2;
 
     const PRICE_TYPE_AUCTION = 'auction';
     const PRICE_TYPE_BARGAIN = 'bargain';
@@ -74,6 +73,19 @@ class Product extends ActiveRecord
         return $product;
     }
 
+    public function edit($brandId, $name, $description, Meta $meta): void
+    {
+        $this->brand_id = $brandId;
+        $this->name = $name;
+        $this->description = $description;
+        $this->meta = $meta;
+    }
+
+
+    public function setCondition($condition)
+    {
+        $this->condition = $condition;
+    }
 
     public function isFixPrice()
     {
@@ -114,18 +126,17 @@ class Product extends ActiveRecord
 //        $this->setQuantity($quantity);
 //    }
 
-    public function edit($brandId, $name, $description, Meta $meta): void
-    {
-        $this->brand_id = $brandId;
-        $this->name = $name;
-        $this->description = $description;
-        $this->meta = $meta;
-    }
-
     public function changeMainCategory($categoryId): void
     {
+        if ($this->category_id != $categoryId) {
+            $this->values = [];
+            $this->modifications = [];
+        }
+
         $this->category_id = $categoryId;
     }
+
+    //--------------- status --------------//
 
     public function activate(): void
     {
@@ -143,6 +154,14 @@ class Product extends ActiveRecord
         $this->status = self::STATUS_DRAFT;
     }
 
+    public function market(): void
+    {
+        if ($this->isMarket()) {
+            throw new \DomainException('Product is already market.');
+        }
+        $this->status = self::STATUS_MARKET;
+    }
+
     public function isActive(): bool
     {
         return $this->status == self::STATUS_ACTIVE;
@@ -152,6 +171,11 @@ class Product extends ActiveRecord
     public function isDraft(): bool
     {
         return $this->status == self::STATUS_DRAFT;
+    }
+
+    public function isMarket(): bool
+    {
+        return $this->status == self::STATUS_MARKET;
     }
 
 //    public function isAvailable(): bool
@@ -655,6 +679,11 @@ class Product extends ActiveRecord
         ];
     }
 
+    /**
+     * @return bool
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
     public function beforeDelete(): bool
     {
         if (parent::beforeDelete()) {
@@ -688,6 +717,7 @@ class Product extends ActiveRecord
             "category_id" => "category_id",
             "brand_id" => "brand_id",
             "status" => "status",
+            "condition" => "condition",
             "name" => "name",
             "description" => "description",
             "quantity" => "quantity",
@@ -731,6 +761,12 @@ class Product extends ActiveRecord
             },
             "tags" => function () {
                 return $this->tags;
+            },
+            "productsActive" => function () {
+                return self::find()->where(['status' => self::STATUS_ACTIVE])->count();
+            },
+            "productsMarket" => function () {
+                return self::find()->where(['status' => self::STATUS_MARKET])->count();
             },
             "price_type" => "price_type",
             "rating" => "rating",

@@ -67,6 +67,8 @@ class BrandCest
         $I->sendPOST('/shop/brands', [
             'name' => 'name',
             'slug' => 'slug',
+        ], [
+            'photo' => codecept_data_dir('user/photos/photo1.jpg'),
         ]);
 
         $I->seeResponseCodeIs(201);

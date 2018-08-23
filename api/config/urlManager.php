@@ -51,6 +51,7 @@ return [
         'PATCH user/products/<id:\d+>/photos/<photo_id:\d+>/up' => 'user/product/move-photo-up',
         'PATCH user/products/<id:\d+>/photos/<photo_id:\d+>/down' => 'user/product/move-photo-down',
         'DELETE user/products/<id:\d+>/photos/<photo_id:\d+>' => 'user/product/delete-photo',
+        'DELETE user/products/<product_id:\d+>/<modification_id:\d+>' => 'user/product/delete-modification',
 
         // shop products
 

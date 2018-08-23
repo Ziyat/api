@@ -69,6 +69,8 @@ class ProductService
             $form->price->buyNow
         );
 
+        $product->setCondition($form->condition);
+
         foreach ($form->categories->others as $otherId) {
             $category = $this->categories->get($otherId);
             $product->assignCategory($category->id);
@@ -146,6 +148,7 @@ class ProductService
                 $form->meta->keywords
             )
         );
+
         $product->changeMainCategory($category->id);
 
 
@@ -172,6 +175,7 @@ class ProductService
                     $category = $this->categories->get($otherId);
                     $product->assignCategory($category->id);
                 }
+
                 if(isset($form->characteristics)){
                     foreach ($form->characteristics as $characteristic) {
                         $product->setValue($characteristic->id, $characteristic->value);
@@ -236,6 +240,17 @@ class ProductService
     {
         $product = $this->products->get($id);
         $product->draft();
+        $this->products->save($product);
+    }
+
+    /**
+     * @param $id
+     * @throws NotFoundException
+     */
+    public function market($id): void
+    {
+        $product = $this->products->get($id);
+        $product->market();
         $this->products->save($product);
     }
 

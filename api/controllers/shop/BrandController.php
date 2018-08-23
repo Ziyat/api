@@ -35,6 +35,7 @@ class BrandController extends BearerCrudController
      *     @SWG\Response(
      *         response=200,
      *         description="Success response",
+     *         @SWG\Property(property="brands", type="array",@SWG\Items(ref="#/definitions/Brand"))
      *     ),
      * )
      * @return ActiveDataProvider
@@ -55,6 +56,7 @@ class BrandController extends BearerCrudController
      *     @SWG\Response(
      *         response=200,
      *         description="Success response",
+     *         @SWG\Property(ref="#/definitions/Brand"))
      *     ),
      *     security={{"Bearer": {}}}
      * )
@@ -73,9 +75,11 @@ class BrandController extends BearerCrudController
      *     tags={"Brand"},
      *     @SWG\Parameter(name="name", in="formData", required=true, type="string"),
      *     @SWG\Parameter(name="slug", in="formData", required=true, type="string"),
+     *     @SWG\Parameter(name="photo", in="formData", required=false, type="file"),
      *     @SWG\Response(
      *         response=201,
      *         description="Success response",
+     *         @SWG\Property(ref="#/definitions/Brand"))
      *     ),
      *     security={{"Bearer": {}}}
      * )
@@ -109,9 +113,12 @@ class BrandController extends BearerCrudController
      *     path="/shop/brands/{id}",
      *     tags={"Brand"},
      *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     @SWG\Parameter(name="name", in="formData", required=true, type="string"),
+     *     @SWG\Parameter(name="slug", in="formData", required=true, type="string"),
      *     @SWG\Response(
      *         response=202,
      *         description="Success response",
+     *         @SWG\Property(ref="#/definitions/Brand"))
      *     ),
      *     security={{"Bearer": {}}}
      * )
@@ -187,3 +194,21 @@ class BrandController extends BearerCrudController
     }
 
 }
+
+/**
+ * @SWG\Definition(
+ *     definition="Brand",
+ *     description="result brand data",
+ *     type="object",
+ *     @SWG\Property(property="id", type="integer"),
+ *     @SWG\Property(property="name", type="string"),
+ *     @SWG\Property(property="slug", type="string"),
+ *     @SWG\Property(property="photo", type="string"),
+ *     @SWG\Property(property="meta", type="object",
+ *          @SWG\Property(property="title", type="string"),
+ *          @SWG\Property(property="description", type="string"),
+ *          @SWG\Property(property="keywords", type="string"),
+ *     ),
+ *
+ * )
+ */

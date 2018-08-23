@@ -274,9 +274,36 @@ class ProductController extends BearerController
     }
 
     /**
+     * @SWG\Get(
+     *     path="/user/products/{id}/market",
+     *     tags={"User Products"},
+     *     description="Send the product id and the product status will become a market",
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response"
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @param $id
+     * @return boolean
+     * @throws NotFoundException
+     */
+    public function actionMarket($id)
+    {
+        try {
+            $this->service->market($id);
+        } catch (\DomainException $e) {
+            return $e->getMessage();
+        }
+
+        return true;
+    }
+
+    /**
      * @SWG\Put(
      *     path="/user/products/{product_id}/{modification_id}/{photo_id}",
      *     tags={"User Products"},
+     *     description="Set Modification Photo",
      *     @SWG\Parameter(name="product_id", in="path", required=true, type="integer"),
      *     @SWG\Parameter(name="modification_id", in="path", required=true, type="integer"),
      *     @SWG\Parameter(name="photo_id", in="path", required=true, type="integer"),
@@ -303,6 +330,25 @@ class ProductController extends BearerController
         return true;
     }
 
+
+    /**
+     *  @SWG\Delete(
+     *     path="/user/products/{product_id}/{modification_id}",
+     *     tags={"User Products"},
+     *     description="Delete Modification",
+     *     @SWG\Parameter(name="product_id", in="path", required=true, type="integer"),
+     *     @SWG\Parameter(name="modification_id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response"
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @param $product_id
+     * @param $modification_id
+     * @return bool|string
+     * @throws NotFoundException
+     */
     public function actionDeleteModification($product_id, $modification_id)
     {
         try {

@@ -1198,7 +1198,14 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Success response"
+                        "description": "Success response",
+                        "schema": {
+                            "property": "brands",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Brand"
+                            }
+                        }
                     }
                 }
             },
@@ -1218,18 +1225,22 @@
                         "in": "formData",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "photo",
+                        "in": "formData",
+                        "required": false,
+                        "type": "file"
                     }
                 ],
                 "responses": {
                     "201": {
-                        "description": "Success response"
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/Brand"
+                        }
                     }
-                },
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ]
+                }
             }
         },
         "/shop/brands/{id}": {
@@ -1247,14 +1258,12 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Success response"
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/Brand"
+                        }
                     }
-                },
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ]
+                }
             },
             "post": {
                 "tags": [
@@ -1266,18 +1275,28 @@
                         "in": "path",
                         "required": true,
                         "type": "integer"
+                    },
+                    {
+                        "name": "name",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "slug",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
                     }
                 ],
                 "responses": {
                     "202": {
-                        "description": "Success response"
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/Brand"
+                        }
                     }
-                },
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ]
+                }
             },
             "delete": {
                 "tags": [
@@ -2190,11 +2209,30 @@
                 ]
             }
         },
+        "/user/products/{id}/market": {
+            "get": {
+                "tags": [
+                    "User Products"
+                ],
+                "description": "Send the product id and the product status will become a market",
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "/user/products/{product_id}/{modification_id}/{photo_id}": {
             "put": {
                 "tags": [
                     "User Products"
                 ],
+                "description": "Set Modification Photo",
                 "parameters": [
                     {
                         "name": "product_id",
@@ -2210,6 +2248,38 @@
                     },
                     {
                         "name": "photo_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/user/products/{product_id}/{modification_id}": {
+            "delete": {
+                "tags": [
+                    "User Products"
+                ],
+                "description": "Delete Modification",
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "modification_id",
                         "in": "path",
                         "required": true,
                         "type": "integer"
@@ -2615,6 +2685,38 @@
                     }
                 }
             }
+        },
+        "Brand": {
+            "description": "result brand data",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "photo": {
+                    "type": "string"
+                },
+                "meta": {
+                    "properties": {
+                        "title": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string"
+                        },
+                        "keywords": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "type": "object"
         },
         "Characteristic": {
             "properties": {

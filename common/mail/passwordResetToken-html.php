@@ -74,7 +74,7 @@ use yii\helpers\Html;
     <tr class="header">
         <td style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-size: 13px; line-height: 1.6; color: #5c5c5c; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; mso-table-lspace: 0pt; mso-table-rspace: 0pt; padding: 25px 0;">
             <div alt="Watch Vault" src="http://static.watchvaultapp.com/empty/icon.png" width="80" height="80"
-                 style="-ms-interpolation-mode: bicubic;  background-repeat: no-repeat; background: url('http://static.watchvaultapp.com/empty/icon.png'); background-position: center;background-size: 80px 80px; margin: 0 auto;"/>
+                 style="-ms-interpolation-mode: bicubic;  background-repeat: no-repeat; background: url('http://static.watchvaultapp.com/empty/icon.png'); background-position: center;background-size: 80px 80px; margin: 0 auto;"></div>
         </td>
     </tr>
     <tr>

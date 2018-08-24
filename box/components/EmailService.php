@@ -40,7 +40,7 @@ class EmailService extends Component
                 'subject' => $event->subject
             ]
         )
-            ->setFrom(['noreply@api.watchvaultapp.com' => \Yii::$app->name])
+            ->setFrom([\Yii::$app->params['noReplyEmail'] => \Yii::$app->name])
             ->setTo($event->user->email)
             ->setSubject($event->subject)
             ->send();
@@ -62,7 +62,7 @@ class EmailService extends Component
                 'subject' => $event->subject
             ]
         )
-            ->setFrom(['noreply@api.watchvaultapp.com' => \Yii::$app->name])
+            ->setFrom([\Yii::$app->params['noReplyEmail'] => \Yii::$app->name])
             ->setTo($event->user->email)
             ->setSubject($event->subject)
             ->send();

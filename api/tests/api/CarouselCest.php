@@ -89,7 +89,8 @@ class CarouselCest
             'title' => 'title Edit',
             'subTitle' => 'subTitle Edit',
             'type' => Carousel::TYPE_GENERIC_PRODUCT,
-            'template_id' => 2
+            'template_id' => 2,
+            'status' => 1,
         ]);
 
         $I->seeResponseCodeIs(202);
@@ -97,7 +98,8 @@ class CarouselCest
             'title' => 'title Edit',
             'sub_title' => 'subTitle Edit',
             'type' => Carousel::TYPE_GENERIC_PRODUCT,
-            'template_id' => 2
+            'template_id' => 2,
+            'status' => 1,
         ]);
     }
 

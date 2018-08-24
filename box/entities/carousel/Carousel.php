@@ -32,6 +32,9 @@ class Carousel extends ActiveRecord
     const TYPE_USER_PRODUCT = 1;
     const TYPE_BRAND = 2;
 
+    const STATUS_ACTIVE = 1;
+    const STATUS_DRAFT = 1;
+
     public static function create($title, $subTitle, $type, $template_id): self
     {
         $carousel = new static();

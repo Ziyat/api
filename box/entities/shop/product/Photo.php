@@ -2,6 +2,7 @@
 
 namespace box\entities\shop\product;
 
+use box\components\UploadBehavior;
 use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
 use yiidreamteam\upload\ImageUploadBehavior;
@@ -41,7 +42,7 @@ class Photo extends ActiveRecord
     {
         return [
             [
-                'class' => ImageUploadBehavior::class,
+                'class' => UploadBehavior::class,
                 'attribute' => 'file',
                 'createThumbsOnRequest' => true,
                 'filePath' => '@staticPath/store/products/[[attribute_product_id]]/[[id]].[[extension]]',

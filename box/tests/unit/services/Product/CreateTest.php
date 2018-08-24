@@ -24,6 +24,7 @@ use box\forms\shop\product\ProductCreateForm;
 use common\fixtures\shop\CharacteristicFixture;
 use common\fixtures\shop\TagFixture;
 use yii\helpers\ArrayHelper;
+use box\repositories\generic\ProductRepository as GenericProductRepository;
 use yii\helpers\VarDumper;
 
 class ProductServiceCreateTest extends Unit
@@ -58,6 +59,7 @@ class ProductServiceCreateTest extends Unit
         parent::__construct($name, $data, $dataName);
         $this->service = new ProductService(
             new ProductRepository(),
+            new GenericProductRepository,
             new BrandRepository(),
             new CategoryRepository(),
             new TagRepository(),

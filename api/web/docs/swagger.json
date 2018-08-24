@@ -1973,6 +1973,12 @@
                         "type": "integer"
                     },
                     {
+                        "name": "genericProductId",
+                        "in": "formData",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
                         "name": "files",
                         "in": "formData",
                         "required": false,

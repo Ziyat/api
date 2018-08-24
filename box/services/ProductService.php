@@ -12,7 +12,11 @@ use box\repositories\BrandRepository;
 use box\repositories\CategoryRepository;
 use box\repositories\NotFoundException;
 use box\repositories\ProductRepository;
+use box\repositories\generic\ProductRepository as GenericProductRepository;
 use box\repositories\TagRepository;
+use Codeception\Module\Yii2;
+use yii\helpers\VarDumper;
+use yii\web\UploadedFile;
 
 class ProductService
 {
@@ -21,9 +25,11 @@ class ProductService
     private $categories;
     private $tags;
     private $transaction;
+    private $genericProducts;
 
     public function __construct(
         ProductRepository $products,
+        GenericProductRepository $genericProducts,
         BrandRepository $brands,
         CategoryRepository $categories,
         TagRepository $tags,
@@ -35,6 +41,7 @@ class ProductService
         $this->brands = $brands;
         $this->tags = $tags;
         $this->transaction = $transaction;
+        $this->genericProducts = $genericProducts;
     }
 
     /**
@@ -46,7 +53,6 @@ class ProductService
     {
         $brand = $this->brands->get($form->brandId);
         $category = $this->categories->get($form->categories->main);
-
         $product = Product::create(
             $brand->id,
             $category->id,
@@ -58,6 +64,7 @@ class ProductService
                 $form->meta->keywords
             )
         );
+
 
         $product->setPriceType($form->priceType);
 
@@ -105,6 +112,7 @@ class ProductService
                 $product->addPhoto($file);
             }
         }
+
         try {
             $this->transaction->wrap(function () use ($product, $form) {
                 foreach ($form->tags->newNames as $tagName) {
@@ -118,7 +126,7 @@ class ProductService
 
             });
         } catch (\Exception $e) {
-            return $e->getMessage();
+            throw $e;
         }
 
 

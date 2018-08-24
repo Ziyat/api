@@ -7,9 +7,7 @@
 namespace tests\unit\services\Product;
 
 use box\entities\shop\product\Product;
-use box\entities\shop\product\Value;
-use box\forms\shop\product\ProductEditForm;
-use box\forms\shop\product\ValueForm;
+use box\repositories\generic\ProductRepository as GenericProductRepository;
 use box\repositories\BrandRepository;
 use box\repositories\CategoryRepository;
 use box\repositories\ProductRepository;
@@ -80,6 +78,7 @@ class ProductServiceEditTest extends Unit
         parent::__construct($name, $data, $dataName);
         $this->service = new ProductService(
             new ProductRepository(),
+            new GenericProductRepository(),
             new BrandRepository(),
             new CategoryRepository(),
             new TagRepository(),

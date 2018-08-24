@@ -12,6 +12,7 @@ use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\behaviors\BlameableBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii\helpers\VarDumper;
 use yii\web\UploadedFile;
 
 /**
@@ -411,6 +412,7 @@ class Product extends ActiveRecord
         $photos = $this->photos;
         $photos[] = Photo::create($file);
         $this->updatePhotos($photos);
+
     }
 
     public function removePhoto($id): void

@@ -2,6 +2,7 @@
 
 namespace box\forms\shop\product;
 
+use box\entities\generic\GenericProduct;
 use box\entities\shop\Brand;
 use box\forms\CompositeForm;
 use box\forms\manage\MetaForm;
@@ -18,6 +19,7 @@ use yii\web\UploadedFile;
  * @property ModificationForm[] $modifications
  * @property integer $brandId
  * @property integer $quantity
+ * @property integer $genericProductId
  * @property string $name
  * @property string $description
  * @property string $priceType
@@ -31,6 +33,7 @@ class ProductCreateForm extends CompositeForm
     public $description;
     public $priceType;
     public $quantity;
+    public $genericProductId = null;
     public $internalForms = ['meta', 'categories', 'tags', 'photos', 'price','characteristics', 'modifications'];
 
     public function __construct($config = [])
@@ -51,6 +54,7 @@ class ProductCreateForm extends CompositeForm
             [['brandId', 'name', 'priceType'], 'required'],
             [['name', 'description', 'priceType','condition'], 'string', 'max' => 255],
             [['brandId', 'quantity'], 'integer'],
+            ['genericProductId', 'safe']
         ];
     }
 
@@ -64,6 +68,18 @@ class ProductCreateForm extends CompositeForm
                 $isFile = true;
             }
             $result = $this->loadData($data, $isFile);
+
+            if ($this->genericProductId) {
+                $genericProduct = GenericProduct::findOne($this->genericProductId);
+                foreach ($genericProduct->photos as $k => $photo) {
+                    $fileName = $photo->getUploadedFilePath('file');
+                    $_FILES['files']['name'][] = basename($fileName);
+                    $_FILES['files']['type'][] = mime_content_type($fileName);
+                    $_FILES['files']['error'][] = UPLOAD_ERR_OK;
+                    $_FILES['files']['size'][] = filesize($fileName);
+                    $_FILES['files']['tmp_name'][] = $fileName;
+                }
+            }
         }
         return $result;
     }

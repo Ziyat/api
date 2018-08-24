@@ -8,6 +8,7 @@ namespace api\tests\api\user;
 
 
 use api\tests\ApiTester;
+use box\entities\generic\GenericProduct;
 use common\fixtures\ProfileFixture;
 use common\fixtures\shop\BrandFixture;
 use common\fixtures\shop\CategoryFixture;
@@ -85,7 +86,6 @@ class UserProductCest
 
     public function createWithDataWithoutAFile(ApiTester $I)
     {
-
         $I->amBearerAuthenticated('token-correct');
         $I->sendPOST(
             '/user/products',
@@ -146,10 +146,71 @@ class UserProductCest
                 ]
             ]
         );
-
+//        echo PHP_EOL;
+//        VarDumper::dump($I->grabResponse());
+//        echo PHP_EOL;
         $I->seeResponseCodeIs(201);
     }
 
+    public function createProductFromGenericProduct(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendPOST(
+            '/user/products',
+            [
+                "brandId" => 1,
+                "name" => "rolex",
+                "description" => "watch valt",
+                "priceType" => "fix",
+                "quantity" => 3,
+                "condition" => 'used',
+                "genericProductId" => 1,
+                "categories" => [
+                    "main" => 2,
+                    "others" => []
+                ],
+                "characteristics" => [
+                    [
+                        "value" => "generic1339",
+                        "id" => "2"
+                    ],
+                    [
+                        "value" => "genericXL",
+                        "id" => "1"
+                    ]
+                ],
+                "modifications" => [
+                    [
+                        "value" => "generic1337",
+                        "characteristic_id" => 2,
+                        "quantity" => 5,
+                        "price" => 992
+                    ],
+                    [
+                        "value" => "generic0975",
+                        "characteristic_id" => 1,
+                        "quantity" => 9,
+                        "price" => 100
+                    ]
+                ],
+                "tags" => [
+                    "existing" => [],
+                    "textNew" => "newtag,tagWatch,WatchValt"
+                ],
+                "meta" => [
+                    "title" => "Meta title",
+                    "description" => "Meta Desc",
+                    "keywords" => "watch valt company, watch sales"
+                ],
+                "price" => [
+                    "current" => 22.66,
+                    "max" => 20,
+                    "end" => 10,
+                ]
+            ]
+        );
+        $I->seeResponseCodeIs(201);
+    }
 
     public function editWithDataWithoutAFile(ApiTester $I)
     {

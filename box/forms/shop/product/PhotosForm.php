@@ -3,6 +3,7 @@
 namespace box\forms\shop\product;
 
 use yii\base\Model;
+use yii\helpers\VarDumper;
 use yii\web\UploadedFile;
 
 class PhotosForm extends Model

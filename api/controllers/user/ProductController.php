@@ -7,6 +7,7 @@
 namespace api\controllers\user;
 
 use api\controllers\BearerController;
+use box\entities\generic\GenericProduct;
 use box\entities\shop\product\Product;
 use box\forms\shop\product\PhotosForm;
 use box\forms\shop\product\ProductCreateForm;
@@ -20,6 +21,7 @@ use yii\helpers\Url;
 use yii\helpers\VarDumper;
 use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 
 /**
  * Class ProductController
@@ -80,6 +82,7 @@ class ProductController extends BearerController
      *     @SWG\Parameter(name="description", in="formData", required=false, type="string"),
      *     @SWG\Parameter(name="priceType", in="formData", required=true, type="string"),
      *     @SWG\Parameter(name="brandId", in="formData", required=true, type="integer"),
+     *     @SWG\Parameter(name="genericProductId", in="formData", required=false, type="integer"),
      *     @SWG\Parameter(name="files", in="formData", required=false, type="file"),
      *     @SWG\Parameter(name="categories", in="body", required=true,
      *          @SWG\Schema(ref="#/definitions/CategoriesForm")
@@ -119,6 +122,7 @@ class ProductController extends BearerController
     public function actionCreate()
     {
         $form = new ProductCreateForm();
+
         $form->load(Yii::$app->request->bodyParams, '');
         if ($form->validate()) {
             try {

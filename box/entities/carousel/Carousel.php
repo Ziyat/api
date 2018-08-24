@@ -42,12 +42,13 @@ class Carousel extends ActiveRecord
         return $carousel;
     }
 
-    public function edit($title, $subTitle, $type, $template_id): void
+    public function edit($title, $subTitle, $type, $template_id, $status): void
     {
         $this->title = $title;
         $this->sub_title = $subTitle;
         $this->type = $type;
         $this->template_id = $template_id;
+        $this->status = $status;
     }
 
     // Items

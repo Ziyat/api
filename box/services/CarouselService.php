@@ -6,8 +6,6 @@ use box\entities\carousel\Carousel;
 use box\forms\carousel\CarouselForm;
 use box\forms\carousel\ItemForm;
 use box\repositories\CarouselRepository;
-use yii\helpers\ArrayHelper;
-use yii\helpers\VarDumper;
 
 class CarouselService
 {
@@ -34,7 +32,7 @@ class CarouselService
     public function edit($id, CarouselForm $form)
     {
         $carousel = $this->carousels->get($id);
-        $carousel->edit($form->title, $form->subTitle, $form->type, $form->template_id);
+        $carousel->edit($form->title, $form->subTitle, $form->type, $form->template_id, $form->status);
         $this->carousels->save($carousel);
         return $carousel;
     }

@@ -2799,8 +2799,16 @@
                 "category_id": {
                     "type": "integer"
                 },
-                "brand_id": {
-                    "type": "integer"
+                "brand": {
+                    "properties": {
+                        "id": {
+                            "type": "integer"
+                        },
+                        "photo": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
                 },
                 "status": {
                     "type": "integer"

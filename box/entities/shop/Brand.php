@@ -14,6 +14,7 @@ use yiidreamteam\upload\ImageUploadBehavior;
  * @property string $slug
  * @property string $photo
  * @property Meta $meta
+ *
  * @mixin ImageUploadBehavior
  */
 class Brand extends ActiveRecord

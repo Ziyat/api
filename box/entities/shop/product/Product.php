@@ -717,7 +717,12 @@ class Product extends ActiveRecord
         return [
             "id" => "id",
             "category_id" => "category_id",
-            "brand_id" => "brand_id",
+            "brand" => function(self $model){
+                return [
+                    'id' => $model->brand_id,
+                    'photo' => $model->brand->photo,
+                ];
+            },
             "status" => "status",
             "condition" => "condition",
             "name" => "name",

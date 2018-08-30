@@ -304,6 +304,58 @@ class ProductController extends BearerController
     }
 
     /**
+     * @SWG\Get(
+     *     path="/user/products/{id}/sold",
+     *     tags={"User Products"},
+     *     description="Send the product id and the product status will become a sold",
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response"
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @param $id
+     * @return boolean
+     * @throws NotFoundException
+     */
+    public function actionSold($id)
+    {
+        try {
+            $this->service->sold($id);
+        } catch (\DomainException $e) {
+            return $e->getMessage();
+        }
+
+        return true;
+    }
+
+    /**
+     * @SWG\Get(
+     *     path="/user/products/{id}/deleted",
+     *     tags={"User Products"},
+     *     description="Send the product id and the product status will become a deleted",
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response"
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @param $id
+     * @return boolean
+     * @throws NotFoundException
+     */
+    public function actionDeleted($id)
+    {
+        try {
+            $this->service->deleted($id);
+        } catch (\DomainException $e) {
+            return $e->getMessage();
+        }
+
+        return true;
+    }
+
+    /**
      * @SWG\Put(
      *     path="/user/products/{product_id}/{modification_id}/{photo_id}",
      *     tags={"User Products"},

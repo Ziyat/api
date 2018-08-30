@@ -54,6 +54,9 @@ class Product extends ActiveRecord
     const STATUS_ACTIVE = 1;
     const STATUS_MARKET = 2;
 
+    const STATUS_SOLD = 3;
+    const STATUS_DELETED = 4;
+
     const PRICE_TYPE_AUCTION = 'auction';
     const PRICE_TYPE_BARGAIN = 'bargain';
     const PRICE_TYPE_FIX = 'fix';
@@ -163,6 +166,22 @@ class Product extends ActiveRecord
         $this->status = self::STATUS_MARKET;
     }
 
+    public function sold(): void
+    {
+        if ($this->isSold()) {
+            throw new \DomainException('Product status is already sold.');
+        }
+        $this->status = self::STATUS_MARKET;
+    }
+
+    public function deleted(): void
+    {
+        if ($this->isDeleted()) {
+            throw new \DomainException('Product status is already deleted.');
+        }
+        $this->status = self::STATUS_MARKET;
+    }
+
     public function isActive(): bool
     {
         return $this->status == self::STATUS_ACTIVE;
@@ -177,6 +196,16 @@ class Product extends ActiveRecord
     public function isMarket(): bool
     {
         return $this->status == self::STATUS_MARKET;
+    }
+
+    public function isSold(): bool
+    {
+        return $this->status == self::STATUS_SOLD;
+    }
+
+    public function isDeleted(): bool
+    {
+        return $this->status == self::STATUS_DELETED;
     }
 
 //    public function isAvailable(): bool

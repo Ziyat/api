@@ -2233,6 +2233,42 @@
                 ]
             }
         },
+        "/user/products/{id}/sold": {
+            "get": {
+                "tags": [
+                    "User Products"
+                ],
+                "description": "Send the product id and the product status will become a sold",
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/user/products/{id}/deleted": {
+            "get": {
+                "tags": [
+                    "User Products"
+                ],
+                "description": "Send the product id and the product status will become a deleted",
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "/user/products/{product_id}/{modification_id}/{photo_id}": {
             "put": {
                 "tags": [

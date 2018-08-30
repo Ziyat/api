@@ -44,15 +44,20 @@ return [
         'POST user/products' => 'user/product/create',
         'POST user/products/<id:\d+>' => 'user/product/edit',
         'GET user/products/<id:\d+>' => 'user/product/view',
-        'GET user/products/<id:\d+>/activate' => 'user/product/activate',
-        'GET user/products/<id:\d+>/draft' => 'user/product/draft',
-        'GET user/products/<id:\d+>/market' => 'user/product/market',
         'PUT user/products/<product_id:\d+>/<modification_id:\d+>/<photo_id:\d+>' => 'user/product/set-modification-photo',
         'POST user/products/<id:\d+>/photos' => 'user/product/add-photos',
         'PATCH user/products/<id:\d+>/photos/<photo_id:\d+>/up' => 'user/product/move-photo-up',
         'PATCH user/products/<id:\d+>/photos/<photo_id:\d+>/down' => 'user/product/move-photo-down',
         'DELETE user/products/<id:\d+>/photos/<photo_id:\d+>' => 'user/product/delete-photo',
         'DELETE user/products/<product_id:\d+>/<modification_id:\d+>' => 'user/product/delete-modification',
+
+        // user change status
+
+        'GET user/products/<id:\d+>/activate' => 'user/product/activate',
+        'GET user/products/<id:\d+>/draft' => 'user/product/draft',
+        'GET user/products/<id:\d+>/market' => 'user/product/market',
+        'GET user/products/<id:\d+>/sold' => 'user/product/sold',
+        'GET user/products/<id:\d+>/deleted' => 'user/product/deleted',
 
         // shop products
 

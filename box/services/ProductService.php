@@ -10,13 +10,10 @@ use box\forms\shop\product\ProductCreateForm;
 use box\forms\shop\product\ProductEditForm;
 use box\repositories\BrandRepository;
 use box\repositories\CategoryRepository;
+use box\repositories\generic\ProductRepository as GenericProductRepository;
 use box\repositories\NotFoundException;
 use box\repositories\ProductRepository;
-use box\repositories\generic\ProductRepository as GenericProductRepository;
 use box\repositories\TagRepository;
-use Codeception\Module\Yii2;
-use yii\helpers\VarDumper;
-use yii\web\UploadedFile;
 
 class ProductService
 {
@@ -259,6 +256,28 @@ class ProductService
     {
         $product = $this->products->get($id);
         $product->market();
+        $this->products->save($product);
+    }
+
+    /**
+     * @param $id
+     * @throws NotFoundException
+     */
+    public function sold($id): void
+    {
+        $product = $this->products->get($id);
+        $product->sold();
+        $this->products->save($product);
+    }
+
+    /**
+     * @param $id
+     * @throws NotFoundException
+     */
+    public function deleted($id): void
+    {
+        $product = $this->products->get($id);
+        $product->deleted();
         $this->products->save($product);
     }
 

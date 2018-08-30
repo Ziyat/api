@@ -2,11 +2,11 @@
 
 namespace box\entities\shop;
 
+use box\repositories\NotFoundException;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\helpers\Json;
-use yii\helpers\VarDumper;
 
 /**
  * @property integer $id
@@ -48,6 +48,24 @@ class Characteristic extends ActiveRecord
         $this->assignments = $assignments;
 
 
+    }
+
+    /**
+     * @param $category_id
+     * @throws NotFoundException
+     */
+
+    public function revokeCategory($category_id): void
+    {
+        $assignments = $this->assignments;
+        foreach ($assignments as $k => $assignment) {
+            if ($assignment->isForCategory($category_id)) {
+                unset($assignments[$k]);
+                $this->assignments = $assignments;
+                return;
+            }
+        }
+        throw new NotFoundException('category is not found!');
     }
 
     public function getAssignments(): ActiveQuery

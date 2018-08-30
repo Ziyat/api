@@ -79,4 +79,18 @@ class CharacteristicService
 
         $this->characteristics->remove($characteristic);
     }
+
+    /**
+     * @param $id
+     * @param $category_id
+     * @throws NotFoundException
+     */
+    public function revokeCategory($id, $category_id): void
+    {
+        $characteristic = $this->characteristics->get($id);
+        $category = $this->categories->get($category_id);
+        $characteristic->revokeCategory($category->id);
+
+        $this->characteristics->save($characteristic);
+    }
 }

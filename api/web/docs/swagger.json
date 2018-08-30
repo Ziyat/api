@@ -1630,6 +1630,36 @@
                         "Bearer": []
                     }
                 ]
+            },
+            "delete": {
+                "tags": [
+                    "Characteristics"
+                ],
+                "description": "revoke characteristic for category this",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "category_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
             }
         },
         "/shop/characteristics/category/{id}": {
@@ -1675,6 +1705,14 @@
                         "in": "path",
                         "required": true,
                         "type": "integer"
+                    },
+                    {
+                        "name": "assignments",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CharacteristicsAssignments"
+                        }
                     }
                 ],
                 "responses": {

@@ -40,6 +40,20 @@ class CharacteristicController extends BearerCrudController
         parent::__construct($id, $module, $config);
     }
 
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['authenticator']['only'] = array_merge(
+            $behaviors['authenticator']['only'],
+            ['revoke-category']
+        );
+        $behaviors['access']['only'] = array_merge(
+            $behaviors['access']['only'],
+            ['revoke-category']
+        );
+        return $behaviors;
+    }
+
     /**
      * @SWG\GET(
      *     path="/shop/characteristics",
@@ -219,6 +233,39 @@ class CharacteristicController extends BearerCrudController
         }
         try {
             $this->characteristicService->remove($id);
+            \Yii::$app->getResponse()->setStatusCode(204);
+        } catch (\DomainException $e) {
+            throw new BadRequestHttpException($e->getMessage(), null, $e);
+        }
+    }
+
+    /**
+     * @SWG\Delete(
+     *     path="/shop/characteristics/{id}/{category_id}",
+     *     tags={"Characteristics"},
+     *     description="revoke characteristic for category this",
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     @SWG\Parameter(name="category_id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=204,
+     *         description="Success response",
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @param $id
+     * @param $category_id
+     * @throws BadRequestHttpException
+     * @throws ForbiddenHttpException
+     * @throws \Throwable
+     */
+
+    public function actionRevokeCategory($id, $category_id)
+    {
+        if (!\Yii::$app->user->can('create')) {
+            throw new ForbiddenHttpException('Forbidden');
+        }
+        try {
+            $this->characteristicService->revokeCategory($id, $category_id);
             \Yii::$app->getResponse()->setStatusCode(204);
         } catch (\DomainException $e) {
             throw new BadRequestHttpException($e->getMessage(), null, $e);

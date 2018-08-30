@@ -130,20 +130,25 @@ class CharacteristicCest
     public function viewCharacteristicByIdAndCategoryId(ApiTester $I)
     {
         $I->amBearerAuthenticated('token-correct');
-        $I->sendGET('/shop/characteristics/1/3');
-        VarDumper::dump($I->grabResponse());
-//        $I->seeResponseCodeIs(200);
-//        $I->seeResponseContainsJson([
-//            'name' => 'metal',
-//        ]);
+        $I->sendGET('/shop/characteristics/1/2');
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseContainsJson([
+            'name' => 'metal',
+        ]);
 
+    }
+
+    public function revokeCategory(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendDELETE('/shop/characteristics/1/2');
+        $I->seeResponseCodeIs(204);
     }
 
     public function viewCharacteristic(ApiTester $I)
     {
         $I->amBearerAuthenticated('token-correct');
         $I->sendGET('/shop/characteristics/1');
-        VarDumper::dump($I->grabResponse());
         $I->seeResponseCodeIs(200);
         $I->seeResponseContainsJson([
             'name' => 'metal',

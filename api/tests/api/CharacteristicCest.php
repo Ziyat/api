@@ -95,16 +95,16 @@ class CharacteristicCest
         $I->amBearerAuthenticated('token-correct');
         $I->sendPOST('/shop/characteristics/1', [
             'name' => 'metal',
-//            'assignments' => [
-//                [
-//                    'category_id' => 2,
-//                    'variants' => [
-//                        'blue',
-//                        'red',
-//                        'yellow'
-//                    ],
-//                ],
-//            ],
+            'assignments' => [
+                [
+                    'category_id' => 2,
+                    'variants' => [
+                        'blue',
+                        'red',
+                        'yellow'
+                    ],
+                ],
+            ],
         ]);
         VarDumper::dump($I->grabResponse());
 //        $I->seeResponseCodeIs(202);

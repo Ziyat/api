@@ -19,17 +19,7 @@ class CharacteristicForm extends CompositeForm
     {
         if($characteristic){
             $this->name = $characteristic->name;
-
-            if(is_array($assignments = $characteristic->assignments))
-            {
-                foreach ($assignments as $assignment){
-                    $forms[] =  new CharacteristicAssignmentForm($assignment);
-                }
-                $result = $forms;
-            }else{
-                $result = null;
-            }
-            $this->assignments = $result;
+            $this->assignments = $characteristic->assignments;
         }
 
         parent::__construct($config);
@@ -50,6 +40,7 @@ class CharacteristicForm extends CompositeForm
             for ($i = 0; $i < count($requestAssignments); $i++) {
                 $forms[$i] = new CharacteristicAssignmentForm();
             }
+
             $this->assignments =  $forms;
 
             $this->load(\Yii::$app->request->bodyParams,'');

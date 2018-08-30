@@ -171,7 +171,7 @@ class Product extends ActiveRecord
         if ($this->isSold()) {
             throw new \DomainException('Product status is already sold.');
         }
-        $this->status = self::STATUS_MARKET;
+        $this->status = self::STATUS_SOLD;
     }
 
     public function deleted(): void
@@ -179,7 +179,7 @@ class Product extends ActiveRecord
         if ($this->isDeleted()) {
             throw new \DomainException('Product status is already deleted.');
         }
-        $this->status = self::STATUS_MARKET;
+        $this->status = self::STATUS_DELETED;
     }
 
     public function isActive(): bool

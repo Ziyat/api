@@ -41,4 +41,21 @@ class CharacteristicReadModel
 
         return $characteristics;
     }
+
+    /**
+     * @param $id
+     * @param $category_id
+     * @return Characteristic
+     * @throws NotFoundException
+     */
+    public function findByIdAndCategoryId($id, $category_id): Characteristic
+    {
+        if (!$characteristics = Characteristic::find()->joinWith(['assignments' => function ($q) use ($category_id) {
+            $q->andWhere(['category_id' => $category_id]);
+        }])->andWhere(['id' => $id])->one()) {
+            throw new NotFoundException('Characteristics not found.');
+        }
+
+        return $characteristics;
+    }
 }

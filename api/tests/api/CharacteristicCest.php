@@ -80,6 +80,12 @@ class CharacteristicCest
                         'yellow'
                     ],
                 ],
+                [
+                    'category_id' => 3,
+                    'variants' => [
+                        'leather'
+                    ],
+                ],
             ],
         ]);
         $I->seeResponseCodeIs(201);
@@ -99,18 +105,15 @@ class CharacteristicCest
                 [
                     'category_id' => 2,
                     'variants' => [
-                        'blue',
-                        'red',
-                        'yellow'
+                        'blue'
                     ],
                 ],
             ],
         ]);
-        VarDumper::dump($I->grabResponse());
-//        $I->seeResponseCodeIs(202);
-//        $I->seeResponseContainsJson([
-//            'name' => 'metal',
-//        ]);
+        $I->seeResponseCodeIs(202);
+        $I->seeResponseContainsJson([
+            'name' => 'metal',
+        ]);
 
     }
 
@@ -118,6 +121,16 @@ class CharacteristicCest
     {
         $I->amBearerAuthenticated('token-correct');
         $I->sendGET('/shop/characteristics/category/2');
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseContainsJson([
+            'name' => 'metal',
+        ]);
+
+    }
+    public function viewCharacteristicByIdAndCategoryId(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendGET('/shop/characteristics/1/3');
         VarDumper::dump($I->grabResponse());
 //        $I->seeResponseCodeIs(200);
 //        $I->seeResponseContainsJson([
@@ -130,6 +143,7 @@ class CharacteristicCest
     {
         $I->amBearerAuthenticated('token-correct');
         $I->sendGET('/shop/characteristics/1');
+        VarDumper::dump($I->grabResponse());
         $I->seeResponseCodeIs(200);
         $I->seeResponseContainsJson([
             'name' => 'metal',

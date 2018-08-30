@@ -6,18 +6,16 @@
 
 namespace api\controllers\shop;
 
-use api\controllers\BearerController;
 use api\controllers\BearerCrudController;
-use box\entities\shop\Characteristics;
 use box\entities\shop\Characteristic;
-use box\forms\Shop\CharacteristicsForm;
+use box\entities\shop\Characteristics;
 use box\forms\shop\CharacteristicForm;
+use box\forms\Shop\CharacteristicsForm;
 use box\readModels\CharacteristicReadModel;
-use box\services\CharacteristicsService;
 use box\services\CharacteristicService;
+use box\services\CharacteristicsService;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
-use yii\helpers\VarDumper;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
@@ -66,9 +64,10 @@ class CharacteristicController extends BearerCrudController
 
     /**
      * @SWG\GET(
-     *     path="/shop/characteristics/{id}",
+     *     path="/shop/characteristics/{id}/{category_id}",
      *     tags={"Characteristics"},
      *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     @SWG\Parameter(name="category_id", in="path", required=false, type="integer"),
      *     @SWG\Response(
      *         response=200,
      *         description="Success response",
@@ -77,13 +76,16 @@ class CharacteristicController extends BearerCrudController
      *     security={{"Bearer": {}}}
      * )
      * @param $id
+     * @param $category_id
      * @throws NotFoundHttpException
      * @return Characteristic
      */
 
-    public function actionView($id)
+    public function actionView($id, $category_id = null)
     {
-        return $this->characteristics->findById($id);
+        return $category_id
+            ? $this->characteristics->findByIdAndCategoryId($id, $category_id)
+            : $this->characteristics->findById($id);
     }
 
     /**
@@ -178,10 +180,11 @@ class CharacteristicController extends BearerCrudController
         $form->load(\Yii::$app->request->bodyParams, '');
         if ($form->validate()) {
             try {
-                $this->characteristicService->edit($characteristic->id, $form);
+                $characteristic = $this->characteristicService->edit($characteristic->id, $form);
                 $response = \Yii::$app->getResponse();
                 $response->setStatusCode(202);
                 $response->getHeaders()->set('Location', Url::to(['shop/characteristics/' . $characteristic->id], true));
+                return $characteristic;
             } catch (\DomainException $e) {
                 throw new BadRequestHttpException($e->getMessage());
             }
@@ -221,16 +224,28 @@ class CharacteristicController extends BearerCrudController
 
 
     /**
-     * @param integer $id
-     * @return Characteristic the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
+     * @param $id
+     * @param null $category_id
+     * @return Characteristic
+     * @throws NotFoundHttpException
      */
-    protected function findModel($id): Characteristic
+    protected function findModel($id, $category_id = null): Characteristic
     {
-        if (($model = Characteristic::findOne($id)) !== null) {
+        if ($category_id) {
+            $model = Characteristic::find()->joinWith(['assignments' => function ($q) use ($category_id) {
+                $q->andWhere(['category_id' => $category_id]);
+            }])->andWhere(['id' => $id])->one();
+
+        } else {
+            $model = Characteristic::findOne($id);
+        }
+
+        if ($model !== null) {
             return $model;
         }
         throw new NotFoundHttpException('The requested page does not exist.');
+
+
     }
 
 }

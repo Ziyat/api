@@ -3,12 +3,10 @@
 namespace box\services;
 
 use box\entities\shop\Characteristic;
-use box\entities\shop\CharacteristicAssignment;
 use box\forms\shop\CharacteristicForm;
 use box\repositories\CategoryRepository;
 use box\repositories\CharacteristicRepository;
 use box\repositories\NotFoundException;
-use yii\helpers\VarDumper;
 
 class CharacteristicService
 {
@@ -42,13 +40,28 @@ class CharacteristicService
         return $characteristic;
     }
 
-    public function edit($id, CharacteristicForm $form): void
+    /**
+     * @param $id
+     * @param CharacteristicForm $form
+     * @throws NotFoundException
+     * @return  Characteristic
+     */
+    public function edit($id, CharacteristicForm $form): Characteristic
     {
         $characteristic = $this->characteristics->get($id);
+
         $characteristic->edit(
             $form->name
         );
+
+        foreach ($form->assignments as $assignment) {
+            $category = $this->categories->get($assignment->category_id);
+            $characteristic->assignCategory($category->id, $assignment->variants);
+        }
+
         $this->characteristics->save($characteristic);
+
+        return $characteristic;
     }
 
     /**

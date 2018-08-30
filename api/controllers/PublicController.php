@@ -71,10 +71,10 @@ class PublicController extends Controller
 
     /**
      * @SWG\Get(
-     *     path="/public/user/{id}/products",
+     *     path="/public/user/{user_id}/products",
      *     tags={"Public"},
-     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
-     *     description="Public user products by id, return user products array data",
+     *     @SWG\Parameter(name="user_id", in="path", required=true, type="integer"),
+     *     description="Public user products by user_id, return user products array data",
      *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
      *     @SWG\Response(
      *         response=200,
@@ -87,6 +87,26 @@ class PublicController extends Controller
     public function actionUserProducts($id)
     {
         return $this->products->getUserProducts($id);
+    }
+
+    /**
+     * @SWG\Get(
+     *     path="/public/user/products/{product_id}",
+     *     tags={"Public"},
+     *     @SWG\Parameter(name="product_id", in="path", required=true, type="integer"),
+     *     description="Public user products by product_id, return user products array data",
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Schema(ref="#/definitions/User")
+     *     ),
+     * )
+     */
+
+    public function actionProductsById($id)
+    {
+        return $this->products->getProductsById($id);
     }
 
     /**

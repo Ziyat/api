@@ -25,4 +25,14 @@ class ProductReadRepository
             'query' => Product::find()->andWhere(['created_by' => $id])->active()
         ]);
     }
+
+    /**
+     * @return ActiveDataProvider
+     */
+    public function getProductsById($id): ActiveDataProvider
+    {
+        return new ActiveDataProvider([
+            'query' => Product::find()->andWhere(['id' => $id])->active()
+        ]);
+    }
 }

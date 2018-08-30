@@ -101,7 +101,8 @@ return [
 
         'GET public/users' => 'public/users',
         'GET public/user/<id:\d+>' => 'public/user',
-        'GET public/user/<id:\d+>/products' => 'public/user-products',
+        'GET public/user/<user_id:\d+>/products' => 'public/user-products',
+        'GET public/user/products/<product_id:\d+>' => 'public/products-by-id',
         'GET public/user/<user_id:\d+>/following' => 'public/following',
         'GET public/user/<user_id:\d+>/followers' => 'public/followers',
 

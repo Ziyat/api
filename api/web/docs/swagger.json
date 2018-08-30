@@ -635,15 +635,45 @@
                 }
             }
         },
-        "/public/user/{id}/products": {
+        "/public/user/{user_id}/products": {
             "get": {
                 "tags": [
                     "Public"
                 ],
-                "description": "Public user products by id, return user products array data",
+                "description": "Public user products by user_id, return user products array data",
                 "parameters": [
                     {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
                         "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                }
+            }
+        },
+        "/public/user/products/{product_id}": {
+            "get": {
+                "tags": [
+                    "Public"
+                ],
+                "description": "Public user products by product_id, return user products array data",
+                "parameters": [
+                    {
+                        "name": "product_id",
                         "in": "path",
                         "required": true,
                         "type": "integer"

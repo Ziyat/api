@@ -87,7 +87,7 @@ return [
         'POST shop/categories/<id:\d+>' => 'shop/category/update',
         'DELETE shop/categories/<id:\d+>' => 'shop/category/delete',
 
-        // shop Categories
+        // shop Characteristics
 
         'GET shop/characteristics' => 'shop/characteristic/index',
         'POST shop/characteristics' => 'shop/characteristic/create',
@@ -122,6 +122,7 @@ return [
         'DELETE generic/products/<id:\d+>/photos/<photo_id:\d+>' => 'generic/product/delete-photo',
 
         // Carousel
+
         'GET carousels' => 'carousel/index',
         'POST carousels' => 'carousel/create',
         'GET carousels/<id:\d+>' => 'carousel/view',
@@ -137,7 +138,6 @@ return [
 
         'POST carousels/<carousel_id:\d+>/items/<item_id:\d+>/images' => 'carousel/add-item-images',
         'DELETE carousels/<carousel_id:\d+>/items/<item_id:\d+>/images/<image_id:\d+>' => 'carousel/delete-item-image',
-
 
         // ocr
 

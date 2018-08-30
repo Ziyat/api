@@ -1598,7 +1598,7 @@
                 ]
             }
         },
-        "/shop/characteristics/{id}": {
+        "/shop/characteristics/{id}/{category_id}": {
             "get": {
                 "tags": [
                     "Characteristics"
@@ -1608,6 +1608,12 @@
                         "name": "id",
                         "in": "path",
                         "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "category_id",
+                        "in": "path",
+                        "required": false,
                         "type": "integer"
                     }
                 ],
@@ -1624,7 +1630,41 @@
                         "Bearer": []
                     }
                 ]
-            },
+            }
+        },
+        "/shop/characteristics/category/{id}": {
+            "get": {
+                "tags": [
+                    "Characteristics"
+                ],
+                "description": "send in path category_id, in response, characteristics list",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Characteristic"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/shop/characteristics/{id}": {
             "post": {
                 "tags": [
                     "Characteristics"
@@ -1663,38 +1703,6 @@
                 "responses": {
                     "204": {
                         "description": "Success response"
-                    }
-                },
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ]
-            }
-        },
-        "/shop/characteristics/category/{id}": {
-            "get": {
-                "tags": [
-                    "Characteristics"
-                ],
-                "description": "send in path category_id, in response, characteristics list",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "type": "integer"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success response",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Characteristic"
-                            }
-                        }
                     }
                 },
                 "security": [

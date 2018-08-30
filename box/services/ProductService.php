@@ -161,6 +161,7 @@ class ProductService
             $this->transaction->wrap(function () use ($product, $form) {
                 $product->revokeCategories();
                 $product->revokeTags();
+                $product->revokeCharacteristics();
                 $product->setQuantity(0);
 
                 $this->products->save($product);

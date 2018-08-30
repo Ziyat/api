@@ -433,6 +433,10 @@ class Product extends ActiveRecord
     {
         $this->tagAssignments = [];
     }
+    public function revokeCharacteristics(): void
+    {
+        $this->values = [];
+    }
 
     // Photos
 

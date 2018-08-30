@@ -157,6 +157,9 @@ class CharacteristicController extends BearerCrudController
      *     path="/shop/characteristics/{id}",
      *     tags={"Characteristics"},
      *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     @SWG\Parameter(name="assignments", in="body", required=true,
+     *          @SWG\Schema(ref="#/definitions/CharacteristicsAssignments")
+     *     ),
      *     @SWG\Response(
      *         response=202,
      *         description="Success response",

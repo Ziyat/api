@@ -4,6 +4,7 @@ namespace box\forms\shop;
 
 use box\entities\shop\Characteristic;
 use box\forms\CompositeForm;
+use DeepCopy\TypeFilter\Date\DateIntervalFilter;
 use yii\helpers\ArrayHelper;
 use yii\helpers\VarDumper;
 
@@ -18,7 +19,17 @@ class CharacteristicForm extends CompositeForm
     {
         if($characteristic){
             $this->name = $characteristic->name;
-            $this->assignments = $characteristic->assignments;
+
+            if(is_array($assignments = $characteristic->assignments))
+            {
+                foreach ($assignments as $assignment){
+                    $forms[] =  new CharacteristicAssignmentForm($assignment);
+                }
+                $result = $forms;
+            }else{
+                $result = null;
+            }
+            $this->assignments = $result;
         }
 
         parent::__construct($config);
@@ -35,11 +46,12 @@ class CharacteristicForm extends CompositeForm
     {
         if (parent::beforeValidate()) {
             $forms = [];
-            $assignments = ArrayHelper::getValue(\Yii::$app->request->bodyParams, 'assignments');
-            for ($i = 0; $i < count($assignments); $i++) {
+            $requestAssignments = ArrayHelper::getValue(\Yii::$app->request->bodyParams, 'assignments');
+            for ($i = 0; $i < count($requestAssignments); $i++) {
                 $forms[$i] = new CharacteristicAssignmentForm();
             }
-            $this->assignments = $forms;
+            $this->assignments =  $forms;
+
             $this->load(\Yii::$app->request->bodyParams,'');
             return true;
         }

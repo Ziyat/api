@@ -46,6 +46,7 @@ return [
         'GET user/products/<id:\d+>' => 'user/product/view',
         'GET user/products/<id:\d+>/activate' => 'user/product/activate',
         'GET user/products/<id:\d+>/draft' => 'user/product/draft',
+        'GET user/products/<id:\d+>/market' => 'user/product/market',
         'PUT user/products/<product_id:\d+>/<modification_id:\d+>/<photo_id:\d+>' => 'user/product/set-modification-photo',
         'POST user/products/<id:\d+>/photos' => 'user/product/add-photos',
         'PATCH user/products/<id:\d+>/photos/<photo_id:\d+>/up' => 'user/product/move-photo-up',

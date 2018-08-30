@@ -75,27 +75,54 @@ class CharacteristicCest
             'assignments' => [
                 [
                     'category_id' => 2,
-                    'variants' => [],
+                    'variants' => [
+                        'red',
+                        'yellow'
+                    ],
                 ],
             ],
         ]);
-
         $I->seeResponseCodeIs(201);
         $I->seeResponseContainsJson([
             'name' => 'Color',
         ]);
     }
 
+
+
     public function editCharacteristic(ApiTester $I)
     {
         $I->amBearerAuthenticated('token-correct');
         $I->sendPOST('/shop/characteristics/1', [
             'name' => 'metal',
+//            'assignments' => [
+//                [
+//                    'category_id' => 2,
+//                    'variants' => [
+//                        'blue',
+//                        'red',
+//                        'yellow'
+//                    ],
+//                ],
+//            ],
         ]);
-        $I->seeResponseCodeIs(202);
-        $I->seeResponseContainsJson([
-            'name' => 'metal',
-        ]);
+        VarDumper::dump($I->grabResponse());
+//        $I->seeResponseCodeIs(202);
+//        $I->seeResponseContainsJson([
+//            'name' => 'metal',
+//        ]);
+
+    }
+
+    public function viewCharacteristicByCategoryId(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendGET('/shop/characteristics/category/2');
+        VarDumper::dump($I->grabResponse());
+//        $I->seeResponseCodeIs(200);
+//        $I->seeResponseContainsJson([
+//            'name' => 'metal',
+//        ]);
 
     }
 
@@ -109,6 +136,8 @@ class CharacteristicCest
         ]);
 
     }
+
+
 
     public function deleteCharacteristic(ApiTester $I)
     {

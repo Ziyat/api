@@ -276,6 +276,10 @@ class Product extends ActiveRecord
         $this->values = $values;
     }
 
+    public function revokeCharacteristics(): void
+    {
+        $this->values = [];
+    }
 
     public function setModification($characteristic_id, $value, $price, $quantity, $main_photo_id,$modificationId=null): void
     {
@@ -432,10 +436,6 @@ class Product extends ActiveRecord
     public function revokeTags(): void
     {
         $this->tagAssignments = [];
-    }
-    public function revokeCharacteristics(): void
-    {
-        $this->values = [];
     }
 
     // Photos
@@ -751,9 +751,6 @@ class Product extends ActiveRecord
             "id" => "id",
             "category_id" => "category_id",
             "brand" => function(self $model){
-                /**
-                 * @var Brand $model->brand
-                 */
                 return [
                     'id' => $model->brand_id,
                     'photo' => $model->brand->getPhoto(),

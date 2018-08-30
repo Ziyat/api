@@ -441,7 +441,7 @@ class GenericProduct extends ActiveRecord
             "brand" => function(self $model){
                 return [
                     'id' => $model->brand_id,
-                    'photo' => $model->brand->photo,
+                    'photo' => $model->brand->getPhoto(),
                 ];
             },
             "name" => "name",

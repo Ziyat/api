@@ -507,8 +507,11 @@ class User extends ActiveRecord implements IdentityInterface
             'notApproveFollowing' => function(self $model){
                 return count($model->notApproveFollowing);
             },
-            'products' => function(self $model){
-                return count($model->products);
+            "productsActive" => function (self $model) {
+                return $model->getProducts()->andWhere(['status' => Product::STATUS_ACTIVE])->count();
+            },
+            "productsMarket" => function (self $model) {
+                return $model->getProducts()->andWhere(['status' => Product::STATUS_MARKET])->count();
             },
         ];
     }

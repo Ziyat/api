@@ -7,6 +7,7 @@
 namespace api\controllers\user;
 
 use api\controllers\BearerController;
+use box\entities\shop\product\Product;
 use box\entities\user\User;
 use box\helpers\UserHelper;
 use box\services\UserService;
@@ -147,7 +148,8 @@ class ProfileController extends BearerController
             'notApproveFollowers' => count($user->notApproveFollowers),
             'approveFollowing' =>  count($user->approveFollowing),
             'notApproveFollowing' => count($user->notApproveFollowing),
-            'products' => count($user->products),
+            'productsActive' => $user->getProducts()->andWhere(['status' => Product::STATUS_ACTIVE])->count(),
+            'productsMarket' => $user->getProducts()->andWhere(['status' => Product::STATUS_MARKET])->count(),
         ];
     }
 

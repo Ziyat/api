@@ -83,6 +83,11 @@ class Brand extends ActiveRecord
         ];
     }
 
+    /**
+     * @method getPhoto()
+     * @param string $profile
+     * @return null|string
+     */
     public function getPhoto($profile = 'thumb')
     {
         return $this->getThumbFileUrl('photo', $profile, \Yii::getAlias('@staticUrl') . '/empty/no-photo.jpg');

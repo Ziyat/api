@@ -78,7 +78,8 @@ class PublicController extends Controller
      *     @SWG\Response(
      *         response=200,
      *         description="Success response",
-     *         @SWG\Schema(ref="#/definitions/User")
+     *         @SWG\Property(property="products", type="array",
+     *          @SWG\Items(ref="#/definitions/ProductData"))
      *     ),
      * )
      */
@@ -93,11 +94,11 @@ class PublicController extends Controller
      *     path="/public/user/products/{product_id}",
      *     tags={"Public"},
      *     @SWG\Parameter(name="product_id", in="path", required=true, type="integer"),
-     *     description="Public user products by product_id, return user products array data",
+     *     description="Public user products by product_id, return user product data",
      *     @SWG\Response(
      *         response=200,
      *         description="Success response",
-     *         @SWG\Schema(ref="#/definitions/User")
+     *         @SWG\Schema(ref="#/definitions/ProductData")
      *     ),
      * )
      */

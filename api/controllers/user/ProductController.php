@@ -56,7 +56,7 @@ class ProductController extends BearerController
      *     @SWG\Response(
      *         response=200,
      *         description="Success response",
-     *         @SWG\Property(property="characteristics", type="array",
+     *         @SWG\Property(property="products", type="array",
      *         @SWG\Items(ref="#/definitions/ProductData"))
      *
      *     ),

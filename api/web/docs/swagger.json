@@ -653,7 +653,11 @@
                     "200": {
                         "description": "Success response",
                         "schema": {
-                            "$ref": "#/definitions/User"
+                            "property": "products",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ProductData"
+                            }
                         }
                     }
                 }
@@ -664,7 +668,7 @@
                 "tags": [
                     "Public"
                 ],
-                "description": "Public user products by product_id, return user products array data",
+                "description": "Public user products by product_id, return user product data",
                 "parameters": [
                     {
                         "name": "product_id",
@@ -677,7 +681,7 @@
                     "200": {
                         "description": "Success response",
                         "schema": {
-                            "$ref": "#/definitions/User"
+                            "$ref": "#/definitions/ProductData"
                         }
                     }
                 }
@@ -1940,7 +1944,7 @@
                     "200": {
                         "description": "Success response",
                         "schema": {
-                            "property": "characteristics",
+                            "property": "products",
                             "type": "array",
                             "items": {
                                 "$ref": "#/definitions/ProductData"

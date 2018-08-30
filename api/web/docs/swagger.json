@@ -647,12 +647,6 @@
                         "in": "path",
                         "required": true,
                         "type": "integer"
-                    },
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "type": "integer"
                     }
                 ],
                 "responses": {
@@ -674,12 +668,6 @@
                 "parameters": [
                     {
                         "name": "product_id",
-                        "in": "path",
-                        "required": true,
-                        "type": "integer"
-                    },
-                    {
-                        "name": "id",
                         "in": "path",
                         "required": true,
                         "type": "integer"

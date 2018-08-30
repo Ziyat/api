@@ -75,7 +75,6 @@ class PublicController extends Controller
      *     tags={"Public"},
      *     @SWG\Parameter(name="user_id", in="path", required=true, type="integer"),
      *     description="Public user products by user_id, return user products array data",
-     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
      *     @SWG\Response(
      *         response=200,
      *         description="Success response",
@@ -95,7 +94,6 @@ class PublicController extends Controller
      *     tags={"Public"},
      *     @SWG\Parameter(name="product_id", in="path", required=true, type="integer"),
      *     description="Public user products by product_id, return user products array data",
-     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
      *     @SWG\Response(
      *         response=200,
      *         description="Success response",

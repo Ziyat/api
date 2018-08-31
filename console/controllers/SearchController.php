@@ -38,7 +38,7 @@ class SearchController extends Controller
             ->with(['categoryAssignments', 'tagAssignments', 'modifications', 'values'])
             ->orderBy('id');
 
-        $this->stdout('Start reindex generic product > ' . date('Y-m-d') . PHP_EOL);
+        $this->stdout('Start reindex generic product > ' . date('Y-m-d H:i:s') . PHP_EOL);
         $this->stdout('Cleaning' . PHP_EOL);
 
         try {

@@ -9,6 +9,7 @@ namespace console\controllers;
 
 use box\entities\generic\GenericProduct;
 use box\entities\generic\GenericValue;
+use box\entities\shop\Brand;
 use box\entities\shop\Category;
 use box\entities\shop\product\Value;
 use Elasticsearch\Client;
@@ -34,12 +35,11 @@ class SearchController extends Controller
 
     public function actionReindex()
     {
-        $query = GenericProduct::find()
+        $queryGenericProducts = GenericProduct::find()
             ->with(['categoryAssignments', 'tagAssignments', 'modifications', 'values'])
             ->orderBy('id');
 
-        $this->stdout('Start reindex generic product > ' . date('Y-m-d H:i:s') . PHP_EOL);
-        $this->stdout('Cleaning' . PHP_EOL);
+        $this->stdout('Cleaning | ' . date('Y-m-d H:i:s') . PHP_EOL);
 
         try {
             $this->client->indices()->delete([
@@ -53,7 +53,7 @@ class SearchController extends Controller
 
         $this->stdout('Indexing of Generic Products' . PHP_EOL);
 
-        foreach ($query->each() as $product) {
+        foreach ($queryGenericProducts->each() as $product) {
             /**
              * @var GenericProduct $product
              */
@@ -76,6 +76,29 @@ class SearchController extends Controller
             ]);
         }
 
-        $this->stdout('Done!' . PHP_EOL);
+        $this->stdout('Indexing of Generic Products Done!' . PHP_EOL . PHP_EOL);
+
+        $queryBrands = Brand::find()->orderBy('id');
+
+        $this->stdout('Indexing of Brands' . PHP_EOL);
+
+        foreach ($queryBrands->each() as $brand) {
+            /**
+             * @var Brand $brand
+             */
+            $this->stdout('Brands #' . $brand->id . PHP_EOL);
+            $this->client->index([
+                'index' => 'watch',
+                'type' => 'brands',
+                'id' => $brand->id,
+                'body' => [
+                    'name' => $brand->name,
+                ],
+            ]);
+        }
+
+        $this->stdout('Indexing of Brands Done!' . PHP_EOL . PHP_EOL);
+
+
     }
 }

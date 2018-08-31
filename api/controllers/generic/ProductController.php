@@ -56,13 +56,13 @@ class ProductController extends BearerCrudController
      * @SWG\Post(
      *     path="/generic/products/search",
      *     tags={"ElasticSearch"},
-     *     description="returns elasticSearch data array",
+     *     description="returns elasticSearch products data array",
      *     @SWG\Parameter(name="text", in="formData", required=false, type="string"),
      *     @SWG\Response(
      *         response=200,
      *         description="Success response",
      *         @SWG\Property(property="characteristics", type="array",
-     *          @SWG\Items(ref="#/definitions/SearchData"))
+     *          @SWG\Items(ref="#/definitions/SearchProductsData"))
      *
      *     ),
      *     security={{"Bearer": {}}}
@@ -390,7 +390,7 @@ class ProductController extends BearerCrudController
 
 /**
  * @SWG\Definition(
- *     definition="SearchData",
+ *     definition="SearchProductsData",
  *     description="ElasticSearch result data",
  *     type="array",
  *     @SWG\Items(

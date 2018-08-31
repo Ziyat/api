@@ -114,7 +114,6 @@ return [
         'POST generic/products' => 'generic/product/create',
         'POST generic/products/<id:\d+>' => 'generic/product/edit',
         'GET generic/products/<id:\d+>' => 'generic/product/view',
-        'POST generic/products/search' => 'generic/product/search',
 
         'PUT generic/products/<product_id:\d+>/<modification_id:\d+>/<photo_id:\d+>' => 'generic/product/set-modification-photo',
         'POST generic/products/<id:\d+>/photos' => 'generic/product/add-photos',
@@ -141,6 +140,12 @@ return [
         'DELETE carousels/<carousel_id:\d+>/items/<item_id:\d+>/images/<image_id:\d+>' => 'carousel/delete-item-image',
 
         // ocr
+
+
+        //elasticSearch
+
+        'POST generic/products/search' => 'generic/product/search',
+        'POST shop/brands/search' => 'shop/brand/search',
 
         'POST ocr' => 'ocr/index',
     ],

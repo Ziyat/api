@@ -792,7 +792,7 @@
                 "tags": [
                     "ElasticSearch"
                 ],
-                "description": "returns elasticSearch data array",
+                "description": "returns elasticSearch products data array",
                 "parameters": [
                     {
                         "name": "text",
@@ -808,7 +808,7 @@
                             "property": "characteristics",
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/SearchData"
+                                "$ref": "#/definitions/SearchProductsData"
                             }
                         }
                     }
@@ -1204,6 +1204,39 @@
                 "responses": {
                     "200": {
                         "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/shop/brands/search": {
+            "post": {
+                "tags": [
+                    "ElasticSearch"
+                ],
+                "description": "returns elasticSearch brands data array",
+                "parameters": [
+                    {
+                        "name": "text",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "property": "characteristics",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/SearchBrandsData"
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -2752,7 +2785,7 @@
             },
             "type": "object"
         },
-        "SearchData": {
+        "SearchProductsData": {
             "description": "ElasticSearch result data",
             "type": "array",
             "items": {
@@ -2827,6 +2860,34 @@
                 }
             },
             "type": "object"
+        },
+        "SearchBrandsData": {
+            "description": "ElasticSearch result data",
+            "type": "array",
+            "items": {
+                "properties": {
+                    "_index": {
+                        "type": "string"
+                    },
+                    "_type": {
+                        "type": "string"
+                    },
+                    "_id": {
+                        "type": "string"
+                    },
+                    "_score": {
+                        "type": "integer"
+                    },
+                    "_source": {
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                }
+            }
         },
         "Characteristic": {
             "properties": {

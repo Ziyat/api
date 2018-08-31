@@ -8,24 +8,62 @@ namespace api\controllers\shop;
 
 use api\controllers\BearerCrudController;
 use box\entities\shop\Brand;
+use box\forms\SearchForm;
 use box\forms\shop\BrandForm;
+use box\readModels\BrandReadModel;
 use box\services\BrandService;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
+use Yii;
 
 class BrandController extends BearerCrudController
 {
     private $brandService;
 
     public $action;
+    public $readModel;
 
-    public function __construct(string $id, $module, BrandService $brandService, array $config = [])
+    public function __construct(
+        string $id,
+        $module,
+        BrandService $brandService,
+        BrandReadModel $readModel,
+        array $config = []
+    )
     {
         $this->brandService = $brandService;
+        $this->readModel = $readModel;
         parent::__construct($id, $module, $config);
+    }
+
+    /**
+     * @SWG\Post(
+     *     path="/shop/brands/search",
+     *     tags={"ElasticSearch"},
+     *     description="returns elasticSearch brands data array",
+     *     @SWG\Parameter(name="text", in="formData", required=false, type="string"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Property(property="characteristics", type="array",
+     *          @SWG\Items(ref="#/definitions/SearchBrandsData"))
+     *
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     */
+    public function actionSearch()
+    {
+        $response = null;
+        $form = new SearchForm();
+        $form->load(Yii::$app->request->bodyParams,'');
+        if($form->validate()) {
+            $response = $this->readModel->search($form);
+        }
+        return $response;
     }
 
     /**
@@ -208,6 +246,24 @@ class BrandController extends BearerCrudController
  *          @SWG\Property(property="title", type="string"),
  *          @SWG\Property(property="description", type="string"),
  *          @SWG\Property(property="keywords", type="string"),
+ *     ),
+ *
+ * )
+ */
+
+/**
+ * @SWG\Definition(
+ *     definition="SearchBrandsData",
+ *     description="ElasticSearch result data",
+ *     type="array",
+ *     @SWG\Items(
+ *          @SWG\Property(property="_index", type="string"),
+ *          @SWG\Property(property="_type", type="string"),
+ *          @SWG\Property(property="_id", type="string"),
+ *          @SWG\Property(property="_score", type="integer"),
+ *          @SWG\Property(property="_source", type="object",
+ *              @SWG\Property(property="name", type="string"),
+ *          ),
  *     ),
  *
  * )

@@ -69,7 +69,7 @@ class ProductEditForm extends CompositeForm
     {
         return [
 //            [['brandId', 'name', 'priceType'], 'required'],
-            [['name', 'description', 'priceType'], 'string', 'max' => 255],
+            [['name', 'description', 'priceType','condition'], 'string', 'max' => 255],
             [['brandId', 'quantity'], 'integer'],
         ];
     }

@@ -70,6 +70,7 @@ class SearchController extends Controller
                     }))) . ' / ' . $product->category->name,
                     'brandId' => $product->brand->id,
                     'brandName' => $product->brand->name,
+                    'characteristics' => ArrayHelper::getColumn($product->values,'value'),
                 ],
             ]);
         }

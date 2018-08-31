@@ -40,14 +40,15 @@ class GenericProductReadRepository
                     'categoryName',
                     'brandId',
                     'brandName',
-                    'categoryBreadcrumbs'
+                    'categoryBreadcrumbs',
+                    'characteristics'
                 ],
                 'from' => 0,
                 'size' => 12,
                 'query' => [
                     'query_string' => [
                         'query' => '*' . $text . '*',
-                        'fields' => ['name','categoryName','brandName'],
+                        'fields' => ['name','categoryName','brandName','characteristics'],
                     ],
                 ]
             ]

@@ -154,8 +154,10 @@ class ProductService
             )
         );
 
-        $product->changeMainCategory($category->id);
 
+        $product->setCondition($form->condition);
+
+        $product->changeMainCategory($category->id);
 
         try {
             $this->transaction->wrap(function () use ($product, $form) {

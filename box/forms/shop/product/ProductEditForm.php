@@ -25,12 +25,14 @@ class ProductEditForm extends CompositeForm
     public $description;
     public $priceType;
     public $quantity;
+    public $condition;
 
     private $_product;
 
     public function __construct(Product $product, $config = [])
     {
         $this->brandId = $product->brand_id;
+        $this->condition = $product->condition;
         $this->name = $product->name;
         $this->description = $product->description;
         $this->priceType = $product->price_type;

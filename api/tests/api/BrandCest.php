@@ -11,6 +11,7 @@ use api\tests\ApiTester;
 use common\fixtures\ProfileFixture;
 use common\fixtures\TokenFixture;
 use common\fixtures\UserFixture;
+use yii\helpers\VarDumper;
 
 class BrandCest
 {
@@ -76,6 +77,13 @@ class BrandCest
             'name' => 'name',
             'slug' => 'slug'
         ]);
+    }
+
+    public function getUsersByBrandId(ApiTester $I)
+    {
+        $I->sendGET('/shop/brands/1/users');
+
+        VarDumper::dump($I->grabResponse());
     }
 
     public function editBrand(ApiTester $I)

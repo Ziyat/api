@@ -3,11 +3,11 @@
 namespace box\readModels;
 
 use box\entities\shop\Brand;
+use box\entities\user\User;
 use box\forms\SearchForm;
 use box\repositories\NotFoundException;
 use Elasticsearch\Client;
 use yii\data\ActiveDataProvider;
-use yii\data\ArrayDataProvider;
 use yii\helpers\Inflector;
 
 class BrandReadModel
@@ -40,12 +40,10 @@ class BrandReadModel
         ]);
     }
 
-    public function getUsers($id): ArrayDataProvider
+    public function getUsers($id): ActiveDataProvider
     {
-        $brand = Brand::find()->andWhere(['id' => $id])->with('users')->asArray()->all();
-
-        return new ArrayDataProvider([
-            'allModels' => $brand['users']
+        return new ActiveDataProvider([
+            'query' => Brand::find()->andWhere(['id' => $id])->with('users')
         ]);
     }
 }

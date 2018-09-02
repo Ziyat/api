@@ -6,6 +6,7 @@
 
 namespace box\entities\user;
 
+use box\entities\shop\Brand;
 use box\entities\shop\product\Product;
 use box\entities\user\queries\UserQuery;
 use box\forms\auth\SignupForm;
@@ -365,6 +366,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->activate_token = null;
     }
+
 
     // tokens
 

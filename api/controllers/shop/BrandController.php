@@ -51,7 +51,7 @@ class BrandController extends BearerCrudController
      *     ),
      * )
      * @param $brand_id
-     * @return ArrayDataProvider
+     * @return ActiveDataProvider
      */
 
     public function actionUsers($brand_id)

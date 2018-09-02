@@ -46,7 +46,7 @@ class Brand extends ActiveRecord
     public function getUsers()
     {
         return $this->hasMany(User::class,['id' => 'created_by'])
-            ->viaTable('products',['brand_id' => 'id']);
+            ->viaTable('products',['brand_id' => 'id'])->inverseOf('users');
     }
 
     public function getSeoTitle()

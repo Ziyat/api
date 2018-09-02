@@ -3,12 +3,9 @@
 namespace box\readModels;
 
 use box\entities\shop\Brand;
-use box\entities\user\User;
-use box\forms\SearchForm;
 use box\repositories\NotFoundException;
 use Elasticsearch\Client;
 use yii\data\ActiveDataProvider;
-use yii\helpers\Inflector;
 
 class BrandReadModel
 {
@@ -40,9 +37,14 @@ class BrandReadModel
         ]);
     }
 
+    /**
+     * @param $id
+     * @return ActiveDataProvider
+     * @throws NotFoundException
+     */
     public function getUsers($id): ActiveDataProvider
     {
-        $brand = Brand::findOne($id);
+        $brand = $this->get($id);
         return new ActiveDataProvider([
             'query' => $brand->getUsers()
         ]);

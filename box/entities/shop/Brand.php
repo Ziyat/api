@@ -6,6 +6,7 @@ use box\entities\behaviors\MetaBehavior;
 use box\entities\Meta;
 use box\entities\shop\product\Product;
 use box\entities\user\User;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
 use yiidreamteam\upload\ImageUploadBehavior;
@@ -16,7 +17,7 @@ use yiidreamteam\upload\ImageUploadBehavior;
  * @property string $slug
  * @property string $photo
  * @property Meta $meta
- * @property User $users
+ * @property User[] $users
  *
  * @mixin ImageUploadBehavior
  */
@@ -43,10 +44,10 @@ class Brand extends ActiveRecord
     }
 
 
-    public function getUsers()
+    public function getUsers(): ActiveQuery
     {
         return $this->hasMany(User::class,['id' => 'created_by'])
-            ->viaTable('products',['brand_id' => 'id'])->inverseOf('users');
+            ->viaTable('products',['brand_id' => 'id']);
     }
 
     public function getSeoTitle()

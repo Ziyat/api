@@ -2,9 +2,9 @@
 
 namespace box\services\search;
 
+use box\entities\generic\GenericProduct;
 use Elasticsearch\Client;
 use box\entities\shop\Category;
-use box\entities\shop\product\Product;
 use yii\helpers\ArrayHelper;
 
 class GenericProductIndexer
@@ -29,7 +29,7 @@ class GenericProductIndexer
         ]);
     }
 
-    public function index(Product $product): void
+    public function index(GenericProduct $product): void
     {
         $this->client->index([
             'index' => 'watch_generic_products',
@@ -49,7 +49,7 @@ class GenericProductIndexer
         ]);
     }
 
-    public function remove(Product $product): void
+    public function remove(GenericProduct $product): void
     {
         $this->client->delete([
             'index' => 'watch_generic_products',

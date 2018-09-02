@@ -46,8 +46,7 @@ class UserProductIndexer
                 'brandName' => $product->brand->name,
                 'characteristics' => ArrayHelper::getColumn($product->values,'value'),
                 'user' => [
-                    $product->user->id,
-                    $product->user->profile->name
+                    $product->user->id => $product->user->profile->name
                 ],
             ],
         ]);

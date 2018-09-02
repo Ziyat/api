@@ -188,7 +188,7 @@ class Item extends ActiveRecord
                 return null;
             case Carousel::TYPE_BRAND:
                 $brand = Brand::findOne($this->item_id);
-                return $brand ?: $brand->photo;
+                return !$brand ?: $brand->getPhoto();
             case Carousel::TYPE_USER_PRODUCT:
                 $product = Product::findOne($this->item_id);
                 if($product && $product->mainPhoto){

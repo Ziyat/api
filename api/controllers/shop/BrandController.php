@@ -48,7 +48,7 @@ class BrandController extends BearerCrudController
      *     @SWG\Response(
      *         response=200,
      *         description="Success response",
-     *         @SWG\Property(property="brands", type="array",@SWG\Items(ref="#/definitions/Brand"))
+     *         @SWG\Property(property="users", type="array",@SWG\Items(ref="#/definitions/User"))
      *     ),
      * )
      * @param $brand_id

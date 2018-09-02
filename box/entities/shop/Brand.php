@@ -8,7 +8,6 @@ use box\entities\shop\product\Product;
 use box\entities\user\User;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
-use yii\web\UploadedFile;
 use yiidreamteam\upload\ImageUploadBehavior;
 
 /**
@@ -43,11 +42,15 @@ class Brand extends ActiveRecord
         $this->meta = $meta;
     }
 
+    public function getUserProducts(): ActiveQuery
+    {
+        return $this->hasMany(Product::class, ['id' => 'brand_id']);
+    }
 
     public function getUsers(): ActiveQuery
     {
         return $this->hasMany(User::class,['id' => 'created_by'])
-            ->viaTable('products',['brand_id' => 'id']);
+            ->via('userProducts');
     }
 
     public function getSeoTitle()

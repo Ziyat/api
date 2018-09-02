@@ -8,6 +8,7 @@ use box\entities\shop\Brand;
 use box\entities\shop\Category;
 use box\entities\shop\product\queries\ProductQuery;
 use box\entities\shop\Tag;
+use box\entities\user\User;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\behaviors\BlameableBehavior;
 use yii\db\ActiveQuery;
@@ -44,6 +45,7 @@ use yii\web\UploadedFile;
  * @property Photo[] $photos
  * @property Price $prices
  * @property Price $price
+ * @property User $user
  * @property Modification[] $modifications
  * @property Photo $mainPhoto
  */
@@ -611,6 +613,11 @@ class Product extends ActiveRecord
     public function getBrand(): ActiveQuery
     {
         return $this->hasOne(Brand::class, ['id' => 'brand_id']);
+    }
+
+    public function getUser(): ActiveQuery
+    {
+        return $this->hasOne(User::class, ['id' => 'created_by']);
     }
 
     public function getCategory(): ActiveQuery

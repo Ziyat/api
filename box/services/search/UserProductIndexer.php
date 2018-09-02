@@ -45,7 +45,10 @@ class UserProductIndexer
                 'brandId' => $product->brand->id,
                 'brandName' => $product->brand->name,
                 'characteristics' => ArrayHelper::getColumn($product->values,'value'),
-                'createdBy' => $product->created_by,
+                'user' => [
+                    'id' => $product->user->id,
+                    'name' => $product->user->profile->name
+                ],
             ],
         ]);
     }

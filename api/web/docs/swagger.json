@@ -767,6 +767,76 @@
                 }
             }
         },
+        "/search/brands": {
+            "post": {
+                "tags": [
+                    "ElasticSearch"
+                ],
+                "description": "returns elasticSearch brands data array",
+                "parameters": [
+                    {
+                        "name": "text",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/BrandsResponseData"
+                        }
+                    },
+                    "422": {
+                        "description": "Data Validation Failed.",
+                        "schema": {
+                            "$ref": "#/definitions/DataValidationFailed"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/search/generic-products": {
+            "post": {
+                "tags": [
+                    "ElasticSearch"
+                ],
+                "description": "returns elasticSearch generic products data array",
+                "parameters": [
+                    {
+                        "name": "text",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/genericProductsResponseData"
+                        }
+                    },
+                    "422": {
+                        "description": "Data Validation Failed.",
+                        "schema": {
+                            "$ref": "#/definitions/DataValidationFailed"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "/": {
             "get": {
                 "tags": [
@@ -2781,6 +2851,85 @@
                 },
                 "createdAt": {
                     "type": "integer"
+                }
+            },
+            "type": "object"
+        },
+        "BrandsResponseData": {
+            "description": "ElasticSearch result data",
+            "properties": {
+                "_index": {
+                    "type": "string"
+                },
+                "_type": {
+                    "type": "string"
+                },
+                "_id": {
+                    "type": "string"
+                },
+                "_score": {
+                    "type": "integer"
+                },
+                "_source": {
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
+        "genericProductsResponseData": {
+            "description": "ElasticSearch result data",
+            "properties": {
+                "_index": {
+                    "type": "string"
+                },
+                "_type": {
+                    "type": "string"
+                },
+                "_id": {
+                    "type": "string"
+                },
+                "_score": {
+                    "type": "integer"
+                },
+                "_source": {
+                    "properties": {
+                        "categoryName": {
+                            "type": "string"
+                        },
+                        "categoryBreadcrumbs": {
+                            "description": "example: parent / parent / mainCategory",
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "categoryId": {
+                            "type": "integer"
+                        },
+                        "brandId": {
+                            "type": "integer"
+                        },
+                        "brandName": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
+        "DataValidationFailed": {
+            "properties": {
+                "field": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
                 }
             },
             "type": "object"

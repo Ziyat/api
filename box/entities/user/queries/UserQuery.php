@@ -47,7 +47,7 @@ class UserQuery extends ActiveQuery
     public function roleAdmin($alias = null)
     {
         return $this->andWhere([
-            ($alias ? $alias . '.' : '') . 'role' => 'admin',
+            ($alias ? $alias . '.' : '') . 'role' => 'administrator',
         ]);
     }
 }

@@ -14,6 +14,7 @@ return [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
+        '@staticUrl' => $params['staticHostInfo'],
     ],
     'controllerMap' => [
         'fixture' => [

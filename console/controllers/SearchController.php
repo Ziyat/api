@@ -9,26 +9,47 @@ namespace console\controllers;
 
 use box\entities\generic\GenericProduct;
 use box\entities\shop\Brand;
-use box\entities\shop\Category;
 use box\entities\user\User;
+use box\services\search\BrandIndexer;
+use box\services\search\GenericProductIndexer;
+use box\services\search\UserIndexer;
 use Elasticsearch\Client;
 use Elasticsearch\Common\Exceptions\Missing404Exception;
 use yii\console\Controller;
-use yii\helpers\ArrayHelper;
 
 class SearchController extends Controller
 {
+    public $genericProductIndexer;
+    public $brandIndexer;
+    public $userIndexer;
     public $client;
 
     public function __construct(
         string $id,
         $module,
+        GenericProductIndexer $genericProductIndexer,
+        BrandIndexer $brandIndexer,
+        UserIndexer $userIndexer,
         Client $client,
         array $config = []
     )
     {
         parent::__construct($id, $module, $config);
+        $this->genericProductIndexer = $genericProductIndexer;
+        $this->brandIndexer = $brandIndexer;
+        $this->userIndexer = $userIndexer;
         $this->client = $client;
+    }
+
+    public function actionDelete()
+    {
+        try {
+            $this->client->indices()->delete([
+                'index' => 'watch'
+            ]);
+        } catch (Missing404Exception $e) {
+            $this->stdout('Index is empty' . PHP_EOL);
+        }
     }
 
     public function actionReindex()
@@ -38,43 +59,30 @@ class SearchController extends Controller
             ->orderBy('id');
 
         $this->stdout('Cleaning | ' . date('Y-m-d H:i:s') . PHP_EOL);
-
         try {
-            $this->client->indices()->delete([
-                'index' => 'watch'
-            ]);
+            $this->genericProductIndexer->clear();
+            $this->brandIndexer->clear();
+            $this->userIndexer->clear();
         } catch (Missing404Exception $e) {
             $this->stdout('Index is empty' . PHP_EOL);
         }
 
-        $this->client->ping();
 
         $this->stdout('Indexing of Generic Products' . PHP_EOL);
 
-        foreach ($queryGenericProducts->each() as $product) {
+        foreach ($queryGenericProducts->each() as $product)
+        {
             /**
              * @var GenericProduct $product
              */
             $this->stdout('Generic Products #' . $product->id . PHP_EOL);
-            $this->client->index([
-                'index' => 'watch',
-                'type' => 'generic_products',
-                'id' => $product->id,
-                'body' => [
-                    'name' => $product->name,
-                    'categoryId' => $product->category->id,
-                    'categoryName' => $product->category->name,
-                    'categoryBreadcrumbs' => implode(' / ', array_filter(ArrayHelper::getColumn($product->category->parents, function (Category $category) {
-                        return $category->depth > 0 ? $category->name : null;
-                    }))) . ' / ' . $product->category->name,
-                    'brandId' => $product->brand->id,
-                    'brandName' => $product->brand->name,
-                    'characteristics' => ArrayHelper::getColumn($product->values,'value'),
-                ],
-            ]);
+
+            $this->genericProductIndexer->index($product);
         }
 
         $this->stdout('Indexing of Generic Products Done!' . PHP_EOL . PHP_EOL);
+
+        // brandIndexer
 
         $queryBrands = Brand::find()->orderBy('id');
 
@@ -85,39 +93,27 @@ class SearchController extends Controller
              * @var Brand $brand
              */
             $this->stdout('Brands #' . $brand->id . PHP_EOL);
-            $this->client->index([
-                'index' => 'watch',
-                'type' => 'brands',
-                'id' => $brand->id,
-                'body' => [
-                    'name' => $brand->name,
-                ],
-            ]);
+            $this->brandIndexer->index($brand);
         }
 
         $this->stdout('Indexing of Brands Done!' . PHP_EOL . PHP_EOL);
 
 
-        $queryUsers = User::find()->orderBy('id');
 
-        $this->stdout('Indexing of Brands' . PHP_EOL);
+
+        $queryUsers = User::find()->orderBy('id')->roleUser()->active();
+
+        $this->stdout('Indexing of Users' . PHP_EOL);
 
         foreach ($queryUsers->each() as $user) {
             /**
              * @var User $user
              */
-            $this->stdout('Brands #' . $user->id . PHP_EOL);
-            $this->client->index([
-                'index' => 'watch',
-                'type' => 'Users',
-                'id' => $user->id,
-                'body' => [
-                    'name' => $user->name,
-                ],
-            ]);
+            $this->stdout('Users #' . $user->id . PHP_EOL);
+            $this->userIndexer->index($user);
         }
 
-        $this->stdout('Indexing of Brands Done!' . PHP_EOL . PHP_EOL);
+        $this->stdout('Indexing of Users Done!' . PHP_EOL . PHP_EOL);
 
 
     }

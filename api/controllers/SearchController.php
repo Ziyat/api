@@ -7,7 +7,7 @@
 namespace api\controllers;
 
 use box\forms\SearchForm;
-use box\services\SearchService;
+use box\services\search\SearchService;
 use Yii;
 use yii\rest\Controller;
 

@@ -38,37 +38,4 @@ class BrandReadModel
             'query' => Brand::find()
         ]);
     }
-
-
-    public function search(SearchForm $form)
-    {
-        $text = $form->text;
-        $alterText = $form->getAlternateText($form->getTypeOfText());
-        $transliterateText = Inflector::slug($text);
-        $response = $this->query($text) ?? $this->query($alterText) ?? $this->query($transliterateText) ?? [];
-        return $response;
-    }
-    protected function query($text)
-    {
-        $result = $this->client->search([
-            'index' => 'watch',
-            'type' => 'brands',
-            'body' => [
-                '_source' => [
-                    'name',
-                ],
-                'from' => 0,
-                'size' => 12,
-                'query' => [
-                    'query_string' => [
-                        'query' => '*' . $text . '*',
-                        'fields' => ['name'],
-                    ],
-                ]
-            ]
-        ]);
-
-        return $result['hits']['hits'] ?: null;
-    }
-
 }

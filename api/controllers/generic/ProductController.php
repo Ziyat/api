@@ -53,33 +53,6 @@ class ProductController extends BearerCrudController
     }
 
     /**
-     * @SWG\Post(
-     *     path="/generic/products/search",
-     *     tags={"ElasticSearch"},
-     *     description="returns elasticSearch products data array",
-     *     @SWG\Parameter(name="text", in="formData", required=false, type="string"),
-     *     @SWG\Response(
-     *         response=200,
-     *         description="Success response",
-     *         @SWG\Property(property="characteristics", type="array",
-     *          @SWG\Items(ref="#/definitions/SearchProductsData"))
-     *
-     *     ),
-     *     security={{"Bearer": {}}}
-     * )
-     */
-    public function actionSearch()
-    {
-        $response = null;
-        $form = new SearchForm();
-        $form->load(Yii::$app->request->bodyParams,'');
-        if($form->validate()) {
-            $response = $this->readRepository->search($form);
-        }
-        return $response;
-    }
-
-    /**
      * @SWG\Get(
      *     path="/generic/products",
      *     tags={"Generic Products"},
@@ -387,26 +360,3 @@ class ProductController extends BearerCrudController
     }
 
 }
-
-/**
- * @SWG\Definition(
- *     definition="SearchProductsData",
- *     description="ElasticSearch result data",
- *     type="array",
- *     @SWG\Items(
- *          @SWG\Property(property="_index", type="string"),
- *          @SWG\Property(property="_type", type="string"),
- *          @SWG\Property(property="_id", type="string"),
- *          @SWG\Property(property="_score", type="integer"),
- *          @SWG\Property(property="_source", type="object",
- *              @SWG\Property(property="categoryName", type="string"),
- *              @SWG\Property(property="categoryBreadcrumbs", type="string",description="example: parent / parent / mainCategory"),
- *              @SWG\Property(property="name", type="string"),
- *              @SWG\Property(property="categoryId", type="integer"),
- *              @SWG\Property(property="brandId", type="integer"),
- *              @SWG\Property(property="brandName", type="string"),
- *          ),
- *     ),
- *
- * )
- */

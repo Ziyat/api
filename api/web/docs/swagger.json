@@ -927,39 +927,6 @@
                 }
             }
         },
-        "/generic/products/search": {
-            "post": {
-                "tags": [
-                    "ElasticSearch"
-                ],
-                "description": "returns elasticSearch products data array",
-                "parameters": [
-                    {
-                        "name": "text",
-                        "in": "formData",
-                        "required": false,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success response",
-                        "schema": {
-                            "property": "characteristics",
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/SearchProductsData"
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ]
-            }
-        },
         "/generic/products": {
             "get": {
                 "tags": [
@@ -1344,39 +1311,6 @@
                 "responses": {
                     "200": {
                         "description": "Success response"
-                    }
-                },
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ]
-            }
-        },
-        "/shop/brands/search": {
-            "post": {
-                "tags": [
-                    "ElasticSearch"
-                ],
-                "description": "returns elasticSearch brands data array",
-                "parameters": [
-                    {
-                        "name": "text",
-                        "in": "formData",
-                        "required": false,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success response",
-                        "schema": {
-                            "property": "characteristics",
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/SearchBrandsData"
-                            }
-                        }
                     }
                 },
                 "security": [
@@ -3038,50 +2972,6 @@
                 }
             },
             "type": "object"
-        },
-        "SearchProductsData": {
-            "description": "ElasticSearch result data",
-            "type": "array",
-            "items": {
-                "properties": {
-                    "_index": {
-                        "type": "string"
-                    },
-                    "_type": {
-                        "type": "string"
-                    },
-                    "_id": {
-                        "type": "string"
-                    },
-                    "_score": {
-                        "type": "integer"
-                    },
-                    "_source": {
-                        "properties": {
-                            "categoryName": {
-                                "type": "string"
-                            },
-                            "categoryBreadcrumbs": {
-                                "description": "example: parent / parent / mainCategory",
-                                "type": "string"
-                            },
-                            "name": {
-                                "type": "string"
-                            },
-                            "categoryId": {
-                                "type": "integer"
-                            },
-                            "brandId": {
-                                "type": "integer"
-                            },
-                            "brandName": {
-                                "type": "string"
-                            }
-                        },
-                        "type": "object"
-                    }
-                }
-            }
         },
         "Brand": {
             "description": "result brand data",

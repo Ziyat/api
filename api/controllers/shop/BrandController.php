@@ -39,32 +39,6 @@ class BrandController extends BearerCrudController
         parent::__construct($id, $module, $config);
     }
 
-    /**
-     * @SWG\Post(
-     *     path="/shop/brands/search",
-     *     tags={"ElasticSearch"},
-     *     description="returns elasticSearch brands data array",
-     *     @SWG\Parameter(name="text", in="formData", required=false, type="string"),
-     *     @SWG\Response(
-     *         response=200,
-     *         description="Success response",
-     *         @SWG\Property(property="characteristics", type="array",
-     *          @SWG\Items(ref="#/definitions/SearchBrandsData"))
-     *
-     *     ),
-     *     security={{"Bearer": {}}}
-     * )
-     */
-    public function actionSearch()
-    {
-        $response = null;
-        $form = new SearchForm();
-        $form->load(Yii::$app->request->bodyParams,'');
-        if($form->validate()) {
-            $response = $this->readModel->search($form);
-        }
-        return $response;
-    }
 
     /**
      * @SWG\GET(

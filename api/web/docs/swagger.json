@@ -837,6 +837,76 @@
                 ]
             }
         },
+        "/search/users": {
+            "post": {
+                "tags": [
+                    "ElasticSearch"
+                ],
+                "description": "returns elasticSearch users data array",
+                "parameters": [
+                    {
+                        "name": "text",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/UsersResponseData"
+                        }
+                    },
+                    "422": {
+                        "description": "Data Validation Failed.",
+                        "schema": {
+                            "$ref": "#/definitions/DataValidationFailed"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/search/user-products": {
+            "post": {
+                "tags": [
+                    "ElasticSearch"
+                ],
+                "description": "returns elasticSearch user products data array",
+                "parameters": [
+                    {
+                        "name": "text",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/genericProductsResponseData"
+                        }
+                    },
+                    "422": {
+                        "description": "Data Validation Failed.",
+                        "schema": {
+                            "$ref": "#/definitions/DataValidationFailed"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "/": {
             "get": {
                 "tags": [
@@ -2873,6 +2943,41 @@
                 "_source": {
                     "properties": {
                         "name": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        },
+        "UsersResponseData": {
+            "description": "ElasticSearch result data",
+            "properties": {
+                "_index": {
+                    "type": "string"
+                },
+                "_type": {
+                    "type": "string"
+                },
+                "_id": {
+                    "type": "string"
+                },
+                "_score": {
+                    "type": "integer"
+                },
+                "_source": {
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "lastName": {
+                            "type": "string"
+                        },
+                        "dateOfBirth": {
+                            "type": "string"
+                        },
+                        "photo": {
                             "type": "string"
                         }
                     },

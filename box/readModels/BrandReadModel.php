@@ -43,7 +43,7 @@ class BrandReadModel
     public function getUsers($id): ActiveDataProvider
     {
         return new ActiveDataProvider([
-            'query' => Brand::find()->andWhere(['id' => $id])->with('users')
+            'query' => Brand::find()->andWhere(['id' => $id])->joinWith('users')
         ]);
     }
 }

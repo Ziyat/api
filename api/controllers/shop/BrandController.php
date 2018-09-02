@@ -11,6 +11,7 @@ use box\entities\shop\Brand;
 use box\forms\SearchForm;
 use box\forms\shop\BrandForm;
 use box\readModels\BrandReadModel;
+use box\repositories\NotFoundException;
 use box\services\BrandService;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
@@ -52,6 +53,7 @@ class BrandController extends BearerCrudController
      * )
      * @param $brand_id
      * @return ActiveDataProvider
+     * @throws NotFoundException
      */
 
     public function actionUsers($brand_id)

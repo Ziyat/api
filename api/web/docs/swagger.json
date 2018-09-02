@@ -1320,6 +1320,25 @@
                 ]
             }
         },
+        "/shop/brands/{brand_id}/users": {
+            "get": {
+                "tags": [
+                    "Brand"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "property": "brands",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Brand"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/shop/brands": {
             "get": {
                 "tags": [

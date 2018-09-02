@@ -49,9 +49,23 @@ class SearchController extends Controller
     public function actionDelete()
     {
         try {
+
             $this->client->indices()->delete([
-                'index' => 'watch'
+                'index' => 'watch_user_products'
             ]);
+
+            $this->client->indices()->delete([
+                'index' => 'watch_generic_products'
+            ]);
+
+            $this->client->indices()->delete([
+                'index' => 'watch_brands'
+            ]);
+
+            $this->client->indices()->delete([
+                'index' => 'watch_users'
+            ]);
+
         } catch (Missing404Exception $e) {
             $this->stdout('Index is empty' . PHP_EOL);
         }

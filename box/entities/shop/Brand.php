@@ -44,7 +44,7 @@ class Brand extends ActiveRecord
 
     public function getUserProducts(): ActiveQuery
     {
-        return $this->hasMany(Product::class, ['id' => 'brand_id']);
+        return $this->hasMany(Product::class, ['brand_id' => 'id']);
     }
 
     public function getUsers(): ActiveQuery

@@ -1329,10 +1329,10 @@
                     "200": {
                         "description": "Success response",
                         "schema": {
-                            "property": "brands",
+                            "property": "users",
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/Brand"
+                                "$ref": "#/definitions/User"
                             }
                         }
                     }

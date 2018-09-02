@@ -33,10 +33,9 @@ class SearchService
                 'brandId',
                 'brandName',
                 'categoryBreadcrumbs',
-                'characteristics',
-                'user'
+                'characteristics'
             ],
-            'fields' => ['name', 'categoryName', 'brandName', 'characteristics','user']
+            'fields' => ['name', 'categoryName', 'brandName', 'characteristics']
         ];
 
         return $this->preOperationToSearch($form, $params);

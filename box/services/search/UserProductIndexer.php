@@ -44,10 +44,7 @@ class UserProductIndexer
                     }))) . ' / ' . $product->category->name,
                 'brandId' => $product->brand->id,
                 'brandName' => $product->brand->name,
-                'characteristics' => ArrayHelper::getColumn($product->values,'value'),
-                'user' => [
-                    $product->user->id => $product->user->profile->name
-                ],
+                'characteristics' => ArrayHelper::getColumn($product->values,'value')
             ],
         ]);
     }

@@ -80,14 +80,11 @@ class SearchService
             'type' => 'users',
             '_source' => [
                 'name',
-                'categoryId',
-                'categoryName',
-                'brandId',
-                'brandName',
-                'categoryBreadcrumbs',
-                'characteristics'
+                'lastName',
+                'dateOfBirth',
+                'photo'
             ],
-            'fields' => ['name', 'categoryName', 'brandName', 'characteristics']
+            'fields' => ['name', 'lastName', 'dateOfBirth', 'photo']
         ];
 
         return $this->preOperationToSearch($form, $params);

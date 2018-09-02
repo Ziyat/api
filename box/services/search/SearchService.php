@@ -21,6 +21,26 @@ class SearchService
         $this->client = $client;
     }
 
+    public function userProducts(SearchForm $form)
+    {
+        $params = [
+            'index' => 'watch_user_products',
+            'type' => 'user_products',
+            '_source' => [
+                'name',
+                'categoryId',
+                'categoryName',
+                'brandId',
+                'brandName',
+                'categoryBreadcrumbs',
+                'characteristics'
+            ],
+            'fields' => ['name', 'categoryName', 'brandName', 'characteristics']
+        ];
+
+        return $this->preOperationToSearch($form, $params);
+    }
+
     public function brands(SearchForm $form)
     {
         $params = [

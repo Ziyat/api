@@ -59,4 +59,16 @@ class SearchController extends Controller
         }
         return $form;
     }
+
+
+    public function actionUserProducts()
+    {
+        $response = null;
+        $form = new SearchForm();
+        $form->load(Yii::$app->request->bodyParams, '');
+        if ($form->validate()) {
+            return $this->service->userProducts($form);
+        }
+        return $form;
+    }
 }

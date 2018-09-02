@@ -2,7 +2,6 @@
 
 namespace box\services\search;
 
-use box\entities\generic\GenericProduct;
 use box\entities\shop\product\Product;
 use Elasticsearch\Client;
 use box\entities\shop\Category;
@@ -46,6 +45,7 @@ class UserProductIndexer
                 'brandId' => $product->brand->id,
                 'brandName' => $product->brand->name,
                 'characteristics' => ArrayHelper::getColumn($product->values,'value'),
+                'createdBy' => $product->created_by,
             ],
         ]);
     }

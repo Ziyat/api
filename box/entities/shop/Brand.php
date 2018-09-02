@@ -4,6 +4,8 @@ namespace box\entities\shop;
 
 use box\entities\behaviors\MetaBehavior;
 use box\entities\Meta;
+use box\entities\shop\product\Product;
+use box\entities\user\User;
 use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
 use yiidreamteam\upload\ImageUploadBehavior;
@@ -14,6 +16,7 @@ use yiidreamteam\upload\ImageUploadBehavior;
  * @property string $slug
  * @property string $photo
  * @property Meta $meta
+ * @property User $users
  *
  * @mixin ImageUploadBehavior
  */
@@ -37,6 +40,13 @@ class Brand extends ActiveRecord
         $this->slug = $slug;
         $this->photo = $photo;
         $this->meta = $meta;
+    }
+
+
+    public function getUsers()
+    {
+        return $this->hasMany(User::class,['id' => 'created_by'])
+            ->viaTable('products',['brand_id' => 'id']);
     }
 
     public function getSeoTitle()

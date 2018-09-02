@@ -76,6 +76,8 @@ return [
         'POST shop/brands/<id:\d+>' => 'shop/brand/update',
         'DELETE shop/brands/<id:\d+>' => 'shop/brand/delete',
 
+        'GET shop/brands/<brand_id:\d+>/users' => 'shop/brand/users',
+
         // shop Categories
 
         'GET shop/categories/<id:\d+>/parent' => 'shop/category/parent',
@@ -144,8 +146,6 @@ return [
 
         //elasticSearch
 
-        'POST generic/products/search' => 'generic/product/search',
-        'POST shop/brands/search' => 'shop/brand/search',
         'POST search/brands' => 'search/brands',
         'POST search/generic-products' => 'search/generic-products',
         'POST search/user-products' => 'search/user-products',

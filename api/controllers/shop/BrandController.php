@@ -13,6 +13,7 @@ use box\forms\shop\BrandForm;
 use box\readModels\BrandReadModel;
 use box\services\BrandService;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 use yii\helpers\Url;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
@@ -39,6 +40,24 @@ class BrandController extends BearerCrudController
         parent::__construct($id, $module, $config);
     }
 
+    /**
+     * @SWG\GET(
+     *     path="/shop/brands/{brand_id}/users",
+     *     tags={"Brand"},
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Property(property="brands", type="array",@SWG\Items(ref="#/definitions/Brand"))
+     *     ),
+     * )
+     * @param $brand_id
+     * @return ArrayDataProvider
+     */
+
+    public function actionUsers($brand_id)
+    {
+        return $this->readModel->getUsers($brand_id);
+    }
 
     /**
      * @SWG\GET(
@@ -55,9 +74,7 @@ class BrandController extends BearerCrudController
 
     public function actionIndex()
     {
-        return new ActiveDataProvider([
-            'query' => Brand::find(),
-        ]);
+        return $this->readModel->getBrands();
     }
 
     /**
@@ -78,7 +95,7 @@ class BrandController extends BearerCrudController
 
     public function actionView($id)
     {
-        return $this->findModel($id);
+        return $this->readModel->get($id);
     }
 
     /**
@@ -146,7 +163,7 @@ class BrandController extends BearerCrudController
         if (!\Yii::$app->user->can('create')) {
             throw new ForbiddenHttpException('Forbidden');
         }
-        $brand = $this->findModel($id);
+        $brand = $this->readModel->get($id);
         $form = new BrandForm($brand);
         $form->load(\Yii::$app->request->bodyParams, '');
         if ($form->validate()) {
@@ -189,20 +206,6 @@ class BrandController extends BearerCrudController
         } catch (\DomainException $e) {
             throw new BadRequestHttpException($e->getMessage(), null, $e);
         }
-    }
-
-
-    /**
-     * @param integer $id
-     * @return Brand the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id): Brand
-    {
-        if (($model = Brand::findOne($id)) !== null) {
-            return $model;
-        }
-        throw new NotFoundHttpException('The requested page does not exist.');
     }
 
 }

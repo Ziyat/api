@@ -82,11 +82,12 @@ class PublicController extends Controller
      *          @SWG\Items(ref="#/definitions/ProductData"))
      *     ),
      * )
+     * @params $user_id
      */
 
-    public function actionUserProducts($id)
+    public function actionUserProducts($user_id)
     {
-        return $this->products->getUserProducts($id);
+        return $this->products->getUserProducts($user_id);
     }
 
     /**
@@ -101,11 +102,12 @@ class PublicController extends Controller
      *         @SWG\Schema(ref="#/definitions/ProductData")
      *     ),
      * )
+     * @params $product_id
      */
 
-    public function actionProductsById($id)
+    public function actionProductsById($product_id)
     {
-        return $this->products->getProductsById($id);
+        return $this->products->getProductsById($product_id);
     }
 
     /**

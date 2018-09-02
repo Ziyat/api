@@ -146,6 +146,8 @@ return [
 
         'POST generic/products/search' => 'generic/product/search',
         'POST shop/brands/search' => 'shop/brand/search',
+        'POST search/brands' => 'search/brands',
+        'POST search/generic-products' => 'search/generic-products',
 
         'POST ocr' => 'ocr/index',
     ],

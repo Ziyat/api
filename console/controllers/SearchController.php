@@ -8,13 +8,11 @@ namespace console\controllers;
 
 
 use box\entities\generic\GenericProduct;
-use box\entities\generic\GenericValue;
 use box\entities\shop\Brand;
 use box\entities\shop\Category;
-use box\entities\shop\product\Value;
+use box\entities\user\User;
 use Elasticsearch\Client;
 use Elasticsearch\Common\Exceptions\Missing404Exception;
-use function foo\func;
 use yii\console\Controller;
 use yii\helpers\ArrayHelper;
 
@@ -93,6 +91,28 @@ class SearchController extends Controller
                 'id' => $brand->id,
                 'body' => [
                     'name' => $brand->name,
+                ],
+            ]);
+        }
+
+        $this->stdout('Indexing of Brands Done!' . PHP_EOL . PHP_EOL);
+
+
+        $queryUsers = User::find()->orderBy('id');
+
+        $this->stdout('Indexing of Brands' . PHP_EOL);
+
+        foreach ($queryUsers->each() as $user) {
+            /**
+             * @var User $user
+             */
+            $this->stdout('Brands #' . $user->id . PHP_EOL);
+            $this->client->index([
+                'index' => 'watch',
+                'type' => 'Users',
+                'id' => $user->id,
+                'body' => [
+                    'name' => $user->name,
                 ],
             ]);
         }

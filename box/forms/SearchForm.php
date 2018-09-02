@@ -18,6 +18,7 @@ class SearchForm extends Model
     public function rules(): array
     {
         return [
+            [['text'], 'required'],
             [['text'], 'string'],
             [['text'], 'trim'],
             [['text'], 'filter', 'filter' => function ($value) {

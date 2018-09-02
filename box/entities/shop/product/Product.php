@@ -753,6 +753,7 @@ class Product extends ActiveRecord
             "brand" => function(self $model){
                 return [
                     'id' => $model->brand_id,
+                    'name' => $model->brand->name,
                     'photo' => $model->brand->getPhoto(),
                 ];
             },
@@ -813,6 +814,7 @@ class Product extends ActiveRecord
             "meta_json" => function () {
                 return $this->meta;
             },
+            "created_by" => "created_by",
             "created_at" => "created_at",
             "updated_at" => "updated_at",
         ];

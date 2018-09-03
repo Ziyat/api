@@ -45,6 +45,7 @@ class GenericProductIndexer
                 'brandId' => $product->brand->id,
                 'brandName' => $product->brand->name,
                 'characteristics' => ArrayHelper::getColumn($product->values,'value'),
+                'photo' => !$product->mainPhoto ? null : $product->mainPhoto->getThumbFileUrl('file', 'thumb'),
             ],
         ]);
     }

@@ -51,8 +51,7 @@ class Brand extends ActiveRecord
 
     public function getGenericProducts(): ActiveQuery
     {
-        return $this->hasMany(GenericProduct::class, ['brand_id' => 'id'])
-            ->andWhere(['status' => [Product::STATUS_ACTIVE,Product::STATUS_MARKET]]);
+        return $this->hasMany(GenericProduct::class, ['brand_id' => 'id']);
     }
 
     public function getUsers(): ActiveQuery

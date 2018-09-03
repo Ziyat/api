@@ -2,9 +2,9 @@
 
 namespace box\services\search;
 
+use box\entities\shop\Category;
 use box\entities\shop\product\Product;
 use Elasticsearch\Client;
-use box\entities\shop\Category;
 use yii\helpers\ArrayHelper;
 
 class UserProductIndexer
@@ -44,7 +44,8 @@ class UserProductIndexer
                     }))) . ' / ' . $product->category->name,
                 'brandId' => $product->brand->id,
                 'brandName' => $product->brand->name,
-                'characteristics' => ArrayHelper::getColumn($product->values,'value')
+                'characteristics' => ArrayHelper::getColumn($product->values, 'value'),
+                'photo' => !$product->mainPhoto ? null : $product->mainPhoto->getThumbFileUrl('file', 'thumb'),
             ],
         ]);
     }

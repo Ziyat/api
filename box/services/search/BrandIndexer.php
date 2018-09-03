@@ -35,6 +35,7 @@ class BrandIndexer
             'id' => $brand->id,
             'body' => [
                 'name' => $brand->name,
+                'photo' => $brand->getPhoto(),
             ],
         ]);
     }

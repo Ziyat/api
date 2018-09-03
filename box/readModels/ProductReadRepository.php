@@ -9,10 +9,8 @@ namespace box\readModels;
 
 
 use box\entities\shop\product\Product;
-use box\entities\user\User;
 use box\repositories\NotFoundException;
 use yii\data\ActiveDataProvider;
-use yii\web\NotFoundHttpException;
 
 class ProductReadRepository
 {
@@ -27,12 +25,15 @@ class ProductReadRepository
     }
 
     /**
-     * @return ActiveDataProvider
+     * @param $id
+     * @return Product|array
+     * @throws NotFoundException
      */
-    public function getProductsById($id): ActiveDataProvider
+    public function getProductsById($id): Product
     {
-        return new ActiveDataProvider([
-            'query' => Product::find()->andWhere(['id' => $id])->active()
-        ]);
+        if (!$product = Product::find()->andWhere(['id' => $id])->active()->one()) {
+            throw new NotFoundException('Product not found!');
+        }
+        return $product;
     }
 }

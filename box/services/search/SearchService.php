@@ -81,13 +81,7 @@ class SearchService
                 'name',
                 'lastName',
                 'dateOfBirth',
-                'photo',
-                'categoryId',
-                'categoryName',
-                'brandId',
-                'brandName',
-                'categoryBreadcrumbs',
-                'characteristics'
+                'photo'
             ],
             'fields' => ['name', 'lastName', 'dateOfBirth', 'photo']
         ];
@@ -97,9 +91,13 @@ class SearchService
 
     public function combination(SearchForm $form)
     {
-
+        if ($form->params) {
+            $indexes = $form->params['indexes'];
+            $types = $form->params['types'];
+        } else {
             $indexes = '_all';
             $types = '';
+        }
         $params = [
             'index' => $indexes,
             'type' => $types,
@@ -120,7 +118,7 @@ class SearchService
 
     protected function preOperationToSearch(SearchForm $form, array $params)
     {
-        $text = $form->text;
+       $text = $form->text;
 
         $alterText = $form->getAlternateText($form->getTypeOfText());
 

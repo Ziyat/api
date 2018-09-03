@@ -102,17 +102,13 @@ class Brand extends ActiveRecord
             'photo' => function (self $model) {
                 return $model->getPhoto();
             },
-            'counters' =>[
-                'genericProducts' => function (self $model) {
-                    return count($model->genericProducts);
-                },
-                'userProducts' => function (self $model) {
-                    return count($model->userProducts);
-                },
-                'users' => function (self $model) {
-                    return count($model->users);
-                },
-            ],
+            'counters' => function (self $model) {
+                return [
+                    'genericProducts' => count($model->genericProducts),
+                    'userProducts' => count($model->userProducts),
+                    'users' => count($model->users),
+                ];
+            },
             'meta' => 'meta'
         ];
     }

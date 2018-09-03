@@ -63,6 +63,46 @@ class BrandController extends BearerCrudController
 
     /**
      * @SWG\GET(
+     *     path="/shop/brands/{brand_id}/generic/products",
+     *     tags={"Brand"},
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Property(property="users", type="array",@SWG\Items(ref="#/definitions/ProductData"))
+     *     ),
+     * )
+     * @param $brand_id
+     * @return ActiveDataProvider
+     * @throws NotFoundException
+     */
+
+    public function actionGenericProducts($brand_id)
+    {
+        return $this->readModel->getGenericProducts($brand_id);
+    }
+
+    /**
+     * @SWG\GET(
+     *     path="/shop/brands/{brand_id}/user/products",
+     *     tags={"Brand"},
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Property(property="users", type="array",@SWG\Items(ref="#/definitions/ProductData"))
+     *     ),
+     * )
+     * @param $brand_id
+     * @return ActiveDataProvider
+     * @throws NotFoundException
+     */
+
+    public function actionUserProducts($brand_id)
+    {
+        return $this->readModel->getUserProducts($brand_id);
+    }
+
+    /**
+     * @SWG\GET(
      *     path="/shop/brands",
      *     tags={"Brand"},
      *     @SWG\Response(

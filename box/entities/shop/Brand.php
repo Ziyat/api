@@ -3,6 +3,7 @@
 namespace box\entities\shop;
 
 use box\entities\behaviors\MetaBehavior;
+use box\entities\generic\GenericProduct;
 use box\entities\Meta;
 use box\entities\shop\product\Product;
 use box\entities\user\User;
@@ -45,6 +46,11 @@ class Brand extends ActiveRecord
     public function getUserProducts(): ActiveQuery
     {
         return $this->hasMany(Product::class, ['brand_id' => 'id']);
+    }
+
+    public function getGenericProducts(): ActiveQuery
+    {
+        return $this->hasMany(GenericProduct::class, ['brand_id' => 'id']);
     }
 
     public function getUsers(): ActiveQuery

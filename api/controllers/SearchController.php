@@ -151,6 +151,17 @@ class SearchController extends Controller
         }
         return $form;
     }
+
+    public function actionCombination()
+    {
+        $response = null;
+        $form = new SearchForm();
+        $form->load(Yii::$app->request->bodyParams, '');
+        if ($form->validate()) {
+            return $this->service->combination($form);
+        }
+        return $form;
+    }
 }
 
 /**

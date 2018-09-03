@@ -77,6 +77,8 @@ return [
         'DELETE shop/brands/<id:\d+>' => 'shop/brand/delete',
 
         'GET shop/brands/<brand_id:\d+>/users' => 'shop/brand/users',
+        'GET shop/brands/<brand_id:\d+>/generic/products' => 'shop/brand/generic-products',
+        'GET shop/brands/<brand_id:\d+>/user/products' => 'shop/brand/user-products',
 
         // shop Categories
 
@@ -150,6 +152,7 @@ return [
         'POST search/generic-products' => 'search/generic-products',
         'POST search/user-products' => 'search/user-products',
         'POST search/users' => 'search/users',
+        'POST search/combination' => 'search/combination',
 
         'POST ocr' => 'ocr/index',
     ],

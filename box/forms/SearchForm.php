@@ -12,6 +12,7 @@ use yii\base\Model;
 class SearchForm extends Model
 {
     public $text;
+    public $params = null;
     public const LATIN = 0;
     public const CYRILLIC = 1;
 

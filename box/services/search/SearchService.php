@@ -10,7 +10,6 @@ namespace box\services\search;
 use box\forms\SearchForm;
 use Elasticsearch\Client;
 use yii\helpers\Inflector;
-use yii\web\BadRequestHttpException;
 
 class SearchService
 {
@@ -82,7 +81,13 @@ class SearchService
                 'name',
                 'lastName',
                 'dateOfBirth',
-                'photo'
+                'photo',
+                'categoryId',
+                'categoryName',
+                'brandId',
+                'brandName',
+                'categoryBreadcrumbs',
+                'characteristics'
             ],
             'fields' => ['name', 'lastName', 'dateOfBirth', 'photo']
         ];
@@ -90,9 +95,32 @@ class SearchService
         return $this->preOperationToSearch($form, $params);
     }
 
+    public function combination(SearchForm $form)
+    {
+
+            $indexes = '_all';
+            $types = '';
+        $params = [
+            'index' => $indexes,
+            'type' => $types,
+            '_source' => true,
+            'fields' => [
+                'name',
+                'lastName',
+                'dateOfBirth',
+                'photo',
+                'categoryName',
+                'brandName',
+                'characteristics'
+            ]
+        ];
+
+        return $this->preOperationToSearch($form, $params);
+    }
+
     protected function preOperationToSearch(SearchForm $form, array $params)
     {
-       $text = $form->text;
+        $text = $form->text;
 
         $alterText = $form->getAlternateText($form->getTypeOfText());
 

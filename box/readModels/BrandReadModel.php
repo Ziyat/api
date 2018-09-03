@@ -49,4 +49,30 @@ class BrandReadModel
             'query' => $brand->getUsers()
         ]);
     }
+
+    /**
+     * @param $id
+     * @return ActiveDataProvider
+     * @throws NotFoundException
+     */
+    public function getUserProducts($id): ActiveDataProvider
+    {
+        $brand = $this->get($id);
+        return new ActiveDataProvider([
+            'query' => $brand->getUserProducts()
+        ]);
+    }
+
+    /**
+     * @param $id
+     * @return ActiveDataProvider
+     * @throws NotFoundException
+     */
+    public function getGenericProducts($id): ActiveDataProvider
+    {
+        $brand = $this->get($id);
+        return new ActiveDataProvider([
+            'query' => $brand->getGenericProducts()
+        ]);
+    }
 }

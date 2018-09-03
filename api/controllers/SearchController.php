@@ -152,6 +152,26 @@ class SearchController extends Controller
         return $form;
     }
 
+    /**
+     * @SWG\Post(
+     *     path="/search/combination",
+     *     tags={"ElasticSearch"},
+     *     description="returns elasticSearch all data array",
+     *     @SWG\Parameter(name="text", in="formData", required=false, type="string"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Items(ref="#/definitions/genericProductsResponseData")
+     *     ),
+     *     @SWG\Response(
+     *         response=422,
+     *         description="Data Validation Failed.",
+     *         @SWG\Items(ref="#/definitions/DataValidationFailed")
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     */
+
     public function actionCombination()
     {
         $response = null;

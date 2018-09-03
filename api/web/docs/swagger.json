@@ -253,6 +253,26 @@
                 }
             }
         },
+        "/carousels/active": {
+            "get": {
+                "tags": [
+                    "Carousels"
+                ],
+                "description": "Return status active carousels array",
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "property": "characteristics",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/CarouselData"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/carousels/{id}": {
             "get": {
                 "tags": [
@@ -878,6 +898,41 @@
                     "ElasticSearch"
                 ],
                 "description": "returns elasticSearch user products data array",
+                "parameters": [
+                    {
+                        "name": "text",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/genericProductsResponseData"
+                        }
+                    },
+                    "422": {
+                        "description": "Data Validation Failed.",
+                        "schema": {
+                            "$ref": "#/definitions/DataValidationFailed"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/search/combination": {
+            "post": {
+                "tags": [
+                    "ElasticSearch"
+                ],
+                "description": "returns elasticSearch all data array",
                 "parameters": [
                     {
                         "name": "text",

@@ -70,7 +70,7 @@ class CarouselController extends BearerCrudController
      * @SWG\Get(
      *     path="/carousels/active",
      *     tags={"Carousels"},
-     *     description="Return carousels array",
+     *     description="Return status active carousels array",
      *     @SWG\Response(
      *         response=200,
      *         description="Success response",

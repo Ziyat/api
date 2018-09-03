@@ -18,6 +18,8 @@ use yiidreamteam\upload\ImageUploadBehavior;
  * @property string $photo
  * @property Meta $meta
  * @property User[] $users
+ * @property GenericProduct[] $genericProducts
+ * @property Product[] $userProducts
  *
  * @mixin ImageUploadBehavior
  */
@@ -100,6 +102,11 @@ class Brand extends ActiveRecord
             'photo' => function (self $model) {
                 return $model->getPhoto();
             },
+            'counters' =>[
+                'genericProducts' => count($this->genericProducts),
+                'userProducts' => count($this->userProducts),
+                'users' => count($this->users),
+            ],
             'meta' => 'meta'
         ];
     }

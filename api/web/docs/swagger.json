@@ -1339,6 +1339,44 @@
                 }
             }
         },
+        "/shop/brands/{brand_id}/generic/products": {
+            "get": {
+                "tags": [
+                    "Brand"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "property": "users",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ProductData"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/shop/brands/{brand_id}/user/products": {
+            "get": {
+                "tags": [
+                    "Brand"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "property": "users",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ProductData"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/shop/brands": {
             "get": {
                 "tags": [

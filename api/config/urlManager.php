@@ -128,6 +128,7 @@ return [
         // Carousel
 
         'GET carousels' => 'carousel/index',
+        'GET carousels/active' => 'carousel/active',
         'POST carousels' => 'carousel/create',
         'GET carousels/<id:\d+>' => 'carousel/view',
         'POST carousels/<id:\d+>' => 'carousel/update',

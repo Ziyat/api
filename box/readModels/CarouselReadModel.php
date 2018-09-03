@@ -20,11 +20,19 @@ class CarouselReadModel
         ]);
     }
 
+    public function getCarouselsActive(): ActiveDataProvider
+    {
+        return new ActiveDataProvider([
+            'query' => Carousel::find()->andWhere(['status' => Carousel::STATUS_ACTIVE])
+        ]);
+    }
+
     public function getCarousel($id): ?Carousel
     {
         return Carousel::findOne($id);
 
     }
+
 
     /**
      * @param $carousel_id

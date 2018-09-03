@@ -66,6 +66,25 @@ class CarouselController extends BearerCrudController
         return $this->carousels->getCarousels();
     }
 
+    /**
+     * @SWG\Get(
+     *     path="/carousels/active",
+     *     tags={"Carousels"},
+     *     description="Return carousels array",
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Property(property="characteristics", type="array",
+     *         @SWG\Items(ref="#/definitions/CarouselData"))
+     *     ),
+     * )
+     */
+
+    public function actionActive()
+    {
+        return $this->carousels->getCarouselsActive();
+    }
+
 
     /**
      * @SWG\Post(

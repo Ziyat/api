@@ -40,11 +40,11 @@ class BrandForm extends CompositeForm
     public function rules(): array
     {
         return [
-            [['name', 'slug'], 'required'],
+            [['name'], 'required'],
             [['name', 'slug'], 'string', 'max' => 255],
             ['slug', SlugValidator::class],
             [
-                ['name', 'slug'],
+                ['name'],
                 'unique',
                 'targetClass' => Brand::class,
                 'filter' => $this->_brand ? ['<>', 'id', $this->_brand->id] : null

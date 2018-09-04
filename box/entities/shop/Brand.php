@@ -82,8 +82,8 @@ class Brand extends ActiveRecord
                 'class' => ImageUploadBehavior::class,
                 'attribute' => 'photo',
                 'thumbs' => [
-                    'admin' => ['width' => 120, 'height' => 100],
-                    'thumb' => ['width' => 600, 'height' => 480],
+                    'admin' => ['width' => 120, 'height' => 120],
+                    'thumb' => ['width' => 600, 'height' => 600],
                 ],
                 'filePath' => '@staticPath/store/brands/[[id]]/[[id]].[[extension]]',
                 'fileUrl' => '@staticUrl/store/brands/[[id]]/[[id]].[[extension]]',

@@ -9,17 +9,17 @@ class m180830_055415_create_notifications_table extends Migration
 {
     public function safeUp()
     {
-        $this->createTable('notifications', [
+        $this->createTable('{{%notifications}}', [
             'id' => $this->primaryKey(),
-            'type' => $this->integer(),
+            'type' => $this->integer()->notNull(),
             'from_id' => $this->integer(),
-            'type_id' => $this->integer(),
-            'created_at' => $this->integer(),
+            'type_id' => $this->integer()->notNull(),
+            'created_at' => $this->integer()->notNull(),
         ]);
     }
 
     public function safeDown()
     {
-        $this->dropTable('notifications');
+        $this->dropTable('{{%notifications}}');
     }
 }

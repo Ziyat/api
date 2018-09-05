@@ -273,7 +273,7 @@ class ProductController extends BearerCrudController
         $form = new PhotosForm();
         $form->load(Yii::$app->request->bodyParams, '');
         $form->validate();
-        return $_FILES[];
+        return $_FILES;
         try {
             $product = $this->service->addPhotos($id, $form);
             $response = \Yii::$app->getResponse();

@@ -7,15 +7,14 @@
 namespace box\services;
 
 use box\entities\user\Follower;
+use box\entities\user\User;
 use box\events\user\UserRegisterEvent;
 use box\forms\auth\PasswordResetRequestForm;
-use box\forms\auth\SetPasswordForm;
-use Yii;
-use box\entities\user\User;
 use box\forms\auth\SignupForm;
+use box\forms\user\AddressForm;
 use box\forms\user\UserEditForm;
 use box\repositories\UserRepository;
-use yii\helpers\VarDumper;
+use Yii;
 
 class UserService
 {
@@ -197,5 +196,27 @@ class UserService
         if (!$sent) {
             throw new \DomainException('send sms error');
         }
+    }
+
+
+    public function addressAdd($id, AddressForm $form)
+    {
+        $user = $this->users->find($id);
+
+        $user->setAddress(
+            $form->name,
+            $form->phone,
+            $form->country_id,
+            $form->address_line_1,
+            $form->address_line_2,
+            $form->city,
+            $form->state,
+            $form->index,
+            $form->default
+        );
+
+        $this->users->save($user);
+
+        return $user;
     }
 }

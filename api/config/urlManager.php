@@ -51,13 +51,16 @@ return [
         'DELETE user/products/<id:\d+>/photos/<photo_id:\d+>' => 'user/product/delete-photo',
         'DELETE user/products/<product_id:\d+>/<modification_id:\d+>' => 'user/product/delete-modification',
 
-        // user change status
+        // user product change status
 
         'GET user/products/<id:\d+>/activate' => 'user/product/activate',
         'GET user/products/<id:\d+>/draft' => 'user/product/draft',
         'GET user/products/<id:\d+>/market' => 'user/product/market',
         'GET user/products/<id:\d+>/sold' => 'user/product/sold',
         'GET user/products/<id:\d+>/deleted' => 'user/product/deleted',
+
+        // user addresses
+        'POST user/addresses' => 'user/address/add',
 
         // shop products
 

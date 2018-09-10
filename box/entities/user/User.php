@@ -60,6 +60,8 @@ use yii\web\UnauthorizedHttpException;
  *
  * @property Follower[] $followersAssignments
  * @property Follower[] $followingAssignments
+ *
+ * @property Address[] $addresses
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -113,6 +115,40 @@ class User extends ActiveRecord implements IdentityInterface
             $this->setPassword($password);
         }
         $this->updated_at = time();
+    }
+
+
+    public function setAddress(
+        $name,
+        $phone,
+        $country_id,
+        $address_line_1,
+        $address_line_2,
+        $city,
+        $state,
+        $index,
+        $default
+    )
+    {
+        $addresses = $this->addresses;
+        foreach ($addresses as $address) {
+            if ($default) {
+                $address->doNotDefault();
+            }
+        }
+        $addresses[] = Address::create(
+            $name,
+            $phone,
+            $country_id,
+            $address_line_1,
+            $address_line_2,
+            $city,
+            $state,
+            $index,
+            $default
+        );
+
+        $this->addresses = $addresses;
     }
 
 
@@ -306,10 +342,9 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * Validates password
-     *
-     * @param string $password password to validate
-     * @return bool if password provided is valid for current user
+     * @param $password
+     * @return bool
+     * @throws \yii\base\InvalidArgumentException
      */
     public function validatePassword($password)
     {
@@ -365,6 +400,13 @@ class User extends ActiveRecord implements IdentityInterface
     public function removeActivateToken()
     {
         $this->activate_token = null;
+    }
+
+    //addresses
+
+    public function getAddresses()
+    {
+        return $this->hasMany(Address::class, ['user_id' => 'id']);
     }
 
 
@@ -515,6 +557,9 @@ class User extends ActiveRecord implements IdentityInterface
             "productsMarket" => function (self $model) {
                 return $model->getProducts()->andWhere(['status' => Product::STATUS_MARKET])->count();
             },
+            "addresses" => function(self $model){
+                return $model->addresses;
+            }
         ];
     }
 
@@ -540,7 +585,7 @@ class User extends ActiveRecord implements IdentityInterface
             TimestampBehavior::class,
             [
                 'class' => SaveRelationsBehavior::class,
-                'relations' => ['profile', 'followingAssignments', 'followersAssignments']
+                'relations' => ['profile', 'followingAssignments', 'followersAssignments','addresses']
             ],
 
         ];

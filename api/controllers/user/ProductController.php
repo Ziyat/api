@@ -16,6 +16,7 @@ use box\repositories\NotFoundException;
 use box\repositories\ProductRepository;
 use box\services\ProductService;
 use Yii;
+use yii\base\InvalidParamException;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
 use yii\helpers\VarDumper;
@@ -115,7 +116,7 @@ class ProductController extends BearerController
      *     security={{"Bearer": {}}}
      * )
      * @return Product|ProductCreateForm
-     * @throws BadRequestHttpException|NotFoundException
+     * @throws BadRequestHttpException|NotFoundException|InvalidParamException
      */
 
 
@@ -183,7 +184,7 @@ class ProductController extends BearerController
      *
      * @param $id
      * @return Product
-     * @throws BadRequestHttpException|NotFoundException
+     * @throws BadRequestHttpException|NotFoundException|InvalidParamException
      */
 
     public function actionEdit($id)

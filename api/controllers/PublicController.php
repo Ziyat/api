@@ -181,6 +181,11 @@ class PublicController extends Controller
  *     @SWG\Property(property="status", type="string"),
  *     @SWG\Property(property="birthDate", type="string"),
  *     @SWG\Property(property="createdAt", type="integer"),
+ *     @SWG\Property(property="approveFollowers", type="integer"),
+ *     @SWG\Property(property="notApproveFollowers", type="integer"),
+ *     @SWG\Property(property="approveFollowing", type="integer"),
+ *     @SWG\Property(property="notApproveFollowing", type="integer"),
+ *     @SWG\Property(property="productsActive", type="integer"),
  *
  * )
  */

@@ -151,6 +151,7 @@ class ProfileController extends BearerController
             'notApproveFollowing' => count($user->notApproveFollowing),
             'productsActive' => $user->getProducts()->andWhere(['status' => Product::STATUS_ACTIVE])->count(),
             'productsMarket' => $user->getProducts()->andWhere(['status' => Product::STATUS_MARKET])->count(),
+            'addresses' => $user->addresses,
         ];
     }
 

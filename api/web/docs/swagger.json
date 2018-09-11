@@ -1970,7 +1970,7 @@
             }
         },
         "/user/addresses": {
-            "patch": {
+            "post": {
                 "tags": [
                     "addresses"
                 ],
@@ -2037,6 +2037,24 @@
                         "schema": {
                             "$ref": "#/definitions/User"
                         }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/user/addresses/countries": {
+            "get": {
+                "tags": [
+                    "addresses"
+                ],
+                "description": "Returns countries",
+                "responses": {
+                    "200": {
+                        "description": "Success response"
                     }
                 },
                 "security": [

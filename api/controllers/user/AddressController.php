@@ -87,7 +87,8 @@ class AddressController extends BearerController
      *     tags={"addresses"},
      *     description="Returns countries",
      *     @SWG\Response(
-     *         response=200
+     *         response=200,
+     *         description="Success response",
      *     ),
      *     security={{"Bearer": {}}}
      * )

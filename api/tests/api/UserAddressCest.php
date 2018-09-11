@@ -37,6 +37,7 @@ class UserAddressCest
     public function add(ApiTester $I)
     {
         $I->amBearerAuthenticated('token-correct');
+
         $I->sendPOST('/user/addresses',[
             'name' => 'Mirkhanov Ziyodilla Saparovich',
             'country_id' => 79,
@@ -44,10 +45,10 @@ class UserAddressCest
             'city' => 'Tashkent',
             'index' => '100500',
         ]);
-        VarDumper::dump($I->grabResponse());
-//        $I->seeResponseCodeIs(201);
-//        $I->seeResponseContainsJson([
-//            'id' => 1
-//        ]);
+
+        $I->seeResponseCodeIs(201);
+        $I->seeResponseContainsJson([
+            'id' => 1
+        ]);
     }
 }

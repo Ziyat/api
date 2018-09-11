@@ -61,6 +61,7 @@ return [
 
         // user addresses
         'POST user/addresses' => 'user/address/add',
+        'GET user/addresses/countries' => 'user/address/countries',
 
         // shop products
 

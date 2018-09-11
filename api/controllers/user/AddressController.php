@@ -85,17 +85,15 @@ class AddressController extends BearerController
      *  @SWG\GET(
      *     path="/user/addresses/countries",
      *     tags={"addresses"},
-     *     description="Returns user",
+     *     description="Returns countries",
      *     @SWG\Response(
-     *         response=200,
-     *         description="Success response user Profile",
-     *         @SWG\Schema(ref="#/definitions/User")
+     *         response=200
      *     ),
      *     security={{"Bearer": {}}}
      * )
      */
 
-    public function actionCountry()
+    public function actionCountries()
     {
         return $this->service->getCountries();
     }

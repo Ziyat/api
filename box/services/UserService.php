@@ -6,6 +6,7 @@
 
 namespace box\services;
 
+use box\entities\Country;
 use box\entities\user\Follower;
 use box\entities\user\User;
 use box\events\user\UserRegisterEvent;
@@ -13,6 +14,7 @@ use box\forms\auth\PasswordResetRequestForm;
 use box\forms\auth\SignupForm;
 use box\forms\user\AddressForm;
 use box\forms\user\UserEditForm;
+use box\repositories\CountryRepository;
 use box\repositories\UserRepository;
 use Yii;
 
@@ -21,16 +23,19 @@ class UserService
     private $users;
     private $event;
     private $transaction;
+    private $countries;
 
     public function __construct(
         UserRepository $repository,
         UserRegisterEvent $event,
-        TransactionManager $transaction
+        TransactionManager $transaction,
+        CountryRepository $countryRepository
     )
     {
         $this->users = $repository;
         $this->event = $event;
         $this->transaction = $transaction;
+        $this->countries = $countryRepository;
     }
 
     public function signup(SignupForm $form)
@@ -218,5 +223,11 @@ class UserService
         $this->users->save($user);
 
         return $user;
+    }
+
+
+    public function getCountries()
+    {
+        return $this->countries->getAll();
     }
 }

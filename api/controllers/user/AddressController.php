@@ -39,7 +39,7 @@ class AddressController extends BearerController
 
 
     /**
-     *  @SWG\Patch(
+     *  @SWG\Post(
      *     path="/user/addresses",
      *     tags={"addresses"},
      *     description="Returns user",
@@ -79,5 +79,24 @@ class AddressController extends BearerController
             }
         }
         return $form;
+    }
+
+    /**
+     *  @SWG\GET(
+     *     path="/user/addresses/countries",
+     *     tags={"addresses"},
+     *     description="Returns user",
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response user Profile",
+     *         @SWG\Schema(ref="#/definitions/User")
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     */
+
+    public function actionCountry()
+    {
+        return $this->service->getCountries();
     }
 }

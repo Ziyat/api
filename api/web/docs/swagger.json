@@ -787,6 +787,58 @@
                 }
             }
         },
+        "/public/countries": {
+            "get": {
+                "tags": [
+                    "Public"
+                ],
+                "description": "Returns countries",
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "property": "countries",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Country"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/public/countries/{id}": {
+            "get": {
+                "tags": [
+                    "Public"
+                ],
+                "description": "Returns country by id",
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/Country"
+                        }
+                    }
+                }
+            }
+        },
+        "/public/countries/{code}": {
+            "get": {
+                "tags": [
+                    "Public"
+                ],
+                "description": "Returns country by code ISO-2",
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/Country"
+                        }
+                    }
+                }
+            }
+        },
         "/search/brands": {
             "post": {
                 "tags": [
@@ -2046,24 +2098,6 @@
                 ]
             }
         },
-        "/user/addresses/countries": {
-            "get": {
-                "tags": [
-                    "addresses"
-                ],
-                "description": "Returns countries",
-                "responses": {
-                    "200": {
-                        "description": "Success response"
-                    }
-                },
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ]
-            }
-        },
         "/user/follow/{follow_id}": {
             "patch": {
                 "tags": [
@@ -3077,6 +3111,20 @@
                 },
                 "productsActive": {
                     "type": "integer"
+                }
+            },
+            "type": "object"
+        },
+        "Country": {
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "code": {
+                    "type": "string"
                 }
             },
             "type": "object"

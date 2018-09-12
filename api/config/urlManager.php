@@ -61,7 +61,6 @@ return [
 
         // user addresses
         'POST user/addresses' => 'user/address/add',
-        'GET user/addresses/countries' => 'user/address/countries',
 
         // shop products
 
@@ -115,6 +114,11 @@ return [
         'GET public/user/products/<product_id:\d+>' => 'public/products-by-id',
         'GET public/user/<user_id:\d+>/following' => 'public/following',
         'GET public/user/<user_id:\d+>/followers' => 'public/followers',
+
+
+        'GET public/countries' => 'public/countries',
+        'GET public/countries/<id:\d+>' => 'public/country',
+        'GET public/countries/<code:\w+>' => 'public/country-by-code',
 
         // generic
 

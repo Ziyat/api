@@ -10,6 +10,7 @@ namespace api\controllers\user;
 use api\controllers\BearerController;
 use box\entities\user\User;
 use box\forms\user\AddressForm;
+use box\readModels\CountryReadModel;
 use box\services\UserService;
 use Yii;
 use yii\helpers\Url;
@@ -21,6 +22,7 @@ use yii\web\BadRequestHttpException;
  * Class AddressController
  * @package controllers\user
  * @property  UserService $service
+ * @property  CountryReadModel $countryReadModel
  */
 class AddressController extends BearerController
 {
@@ -81,21 +83,23 @@ class AddressController extends BearerController
         return $form;
     }
 
-    /**
-     *  @SWG\GET(
-     *     path="/user/addresses/countries",
-     *     tags={"addresses"},
-     *     description="Returns countries",
-     *     @SWG\Response(
-     *         response=200,
-     *         description="Success response",
-     *     ),
-     *     security={{"Bearer": {}}}
-     * )
-     */
+//    public function actionEdit()
+//    {
+//        $form = new AddressForm();
+//
+//        $form->load(Yii::$app->request->bodyParams, '');
+//        if ($form->validate()) {
+//            try {
+//                $user = $this->service->addressEdit(Yii::$app->user->id, $form);
+//                $response = \Yii::$app->getResponse();
+//                $response->setStatusCode(201);
+//                $response->getHeaders()->set('Location', Url::to(['user/products/' . $user->id], true));
+//                return $user;
+//            } catch (\DomainException $e) {
+//                throw new BadRequestHttpException($e->getMessage());
+//            }
+//        }
+//        return $form;
+//    }
 
-    public function actionCountries()
-    {
-        return $this->service->getCountries();
-    }
 }

@@ -32,9 +32,10 @@ class SearchService
                 'brandId',
                 'brandName',
                 'categoryBreadcrumbs',
-                'characteristics'
+                'characteristics',
+                'photo'
             ],
-            'fields' => ['name', 'categoryName', 'brandName', 'characteristics']
+            'fields' => ['name', 'categoryName', 'brandName', 'characteristics','photo']
         ];
 
         return $this->preOperationToSearch($form, $params);
@@ -45,8 +46,8 @@ class SearchService
         $params = [
             'index' => 'watch_brands',
             'type' => 'brands',
-            '_source' => ['name'],
-            'fields' => ['name']
+            '_source' => ['name','photo'],
+            'fields' => ['name','photo']
         ];
 
         return $this->preOperationToSearch($form, $params);
@@ -64,9 +65,10 @@ class SearchService
                 'brandId',
                 'brandName',
                 'categoryBreadcrumbs',
-                'characteristics'
+                'characteristics',
+                'photo'
             ],
-            'fields' => ['name', 'categoryName', 'brandName', 'characteristics']
+            'fields' => ['name', 'categoryName', 'brandName', 'characteristics','photo']
         ];
 
         return $this->preOperationToSearch($form, $params);

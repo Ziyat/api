@@ -107,7 +107,7 @@ class ProductService
      * @param $id
      * @param ProductEditForm $form
      * @return GenericProduct
-     * @throws \box\repositories\NotFoundException
+     * @throws \box\repositories\NotFoundException|\DomainException
      */
 
     public function edit($id, ProductEditForm $form)
@@ -175,7 +175,7 @@ class ProductService
      * @param $product_id
      * @param $photo_id
      * @param $modification_id
-     * @throws \box\repositories\NotFoundException
+     * @throws \box\repositories\NotFoundException|\RuntimeException
      * @return GenericProduct
      */
     public function setModificationPhoto($product_id,$modification_id,$photo_id)
@@ -203,7 +203,7 @@ class ProductService
      * @param $id
      * @param PhotosForm $form
      * @return GenericProduct
-     * @throws NotFoundException
+     * @throws NotFoundException|\RuntimeException
      */
     public function addPhotos($id, PhotosForm $form)
     {
@@ -218,7 +218,7 @@ class ProductService
     /**
      * @param $id
      * @param $photoId
-     * @throws NotFoundException
+     * @throws NotFoundException|\RuntimeException|\DomainException
      */
     public function movePhotoUp($id, $photoId): void
     {
@@ -230,7 +230,7 @@ class ProductService
     /**
      * @param $id
      * @param $photoId
-     * @throws NotFoundException
+     * @throws NotFoundException|\DomainException|\RuntimeException
      */
     public function movePhotoDown($id, $photoId): void
     {
@@ -242,7 +242,7 @@ class ProductService
     /**
      * @param $id
      * @param $photoId
-     * @throws NotFoundException
+     * @throws NotFoundException|\DomainException|\RuntimeException
      */
     public function removePhoto($id, $photoId): void
     {

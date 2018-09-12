@@ -207,11 +207,12 @@ class UserService
     public function addressAdd($id, AddressForm $form)
     {
         $user = $this->users->find($id);
+        $country = $this->countries->get($form->country_id);
 
         $user->setAddress(
             $form->name,
             $form->phone,
-            $form->country_id,
+            $country->id,
             $form->address_line_1,
             $form->address_line_2,
             $form->city,
@@ -221,7 +222,6 @@ class UserService
         );
 
         $this->users->save($user);
-
         return $user;
     }
 

@@ -6,6 +6,7 @@
 
 namespace api\controllers;
 
+use box\readModels\CountryReadModel;
 use box\readModels\ProductReadRepository;
 use box\readModels\UserReadRepository;
 use box\repositories\NotFoundException;
@@ -15,12 +16,20 @@ class PublicController extends Controller
 {
     public $users;
     public $products;
+    public $countries;
 
-    public function __construct(string $id, $module, UserReadRepository $users, ProductReadRepository $products, array $config = [])
+    public function __construct(
+        string $id,
+        $module,
+        UserReadRepository $users,
+        ProductReadRepository $products,
+        CountryReadModel $countryReadModel,
+        array $config = [])
     {
         parent::__construct($id, $module, $config);
         $this->users = $users;
         $this->products = $products;
+        $this->countries = $countryReadModel;
     }
 
 
@@ -161,6 +170,65 @@ class PublicController extends Controller
         return $this->users->getFollowing($user_id);
     }
 
+
+    /**
+     * @SWG\GET(
+     *     path="/public/countries",
+     *     tags={"Public"},
+     *     description="Returns countries",
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Property(property="countries", type="array",@SWG\Items(ref="#/definitions/Country"))
+     *
+     *
+     *     ),
+     * )
+     */
+
+    public function actionCountries()
+    {
+        return $this->countries->getCountries();
+    }
+
+    /**
+     * @SWG\GET(
+     *     path="/public/countries/{id}",
+     *     tags={"Public"},
+     *     description="Returns country by id",
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Schema(ref="#/definitions/Country")
+     *     ),
+     * )
+     * @params $id
+     */
+
+    public function actionCountry($id)
+    {
+        return $this->countries->getCountry($id);
+    }
+
+    /**
+     * @SWG\GET(
+     *     path="/public/countries/{code}",
+     *     tags={"Public"},
+     *     description="Returns country by code ISO-2",
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Schema(ref="#/definitions/Country")
+     *     ),
+     * )
+     * @params $code
+     */
+
+    public function actionCountryByCode($code)
+    {
+        return $this->countries->getCountryByCode($code);
+    }
+
 }
 
 /**
@@ -187,6 +255,17 @@ class PublicController extends Controller
  *     @SWG\Property(property="approveFollowing", type="integer"),
  *     @SWG\Property(property="notApproveFollowing", type="integer"),
  *     @SWG\Property(property="productsActive", type="integer"),
+ *
+ * )
+ */
+
+/**
+ * @SWG\Definition(
+ *     definition="Country",
+ *     type="object",
+ *     @SWG\Property(property="id", type="integer"),
+ *     @SWG\Property(property="name", type="string"),
+ *     @SWG\Property(property="code", type="string"),
  *
  * )
  */

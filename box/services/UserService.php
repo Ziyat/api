@@ -6,7 +6,6 @@
 
 namespace box\services;
 
-use box\entities\Country;
 use box\entities\user\Follower;
 use box\entities\user\User;
 use box\events\user\UserRegisterEvent;
@@ -225,9 +224,24 @@ class UserService
         return $user;
     }
 
-
-    public function getCountries()
+    public function addressEdit($id, AddressForm $form)
     {
-        return $this->countries->getAll();
+        $user = $this->users->find($id);
+        $country = $this->countries->get($form->country_id);
+        $user->changeAddress(
+            $id,
+            $form->name,
+            $form->phone,
+            $country->id,
+            $form->address_line_1,
+            $form->address_line_2,
+            $form->city,
+            $form->state,
+            $form->index,
+            $form->default
+        );
+        $this->users->save($user);
+        return $user;
     }
+
 }

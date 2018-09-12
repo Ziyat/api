@@ -134,7 +134,8 @@ class ProductService
      * @param $id
      * @param ProductEditForm $form
      * @return Product
-     * @throws \box\repositories\NotFoundException
+     * @throws NotFoundException
+     * @throws \DomainException
      */
 
     public function edit($id, ProductEditForm $form)

@@ -7,6 +7,7 @@
 namespace box\readModels;
 
 
+use box\entities\user\Address;
 use box\entities\user\Follower;
 use box\entities\user\User;
 use box\repositories\NotFoundException;
@@ -126,5 +127,28 @@ class UserReadRepository
         }
 
         return $user;
+    }
+
+    /**
+     * @param $userId
+     * @param $address_id
+     * @return Address
+     * @throws NotFoundException
+     */
+    public function getUserAddress($userId, $address_id): Address
+    {
+        if (!$user = User::findOne($userId)) {
+            throw new NotFoundException('User not found.');
+        }
+
+        /**
+         * @var Address $address
+         */
+
+        if(!$address = $user->getAddresses()->where(['id' =>$address_id])->one()){
+            throw new NotFoundException('User address not found.');
+        }
+
+        return $address;
     }
 }

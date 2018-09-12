@@ -2098,6 +2098,83 @@
                 ]
             }
         },
+        "/user/addresses/{id}": {
+            "post": {
+                "tags": [
+                    "edit address"
+                ],
+                "description": "Returns user",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "phone",
+                        "in": "path",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "country_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "address_line_1",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "address_line_2",
+                        "in": "path",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "city",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "state",
+                        "in": "path",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "index",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "default",
+                        "in": "path",
+                        "required": false,
+                        "type": "boolean"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response user Profile",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "/user/follow/{follow_id}": {
             "patch": {
                 "tags": [

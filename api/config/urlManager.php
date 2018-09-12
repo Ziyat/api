@@ -61,6 +61,7 @@ return [
 
         // user addresses
         'POST user/addresses' => 'user/address/add',
+        'POST user/addresses/<id:\d+>' => 'user/address/edit',
 
         // shop products
 

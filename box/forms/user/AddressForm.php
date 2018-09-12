@@ -21,6 +21,8 @@ class AddressForm extends Model
     public $index;
     public $default = 0;
 
+    public $_address;
+
     public function __construct(Address $address = null, array $config = [])
     {
         if ($address) {
@@ -33,6 +35,8 @@ class AddressForm extends Model
             $this->state = $address->state;
             $this->index = $address->index;
             $this->default = $address->default;
+
+            $this->_address = $address;
         }
         parent::__construct($config);
     }

@@ -6,11 +6,11 @@
 
 namespace box\entities\user;
 
-use box\entities\shop\Brand;
 use box\entities\shop\product\Product;
 use box\entities\user\queries\UserQuery;
 use box\forms\auth\SignupForm;
 use box\helpers\UserHelper;
+use box\repositories\NotFoundException;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use Yii;
 use yii\behaviors\TimestampBehavior;
@@ -149,6 +149,54 @@ class User extends ActiveRecord implements IdentityInterface
         );
 
         $this->addresses = $addresses;
+    }
+
+    /**
+     * @param $id
+     * @param $name
+     * @param $phone
+     * @param $country_id
+     * @param $address_line_1
+     * @param $address_line_2
+     * @param $city
+     * @param $state
+     * @param $index
+     * @param $default
+     * @throws NotFoundException
+     */
+    public function changeAddress(
+        $id,
+        $name,
+        $phone,
+        $country_id,
+        $address_line_1,
+        $address_line_2,
+        $city,
+        $state,
+        $index,
+        $default
+    )
+    {
+        $addresses = $this->addresses;
+        foreach ($addresses as $k => $address) {
+            if ($address->id == $id) {
+                $address->edit(
+                    $name,
+                    $phone,
+                    $country_id,
+                    $address_line_1,
+                    $address_line_2,
+                    $city,
+                    $state,
+                    $index,
+                    $default
+                );
+                $addresses[$k] = $address;
+                $this->addresses = $addresses;
+                return;
+            }
+        }
+        throw new NotFoundException('address not found.');
     }
 
 

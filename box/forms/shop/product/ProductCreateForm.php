@@ -20,7 +20,6 @@ use yii\web\UploadedFile;
  * @property integer $brandId
  * @property integer $quantity
  * @property integer $genericProductId
- * @property integer $modificationId
  * @property string $name
  * @property string $description
  * @property string $priceType
@@ -35,7 +34,6 @@ class ProductCreateForm extends CompositeForm
     public $priceType;
     public $quantity;
     public $genericProductId = null;
-    public $modificationId = null;
     public $internalForms = ['meta', 'categories', 'tags', 'photos', 'price','characteristics', 'modifications'];
 
     public function __construct($config = [])
@@ -56,7 +54,7 @@ class ProductCreateForm extends CompositeForm
             [['brandId', 'name', 'priceType'], 'required'],
             [['name', 'description', 'priceType','condition'], 'string', 'max' => 255],
             [['brandId', 'quantity'], 'integer'],
-            [['genericProductId', 'modificationId'], 'safe']
+            ['genericProductId', 'safe']
         ];
     }
 
@@ -73,31 +71,14 @@ class ProductCreateForm extends CompositeForm
 
             if ($this->genericProductId) {
                 $genericProduct = GenericProduct::findOne($this->genericProductId);
-
-                if ($this->modificationId) {
-                    foreach ($genericProduct->modifications as $modifications) {
-                        if ($modifications->id == $this->modificationId) {
-                            $fileName = $modifications->mainPhoto->getUploadedFilePath('file');
-                            $_FILES['files']['name'][] = basename($fileName);
-                            $_FILES['files']['type'][] = mime_content_type($fileName);
-                            $_FILES['files']['error'][] = UPLOAD_ERR_OK;
-                            $_FILES['files']['size'][] = filesize($fileName);
-                            $_FILES['files']['tmp_name'][] = $fileName;
-                        }
-                    }
-                } else {
-                    foreach ($genericProduct->photos as $k => $photo) {
-                        $fileName = $photo->getUploadedFilePath('file');
-                        $_FILES['files']['name'][] = basename($fileName);
-                        $_FILES['files']['type'][] = mime_content_type($fileName);
-                        $_FILES['files']['error'][] = UPLOAD_ERR_OK;
-                        $_FILES['files']['size'][] = filesize($fileName);
-                        $_FILES['files']['tmp_name'][] = $fileName;
-                    }
+                foreach ($genericProduct->photos as $k => $photo) {
+                    $fileName = $photo->getUploadedFilePath('file');
+                    $_FILES['files']['name'][] = basename($fileName);
+                    $_FILES['files']['type'][] = mime_content_type($fileName);
+                    $_FILES['files']['error'][] = UPLOAD_ERR_OK;
+                    $_FILES['files']['size'][] = filesize($fileName);
+                    $_FILES['files']['tmp_name'][] = $fileName;
                 }
-
-
-
             }
         }
         return $result;

@@ -54,14 +54,28 @@ class Address extends ActiveRecord
 
         return $address;
     }
-//
-//    public function edit($name,$lastName,$birthDate,$photo)
-//    {
-//        $this->name = $name;
-//        $this->photo = $photo;
-//        $this->last_name = $lastName;
-//        $this->date_of_birth = strtotime($birthDate);
-//    }
+
+    public function edit(
+        $name,
+        $phone,
+        $country_id,
+        $address_line_1,
+        $address_line_2,
+        $city,
+        $state,
+        $index,
+        $default)
+    {
+        $this->name = $name;
+        $this->phone = $phone;
+        $this->country_id = $country_id;
+        $this->address_line_1 = $address_line_1;
+        $this->address_line_2 = $address_line_2;
+        $this->city = $city;
+        $this->state = $state;
+        $this->index = $index;
+        $this->default = $default;
+    }
 
     public function doNotDefault()
     {

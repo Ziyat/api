@@ -131,6 +131,7 @@ class User extends ActiveRecord implements IdentityInterface
     )
     {
         $addresses = $this->addresses;
+        $default = count($addresses) ? $default : 1;
         foreach ($addresses as $address) {
             if ($default) {
                 $address->doNotDefault();
@@ -606,7 +607,14 @@ class User extends ActiveRecord implements IdentityInterface
                 return $model->getProducts()->andWhere(['status' => Product::STATUS_MARKET])->count();
             },
             "addresses" => function(self $model){
-                return $model->addresses;
+                $address = $model->getAddresses()->andWhere(['=', 'default', 1])->one();
+                return $address ? [
+                    'state' => $address->state,
+                    'default' => $address->default,
+                    'city' => $address->city,
+                    'country' => $address->country->name,
+                    'code' => $address->country->code,
+                ] : null;
             }
         ];
     }

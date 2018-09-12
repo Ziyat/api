@@ -58,7 +58,7 @@ class UserAddressCest
 
         $I->sendPOST('/user/addresses/1',[
             'address_line_1' => 'Yong\'ichqo\'li, Istiqlol, 10',
-            'default' => 1,
+            'default' => 0,
         ]);
         VarDumper::dump($I->grabResponse());
     }

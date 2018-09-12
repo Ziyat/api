@@ -2026,7 +2026,7 @@
                 "tags": [
                     "addresses"
                 ],
-                "description": "Returns user",
+                "description": "add address",
                 "parameters": [
                     {
                         "name": "name",
@@ -2101,9 +2101,9 @@
         "/user/addresses/{id}": {
             "post": {
                 "tags": [
-                    "edit address"
+                    "addresses"
                 ],
-                "description": "Returns user",
+                "description": "Edit user address by id",
                 "parameters": [
                     {
                         "name": "name",

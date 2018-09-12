@@ -49,7 +49,7 @@ class AddressController extends BearerController
      *  @SWG\Post(
      *     path="/user/addresses",
      *     tags={"addresses"},
-     *     description="Returns user",
+     *     description="add address",
      *     @SWG\Parameter(name="name", in="path", required=true, type="string"),
      *     @SWG\Parameter(name="phone", in="path", required=false, type="string"),
      *     @SWG\Parameter(name="country_id", in="path", required=true, type="integer"),
@@ -91,8 +91,8 @@ class AddressController extends BearerController
     /**
      *  @SWG\Post(
      *     path="/user/addresses/{id}",
-     *     tags={"edit address"},
-     *     description="Returns user",
+     *     tags={"addresses"},
+     *     description="Edit user address by id",
      *     @SWG\Parameter(name="name", in="path", required=true, type="string"),
      *     @SWG\Parameter(name="phone", in="path", required=false, type="string"),
      *     @SWG\Parameter(name="country_id", in="path", required=true, type="integer"),

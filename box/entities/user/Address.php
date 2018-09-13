@@ -106,7 +106,8 @@ class Address extends ActiveRecord
             'country' => function (self $model) {
                 return [
                     'id' => $model->country->id,
-                    'name' => $model->country->name
+                    'name' => $model->country->name,
+                    'code' => $model->country->code,
                 ];
             },
             'phone' => 'phone',

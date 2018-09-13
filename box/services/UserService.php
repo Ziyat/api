@@ -229,7 +229,7 @@ class UserService
         $user = $this->users->find($id);
         $country = $this->countries->get($form->country_id);
         $user->changeAddress(
-            $id,
+            $form->_address->id,
             $form->name,
             $form->phone,
             $country->id,

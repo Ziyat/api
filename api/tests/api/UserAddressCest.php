@@ -63,6 +63,14 @@ class UserAddressCest
         $I->seeResponseCodeIs(202);
     }
 
+    public function changeDefault(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+
+        $I->sendPATCH('/user/addresses/1/default');
+        $I->seeResponseCodeIs(202);
+    }
+
     public function remove(ApiTester $I)
     {
         $I->amBearerAuthenticated('token-correct');

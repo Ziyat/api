@@ -2223,6 +2223,35 @@
                 ]
             }
         },
+        "/user/addresses/{id}/default": {
+            "patch": {
+                "tags": [
+                    "addresses"
+                ],
+                "description": "Delete user address by id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response User object",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "/user/follow/{follow_id}": {
             "patch": {
                 "tags": [

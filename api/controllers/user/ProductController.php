@@ -466,7 +466,7 @@ class ProductController extends BearerController
      * @param integer $id
      * @param $photo_id
      * @return mixed
-     * @throws NotFoundException
+     * @throws NotFoundException|\DomainException
      */
     public function actionDeletePhoto($id, $photo_id)
     {

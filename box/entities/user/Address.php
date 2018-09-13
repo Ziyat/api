@@ -26,7 +26,7 @@ use yii\db\ActiveRecord;
  */
 class Address extends ActiveRecord
 {
-    const NOT_DEFAULT = 0;
+    const NON_DEFAULT = 0;
     const DEFAULT = 1;
 
     public static function create(
@@ -77,10 +77,32 @@ class Address extends ActiveRecord
         $this->default = $default;
     }
 
-    public function doNotDefault()
+    public function nonDefault()
     {
-        $this->default = self::NOT_DEFAULT;
+        $this->default = self::NON_DEFAULT;
     }
+
+    public function isDefault()
+    {
+        return $this->default == self::DEFAULT;
+    }
+
+    public function setDefault()
+    {
+        $this->default = self::DEFAULT;
+    }
+
+    public function changeDefault()
+    {
+       if($this->isDefault()){
+           $this->nonDefault();
+       }else{
+           $this->setDefault();
+       }
+    }
+
+
+
 
     public function getUser(): ActiveQuery
     {

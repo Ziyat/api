@@ -259,4 +259,22 @@ class UserService
         $this->users->save($user);
     }
 
+    public function changeDefault($user_id, $address_id)
+    {
+        $user = $this->users->find($user_id);
+        $addresses = $user->addresses;
+        foreach ($addresses as $k => $address) {
+            $address->nonDefault();
+
+        }
+
+        foreach ($addresses as $k => $address) {
+            if ($address->id == $address_id) {
+                $address->changeDefault();
+            }
+        }
+        $user->addresses = $addresses;
+        $this->users->save($user);
+    }
+
 }

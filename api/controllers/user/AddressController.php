@@ -178,5 +178,18 @@ class AddressController extends BearerController
 
     }
 
+    public function actionChangeDefault($id)
+    {
+        try {
+            $user = $this->service->addressChangeDefault(Yii::$app->user->id, $id);
+            $response = \Yii::$app->getResponse();
+            $response->setStatusCode(202);
+            return $user;
+        } catch (\DomainException $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+
+    }
+
 
 }

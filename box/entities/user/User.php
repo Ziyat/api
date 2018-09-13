@@ -134,7 +134,7 @@ class User extends ActiveRecord implements IdentityInterface
         $default = count($addresses) ? $default : 1;
         foreach ($addresses as $address) {
             if ($default) {
-                $address->doNotDefault();
+                $address->nonDefault();
             }
         }
         $addresses[] = Address::create(

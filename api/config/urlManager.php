@@ -60,6 +60,7 @@ return [
         'GET user/products/<id:\d+>/deleted' => 'user/product/deleted',
 
         // user addresses
+        'GET user/addresses' => 'user/address/index',
         'POST user/addresses' => 'user/address/add',
         'POST user/addresses/<id:\d+>' => 'user/address/edit',
         'DELETE user/addresses/<id:\d+>' => 'user/address/remove',

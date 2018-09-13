@@ -64,6 +64,7 @@ return [
         'POST user/addresses' => 'user/address/add',
         'POST user/addresses/<id:\d+>' => 'user/address/edit',
         'DELETE user/addresses/<id:\d+>' => 'user/address/remove',
+        'PATH user/addresses/<id:\d+>/default' => 'user/address/change-default',
 
         // shop products
 

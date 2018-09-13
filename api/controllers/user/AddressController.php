@@ -178,6 +178,25 @@ class AddressController extends BearerController
 
     }
 
+    /**
+     * @SWG\Patch(
+     *     path="/user/addresses/{id}/default",
+     *     tags={"addresses"},
+     *     description="Delete user address by id",
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response User object",
+     *         @SWG\Schema(ref="#/definitions/User")
+     *     ),
+     *     security={{"Bearer": {}}}
+     * ),
+     * @param $id
+     * @return User
+     * @throws BadRequestHttpException
+     * @throws \yii\base\InvalidArgumentException
+     */
+
     public function actionChangeDefault($id)
     {
         try {

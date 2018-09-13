@@ -259,7 +259,7 @@ class UserService
         $this->users->save($user);
     }
 
-    public function changeDefault($user_id, $address_id)
+    public function addressChangeDefault($user_id, $address_id)
     {
         $user = $this->users->find($user_id);
         $addresses = $user->addresses;
@@ -275,6 +275,7 @@ class UserService
         }
         $user->addresses = $addresses;
         $this->users->save($user);
+        return $user;
     }
 
 }

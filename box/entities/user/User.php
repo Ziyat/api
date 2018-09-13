@@ -455,7 +455,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function getAddresses()
     {
-        return $this->hasMany(Address::class, ['user_id' => 'id']);
+        return $this->hasMany(Address::class, ['user_id' => 'id'])->orderBy(['default' => SORT_DESC]);
     }
 
 

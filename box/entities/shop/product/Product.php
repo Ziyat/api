@@ -9,6 +9,7 @@ use box\entities\shop\Category;
 use box\entities\shop\product\queries\ProductQuery;
 use box\entities\shop\Tag;
 use box\entities\user\User;
+use function foo\func;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\behaviors\BlameableBehavior;
 use yii\db\ActiveQuery;
@@ -820,6 +821,20 @@ class Product extends ActiveRecord
             "rating" => "rating",
             "meta_json" => function () {
                 return $this->meta;
+            },
+            "user_address" => function(self $model)
+            {
+                /**
+                 * @var User $model->user
+                 */
+                $address = $model->user->getAddresses()->andWhere(['=', 'default', 1])->one();
+                return $address ? [
+                    'state' => $address->state,
+                    'default' => $address->default,
+                    'city' => $address->city,
+                    'country' => $address->country->name,
+                    'code' => $address->country->code,
+                ] : null;
             },
             "created_by" => "created_by",
             "created_at" => "created_at",

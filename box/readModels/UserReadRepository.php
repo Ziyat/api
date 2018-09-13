@@ -154,10 +154,10 @@ class UserReadRepository
 
     /**
      * @param $userId
-     * @return Address
+     * @return Address|array
      * @throws NotFoundException
      */
-    public function getUserAddresses($userId): Address
+    public function getUserAddresses($userId)
     {
         if (!$user = User::findOne($userId)) {
             throw new NotFoundException('User not found.');

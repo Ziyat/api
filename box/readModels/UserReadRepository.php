@@ -151,4 +151,26 @@ class UserReadRepository
 
         return $address;
     }
+
+    /**
+     * @param $userId
+     * @return Address
+     * @throws NotFoundException
+     */
+    public function getUserAddresses($userId): Address
+    {
+        if (!$user = User::findOne($userId)) {
+            throw new NotFoundException('User not found.');
+        }
+
+        /**
+         * @var Address $addresses
+         */
+
+        if(!$addresses = $user->addresses){
+            throw new NotFoundException('User addresses not found.');
+        }
+
+        return $addresses;
+    }
 }

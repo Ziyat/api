@@ -10,9 +10,7 @@ namespace api\controllers\user;
 use api\controllers\BearerController;
 use box\entities\user\User;
 use box\forms\user\AddressForm;
-use box\readModels\CountryReadModel;
 use box\readModels\UserReadRepository;
-use box\repositories\NotFoundException;
 use box\services\UserService;
 use Yii;
 use yii\helpers\Url;
@@ -46,7 +44,28 @@ class AddressController extends BearerController
 
 
     /**
-     *  @SWG\Post(
+     * @SWG\Get(
+     *     path="/user/addresses",
+     *     tags={"addresses"},
+     *     description="Return user addresses",
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response user addresses",
+     *     ),
+     *     security={{"Bearer": {}}}
+     * ),
+     * @return \box\entities\user\Address
+     * @throws \box\repositories\NotFoundException
+     */
+    public function actionIndex()
+    {
+        return $this->userReadModel->getUserAddresses(Yii::$app->user->id);
+
+    }
+
+    /**
+     * @SWG\Post(
      *     path="/user/addresses",
      *     tags={"addresses"},
      *     description="add address",
@@ -89,7 +108,7 @@ class AddressController extends BearerController
     }
 
     /**
-     *  @SWG\Post(
+     * @SWG\Post(
      *     path="/user/addresses/{id}",
      *     tags={"addresses"},
      *     description="Edit user address by id",
@@ -128,5 +147,36 @@ class AddressController extends BearerController
         }
         return $form;
     }
+
+    /**
+     * @SWG\Delete(
+     *     path="/user/addresses/{id}",
+     *     tags={"addresses"},
+     *     description="Delete user address by id",
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response bool",
+     *     ),
+     *     security={{"Bearer": {}}}
+     * ),
+     * @param $id
+     * @return bool
+     * @throws BadRequestHttpException
+     * @throws \yii\base\InvalidArgumentException
+     */
+    public function actionRemove($id)
+    {
+        try {
+            $this->service->addressRemove(Yii::$app->user->id, $id);
+            $response = \Yii::$app->getResponse();
+            $response->setStatusCode(204);
+            return true;
+        } catch (\DomainException $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+
+    }
+
 
 }

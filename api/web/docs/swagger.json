@@ -2022,6 +2022,30 @@
             }
         },
         "/user/addresses": {
+            "get": {
+                "tags": [
+                    "addresses"
+                ],
+                "description": "Return user addresses",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response user addresses"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            },
             "post": {
                 "tags": [
                     "addresses"
@@ -2166,6 +2190,30 @@
                         "schema": {
                             "$ref": "#/definitions/User"
                         }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "addresses"
+                ],
+                "description": "Delete user address by id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response bool"
                     }
                 },
                 "security": [

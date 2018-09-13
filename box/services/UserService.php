@@ -244,4 +244,19 @@ class UserService
         return $user;
     }
 
+    public function addressRemove($user_id, $address_id)
+    {
+        $user = $this->users->find($user_id);
+        $addresses = $user->addresses;
+        foreach ($addresses as $k => $address)
+        {
+            if($address->id == $address_id)
+            {
+                unset($addresses[$k]);
+            }
+        }
+        $user->addresses = $addresses;
+        $this->users->save($user);
+    }
+
 }

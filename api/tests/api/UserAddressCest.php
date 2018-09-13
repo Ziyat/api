@@ -60,6 +60,13 @@ class UserAddressCest
             'address_line_1' => 'Yong\'ichqo\'li, Istiqlol, 10',
             'default' => 0,
         ]);
-        VarDumper::dump($I->grabResponse());
+        $I->seeResponseCodeIs(202);
+    }
+
+    public function remove(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendDELETE('/user/addresses/1');
+        $I->seeResponseCodeIs(204);
     }
 }

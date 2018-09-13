@@ -62,6 +62,7 @@ return [
         // user addresses
         'POST user/addresses' => 'user/address/add',
         'POST user/addresses/<id:\d+>' => 'user/address/edit',
+        'DELETE user/addresses/<id:\d+>' => 'user/address/remove',
 
         // shop products
 

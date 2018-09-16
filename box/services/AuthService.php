@@ -11,8 +11,10 @@ use box\entities\user\User;
 use box\events\user\UserRegisterEvent;
 use box\forms\auth\LoginForm;
 use box\forms\auth\SetPasswordForm;
+use box\repositories\NotFoundException;
 use box\repositories\TokenRepository;
 use box\repositories\UserRepository;
+use http\Exception\RuntimeException;
 use yii\helpers\VarDumper;
 
 class AuthService
@@ -40,6 +42,7 @@ class AuthService
     /**
      * @param LoginForm $form
      * @return Token
+     * @throws \RuntimeException
      * @throws \box\repositories\NotFoundException
      * @throws \yii\base\Exception
      */
@@ -54,6 +57,8 @@ class AuthService
     /**
      * @param string $token
      * @return Token
+     * @throws \DomainException
+     * @throws \RuntimeException
      * @throws \box\repositories\NotFoundException
      * @throws \yii\base\Exception
      */
@@ -74,6 +79,8 @@ class AuthService
      * @param $password_reset_token
      * @param SetPasswordForm $form
      * @return Token
+     * @throws \DomainException
+     * @throws \RuntimeException
      * @throws \box\repositories\NotFoundException
      * @throws \yii\base\Exception
      */
@@ -92,7 +99,7 @@ class AuthService
      * @param $refresherToken
      * @return Token
      * @throws \box\repositories\NotFoundException
-     * @throws \yii\base\Exception
+     * @throws \yii\base\Exception|\RuntimeException
      */
 
     public function tokenRefresh($refresherToken)
@@ -105,9 +112,24 @@ class AuthService
     }
 
     /**
+     * @param $token
+     * @return bool
+     * @throws NotFoundException
+     */
+    public function checkToken($token): bool
+    {
+        if(!$token = $this->token::findOne(['token' => $token]))
+        {
+            throw new NotFoundException('Token not found.');
+        }
+
+        return $token->expired_at > time();
+    }
+
+    /**
      * @param User $user
      * @return Token
-     * @throws \yii\base\Exception
+     * @throws \yii\base\Exception|\RuntimeException
      */
     protected function generateToken(User $user)
     {
@@ -119,4 +141,6 @@ class AuthService
 
         return $this->token;
     }
+
+
 }

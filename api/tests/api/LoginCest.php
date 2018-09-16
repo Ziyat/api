@@ -113,4 +113,13 @@ class LoginCest
     }
 
 
+    public function ckeckToken(ApiTester $I)
+    {
+        $I->sendPATCH('/check-token/token-expired');
+        echo PHP_EOL;
+        VarDumper::dump($I->grabResponse());
+        echo PHP_EOL;
+    }
+
+
 }

@@ -193,6 +193,27 @@
                 }
             }
         },
+        "/check-token/{token}": {
+            "patch": {
+                "tags": [
+                    "Authentication"
+                ],
+                "description": "Returns boolean, true -> token not expired, false -> token expired",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response boolean"
+                    }
+                }
+            }
+        },
         "/carousels": {
             "get": {
                 "tags": [

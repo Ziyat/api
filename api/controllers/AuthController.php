@@ -15,6 +15,7 @@ use box\repositories\NotFoundException;
 use box\services\AuthService;
 use box\services\UserService;
 use Yii;
+use yii\base\InvalidParamException;
 use yii\rest\Controller;
 use yii\web\BadRequestHttpException;
 
@@ -149,7 +150,7 @@ class AuthController extends Controller
      *     )
      * )
      * @return PasswordResetRequestForm|bool
-     * @throws BadRequestHttpException
+     * @throws BadRequestHttpException|InvalidParamException
      */
     public function actionPasswordReset()
     {
@@ -184,7 +185,7 @@ class AuthController extends Controller
      * )
      * @param $password_reset_token
      * @return SetPasswordForm|Token
-     * @throws BadRequestHttpException
+     * @throws BadRequestHttpException|InvalidParamException
      */
 
     public function actionSetPassword($password_reset_token)
@@ -229,6 +230,33 @@ class AuthController extends Controller
             $response = Yii::$app->getResponse();
             $response->setStatusCode(205);
             return $token;
+        }catch (\Exception $e)
+        {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+    }
+
+    /**
+     * @SWG\PATCH(
+     *     path="/check-token/{token}",
+     *     tags={"Authentication"},
+     *     description="Returns boolean, true -> token not expired, false -> token expired",
+     *     @SWG\Parameter(name="token", in="path", required=true, type="string"),
+     *     @SWG\Response(
+     *         response="200",
+     *         description="Success response boolean",
+     *     )
+     * )
+     * @param $token
+     * @throws BadRequestHttpException
+     * @return boolean
+     */
+
+    public function actionCheckToken($token)
+    {
+        try{
+            $state = $this->authService->checkToken($token);
+            return $state;
         }catch (\Exception $e)
         {
             throw new BadRequestHttpException($e->getMessage());

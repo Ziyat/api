@@ -19,6 +19,7 @@ return [
         'POST forgot' => 'auth/password-reset',
         'POST forgot/set-password/<password_reset_token:[\d_]+>' => 'auth/set-password',
         'PATCH token-refresh/<refresherToken:[A-Za-z0-9_-]+>' => 'auth/token-refresh',
+        'PATCH check-token/<token:[A-Za-z0-9_-]+>' => 'auth/check-token',
 
         // profile
 

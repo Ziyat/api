@@ -68,4 +68,17 @@ class ShippingManageService
         return $shippingService;
     }
 
+    /**
+     * @param $id
+     * @throws \RuntimeException
+     * @throws \Throwable
+     * @throws \box\repositories\NotFoundException
+     * @throws \yii\db\StaleObjectException
+     */
+    public function remove($id)
+    {
+        $shippingService = $this->shippingServices->get($id);
+        $this->shippingServices->remove($shippingService);
+    }
+
 }

@@ -65,7 +65,7 @@ class ShippingCest
             'photo' => codecept_data_dir('user/photos/photo1.jpg'),
         ]);
 
-        $I->seeResponseCodeIs(200);
+        $I->seeResponseCodeIs(201);
     }
 
     public function edit(ApiTester $I)
@@ -98,7 +98,28 @@ class ShippingCest
             ]
         ]);
 
-        VarDumper::dump($I->grabResponse());
+        $I->seeResponseCodeIs(202);
+    }
+
+    public function view(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendGET('/shop/shipping/1');
+        $I->seeResponseCodeIs(200);
+    }
+
+    public function viewAll(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendGET('/shop/shipping');
+        $I->seeResponseCodeIs(200);
+    }
+
+    public function delete(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendDELETE('/shop/shipping/1');
+        $I->seeResponseCodeIs(204);
     }
 
 

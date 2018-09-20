@@ -14,6 +14,7 @@ use box\forms\Shop\CategoriesForm;
 use box\forms\shop\CategoryForm;
 use box\services\CategoriesService;
 use box\services\CategoryService;
+use yii\base\InvalidParamException;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
 use yii\web\BadRequestHttpException;
@@ -171,7 +172,7 @@ class CategoryController extends BearerCrudController
      *     ),
      *     security={{"Bearer": {}}}
      * )
-     * @throws ForbiddenHttpException
+     * @throws ForbiddenHttpException|InvalidParamException|BadRequestHttpException
      * @return CategoryForm|Category
      */
 
@@ -190,7 +191,7 @@ class CategoryController extends BearerCrudController
                 $response->getHeaders()->set('Location', Url::to(['shop/categorys/' . $category->id], true));
                 return $category;
             } catch (\DomainException $e) {
-                throw $e;
+                throw new BadRequestHttpException($e->getMessage());
             }
         }
         return $form;

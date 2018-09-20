@@ -78,6 +78,9 @@ return [
 
         'POST shop/shipping' => 'shop/shipping/create',
         'POST shop/shipping/<id:\d+>' => 'shop/shipping/update',
+        'GET shop/shipping/<id:\d+>' => 'shop/shipping/view',
+        'GET shop/shipping' => 'shop/shipping/index',
+        'DELETE shop/shipping/<id:\d+>' => 'shop/shipping/delete',
 
 
         // shop Brands

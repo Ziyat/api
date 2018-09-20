@@ -382,6 +382,8 @@ class ProductService
      * @param $id
      * @param $photoId
      * @throws NotFoundException
+     * @throws \DomainException
+     * @throws \RuntimeException
      */
     public function removePhoto($id, $photoId): void
     {

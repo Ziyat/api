@@ -2042,6 +2042,46 @@
                 ]
             }
         },
+        "/shop/shipping": {
+            "post": {
+                "tags": [
+                    "Shipping"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "description",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "photo",
+                        "in": "formData",
+                        "required": false,
+                        "type": "file"
+                    },
+                    {
+                        "name": "rates",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/RateForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                }
+            }
+        },
         "/user/addresses": {
             "get": {
                 "tags": [
@@ -3541,6 +3581,37 @@
                     "variants": {
                         "type": "array",
                         "items": {}
+                    }
+                }
+            }
+        },
+        "RateForm": {
+            "type": "array",
+            "items": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "price_type": {
+                        "type": "integer"
+                    },
+                    "price_min": {
+                        "type": "number"
+                    },
+                    "price_max": {
+                        "type": "number"
+                    },
+                    "day_min": {
+                        "type": "integer"
+                    },
+                    "day_max": {
+                        "type": "integer"
+                    },
+                    "country_id": {
+                        "type": "integer"
+                    },
+                    "type": {
+                        "type": "integer"
                     }
                 }
             }

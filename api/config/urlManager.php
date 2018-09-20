@@ -76,6 +76,10 @@ return [
         'GET shop/products' => 'shop/product/index',
 
 
+        'POST shop/shipping' => 'shop/shipping/create',
+        'POST shop/shipping/<id:\d+>' => 'shop/shipping/update',
+
+
         // shop Brands
 
         'GET shop/brands' => 'shop/brand/index',
@@ -109,6 +113,8 @@ return [
         'DELETE shop/characteristics/<id:\d+>' => 'shop/characteristic/delete',
         'DELETE shop/characteristics/<id:\d+>/<category_id:\d+>' => 'shop/characteristic/revoke-category',
         'GET shop/characteristics/category/<id:\d+>' => 'shop/characteristic/category',
+
+
 
 
         // public

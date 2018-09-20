@@ -13,6 +13,7 @@ use box\forms\shop\BrandForm;
 use box\readModels\BrandReadModel;
 use box\repositories\NotFoundException;
 use box\services\BrandService;
+use yii\base\InvalidParamException;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\helpers\Url;
@@ -154,7 +155,7 @@ class BrandController extends BearerCrudController
      *     ),
      *     security={{"Bearer": {}}}
      * )
-     * @throws ForbiddenHttpException
+     * @throws ForbiddenHttpException|BadRequestHttpException|InvalidParamException
      * @return BrandForm|Brand
      */
 
@@ -173,7 +174,7 @@ class BrandController extends BearerCrudController
                 $response->getHeaders()->set('Location', Url::to(['shop/brands/' . $brand->id], true));
                 return $brand;
             } catch (\DomainException $e) {
-                throw $e;
+                throw new BadRequestHttpException($e->getMessage());
             }
         }
         return $form;
@@ -196,7 +197,7 @@ class BrandController extends BearerCrudController
      * @param $id
      * @throws BadRequestHttpException
      * @throws NotFoundHttpException
-     * @throws ForbiddenHttpException
+     * @throws ForbiddenHttpException|InvalidParamException
      * @return BrandForm|Brand
      */
 
@@ -234,7 +235,7 @@ class BrandController extends BearerCrudController
      * )
      * @param $id
      * @throws BadRequestHttpException
-     * @throws ForbiddenHttpException
+     * @throws ForbiddenHttpException|InvalidParamException
      */
 
     public function actionDelete($id)

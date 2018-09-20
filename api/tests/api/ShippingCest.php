@@ -122,5 +122,12 @@ class ShippingCest
         $I->seeResponseCodeIs(204);
     }
 
+    public function seeParams(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendGET('/shop/shipping/params');
+        $I->seeResponseCodeIs(201);
+    }
+
 
 }

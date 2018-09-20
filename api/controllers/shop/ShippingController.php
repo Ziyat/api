@@ -7,9 +7,9 @@
 namespace api\controllers\shop;
 
 use api\controllers\BearerCrudController;
+use box\entities\shop\shipping\ShippingServiceRates;
 use box\forms\shop\shipping\ShippingServiceForm;
 use box\readModels\ShippingServiceReadModel;
-use box\repositories\NotFoundException;
 use box\services\ShippingManageService;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -192,6 +192,32 @@ class ShippingController extends BearerCrudController
         }
     }
 
+    /**
+     * @SWG\Get(
+     *     path="/shop/shipping/params",
+     *     tags={"Shipping"},
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Property(ref="#/definitions/ShippingParams")
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     */
+
+    public function actionParams()
+    {
+        return [
+            'types' => [
+                'domestic' => ShippingServiceRates::TYPE_DOMESTIC,
+                'international' => ShippingServiceRates::TYPE_INTERNATIONAL,
+            ],
+            'price_types' => [
+                'fix' => ShippingServiceRates::PRICE_TYPE_FIX,
+                'variable' => ShippingServiceRates::PRICE_TYPE_VARIABLE,
+            ]
+        ];
+    }
 }
 /**
  * @SWG\Definition(
@@ -207,5 +233,20 @@ class ShippingController extends BearerCrudController
  *         @SWG\Property(property="country_id", type="integer"),
  *         @SWG\Property(property="type", type="integer"),
  *     )
+ * )
+ */
+
+/**
+ * @SWG\Definition(
+ *     definition="ShippingParams",
+ *     type="object",
+ *     @SWG\Property(property="types", type="object",
+ *          @SWG\Property(property="domestic", type="integer"),
+ *          @SWG\Property(property="international", type="integer"),
+ *     ),
+ *     @SWG\Property(property="price_types", type="object",
+ *          @SWG\Property(property="fix", type="integer"),
+ *          @SWG\Property(property="variable", type="integer"),
+ *     ),
  * )
  */

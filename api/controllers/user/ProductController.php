@@ -463,10 +463,6 @@ class ProductController extends BearerController
      *     ),
      *     security={{"Bearer": {}}}
      * )
-     * @param integer $id
-     * @param $photo_id
-     * @return mixed
-     * @throws NotFoundException|\DomainException
      */
     public function actionDeletePhoto($id, $photo_id)
     {

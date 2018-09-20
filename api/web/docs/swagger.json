@@ -2199,6 +2199,26 @@
                 ]
             }
         },
+        "/shop/shipping/params": {
+            "get": {
+                "tags": [
+                    "Shipping"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/ShippingParams"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "/user/addresses": {
             "get": {
                 "tags": [
@@ -3732,6 +3752,33 @@
                     }
                 }
             }
+        },
+        "ShippingParams": {
+            "properties": {
+                "types": {
+                    "properties": {
+                        "domestic": {
+                            "type": "integer"
+                        },
+                        "international": {
+                            "type": "integer"
+                        }
+                    },
+                    "type": "object"
+                },
+                "price_types": {
+                    "properties": {
+                        "fix": {
+                            "type": "integer"
+                        },
+                        "variable": {
+                            "type": "integer"
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "type": "object"
         },
         "ProductData": {
             "properties": {

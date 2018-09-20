@@ -81,6 +81,7 @@ return [
         'GET shop/shipping/<id:\d+>' => 'shop/shipping/view',
         'GET shop/shipping' => 'shop/shipping/index',
         'DELETE shop/shipping/<id:\d+>' => 'shop/shipping/delete',
+        'GET shop/shipping/params' => 'shop/shipping/params',
 
 
         // shop Brands

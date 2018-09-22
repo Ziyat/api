@@ -232,7 +232,9 @@ class ProductService
 
     /**
      * @param $id
-     * @throws \box\repositories\NotFoundException
+     * @throws NotFoundException
+     * @throws \DomainException
+     * @throws \RuntimeException
      */
     public function activate($id): void
     {
@@ -243,7 +245,9 @@ class ProductService
 
     /**
      * @param $id
-     * @throws \box\repositories\NotFoundException
+     * @throws NotFoundException
+     * @throws \DomainException
+     * @throws \RuntimeException
      */
     public function draft($id): void
     {
@@ -255,6 +259,8 @@ class ProductService
     /**
      * @param $id
      * @throws NotFoundException
+     * @throws \DomainException
+     * @throws \RuntimeException
      */
     public function market($id): void
     {
@@ -266,6 +272,8 @@ class ProductService
     /**
      * @param $id
      * @throws NotFoundException
+     * @throws \DomainException
+     * @throws \RuntimeException
      */
     public function sold($id): void
     {
@@ -277,6 +285,8 @@ class ProductService
     /**
      * @param $id
      * @throws NotFoundException
+     * @throws \DomainException
+     * @throws \RuntimeException
      */
     public function deleted($id): void
     {
@@ -291,6 +301,7 @@ class ProductService
      * @param $photo_id
      * @return Product
      * @throws NotFoundException
+     * @throws \RuntimeException
      */
     public function setModificationPhoto($product_id,$modification_id,$photo_id)
     {
@@ -318,6 +329,7 @@ class ProductService
      * @param $modification_id
      * @return Product
      * @throws NotFoundException
+     * @throws \RuntimeException
      */
 
     public function removeModification($product_id, $modification_id)
@@ -343,6 +355,7 @@ class ProductService
      * @param PhotosForm $form
      * @return Product
      * @throws NotFoundException
+     * @throws \RuntimeException
      */
     public function addPhotos($id, PhotosForm $form)
     {
@@ -358,6 +371,8 @@ class ProductService
      * @param $id
      * @param $photoId
      * @throws NotFoundException
+     * @throws \DomainException
+     * @throws \RuntimeException
      */
     public function movePhotoUp($id, $photoId): void
     {
@@ -370,6 +385,8 @@ class ProductService
      * @param $id
      * @param $photoId
      * @throws NotFoundException
+     * @throws \DomainException
+     * @throws \RuntimeException
      */
     public function movePhotoDown($id, $photoId): void
     {

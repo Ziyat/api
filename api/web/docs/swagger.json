@@ -2062,6 +2062,7 @@
                 "tags": [
                     "Shipping"
                 ],
+                "description": "destinations example 'destinations': [1,2,3,4]",
                 "parameters": [
                     {
                         "name": "name",
@@ -3723,6 +3724,7 @@
             }
         },
         "RateForm": {
+            "description": "destinations example [1,2,3,4]",
             "type": "array",
             "items": {
                 "properties": {
@@ -3749,6 +3751,10 @@
                     },
                     "type": {
                         "type": "integer"
+                    },
+                    "destinations": {
+                        "type": "array",
+                        "items": {}
                     }
                 }
             }

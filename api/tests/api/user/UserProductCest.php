@@ -266,4 +266,16 @@ class UserProductCest
         );
         $I->seeResponseCodeIs(202);
     }
+
+    public function setShipping(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendPOST('/user/products/shipping/1',[
+            'free_shipping_type' => 1,
+            'countryIds' => [5,2,1],
+        ]);
+
+        VarDumper::dump($I->grabResponse());
+    }
+
 }

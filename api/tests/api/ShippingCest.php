@@ -8,6 +8,7 @@ namespace api;
 
 
 use api\tests\ApiTester;
+use box\entities\shop\shipping\ShippingServiceRates;
 use common\fixtures\TokenFixture;
 use common\fixtures\UserFixture;
 use yii\helpers\VarDumper;
@@ -49,7 +50,10 @@ class ShippingCest
                     'day_min' => 1,
                     'day_max' => 5,
                     'type' => 10,
-                    'country_id' => 72
+                    'country_id' => 72,
+                    'destinations' => [
+                        43,23,74
+                    ]
                 ],
                 [
                     'price_type' => 1,
@@ -58,13 +62,15 @@ class ShippingCest
                     'day_min' => 1,
                     'day_max' => 5,
                     'type' => 20,
-                    'country_id' => 72
+                    'country_id' => 72,
+                    'destinations' => [
+                        88,44,55
+                    ]
                 ]
             ]
         ], [
             'photo' => codecept_data_dir('user/photos/photo1.jpg'),
         ]);
-
         $I->seeResponseCodeIs(201);
     }
 
@@ -83,7 +89,8 @@ class ShippingCest
                     'day_min' => 2,
                     'day_max' => 5,
                     'type' => 10,
-                    'country_id' => 72
+                    'country_id' => 72,
+
                 ],
                 [
                     'id' => 2,
@@ -93,7 +100,8 @@ class ShippingCest
                     'day_min' => 3,
                     'day_max' => 8,
                     'type' => 20,
-                    'country_id' => 198
+                    'country_id' => 198,
+
                 ]
             ]
         ]);
@@ -126,7 +134,17 @@ class ShippingCest
     {
         $I->amBearerAuthenticated('token-correct');
         $I->sendGET('/shop/shipping/params');
-        $I->seeResponseCodeIs(201);
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseContainsJson([
+            'types' => [
+                'domestic' => ShippingServiceRates::TYPE_DOMESTIC,
+                'international' => ShippingServiceRates::TYPE_INTERNATIONAL,
+            ],
+            'price_types' => [
+                'fix' => ShippingServiceRates::PRICE_TYPE_FIX,
+                'variable' => ShippingServiceRates::PRICE_TYPE_VARIABLE,
+            ]
+        ]);
     }
 
 

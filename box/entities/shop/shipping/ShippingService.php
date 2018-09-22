@@ -2,7 +2,6 @@
 
 namespace box\entities\shop\shipping;
 
-use box\forms\shop\shipping\ShippingServiceRateForm;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -38,24 +37,38 @@ class ShippingService extends ActiveRecord
         $this->photo = $photo;
     }
 
-    public function setRate(ShippingServiceRateForm $form): void
+    public function setRate(
+        $id,
+        $price_type,
+        $price_min,
+        $price_max,
+        $price_fix,
+        $day_min,
+        $day_max,
+        $country_id,
+        $type,
+        $weight,
+        $destinations
+    ): void
     {
+
         $rates = $this->shippingServiceRates;
-        if($form->id){
+        if ($id) {
             foreach ($rates as $k => $rate) {
                 /**
                  * @var ShippingServiceRates $rate
                  */
-                if ($rate->isIdEqualTo($form->id)) {
+                if ($rate->isIdEqualTo($id)) {
                     $rate->edit(
-                        $form->price_type,
-                        $form->price_min,
-                        $form->price_max,
-                        $form->price_fix,
-                        $form->day_min,
-                        $form->day_max,
-                        $form->country_id,
-                        $form->type
+                        $price_type,
+                        $price_min,
+                        $price_max,
+                        $price_fix,
+                        $day_min,
+                        $day_max,
+                        $country_id,
+                        $type,
+                        $weight
                     );
                     $rates[$k] = $rate;
                     $this->shippingServiceRates = $rates;
@@ -63,16 +76,23 @@ class ShippingService extends ActiveRecord
                 }
             }
         }
-        $rates[] = ShippingServiceRates::create(
-            $form->price_type,
-            $form->price_min,
-            $form->price_max,
-            $form->price_fix,
-            $form->day_min,
-            $form->day_max,
-            $form->country_id,
-            $form->type
+        $rate = ShippingServiceRates::create(
+            $price_type,
+            $price_min,
+            $price_max,
+            $price_fix,
+            $day_min,
+            $day_max,
+            $country_id,
+            $type,
+            $weight
         );
+        if (is_array($destinations)) {
+            for ($i = 0; $i < count($destinations); $i++) {
+                $rate->assignDestination($destinations[$i]);
+            }
+        }
+        $rates[] = $rate;
         $this->shippingServiceRates = $rates;
 
     }

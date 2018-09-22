@@ -7,11 +7,11 @@
 namespace api\controllers\user;
 
 use api\controllers\BearerController;
-use box\entities\generic\GenericProduct;
 use box\entities\shop\product\Product;
 use box\forms\shop\product\PhotosForm;
 use box\forms\shop\product\ProductCreateForm;
 use box\forms\shop\product\ProductEditForm;
+use box\forms\shop\product\ProductShippingForm;
 use box\repositories\NotFoundException;
 use box\repositories\ProductRepository;
 use box\services\ProductService;
@@ -19,10 +19,8 @@ use Yii;
 use yii\base\InvalidParamException;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Url;
-use yii\helpers\VarDumper;
 use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
-use yii\web\UploadedFile;
 
 /**
  * Class ProductController
@@ -238,9 +236,12 @@ class ProductController extends BearerController
      *     ),
      *     security={{"Bearer": {}}}
      * )
+     */
+    /**
      * @param $id
-     * @return boolean
+     * @return bool|string
      * @throws NotFoundException
+     * @throws \RuntimeException
      */
     public function actionActivate($id)
     {
@@ -263,9 +264,11 @@ class ProductController extends BearerController
      *     ),
      *     security={{"Bearer": {}}}
      * )
+     *
      * @param $id
-     * @return boolean
+     * @return bool|string
      * @throws NotFoundException
+     * @throws \RuntimeException
      */
     public function actionDraft($id)
     {
@@ -289,9 +292,11 @@ class ProductController extends BearerController
      *     ),
      *     security={{"Bearer": {}}}
      * )
+     *
      * @param $id
-     * @return boolean
+     * @return bool|string
      * @throws NotFoundException
+     * @throws \RuntimeException
      */
     public function actionMarket($id)
     {
@@ -315,9 +320,11 @@ class ProductController extends BearerController
      *     ),
      *     security={{"Bearer": {}}}
      * )
+     *
      * @param $id
-     * @return boolean
+     * @return bool|string
      * @throws NotFoundException
+     * @throws \RuntimeException
      */
     public function actionSold($id)
     {
@@ -341,9 +348,11 @@ class ProductController extends BearerController
      *     ),
      *     security={{"Bearer": {}}}
      * )
+     *
      * @param $id
-     * @return boolean
+     * @return bool|string
      * @throws NotFoundException
+     * @throws \RuntimeException
      */
     public function actionDeleted($id)
     {
@@ -370,11 +379,13 @@ class ProductController extends BearerController
      *     ),
      *     security={{"Bearer": {}}}
      * )
+     *
      * @param $product_id
      * @param $modification_id
      * @param $photo_id
      * @return bool|string
      * @throws NotFoundException
+     * @throws \RuntimeException
      */
     public function actionSetModificationPhoto($product_id, $modification_id, $photo_id)
     {
@@ -405,6 +416,7 @@ class ProductController extends BearerController
      * @param $modification_id
      * @return bool|string
      * @throws NotFoundException
+     * @throws \RuntimeException
      */
     public function actionDeleteModification($product_id, $modification_id)
     {
@@ -432,9 +444,12 @@ class ProductController extends BearerController
      *     security={{"Bearer": {}}}
      * )
      * @param $id
-     * @return Product|PhotosForm
+     * @return Product
      * @throws NotFoundHttpException
+     * @throws \RuntimeException
+     * @throws \yii\base\InvalidArgumentException
      */
+
     public function actionAddPhotos($id)
     {
         $form = new PhotosForm();
@@ -520,6 +535,24 @@ class ProductController extends BearerController
     {
         $this->service->movePhotoDown($id, $photo_id);
         return true;
+    }
+
+
+    /**
+     * @param $id
+     * @return ProductShippingForm
+     * @throws \yii\base\InvalidArgumentException
+     */
+
+    public function actionSetShipping($id)
+    {
+        $form = new ProductShippingForm();
+        $form->load(Yii::$app->request->bodyParams, '');
+        if($form->validate()){
+            $this->service->setShipping($id, $form);
+        }
+
+        return $form;
     }
 
 }

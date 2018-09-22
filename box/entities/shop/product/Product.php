@@ -7,6 +7,7 @@ use box\entities\Meta;
 use box\entities\shop\Brand;
 use box\entities\shop\Category;
 use box\entities\shop\product\queries\ProductQuery;
+use box\entities\shop\shipping\ShippingServiceRates;
 use box\entities\shop\Tag;
 use box\entities\user\User;
 use function foo\func;
@@ -49,6 +50,7 @@ use yii\web\UploadedFile;
  * @property User $user
  * @property Modification[] $modifications
  * @property Photo $mainPhoto
+ * @property ShippingAssignment $shippingAssignments[]
  */
 class Product extends ActiveRecord
 {
@@ -377,6 +379,38 @@ class Product extends ActiveRecord
 //        }, $this->modifications)));
 //    }
 
+    // ShippingRates
+
+    public function assignShippingRate($rate_id, $countriesIds, $free_shipping_type, $price): void
+    {
+        $assignments = $this->shippingAssignments;
+        foreach ($assignments as $assignment) {
+            if ($assignment->isForRateId($rate_id)) {
+                return;
+            }
+        }
+        $assignments[] = ShippingAssignment::create($rate_id, $countriesIds, $free_shipping_type, $price);
+        $this->shippingAssignments = $assignments;
+    }
+
+    public function revokeShippingRate($rate_id): void
+    {
+        $assignments = $this->shippingAssignments;
+        foreach ($assignments as $i => $assignment) {
+            if ($assignment->isForRateId($rate_id)) {
+                unset($assignments[$i]);
+                $this->shippingAssignments = $assignments;
+                return;
+            }
+        }
+        throw new \DomainException('Shipping Assignment is not found.');
+    }
+
+    public function revokeShippingRates(): void
+    {
+        $this->shippingAssignments = [];
+    }
+
     // Categories
 
     public function assignCategory($id): void
@@ -401,7 +435,7 @@ class Product extends ActiveRecord
                 return;
             }
         }
-        throw new \DomainException('Assignment is not found.');
+        throw new \DomainException('Category Assignment is not found.');
     }
 
     public function revokeCategories(): void
@@ -611,6 +645,16 @@ class Product extends ActiveRecord
 
     ##########################
 
+    public function getShippingRates():ActiveQuery
+    {
+        return $this->hasMany(ShippingServiceRates::class, ['id' => 'rate_id'])->via('shippingAssignments');
+    }
+
+    public function getShippingAssignments(): ActiveQuery
+    {
+        return $this->hasMany(ShippingAssignment::class, ['product_id' => 'id']);
+    }
+
     public function getBrand(): ActiveQuery
     {
         return $this->hasOne(Brand::class, ['id' => 'brand_id']);
@@ -710,7 +754,15 @@ class Product extends ActiveRecord
             BlameableBehavior::class,
             [
                 'class' => SaveRelationsBehavior::class,
-                'relations' => ['categoryAssignments', 'tagAssignments', 'values', 'photos', 'prices', 'modifications'],
+                'relations' => [
+                    'categoryAssignments',
+                    'tagAssignments',
+                    'values',
+                    'photos',
+                    'prices',
+                    'modifications',
+                    'shippingAssignments'
+                ],
             ],
         ];
     }

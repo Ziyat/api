@@ -86,6 +86,7 @@ class ShippingController extends BearerCrudController
      * @SWG\Post(
      *     path="/shop/shipping",
      *     tags={"Shipping"},
+     *     description="destinations example 'destinations': [1,2,3,4]",
      *     @SWG\Parameter(name="name", in="formData", required=true, type="string"),
      *     @SWG\Parameter(name="description", in="formData", required=false, type="string"),
      *     @SWG\Parameter(name="photo", in="formData", required=false, type="file"),
@@ -223,6 +224,7 @@ class ShippingController extends BearerCrudController
  * @SWG\Definition(
  *     definition="RateForm",
  *     type="array",
+ *     description="destinations example [1,2,3,4]",
  *     @SWG\Items(
  *         @SWG\Property(property="id", type="integer"),
  *         @SWG\Property(property="price_type", type="integer"),
@@ -232,6 +234,7 @@ class ShippingController extends BearerCrudController
  *         @SWG\Property(property="day_max", type="integer"),
  *         @SWG\Property(property="country_id", type="integer"),
  *         @SWG\Property(property="type", type="integer"),
+ *         @SWG\Property(property="destinations", type="array", @SWG\Items()),
  *     )
  * )
  */

@@ -3,6 +3,7 @@
 namespace box\entities\shop\shipping;
 
 use box\entities\Country;
+use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -19,8 +20,12 @@ use yii\db\ActiveRecord;
  * @property integer $country_id
  * @property integer $type
  *
+ * @property float $weight
+ *
  * @property ShippingService $shippingService
+ * @property ShippingRateDestination $destinations[]
  * @property Country $country
+ * @property Country $destinationCountries[]
  */
 class ShippingServiceRates extends ActiveRecord
 {
@@ -39,7 +44,8 @@ class ShippingServiceRates extends ActiveRecord
         $day_min,
         $day_max,
         $country_id,
-        $type
+        $type,
+        $weight
     ): self
     {
         $shippingServiceRates = new static();
@@ -51,6 +57,7 @@ class ShippingServiceRates extends ActiveRecord
         $shippingServiceRates->day_max = $day_max;
         $shippingServiceRates->country_id = $country_id;
         $shippingServiceRates->type = $type;
+        $shippingServiceRates->weight = $weight;
         return $shippingServiceRates;
     }
 
@@ -62,7 +69,8 @@ class ShippingServiceRates extends ActiveRecord
         $day_min,
         $day_max,
         $country_id,
-        $type
+        $type,
+        $weight
     ): void
     {
         $this->price_type = $price_type;
@@ -73,8 +81,34 @@ class ShippingServiceRates extends ActiveRecord
         $this->day_max = $day_max;
         $this->country_id = $country_id;
         $this->type = $type;
+        $this->weight = $weight;
     }
 
+    public function assignDestination($destination_id): void
+    {
+        $destinations = $this->destinations;
+        foreach ($destinations as $k => $destination) {
+            /**
+             * @var ShippingRateDestination $destination
+             */
+            if ($destination->isIdEqualTo($destination_id)) {
+                return;
+            }
+        }
+        $destinations[] = ShippingRateDestination::create($destination_id);
+        $this->destinations = $destinations;
+
+    }
+
+    public function getDestinations(): ActiveQuery
+    {
+        return $this->hasMany(ShippingRateDestination::class, ['rate_id' => 'id']);
+    }
+
+    public function getDestinationCountries(): ActiveQuery
+    {
+        return $this->hasMany(Country::class, ['id' => 'destination_id'])->via('destinations');
+    }
 
     public function isIdEqualTo($id)
     {
@@ -90,6 +124,7 @@ class ShippingServiceRates extends ActiveRecord
     {
         return $this->hasOne(ShippingService::class, ['id' => 'shipping_service_id']);
     }
+
 
     public function fields()
     {
@@ -118,6 +153,9 @@ class ShippingServiceRates extends ActiveRecord
                     'code' => $model->country->code,
                 ];
             },
+            'destinations' => function (self $model) {
+                return $model->destinationCountries;
+            },
             'type' => function (self $model) {
                 return $model->type == $model::TYPE_DOMESTIC
                     ? [
@@ -128,6 +166,16 @@ class ShippingServiceRates extends ActiveRecord
                         'code' => $model::TYPE_INTERNATIONAL,
                     ];
             },
+        ];
+    }
+
+    public function behaviors(): array
+    {
+        return [
+            [
+                'class' => SaveRelationsBehavior::class,
+                'relations' => ['destinations']
+            ],
         ];
     }
 

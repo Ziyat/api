@@ -9,6 +9,7 @@ namespace box\services;
 
 use box\entities\shop\shipping\ShippingService;
 use box\forms\shop\shipping\ShippingServiceForm;
+use box\forms\shop\shipping\ShippingServiceRateForm;
 use box\repositories\ShippingServiceRepository;
 
 /**
@@ -37,7 +38,22 @@ class ShippingManageService
         $shippingService = ShippingService::create($form->name, $form->description, $form->photo);
 
         foreach ($form->rates as $rate) {
-            $shippingService->setRate($rate);
+            /**
+             * @var ShippingServiceRateForm $rate
+             */
+            $shippingService->setRate(
+                $rate->id,
+                $rate->price_type,
+                $rate->price_min,
+                $rate->price_max,
+                $rate->price_fix,
+                $rate->day_min,
+                $rate->day_max,
+                $rate->country_id,
+                $rate->type,
+                $rate->weight,
+                $rate->destinations
+            );
         }
 
         $this->shippingServices->save($shippingService);
@@ -60,7 +76,22 @@ class ShippingManageService
         $shippingService->edit($form->name, $form->description, $form->photo);
 
         foreach ($form->rates as $rate) {
-            $shippingService->setRate($rate);
+            /**
+             * @var ShippingServiceRateForm $rate
+             */
+            $shippingService->setRate(
+                $rate->id,
+                $rate->price_type,
+                $rate->price_min,
+                $rate->price_max,
+                $rate->price_fix,
+                $rate->day_min,
+                $rate->day_max,
+                $rate->country_id,
+                $rate->type,
+                $rate->weight,
+                $rate->destinations
+            );
         }
 
         $this->shippingServices->save($shippingService);

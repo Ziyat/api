@@ -52,6 +52,8 @@ return [
         'DELETE user/products/<id:\d+>/photos/<photo_id:\d+>' => 'user/product/delete-photo',
         'DELETE user/products/<product_id:\d+>/<modification_id:\d+>' => 'user/product/delete-modification',
 
+        'POST user/products/shipping/<id:\d+>' => 'user/product/set-shipping',
+
         // user product change status
 
         'GET user/products/<id:\d+>/activate' => 'user/product/activate',
@@ -75,6 +77,8 @@ return [
         'GET shop/products/tag/<id:\d+>' => 'shop/product/tag',
         'GET shop/products' => 'shop/product/index',
 
+
+        // shop shipping
 
         'POST shop/shipping' => 'shop/shipping/create',
         'POST shop/shipping/<id:\d+>' => 'shop/shipping/update',
@@ -117,8 +121,6 @@ return [
         'DELETE shop/characteristics/<id:\d+>' => 'shop/characteristic/delete',
         'DELETE shop/characteristics/<id:\d+>/<category_id:\d+>' => 'shop/characteristic/revoke-category',
         'GET shop/characteristics/category/<id:\d+>' => 'shop/characteristic/category',
-
-
 
 
         // public

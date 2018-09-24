@@ -8,6 +8,7 @@ use box\entities\shop\Tag;
 use box\forms\shop\product\PhotosForm;
 use box\forms\shop\product\ProductCreateForm;
 use box\forms\shop\product\ProductEditForm;
+use box\forms\shop\product\ProductShippingForm;
 use box\repositories\BrandRepository;
 use box\repositories\CategoryRepository;
 use box\repositories\generic\ProductRepository as GenericProductRepository;
@@ -407,5 +408,21 @@ class ProductService
         $product = $this->products->get($id);
         $product->removePhoto($photoId);
         $this->products->save($product);
+    }
+
+    /**
+     * @param $id
+     * @param ProductShippingForm $form
+     * @return \box\entities\shop\product\Shipping
+     * @throws NotFoundException
+     * @throws \RuntimeException
+     */
+    public function setShipping($id, ProductShippingForm $form)
+    {
+        $product = $this->products->get($id);
+        $product->assignShipping($form->rate_id, $form->countryIds, $form->free_shipping_type, $form->price);
+        $this->products->save($product);
+
+        return $product->shipping;
     }
 }

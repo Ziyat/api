@@ -9,7 +9,7 @@ use yii\helpers\Json;
 
 class CountryBehavior extends Behavior
 {
-    public $attribute = 'countriesIds';
+    public $attribute = 'countryIds';
     public $jsonAttribute = 'countries';
 
     public function events(): array

@@ -18,13 +18,13 @@ use yii\web\ForbiddenHttpException;
 use yii\web\Response;
 
 /**
- * Class ShippingController
+ * Class ShippingServiceController
  * @package api\controllers\shop
  * @property ShippingServiceReadModel $readModel;
  * @property ShippingManageService $manageService;
  * @property Response $response;
  */
-class ShippingController extends BearerCrudController
+class ShippingServiceController extends BearerCrudController
 {
 
     public $manageService;
@@ -230,6 +230,7 @@ class ShippingController extends BearerCrudController
  *         @SWG\Property(property="price_type", type="integer"),
  *         @SWG\Property(property="price_min", type="number"),
  *         @SWG\Property(property="price_max", type="number"),
+ *         @SWG\Property(property="price_fix", type="number"),
  *         @SWG\Property(property="day_min", type="integer"),
  *         @SWG\Property(property="day_max", type="integer"),
  *         @SWG\Property(property="country_id", type="integer"),

@@ -6,7 +6,7 @@
 
 namespace box\tests\unit\entities\Shipping;
 
-use box\entities\shop\product\ShippingAssignment;
+use box\entities\shop\product\Shipping;
 use box\entities\shop\shipping\ShippingService;
 use Codeception\Test\Unit;
 use common\fixtures\shop\BrandFixture;
@@ -84,7 +84,7 @@ class ServiceCreateTest extends Unit
             1
         );
         $shippingService->save();
-        $assignment = ShippingAssignment::create(
+        $assignment = Shipping::create(
             $shippingService->shippingServiceRates[0]->id,
             [1, 4, 5, 6, 8],
             0,
@@ -92,7 +92,7 @@ class ServiceCreateTest extends Unit
         );
 
         $assignment->save();
-        $assignment = ShippingAssignment::findOne(['rate_id' => $shippingService->shippingServiceRates[0]->id]);
+        $assignment = Shipping::findOne(['rate_id' => $shippingService->shippingServiceRates[0]->id]);
 
     }
 }

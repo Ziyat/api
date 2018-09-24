@@ -478,6 +478,12 @@ class ProductController extends BearerController
      *     ),
      *     security={{"Bearer": {}}}
      * )
+     * @param $id
+     * @param $photo_id
+     * @return bool
+     * @throws NotFoundException
+     * @throws \DomainException
+     * @throws \RuntimeException
      */
     public function actionDeletePhoto($id, $photo_id)
     {
@@ -506,6 +512,7 @@ class ProductController extends BearerController
      * @param $photo_id
      * @return mixed
      * @throws NotFoundException
+     * @throws \Exception
      */
     public function actionMovePhotoUp($id, $photo_id)
     {
@@ -530,29 +537,12 @@ class ProductController extends BearerController
      * @param $photo_id
      * @return mixed
      * @throws NotFoundException
+     * @throws \Exception
      */
     public function actionMovePhotoDown($id, $photo_id)
     {
         $this->service->movePhotoDown($id, $photo_id);
         return true;
-    }
-
-
-    /**
-     * @param $id
-     * @return ProductShippingForm
-     * @throws \yii\base\InvalidArgumentException
-     */
-
-    public function actionSetShipping($id)
-    {
-        $form = new ProductShippingForm();
-        $form->load(Yii::$app->request->bodyParams, '');
-        if($form->validate()){
-            $this->service->setShipping($id, $form);
-        }
-
-        return $form;
     }
 
 }

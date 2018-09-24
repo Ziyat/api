@@ -50,7 +50,7 @@ use yii\web\UploadedFile;
  * @property User $user
  * @property Modification[] $modifications
  * @property Photo $mainPhoto
- * @property ShippingAssignment $shippingAssignments[]
+ * @property Shipping $shipping[]
  */
 class Product extends ActiveRecord
 {
@@ -379,36 +379,31 @@ class Product extends ActiveRecord
 //        }, $this->modifications)));
 //    }
 
-    // ShippingRates
+    // Shipping
 
-    public function assignShippingRate($rate_id, $countriesIds, $free_shipping_type, $price): void
+    public function assignShipping($rate_id, $countryIds, $free_shipping_type, $price): void
     {
-        $assignments = $this->shippingAssignments;
+        $assignments = $this->shipping;
         foreach ($assignments as $assignment) {
             if ($assignment->isForRateId($rate_id)) {
                 return;
             }
         }
-        $assignments[] = ShippingAssignment::create($rate_id, $countriesIds, $free_shipping_type, $price);
-        $this->shippingAssignments = $assignments;
+        $assignments[] = Shipping::create($rate_id, $countryIds, $free_shipping_type, $price);
+        $this->shipping = $assignments;
     }
 
-    public function revokeShippingRate($rate_id): void
+    public function revokeShipping($rate_id): void
     {
-        $assignments = $this->shippingAssignments;
+        $assignments = $this->shipping;
         foreach ($assignments as $i => $assignment) {
             if ($assignment->isForRateId($rate_id)) {
                 unset($assignments[$i]);
-                $this->shippingAssignments = $assignments;
+                $this->shipping = $assignments;
                 return;
             }
         }
         throw new \DomainException('Shipping Assignment is not found.');
-    }
-
-    public function revokeShippingRates(): void
-    {
-        $this->shippingAssignments = [];
     }
 
     // Categories
@@ -645,14 +640,9 @@ class Product extends ActiveRecord
 
     ##########################
 
-    public function getShippingRates():ActiveQuery
+    public function getShipping(): ActiveQuery
     {
-        return $this->hasMany(ShippingServiceRates::class, ['id' => 'rate_id'])->via('shippingAssignments');
-    }
-
-    public function getShippingAssignments(): ActiveQuery
-    {
-        return $this->hasMany(ShippingAssignment::class, ['product_id' => 'id']);
+        return $this->hasMany(Shipping::class, ['product_id' => 'id']);
     }
 
     public function getBrand(): ActiveQuery
@@ -761,7 +751,7 @@ class Product extends ActiveRecord
                     'photos',
                     'prices',
                     'modifications',
-                    'shippingAssignments'
+                    'shipping'
                 ],
             ],
         ];

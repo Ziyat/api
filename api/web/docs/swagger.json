@@ -3239,6 +3239,123 @@
                 ]
             }
         },
+        "user/products/shipping/{product_id}": {
+            "get": {
+                "tags": [
+                    "User Products"
+                ],
+                "description": "get user/product shipping",
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/UserProductShippingResponse"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "User Products"
+                ],
+                "description": "get user/product shipping",
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "free_shipping_type",
+                        "in": "formData",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "rate_id",
+                        "in": "formData",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "price",
+                        "in": "formData",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "countryIds",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "items": {}
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/UserProductShippingResponse"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "user/products/shipping/{product_id}/{shipping_id}": {
+            "get": {
+                "tags": [
+                    "User Products"
+                ],
+                "description": "get user/product shipping",
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "shipping_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/UserProductShippingResponse"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "/profile": {
             "get": {
                 "tags": [
@@ -3740,6 +3857,9 @@
                     "price_max": {
                         "type": "number"
                     },
+                    "price_fix": {
+                        "type": "number"
+                    },
                     "day_min": {
                         "type": "integer"
                     },
@@ -4083,6 +4203,39 @@
                     }
                 }
             }
+        },
+        "UserProductShippingResponse": {
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "destinations": {
+                    "type": "array",
+                    "items": {
+                        "properties": {
+                            "id": {
+                                "type": "integer"
+                            },
+                            "name": {
+                                "type": "string"
+                            },
+                            "code": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "price": {
+                    "type": "double"
+                },
+                "free_shipping_type": {
+                    "type": "integer"
+                }
+            },
+            "type": "object"
         },
         "Profile": {
             "properties": {

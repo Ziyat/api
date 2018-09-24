@@ -52,7 +52,9 @@ return [
         'DELETE user/products/<id:\d+>/photos/<photo_id:\d+>' => 'user/product/delete-photo',
         'DELETE user/products/<product_id:\d+>/<modification_id:\d+>' => 'user/product/delete-modification',
 
-        'POST user/products/shipping/<id:\d+>' => 'user/product/set-shipping',
+        'GET user/products/shipping/<product_id:\d+>' => 'user/product-shipping/index',
+        'POST user/products/shipping/<product_id:\d+>' => 'user/product-shipping/add',
+        'GET user/products/shipping/<product_id:\d+>/<id:\d+>' => 'user/product-shipping/view',
 
         // user product change status
 
@@ -80,12 +82,12 @@ return [
 
         // shop shipping
 
-        'POST shop/shipping' => 'shop/shipping/create',
-        'POST shop/shipping/<id:\d+>' => 'shop/shipping/update',
-        'GET shop/shipping/<id:\d+>' => 'shop/shipping/view',
-        'GET shop/shipping' => 'shop/shipping/index',
-        'DELETE shop/shipping/<id:\d+>' => 'shop/shipping/delete',
-        'GET shop/shipping/params' => 'shop/shipping/params',
+        'POST shop/shipping' => 'shop/shipping-service/create',
+        'POST shop/shipping/<id:\d+>' => 'shop/shipping-service/update',
+        'GET shop/shipping/<id:\d+>' => 'shop/shipping-service/view',
+        'GET shop/shipping' => 'shop/shipping-service/index',
+        'DELETE shop/shipping/<id:\d+>' => 'shop/shipping-service/delete',
+        'GET shop/shipping/params' => 'shop/shipping-service/params',
 
 
         // shop Brands

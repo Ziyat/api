@@ -267,7 +267,7 @@ class UserProductCest
         $I->seeResponseCodeIs(202);
     }
 
-    public function setShipping(ApiTester $I)
+    public function addShipping(ApiTester $I)
     {
         $I->amBearerAuthenticated('token-correct');
         $I->sendPOST('/user/products/shipping/1',[
@@ -275,6 +275,23 @@ class UserProductCest
             'countryIds' => [5,2,1],
         ]);
 
+        $I->seeResponseCodeIs(200);
+    }
+
+    public function viewShipping(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendGET('/user/products/shipping/1/1');
+
+        $I->seeResponseCodeIs(200);
+    }
+
+    public function viewAllShipping(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendGET('/user/products/shipping/1');
+
+//        $I->seeResponseCodeIs(200);
         VarDumper::dump($I->grabResponse());
     }
 

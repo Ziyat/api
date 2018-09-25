@@ -3,8 +3,11 @@
 namespace box\readModels;
 
 use box\entities\shop\shipping\ShippingService;
+use box\forms\shop\shipping\SearchRatesForm;
 use box\repositories\NotFoundException;
 use yii\data\ActiveDataProvider;
+use yii\helpers\VarDumper;
+use yii\web\User;
 
 class ShippingServiceReadModel
 {
@@ -28,4 +31,6 @@ class ShippingServiceReadModel
             'query' => ShippingService::find()
         ]);
     }
+
+
 }

@@ -3239,6 +3239,40 @@
                 ]
             }
         },
+        "user/products/shipping/search": {
+            "post": {
+                "tags": [
+                    "User Products"
+                ],
+                "description": "return 'rates by params' default by default address country_id",
+                "parameters": [
+                    {
+                        "name": "weight",
+                        "in": "formData",
+                        "required": false,
+                        "type": "number"
+                    },
+                    {
+                        "name": "destinations",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "items": {}
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "user/products/shipping/{product_id}": {
             "get": {
                 "tags": [

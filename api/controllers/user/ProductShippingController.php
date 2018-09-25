@@ -9,6 +9,7 @@ namespace api\controllers\user;
 
 use api\controllers\BearerController;
 use box\forms\shop\product\ProductShippingForm;
+use box\forms\shop\shipping\SearchRatesForm;
 use box\readModels\ProductShippingReadModel;
 use box\services\ProductService;
 use Yii;
@@ -38,6 +39,33 @@ class ProductShippingController extends BearerController
         $this->productService = $productService;
         $this->readModel = $readModel;
     }
+
+    /**
+     * @SWG\Post(
+     *     path="user/products/shipping/search",
+     *     tags={"User Products"},
+     *     description="return 'rates by params' default by default address country_id",
+     *     @SWG\Parameter(name="weight", in="formData", required=false, type="number"),
+     *     @SWG\Parameter(name="destinations", in="body", required=false,
+     *          @SWG\Schema(@SWG\Items())
+     *     ),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @return array|\yii\db\ActiveRecord[]
+     * @throws \box\repositories\NotFoundException
+     */
+    public function actionSearchRates()
+    {
+        $form = new SearchRatesForm();
+        $form->load(Yii::$app->request->bodyParams, '');
+
+        return $this->readModel->getRates(Yii::$app->user->identity, $form);
+    }
+
 
     /**
      * @SWG\Get(

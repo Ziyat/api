@@ -55,6 +55,7 @@ return [
         'GET user/products/shipping/<product_id:\d+>' => 'user/product-shipping/index',
         'POST user/products/shipping/<product_id:\d+>' => 'user/product-shipping/add',
         'GET user/products/shipping/<product_id:\d+>/<id:\d+>' => 'user/product-shipping/view',
+        'POST user/products/shipping/search' => 'user/product-shipping/search-rates',
 
         // user product change status
 

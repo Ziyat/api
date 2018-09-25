@@ -8,6 +8,7 @@ namespace api\controllers\shop;
 
 use api\controllers\BearerCrudController;
 use box\entities\shop\shipping\ShippingServiceRates;
+use box\forms\shop\shipping\SearchRatesForm;
 use box\forms\shop\shipping\ShippingServiceForm;
 use box\readModels\ShippingServiceReadModel;
 use box\services\ShippingManageService;
@@ -44,7 +45,6 @@ class ShippingServiceController extends BearerCrudController
         $this->response = Yii::$app->getResponse();
         parent::__construct($id, $module, $config);
     }
-
     /**
      * @SWG\Get(
      *     path="/shop/shipping",

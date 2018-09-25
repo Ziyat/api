@@ -9,6 +9,7 @@ namespace api\tests\api\user;
 
 use api\tests\ApiTester;
 use box\entities\generic\GenericProduct;
+use common\fixtures\AddressFixture;
 use common\fixtures\ProfileFixture;
 use common\fixtures\shop\BrandFixture;
 use common\fixtures\shop\CategoryFixture;
@@ -45,6 +46,10 @@ class UserProductCest
             'category' => [
                 'class' => CategoryFixture::class,
                 'dataFile' => codecept_data_dir() . 'category.php'
+            ],
+            'address' => [
+                'class' => AddressFixture::class,
+                'dataFile' => codecept_data_dir() . 'address.php'
             ],
         ]);
     }
@@ -291,8 +296,10 @@ class UserProductCest
         $I->amBearerAuthenticated('token-correct');
         $I->sendGET('/user/products/shipping/1');
 
-//        $I->seeResponseCodeIs(200);
-        VarDumper::dump($I->grabResponse());
+        $I->seeResponseCodeIs(200);
+//        VarDumper::dump($I->grabResponse());
     }
+
+
 
 }

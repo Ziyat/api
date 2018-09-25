@@ -9,6 +9,7 @@ namespace api;
 
 use api\tests\ApiTester;
 use box\entities\shop\shipping\ShippingServiceRates;
+use common\fixtures\AddressFixture;
 use common\fixtures\TokenFixture;
 use common\fixtures\UserFixture;
 use yii\helpers\VarDumper;
@@ -25,6 +26,10 @@ class ShippingCest
             'token' => [
                 'class' => TokenFixture::class,
                 'dataFile' => codecept_data_dir() . 'token.php'
+            ],
+            'address' => [
+                'class' => AddressFixture::class,
+                'dataFile' => codecept_data_dir() . 'address.php'
             ],
         ]);
     }
@@ -121,6 +126,15 @@ class ShippingCest
         $I->amBearerAuthenticated('token-correct');
         $I->sendGET('/shop/shipping');
         $I->seeResponseCodeIs(200);
+    }
+
+    public function getRates(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendPOST('/user/products/shipping/search');
+
+//        $I->seeResponseCodeIs(200);
+        VarDumper::dump($I->grabResponse());
     }
 
     public function delete(ApiTester $I)

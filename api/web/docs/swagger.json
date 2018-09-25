@@ -3872,6 +3872,9 @@
                     "type": {
                         "type": "integer"
                     },
+                    "weight": {
+                        "type": "number"
+                    },
                     "destinations": {
                         "type": "array",
                         "items": {}

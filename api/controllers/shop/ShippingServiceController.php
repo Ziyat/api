@@ -171,7 +171,7 @@ class ShippingServiceController extends BearerCrudController
      *     tags={"Shipping"},
      *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
      *     @SWG\Response(
-     *         response=200,
+     *         response=204,
      *         description="Success response",
      *     ),
      *     security={{"Bearer": {}}}
@@ -187,6 +187,32 @@ class ShippingServiceController extends BearerCrudController
         }
         try {
             $this->manageService->remove($id);
+            $this->response->setStatusCode(204);
+        } catch (\Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+    }
+
+    /**
+     * @SWG\Delete(
+     *     path="/shop/shipping/rate/{id}",
+     *     tags={"Shipping"},
+     *     @SWG\Parameter(name="rate_id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=204,
+     *         description="Success response",
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     *
+     */
+    public function actionRateDelete($id)
+    {
+        if (!\Yii::$app->user->can('create')) {
+            throw new ForbiddenHttpException('Forbidden');
+        }
+        try {
+            $this->manageService->removeRate($id);
             $this->response->setStatusCode(204);
         } catch (\Exception $e) {
             throw new BadRequestHttpException($e->getMessage());

@@ -5,7 +5,6 @@ namespace box\entities\shop\shipping;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
-use yii\helpers\VarDumper;
 use yiidreamteam\upload\ImageUploadBehavior;
 
 /**
@@ -95,6 +94,27 @@ class ShippingService extends ActiveRecord
         $rates[] = $rate;
         $this->shippingServiceRates = $rates;
 
+    }
+
+    /**
+     * @param $id
+     * @throws \DomainException
+     */
+    public function unsetRate($id)
+    {
+        $rates = $this->shippingServiceRates;
+        foreach ($rates as $k => $rate) {
+            /**
+             * @var ShippingServiceRates $rate
+             */
+            if ($rate->isIdEqualTo($id)) {
+                unset($rates[$k]);
+                $this->shippingServiceRates = $rates;
+                return;
+            }
+        }
+
+        throw new \DomainException('Rate is not found!');
     }
 
 

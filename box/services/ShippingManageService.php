@@ -112,4 +112,16 @@ class ShippingManageService
         $this->shippingServices->remove($shippingService);
     }
 
+    /**
+     * @param $id
+     * @throws \DomainException
+     * @throws \RuntimeException
+     * @throws \box\repositories\NotFoundException
+     */
+    public function removeRate($id)
+    {
+        $shippingService = $this->shippingServices->get($id);
+        $shippingService->unsetRate($id);
+        $this->shippingServices->save($shippingService);
+    }
 }

@@ -69,8 +69,6 @@ class ShippingService extends ActiveRecord
                         $type,
                         $weight
                     );
-                    $rate->revokeDestinations();
-                    $rate->save();
                     if (is_array($destinations)) {
                         for ($i = 0; $i < count($destinations); $i++) {
                             $rate->assignDestination($destinations[$i]);
@@ -101,6 +99,11 @@ class ShippingService extends ActiveRecord
         $rates[] = $rate;
         $this->shippingServiceRates = $rates;
 
+    }
+
+    public function revokeRates()
+    {
+        $this->shippingServiceRates = [];
     }
 
     /**

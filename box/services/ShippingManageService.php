@@ -74,7 +74,8 @@ class ShippingManageService
         $shippingService = $this->shippingServices->get($id);
 
         $shippingService->edit($form->name, $form->description, $form->photo);
-
+        $shippingService->revokeRates();
+        $this->shippingServices->save($shippingService);
         foreach ($form->rates as $rate) {
             /**
              * @var ShippingServiceRateForm $rate

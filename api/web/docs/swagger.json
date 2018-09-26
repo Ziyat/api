@@ -2189,7 +2189,32 @@
                     }
                 ],
                 "responses": {
-                    "200": {
+                    "204": {
+                        "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/shop/shipping/rate/{id}": {
+            "delete": {
+                "tags": [
+                    "Shipping"
+                ],
+                "parameters": [
+                    {
+                        "name": "rate_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "204": {
                         "description": "Success response"
                     }
                 },

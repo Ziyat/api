@@ -70,6 +70,7 @@ class ShippingService extends ActiveRecord
                         $weight
                     );
                     $rate->revokeDestinations();
+                    $rate->save();
                     if (is_array($destinations)) {
                         for ($i = 0; $i < count($destinations); $i++) {
                             $rate->assignDestination($destinations[$i]);

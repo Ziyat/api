@@ -166,6 +166,7 @@ class ShippingServiceRates extends ActiveRecord
                         'code' => $model::TYPE_INTERNATIONAL,
                     ];
             },
+            'weight' => 'weight'
         ];
     }
 

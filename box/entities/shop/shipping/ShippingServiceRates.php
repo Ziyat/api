@@ -100,6 +100,11 @@ class ShippingServiceRates extends ActiveRecord
 
     }
 
+    public function revokeDestinations()
+    {
+        $this->destinations = [];
+    }
+
     public function getDestinations(): ActiveQuery
     {
         return $this->hasMany(ShippingRateDestination::class, ['rate_id' => 'id']);

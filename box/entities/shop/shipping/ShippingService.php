@@ -69,6 +69,11 @@ class ShippingService extends ActiveRecord
                         $type,
                         $weight
                     );
+                    if (is_array($destinations)) {
+                        for ($i = 0; $i < count($destinations); $i++) {
+                            $rate->assignDestination($destinations[$i]);
+                        }
+                    }
                     $rates[$k] = $rate;
                     $this->shippingServiceRates = $rates;
                     return;

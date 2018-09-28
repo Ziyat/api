@@ -134,15 +134,14 @@ class ShippingCest
         $I->sendPOST('/user/products/shipping/search');
 
         $I->seeResponseCodeIs(200);
-//        VarDumper::dump($I->grabResponse());
+
     }
 
     public function removeRate(ApiTester $I)
     {
         $I->amBearerAuthenticated('token-correct');
-        $I->sendDELETE('/shop/shipping/rate/1');
-        VarDumper::dump($I->grabResponse());
-//        $I->seeResponseCodeIs(204);
+        $I->sendDELETE('/shop/shipping/rate/3');
+        $I->seeResponseCodeIs(204);
     }
 
     public function delete(ApiTester $I)

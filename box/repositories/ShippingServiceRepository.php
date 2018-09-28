@@ -24,6 +24,19 @@ class ShippingServiceRepository
     }
 
     /**
+     * @param $id
+     * @return ShippingService
+     * @throws NotFoundException
+     */
+    public function getByRateId($id): ShippingService
+    {
+        if(!$shippingService = ShippingService::find()->joinWith('shippingServiceRates')->andWhere(['shipping_service_rates.id' => $id])->one()){
+            throw new NotFoundException('Shipping service is not found!');
+        }
+        return $shippingService;
+    }
+
+    /**
      * @param ShippingService $shippingService
      * @throws \RuntimeException
      */

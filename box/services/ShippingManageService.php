@@ -11,6 +11,7 @@ use box\entities\shop\shipping\ShippingService;
 use box\forms\shop\shipping\ShippingServiceForm;
 use box\forms\shop\shipping\ShippingServiceRateForm;
 use box\repositories\ShippingServiceRepository;
+use yii\helpers\VarDumper;
 
 /**
  * Created by Madetec-Solution.
@@ -121,7 +122,7 @@ class ShippingManageService
      */
     public function removeRate($id)
     {
-        $shippingService = $this->shippingServices->get($id);
+        $shippingService = $this->shippingServices->getByRateId($id);
         $shippingService->unsetRate($id);
         $this->shippingServices->save($shippingService);
     }

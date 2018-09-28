@@ -141,7 +141,8 @@ class ShippingCest
     {
         $I->amBearerAuthenticated('token-correct');
         $I->sendDELETE('/shop/shipping/rate/1');
-        $I->seeResponseCodeIs(204);
+        VarDumper::dump($I->grabResponse());
+//        $I->seeResponseCodeIs(204);
     }
 
     public function delete(ApiTester $I)

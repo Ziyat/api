@@ -175,6 +175,7 @@ return [
 
         // ocr
 
+        'POST ocr' => 'ocr/index',
 
         //elasticSearch
 
@@ -184,6 +185,8 @@ return [
         'POST search/users' => 'search/users',
         'POST search/combination' => 'search/combination',
 
-        'POST ocr' => 'ocr/index',
+        // reviews
+        'POST reviews' => 'review/create',
+
     ],
 ];

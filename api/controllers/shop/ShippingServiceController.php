@@ -205,6 +205,10 @@ class ShippingServiceController extends BearerCrudController
      *     security={{"Bearer": {}}}
      * )
      *
+     *
+     * @param $id
+     * @throws BadRequestHttpException
+     * @throws ForbiddenHttpException
      */
     public function actionRateDelete($id)
     {

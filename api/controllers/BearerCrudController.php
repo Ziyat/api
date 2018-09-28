@@ -22,11 +22,11 @@ class BearerCrudController extends Controller
             HttpBasicAuth::class,
             HttpBearerAuth::class,
         ];
-        $behaviors['authenticator']['only'] = ['create', 'update', 'delete'];
+        $behaviors['authenticator']['only'] = ['create', 'update', 'delete','rate-delete'];
 
         $behaviors['access'] = [
             'class' => AccessControl::class,
-            'only' => ['create', 'update', 'delete'],
+            'only' => ['create', 'update', 'delete','rate-delete'],
             'rules' => [
                 [
                     'allow' => true,

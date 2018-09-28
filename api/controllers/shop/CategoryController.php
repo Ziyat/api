@@ -212,11 +212,13 @@ class CategoryController extends BearerCrudController
      *     ),
      *     security={{"Bearer": {}}}
      * )
+     *
      * @param $id
+     * @return CategoryForm
      * @throws BadRequestHttpException
-     * @throws NotFoundHttpException
      * @throws ForbiddenHttpException
-     * @return CategoryForm|Category
+     * @throws NotFoundHttpException
+     * @throws \yii\base\InvalidArgumentException
      */
 
     public function actionUpdate($id)

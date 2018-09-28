@@ -44,6 +44,7 @@ class ShippingManageService
              */
             $shippingService->setRate(
                 $rate->id,
+                $rate->name,
                 $rate->price_type,
                 $rate->price_min,
                 $rate->price_max,
@@ -83,6 +84,7 @@ class ShippingManageService
              */
             $shippingService->setRate(
                 $rate->id,
+                $rate->name,
                 $rate->price_type,
                 $rate->price_min,
                 $rate->price_max,

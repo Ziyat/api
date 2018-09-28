@@ -25,7 +25,7 @@ class ShippingServiceRepository
 
     /**
      * @param $id
-     * @return ShippingService
+     * @return ShippingService|array
      * @throws NotFoundException
      */
     public function getByRateId($id): ShippingService

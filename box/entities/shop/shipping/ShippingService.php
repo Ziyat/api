@@ -38,6 +38,7 @@ class ShippingService extends ActiveRecord
 
     public function setRate(
         $id,
+        $name,
         $price_type,
         $price_min,
         $price_max,
@@ -59,6 +60,7 @@ class ShippingService extends ActiveRecord
                  */
                 if ($rate->isIdEqualTo($id)) {
                     $rate->edit(
+                        $name,
                         $price_type,
                         $price_min,
                         $price_max,
@@ -81,6 +83,7 @@ class ShippingService extends ActiveRecord
             }
         }
         $rate = ShippingServiceRates::create(
+            $name,
             $price_type,
             $price_min,
             $price_max,

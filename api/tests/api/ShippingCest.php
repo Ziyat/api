@@ -49,6 +49,7 @@ class ShippingCest
             'description' => 'since 1908',
             'rates' => [
                 [
+                    'name' => 'rate 1',
                     'price_type' => 1,
                     'price_min' => 250.99,
                     'price_max' => 550.99,
@@ -61,6 +62,7 @@ class ShippingCest
                     ]
                 ],
                 [
+                    'name' => 'rate 2',
                     'price_type' => 1,
                     'price_min' => 150.99,
                     'price_max' => 500.99,
@@ -88,6 +90,7 @@ class ShippingCest
             'rates' => [
                 [
                     'id' => 1,
+                    'name' => 'rate 1',
                     'price_type' => 10,
                     'price_min' => 8876.99,
                     'price_max' => 657.99,
@@ -99,6 +102,7 @@ class ShippingCest
                 ],
                 [
                     'id' => 2,
+                    'name' => 'rate 2',
                     'price_type' => 10,
                     'price_min' => 998.99,
                     'price_max' => 767.99,

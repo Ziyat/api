@@ -9,6 +9,7 @@ use yii\db\ActiveRecord;
 
 /**
  * @property integer $id
+ * @property string $name
  * @property integer $shipping_service_id
  * @property integer $price_type
  * @property float $price_min
@@ -37,6 +38,7 @@ class ShippingServiceRates extends ActiveRecord
     const TYPE_INTERNATIONAL = 20;
 
     public static function create(
+        $name,
         $price_type,
         $price_min,
         $price_max,
@@ -49,6 +51,7 @@ class ShippingServiceRates extends ActiveRecord
     ): self
     {
         $shippingServiceRates = new static();
+        $shippingServiceRates->name = $name;
         $shippingServiceRates->price_type = $price_type;
         $shippingServiceRates->price_min = $price_min;
         $shippingServiceRates->price_max = $price_max;
@@ -62,6 +65,7 @@ class ShippingServiceRates extends ActiveRecord
     }
 
     public function edit(
+        $name,
         $price_type,
         $price_min,
         $price_max,
@@ -73,6 +77,7 @@ class ShippingServiceRates extends ActiveRecord
         $weight
     ): void
     {
+        $this->name = $name;
         $this->price_type = $price_type;
         $this->price_min = $price_min;
         $this->price_max = $price_max;
@@ -135,6 +140,7 @@ class ShippingServiceRates extends ActiveRecord
     {
         return [
             'id' => 'id',
+            'name' => 'name',
             'price_type' => function (self $model) {
                 return $model->price_type == $model::PRICE_TYPE_FIX
                     ? [

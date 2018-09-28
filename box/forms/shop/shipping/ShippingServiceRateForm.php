@@ -13,6 +13,7 @@ use yii\base\Model;
 
 /**
  * @property integer $id
+ * @property string $name
  * @property integer $price_type
  * @property float $price_min
  * @property float $price_max
@@ -27,6 +28,7 @@ use yii\base\Model;
 class ShippingServiceRateForm extends Model
 {
     public $id = null;
+    public $name;
     public $price_type;
     public $price_min;
     public $price_max;
@@ -43,6 +45,7 @@ class ShippingServiceRateForm extends Model
     public function __construct(ShippingServiceRates $rate = null, array $config = [])
     {
         if ($rate) {
+            $this->name = $rate->name;
             $this->price_type = $rate->price_type;
             $this->price_min = $rate->price_min;
             $this->price_max = $rate->price_max;
@@ -62,7 +65,8 @@ class ShippingServiceRateForm extends Model
     public function rules()
     {
         return [
-            [['price_type', 'type'], 'required'],
+            [['price_type', 'type','name'], 'required'],
+            [['name'], 'string'],
             [['id','price_type', 'day_min', 'day_max', 'type', 'country_id'], 'integer'],
             [['price_min', 'price_max', 'price_fix', 'weight'], 'double'],
             ['destinations', 'each', 'rule' => [

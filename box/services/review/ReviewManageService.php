@@ -71,8 +71,6 @@ class ReviewManageService
      */
     public function edit($id, ReviewForm $form): Review
     {
-
-
         $review = $this->reviews->find($id);
 
         $this->assertIsNotRoot($review);

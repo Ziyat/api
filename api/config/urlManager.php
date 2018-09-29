@@ -186,6 +186,7 @@ return [
         'POST search/combination' => 'search/combination',
 
         // reviews
+        'GET reviews/<type:\d+>/<item_id:\d+>' => 'review/all-by-item',
         'POST reviews' => 'review/create',
         'POST reviews/<id:\d+>' => 'review/update',
         'DELETE reviews/<id:\d+>' => 'review/delete',

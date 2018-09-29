@@ -27,4 +27,11 @@ class ReviewReadModel
             'query' => Review::find()
         ]);
     }
+
+    public function findByTypeAndItemId($type, $item_id)
+    {
+        return new ActiveDataProvider([
+            'query' => Review::find()->where(['type' => $type, 'item_id' => $item_id])
+        ]);
+    }
 }

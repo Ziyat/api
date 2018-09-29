@@ -14,13 +14,13 @@ use yii\web\BadRequestHttpException;
 
 /**
  * @property ReviewManageService $manageService
- * @property ReviewReadModel $readModel
+ * @property ReviewReadModel $reviews
  */
 
 class ReviewController extends BearerController
 {
     private $manageService;
-    private $readModel;
+    private $reviews;
 
     public function __construct(
         string $id,
@@ -31,9 +31,31 @@ class ReviewController extends BearerController
     )
     {
         $this->manageService = $service;
-        $this->readModel = $readModel;
+        $this->reviews = $readModel;
         parent::__construct($id, $module, $config);
     }
+
+    /**
+     * @SWG\Get(
+     *     path="/reviews/{type}/{item_id}",
+     *     tags={"Reviews"},
+     *     @SWG\Parameter(name="type", in="path", required=true, type="integer"),
+     *     @SWG\Parameter(name="item_id", in="path", required=true, type="integer"),
+     *     description="Create new review, Return review object",
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *     ),
+     * )
+     * @param $type
+     * @param $item_id
+     * @return \yii\data\ActiveDataProvider
+     */
+    public function actionAllByItem($type, $item_id)
+    {
+        return $this->reviews->findByTypeAndItemId($type, $item_id);
+    }
+
 
     /**
      * @SWG\Post(
@@ -53,8 +75,7 @@ class ReviewController extends BearerController
      * )
      * @return \box\entities\review\Review|ReviewForm
      * @throws BadRequestHttpException
-     * @throws \RuntimeException
-     * @throws \box\repositories\NotFoundException
+     * @throws \Exception
      * @throws \yii\base\InvalidArgumentException
      */
     public function actionCreate()
@@ -65,7 +86,7 @@ class ReviewController extends BearerController
             try {
                 $review = $this->manageService->create($form);
                 return $review;
-            } catch (\DomainException $e) {
+            } catch (\Exception $e) {
                 throw new BadRequestHttpException($e->getMessage());
             }
         }
@@ -98,7 +119,7 @@ class ReviewController extends BearerController
      */
     public function actionUpdate($id)
     {
-        $review = $this->readModel->find($id);
+        $review = $this->reviews->find($id);
         $form = new ReviewForm($review);
         $form->load(\Yii::$app->request->bodyParams, '');
         if ($form->validate()) {

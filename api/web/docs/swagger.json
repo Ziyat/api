@@ -860,6 +860,33 @@
                 }
             }
         },
+        "/reviews/{type}/{item_id}": {
+            "get": {
+                "tags": [
+                    "Reviews"
+                ],
+                "description": "Create new review, Return review object",
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "item_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                }
+            }
+        },
         "/reviews": {
             "post": {
                 "tags": [

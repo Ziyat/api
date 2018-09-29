@@ -91,8 +91,8 @@ class ReviewCest
         $I->sendPOST('/reviews/2',[
             'title' => 'first review edit',
             'text' => 'first review text edit',
-            'type' => 15,
-            'item_id' => 2,
+            'type' => 10,
+            'item_id' => 1,
         ]);
 
         $I->seeResponseCodeIs(200);
@@ -111,6 +111,17 @@ class ReviewCest
         ]);
         $I->seeResponseCodeIs(200);
     }
+
+    public function getAllByTypeAndItemId(ApiTester $I)
+    {
+
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendGET('/reviews/10/1');
+        $I->seeResponseCodeIs(200);
+    }
+
+
+
 
     public function accessRemove(ApiTester $I)
     {

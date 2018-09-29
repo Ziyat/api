@@ -865,7 +865,7 @@
                 "tags": [
                     "Reviews"
                 ],
-                "description": "Create new review, Return review object",
+                "description": "Return reviews array by type and item_id",
                 "parameters": [
                     {
                         "name": "type",

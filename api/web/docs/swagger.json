@@ -993,6 +993,25 @@
                         "description": "Success response"
                     }
                 }
+            },
+            "delete": {
+                "tags": [
+                    "Reviews"
+                ],
+                "description": "Return reviews array by type and item_id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                }
             }
         },
         "/search/brands": {

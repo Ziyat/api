@@ -41,7 +41,7 @@ class ReviewController extends BearerController
      *     tags={"Reviews"},
      *     @SWG\Parameter(name="type", in="path", required=true, type="integer"),
      *     @SWG\Parameter(name="item_id", in="path", required=true, type="integer"),
-     *     description="Create new review, Return review object",
+     *     description="Return reviews array by type and item_id",
      *     @SWG\Response(
      *         response=200,
      *         description="Success response",

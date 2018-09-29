@@ -860,6 +860,102 @@
                 }
             }
         },
+        "/reviews": {
+            "post": {
+                "tags": [
+                    "Reviews"
+                ],
+                "description": "Create new review, Return review object",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "text",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "type",
+                        "in": "formData",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "item_id",
+                        "in": "formData",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "score",
+                        "in": "formData",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                }
+            }
+        },
+        "/reviews/{id}": {
+            "post": {
+                "tags": [
+                    "Reviews"
+                ],
+                "description": "Edit review by id, Return review object",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "title",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "text",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "type",
+                        "in": "formData",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "item_id",
+                        "in": "formData",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "score",
+                        "in": "formData",
+                        "required": false,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                }
+            }
+        },
         "/search/brands": {
             "post": {
                 "tags": [

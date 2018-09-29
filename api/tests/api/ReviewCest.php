@@ -4,6 +4,10 @@ namespace api\tests\functional;
 
 use api\tests\ApiTester;
 use common\fixtures\ProfileFixture;
+use common\fixtures\shop\BrandFixture;
+use common\fixtures\shop\CategoryFixture;
+use common\fixtures\shop\CharacteristicFixture;
+use common\fixtures\shop\product\ProductFixture;
 use common\fixtures\TokenFixture;
 use common\fixtures\UserFixture;
 use yii\helpers\VarDumper;
@@ -29,7 +33,23 @@ class ReviewCest
             'profile' => [
                 'class' => ProfileFixture::class,
                 'dataFile' => codecept_data_dir() . 'profile.php'
-            ]
+            ],
+            'characteristic' => [
+                'class' => CharacteristicFixture::class,
+                'dataFile' => codecept_data_dir() . 'characteristic.php'
+            ],
+            'brand' => [
+                'class' => BrandFixture::class,
+                'dataFile' => codecept_data_dir() . 'brand.php'
+            ],
+            'category' => [
+                'class' => CategoryFixture::class,
+                'dataFile' => codecept_data_dir() . 'category.php'
+            ],
+            'product' => [
+                'class' => ProductFixture::class,
+                'dataFile' => codecept_data_dir() . 'user/product.php'
+            ],
         ]);
     }
 
@@ -55,9 +75,58 @@ class ReviewCest
     {
 
         $I->amBearerAuthenticated('token-correct');
-        $I->sendPOST('/reviews');
+        $I->sendPOST('/reviews',[
+            'title' => 'first review',
+            'text' => 'first review text',
+            'type' => 10,
+            'item_id' => 1,
+        ]);
+        $I->seeResponseCodeIs(200);
+    }
 
-        VarDumper::dump($I->grabResponse());
+    public function edit(ApiTester $I)
+    {
+
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendPOST('/reviews/2',[
+            'title' => 'first review edit',
+            'text' => 'first review text edit',
+            'type' => 15,
+            'item_id' => 2,
+        ]);
+
+        $I->seeResponseCodeIs(200);
+    }
+
+    public function addChild(ApiTester $I)
+    {
+
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendPOST('/reviews',[
+            'title' => 'child review',
+            'text' => 'child review text',
+            'type' => 10,
+            'item_id' => 1,
+            'parentId' => 2,
+        ]);
+        $I->seeResponseCodeIs(200);
+    }
+
+    public function accessRemove(ApiTester $I)
+    {
+
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendDELETE('/reviews/1');
+
+        $I->seeResponseCodeIs(400);
+    }
+
+    public function remove(ApiTester $I)
+    {
+
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendDELETE('/reviews/2');
+        $I->seeResponseCodeIs(200);
     }
 
 }

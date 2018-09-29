@@ -39,6 +39,7 @@ class Review extends ActiveRecord
 {
     public const TYPE_USER_PRODUCT = 10;
     public const TYPE_GENERIC_PRODUCT = 15;
+    public const TYPE_USER = 20;
 
     public static function create($title, $text, $type, $item_id, $score): self
     {
@@ -47,9 +48,18 @@ class Review extends ActiveRecord
         $review->text = $text;
         $review->type = $type;
         $review->item_id = $item_id;
-        $review->score = $score;
+        $review->score = $score ?: 0;
 
         return $review;
+    }
+
+    public function edit($title, $text, $type, $item_id, $score): void
+    {
+        $this->title = $title;
+        $this->text = $text;
+        $this->type = $type;
+        $this->item_id = $item_id;
+        $this->score = $score;
     }
 
     public function behaviors()

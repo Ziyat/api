@@ -39,7 +39,8 @@ class ReviewController extends BearerController
      * @SWG\Post(
      *     path="/reviews",
      *     tags={"Reviews"},
-     *     @SWG\Parameter(name="title", in="formData", required=true, type="string"),
+     *     @SWG\Parameter(name="title", in="formData", required=false, type="string"),
+     *     @SWG\Parameter(name="parentId", in="formData", required=false, type="integer"),
      *     @SWG\Parameter(name="text", in="formData", required=true, type="string"),
      *     @SWG\Parameter(name="type", in="formData", required=true, type="integer"),
      *     @SWG\Parameter(name="item_id", in="formData", required=true, type="integer"),
@@ -77,6 +78,7 @@ class ReviewController extends BearerController
      *     tags={"Reviews"},
      *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
      *     @SWG\Parameter(name="title", in="formData", required=false, type="string"),
+     *     @SWG\Parameter(name="parentId", in="formData", required=false, type="integer"),
      *     @SWG\Parameter(name="text", in="formData", required=false, type="string"),
      *     @SWG\Parameter(name="type", in="formData", required=false, type="integer"),
      *     @SWG\Parameter(name="item_id", in="formData", required=false, type="integer"),

@@ -874,6 +874,12 @@
                         "type": "string"
                     },
                     {
+                        "name": "parentId",
+                        "in": "formData",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
                         "name": "text",
                         "in": "formData",
                         "required": true,
@@ -923,6 +929,12 @@
                         "in": "formData",
                         "required": false,
                         "type": "string"
+                    },
+                    {
+                        "name": "parentId",
+                        "in": "formData",
+                        "required": false,
+                        "type": "integer"
                     },
                     {
                         "name": "text",

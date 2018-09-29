@@ -44,7 +44,7 @@ class ReviewForm extends Model
     public function rules()
     {
         return [
-            [['title', 'text', 'type', 'item_id'], 'required'],
+            [['text', 'type', 'item_id'], 'required'],
             [['title','text'],'trim'],
             [['title','text'],'string'],
             [['type','item_id','score','parentId'],'integer'],

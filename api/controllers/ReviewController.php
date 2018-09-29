@@ -138,7 +138,7 @@ class ReviewController extends BearerController
      *     path="/reviews/{id}",
      *     tags={"Reviews"},
      *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
-     *     description="Return reviews array by type and item_id",
+     *     description="Delete review by id",
      *     @SWG\Response(
      *         response=200,
      *         description="Success response",

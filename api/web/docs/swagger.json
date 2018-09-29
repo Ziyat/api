@@ -870,13 +870,13 @@
                     {
                         "name": "title",
                         "in": "formData",
-                        "required": true,
+                        "required": false,
                         "type": "string"
                     },
                     {
                         "name": "parentId",
                         "in": "formData",
-                        "required": true,
+                        "required": false,
                         "type": "integer"
                     },
                     {

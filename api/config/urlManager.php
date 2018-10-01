@@ -191,5 +191,9 @@ return [
         'POST reviews/<id:\d+>' => 'review/update',
         'DELETE reviews/<id:\d+>' => 'review/delete',
 
+        'GET reviews/<id:\d+>/children' => 'review/children',
+        'GET reviews/<id:\d+>/parents' => 'review/parents',
+        'GET reviews/<id:\d+>/parent' => 'review/parent',
+
     ],
 ];

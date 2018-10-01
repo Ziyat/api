@@ -998,7 +998,70 @@
                 "tags": [
                     "Reviews"
                 ],
-                "description": "Return reviews array by type and item_id",
+                "description": "Delete review by id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                }
+            }
+        },
+        "/reviews/{id}/children": {
+            "get": {
+                "tags": [
+                    "Reviews"
+                ],
+                "description": "Delete review by id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                }
+            }
+        },
+        "/reviews/{id}/parent": {
+            "get": {
+                "tags": [
+                    "Reviews"
+                ],
+                "description": "Delete review by id",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                }
+            }
+        },
+        "/reviews/{id}/parents": {
+            "get": {
+                "tags": [
+                    "Reviews"
+                ],
+                "description": "Delete review by id",
                 "parameters": [
                     {
                         "name": "id",
@@ -3567,6 +3630,126 @@
                         "Bearer": []
                     }
                 ]
+            },
+            "delete": {
+                "tags": [
+                    "User Products"
+                ],
+                "description": "get user/product shipping",
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "shipping_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/UserProductShippingResponse"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "user/products/shipping/{product_id}/{shipping_id}/free": {
+            "patch": {
+                "tags": [
+                    "User Products"
+                ],
+                "description": "get user/product shipping",
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/UserProductShippingResponse"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "user/products/shipping/{product_id}/{shipping_id}/no-free": {
+            "patch": {
+                "tags": [
+                    "User Products"
+                ],
+                "description": "get user/product shipping",
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/UserProductShippingResponse"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "user/products/shipping/{product_id}/{shipping_id}/pickup": {
+            "patch": {
+                "tags": [
+                    "User Products"
+                ],
+                "description": "get user/product shipping",
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/UserProductShippingResponse"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
             }
         },
         "/profile": {
@@ -4085,12 +4268,21 @@
                     "type": {
                         "type": "integer"
                     },
-                    "weight": {
-                        "type": "number"
-                    },
                     "destinations": {
                         "type": "array",
                         "items": {}
+                    },
+                    "weight": {
+                        "type": "number"
+                    },
+                    "width": {
+                        "type": "number"
+                    },
+                    "height": {
+                        "type": "number"
+                    },
+                    "length": {
+                        "type": "number"
                     }
                 }
             }
@@ -4445,7 +4637,7 @@
                     }
                 },
                 "price": {
-                    "type": "double"
+                    "type": "number"
                 },
                 "free_shipping_type": {
                     "type": "integer"

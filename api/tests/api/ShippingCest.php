@@ -110,11 +110,14 @@ class ShippingCest
                     'day_max' => 8,
                     'type' => 20,
                     'country_id' => 198,
+                    'weight' => 23,
+                    'width' => 234,
+                    'height' => 234,
+                    'length' => 234,
 
                 ]
             ]
         ]);
-
         $I->seeResponseCodeIs(202);
     }
 

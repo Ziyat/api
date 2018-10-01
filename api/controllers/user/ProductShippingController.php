@@ -40,6 +40,7 @@ class ProductShippingController extends BearerController
         $this->readModel = $readModel;
     }
 
+
     /**
      * @SWG\Post(
      *     path="user/products/shipping/search",
@@ -119,6 +120,31 @@ class ProductShippingController extends BearerController
         } catch (\Exception $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
+    }/**
+     * @SWG\Delete(
+     *     path="user/products/shipping/{product_id}/{shipping_id}",
+     *     tags={"User Products"},
+     *     description="get user/product shipping",
+     *     @SWG\Parameter(name="product_id", in="path", required=true, type="integer"),
+     *     @SWG\Parameter(name="shipping_id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Schema(ref="#/definitions/UserProductShippingResponse")
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @param $product_id
+     * @param $id
+     * @throws BadRequestHttpException
+     */
+    public function actionDelete($product_id, $id)
+    {
+        try {
+            $this->productService->removeShipping($product_id, $id);
+        } catch (\Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
     }
 
 
@@ -162,6 +188,95 @@ class ProductShippingController extends BearerController
 
         return $form;
     }
+
+
+
+    /**
+     * @SWG\Patch(
+     *     path="user/products/shipping/{product_id}/{shipping_id}/free",
+     *     tags={"User Products"},
+     *     description="get user/product shipping",
+     *     @SWG\Parameter(name="product_id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Schema(ref="#/definitions/UserProductShippingResponse")
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     *
+     * @param $product_id
+     * @param $shipping_id
+     * @return \box\entities\shop\product\Shipping
+     * @throws BadRequestHttpException
+     */
+    public function actionFree($product_id, $shipping_id)
+    {
+        try {
+            $shipping = $this->productService->freeShipping($product_id,$shipping_id);
+            return $shipping;
+        } catch (\Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+    }
+
+    /**
+     * @SWG\Patch(
+     *     path="user/products/shipping/{product_id}/{shipping_id}/no-free",
+     *     tags={"User Products"},
+     *     description="get user/product shipping",
+     *     @SWG\Parameter(name="product_id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Schema(ref="#/definitions/UserProductShippingResponse")
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     *
+     * @param $product_id
+     * @param $shipping_id
+     * @return \box\entities\shop\product\Shipping
+     * @throws BadRequestHttpException
+     */
+    public function actionNoFree($product_id, $shipping_id)
+    {
+        try {
+            $shipping = $this->productService->noFreeShipping($product_id,$shipping_id);
+            return $shipping;
+        } catch (\Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+    }
+
+    /**
+     * @SWG\Patch(
+     *     path="user/products/shipping/{product_id}/{shipping_id}/pickup",
+     *     tags={"User Products"},
+     *     description="get user/product shipping",
+     *     @SWG\Parameter(name="product_id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Schema(ref="#/definitions/UserProductShippingResponse")
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     *
+     * @param $product_id
+     * @param $shipping_id
+     * @return \box\entities\shop\product\Shipping
+     * @throws BadRequestHttpException
+     */
+    public function actionPickup($product_id, $shipping_id)
+    {
+        try {
+            $shipping = $this->productService->pickupShipping($product_id,$shipping_id);
+            return $shipping;
+        } catch (\Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+    }
 }
 
 
@@ -177,7 +292,7 @@ class ProductShippingController extends BearerController
  *              @SWG\Property(property="name", type="string"),
  *              @SWG\Property(property="code", type="string"),
  *     )),
- *     @SWG\Property(property="price", type="double"),
+ *     @SWG\Property(property="price", type="number"),
  *     @SWG\Property(property="free_shipping_type", type="integer"),
  * )
  */

@@ -24,6 +24,9 @@ use yii\base\Model;
  * @property integer $type
  * @property float $weight
  * @property float $destinations
+ * @property float $width
+ * @property float $height
+ * @property float $length
  */
 class ShippingServiceRateForm extends Model
 {
@@ -39,6 +42,9 @@ class ShippingServiceRateForm extends Model
     public $type;
     public $weight;
     public $destinations;
+    public $width;
+    public $height;
+    public $length;
 
     public $_rate;
 
@@ -54,8 +60,12 @@ class ShippingServiceRateForm extends Model
             $this->day_max = $rate->day_max;
             $this->country_id = $rate->country_id;
             $this->type = $rate->type;
-            $this->weight = $rate->weight;
             $this->destinations = $rate->destinations;
+
+            $this->weight = $rate->weight;
+            $this->width = $rate->width;
+            $this->height = $rate->height;
+            $this->length = $rate->length;
 
             $this->_rate = $rate;
         }
@@ -68,7 +78,7 @@ class ShippingServiceRateForm extends Model
             [['price_type', 'type','name'], 'required'],
             [['name'], 'string'],
             [['id','price_type', 'day_min', 'day_max', 'type', 'country_id'], 'integer'],
-            [['price_min', 'price_max', 'price_fix', 'weight'], 'double'],
+            [['price_min', 'price_max', 'price_fix', 'weight', 'width', 'height', 'length'], 'double'],
             ['destinations', 'each', 'rule' => [
                 'exist',
                 'skipOnError' => true,

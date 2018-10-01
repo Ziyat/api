@@ -54,7 +54,10 @@ class ShippingManageService
                 $rate->country_id,
                 $rate->type,
                 $rate->weight,
-                $rate->destinations
+                $rate->destinations,
+                $rate->width,
+                $rate->height,
+                $rate->length
             );
         }
 
@@ -94,7 +97,10 @@ class ShippingManageService
                 $rate->country_id,
                 $rate->type,
                 $rate->weight,
-                $rate->destinations
+                $rate->destinations,
+                $rate->width,
+                $rate->height,
+                $rate->length
             );
         }
 

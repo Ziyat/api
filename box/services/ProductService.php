@@ -425,4 +425,66 @@ class ProductService
 
         return $product->shipping;
     }
+
+    /**
+     * @param $product_id
+     * @param $shipping_id
+     * @return \box\entities\shop\product\Shipping
+     * @throws NotFoundException
+     * @throws \RuntimeException
+     */
+    public function freeShipping($product_id, $shipping_id)
+    {
+        $product = $this->products->get($product_id);
+        $product->freeShipping($shipping_id);
+        $this->products->save($product);
+
+        return $product->shipping;
+    }
+
+    /**
+     * @param $product_id
+     * @param $shipping_id
+     * @return \box\entities\shop\product\Shipping
+     * @throws NotFoundException
+     * @throws \RuntimeException
+     */
+    public function noFreeShipping($product_id, $shipping_id)
+    {
+        $product = $this->products->get($product_id);
+        $product->noFreeShipping($shipping_id);
+        $this->products->save($product);
+
+        return $product->shipping;
+    }
+
+    /**
+     * @param $product_id
+     * @param $shipping_id
+     * @return \box\entities\shop\product\Shipping
+     * @throws NotFoundException
+     * @throws \RuntimeException
+     */
+    public function pickupShipping($product_id, $shipping_id)
+    {
+        $product = $this->products->get($product_id);
+        $product->pickupShipping($shipping_id);
+        $this->products->save($product);
+
+        return $product->shipping;
+    }
+
+    /**
+     * @param $product_id
+     * @param $shipping_id
+     * @throws NotFoundException
+     * @throws \DomainException
+     * @throws \RuntimeException
+     */
+    public function removeShipping($product_id, $shipping_id)
+    {
+        $product = $this->products->get($product_id);
+        $product->revokeShipping($shipping_id);
+        $this->products->save($product);
+    }
 }

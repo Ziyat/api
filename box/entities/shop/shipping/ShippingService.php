@@ -48,7 +48,10 @@ class ShippingService extends ActiveRecord
         $country_id,
         $type,
         $weight,
-        $destinations
+        $destinations,
+        $width,
+        $height,
+        $length
     ): void
     {
 
@@ -69,7 +72,10 @@ class ShippingService extends ActiveRecord
                         $day_max,
                         $country_id,
                         $type,
-                        $weight
+                        $weight,
+                        $width,
+                        $height,
+                        $length
                     );
                     if (is_array($destinations)) {
                         for ($i = 0; $i < count($destinations); $i++) {
@@ -92,7 +98,10 @@ class ShippingService extends ActiveRecord
             $day_max,
             $country_id,
             $type,
-            $weight
+            $weight,
+            $width,
+            $height,
+            $length
         );
         if (is_array($destinations)) {
             for ($i = 0; $i < count($destinations); $i++) {

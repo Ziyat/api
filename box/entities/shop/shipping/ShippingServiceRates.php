@@ -23,6 +23,10 @@ use yii\db\ActiveRecord;
  *
  * @property float $weight
  *
+ * @property float $width
+ * @property float $height
+ * @property float $length
+ *
  * @property ShippingService $shippingService
  * @property ShippingRateDestination $destinations[]
  * @property Country $country
@@ -47,7 +51,10 @@ class ShippingServiceRates extends ActiveRecord
         $day_max,
         $country_id,
         $type,
-        $weight
+        $weight,
+        $width,
+        $height,
+        $length
     ): self
     {
         $shippingServiceRates = new static();
@@ -61,6 +68,9 @@ class ShippingServiceRates extends ActiveRecord
         $shippingServiceRates->country_id = $country_id;
         $shippingServiceRates->type = $type;
         $shippingServiceRates->weight = $weight;
+        $shippingServiceRates->width = $width;
+        $shippingServiceRates->height = $height;
+        $shippingServiceRates->length = $length;
         return $shippingServiceRates;
     }
 
@@ -74,7 +84,10 @@ class ShippingServiceRates extends ActiveRecord
         $day_max,
         $country_id,
         $type,
-        $weight
+        $weight,
+        $width,
+        $height,
+        $length
     ): void
     {
         $this->name = $name;
@@ -87,6 +100,9 @@ class ShippingServiceRates extends ActiveRecord
         $this->country_id = $country_id;
         $this->type = $type;
         $this->weight = $weight;
+        $this->width = $width;
+        $this->height = $height;
+        $this->length = $length;
     }
 
     public function assignDestination($destination_id): void
@@ -177,7 +193,10 @@ class ShippingServiceRates extends ActiveRecord
                         'code' => $model::TYPE_INTERNATIONAL,
                     ];
             },
-            'weight' => 'weight'
+            'weight' => 'weight',
+            'width' => 'width',
+            'height' => 'height',
+            'length' => 'length',
         ];
     }
 

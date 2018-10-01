@@ -112,6 +112,29 @@ class ReviewCest
         $I->seeResponseCodeIs(200);
     }
 
+    public function viewChildren(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendGET('/reviews/2/children');
+        $I->seeResponseCodeIs(200);
+    }
+
+    public function viewParent(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendGET('/reviews/3/parent');
+        $I->seeResponseCodeIs(200);
+    }
+
+    public function viewParents(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendGET('/reviews/3/parents');
+        $I->seeResponseCodeIs(200);
+    }
+
+
+
     public function getAllByTypeAndItemId(ApiTester $I)
     {
 

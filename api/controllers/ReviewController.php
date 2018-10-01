@@ -157,4 +157,85 @@ class ReviewController extends BearerController
         }
     }
 
+    /**
+     * @SWG\GET(
+     *     path="/reviews/{id}/children",
+     *     tags={"Reviews"},
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     description="Delete review by id",
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *     ),
+     * )
+     *
+     * @param $id
+     * @return \box\entities\review\Review[]
+     * @throws BadRequestHttpException
+     */
+
+    public function actionChildren($id)
+    {
+        try {
+            $review = $this->reviews->find($id);
+            return $review->children;
+        } catch (\Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+    }
+
+    /**
+     * @SWG\GET(
+     *     path="/reviews/{id}/parent",
+     *     tags={"Reviews"},
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     description="Delete review by id",
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *     ),
+     * )
+     *
+     * @param $id
+     * @return \box\entities\review\Review
+     * @throws BadRequestHttpException
+     */
+
+    public function actionParent($id)
+    {
+        try {
+            $review = $this->reviews->find($id);
+            return $review->parent;
+        } catch (\Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+    }
+
+    /**
+     * @SWG\GET(
+     *     path="/reviews/{id}/parents",
+     *     tags={"Reviews"},
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     description="Delete review by id",
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *     ),
+     * )
+     *
+     * @param $id
+     * @return \box\entities\review\Review[]
+     * @throws BadRequestHttpException
+     */
+
+    public function actionParents($id)
+    {
+        try {
+            $review = $this->reviews->find($id);
+            return $review->getParents()->andWhere(['!=','depth', 0])->all();
+        } catch (\Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+    }
+
 }

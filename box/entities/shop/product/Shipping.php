@@ -49,6 +49,58 @@ class Shipping extends ActiveRecord
         return $assignment;
     }
 
+
+    /**
+     * @throws \LogicException
+     */
+    public function pickup()
+    {
+        if ($this->isNoFree()) {
+            throw new \LogicException('free shipping type is already pickup.');
+        }
+
+        $this->free_shipping_type = self::TYPE_PICKUP;
+    }
+
+    /**
+     * @throws \LogicException
+     */
+    public function noFree()
+    {
+        if ($this->isNoFree()) {
+            throw new \LogicException('free shipping type is already no free.');
+        }
+
+        $this->free_shipping_type = self::TYPE_NO_FREE;
+    }
+
+    /**
+     * @throws \LogicException
+     */
+    public function free()
+    {
+        if ($this->isFree()) {
+            throw new \LogicException('free shipping type is already free.');
+        }
+
+        $this->free_shipping_type = self::TYPE_NO_FREE;
+    }
+
+    public function isPickup()
+    {
+        return $this->free_shipping_type == self::TYPE_PICKUP;
+    }
+
+    public function isNoFree()
+    {
+        return $this->free_shipping_type == self::TYPE_NO_FREE;
+    }
+
+    public function isFree()
+    {
+        return $this->free_shipping_type == self::TYPE_FREE;
+    }
+
     public function isForRateId($id): bool
     {
         return $this->rate_id == $id;

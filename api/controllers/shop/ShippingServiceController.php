@@ -265,8 +265,11 @@ class ShippingServiceController extends BearerCrudController
  *         @SWG\Property(property="day_max", type="integer"),
  *         @SWG\Property(property="country_id", type="integer"),
  *         @SWG\Property(property="type", type="integer"),
- *         @SWG\Property(property="weight", type="number"),
  *         @SWG\Property(property="destinations", type="array", @SWG\Items()),
+ *         @SWG\Property(property="weight", type="number"),
+ *         @SWG\Property(property="width", type="number"),
+ *         @SWG\Property(property="height", type="number"),
+ *         @SWG\Property(property="length", type="number"),
  *     )
  * )
  */

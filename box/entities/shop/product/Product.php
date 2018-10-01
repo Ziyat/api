@@ -7,15 +7,12 @@ use box\entities\Meta;
 use box\entities\shop\Brand;
 use box\entities\shop\Category;
 use box\entities\shop\product\queries\ProductQuery;
-use box\entities\shop\shipping\ShippingServiceRates;
 use box\entities\shop\Tag;
 use box\entities\user\User;
-use function foo\func;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\behaviors\BlameableBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
-use yii\helpers\VarDumper;
 use yii\web\UploadedFile;
 
 /**
@@ -380,6 +377,55 @@ class Product extends ActiveRecord
 //    }
 
     // Shipping
+
+    public function freeShipping($rate_id)
+    {
+        $assignments = $this->shipping;
+        foreach ($assignments as $k => $assignment) {
+            /**
+             * @var Shipping $assignment
+             */
+            if ($assignment->isForRateId($rate_id)) {
+                $assignment->free();
+                $assignments[$k] = $assignment;
+                $this->shipping = $assignments;
+                return;
+            }
+        }
+    }
+
+    public function noFreeShipping($rate_id)
+    {
+        $assignments = $this->shipping;
+        foreach ($assignments as $k => $assignment) {
+            /**
+             * @var Shipping $assignment
+             */
+            if ($assignment->isForRateId($rate_id)) {
+                $assignment->noFree();
+                $assignments[$k] = $assignment;
+                $this->shipping = $assignments;
+                return;
+            }
+        }
+    }
+
+    public function pickupShipping($rate_id)
+    {
+        $assignments = $this->shipping;
+        foreach ($assignments as $k => $assignment) {
+            /**
+             * @var Shipping $assignment
+             */
+            if ($assignment->isForRateId($rate_id)) {
+                $assignment->pickup();
+                $assignments[$k] = $assignment;
+                $this->shipping = $assignments;
+                return;
+            }
+        }
+    }
+
 
     public function assignShipping($rate_id, $countryIds, $free_shipping_type, $price): void
     {

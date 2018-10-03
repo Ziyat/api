@@ -103,19 +103,12 @@ class ShippingServiceRates extends ActiveRecord
         $this->width = $width;
         $this->height = $height;
         $this->length = $length;
+
     }
 
     public function assignDestination($destination_id): void
     {
         $destinations = $this->destinations;
-        foreach ($destinations as $k => $destination) {
-            /**
-             * @var ShippingRateDestination $destination
-             */
-            if ($destination->isIdEqualTo($destination_id)) {
-                return;
-            }
-        }
         $destinations[] = ShippingRateDestination::create($destination_id);
         $this->destinations = $destinations;
 

@@ -20,20 +20,22 @@ use yiidreamteam\upload\ImageUploadBehavior;
 class ShippingService extends ActiveRecord
 {
 
-    public static function create($name, $description, $photo): self
+    public static function create($name, $description, $photo, $rates): self
     {
         $shippingService = new static();
         $shippingService->name = $name;
         $shippingService->description = $description;
         $shippingService->photo = $photo;
+        $shippingService->shippingServiceRates = $rates;
         return $shippingService;
     }
 
-    public function edit($name, $description, $photo): void
+    public function edit($name, $description, $photo, $rates): void
     {
         $this->name = $name;
         $this->description = $description;
         $this->photo = $photo;
+        $this->shippingServiceRates = $rates;
     }
 
     public function setRate(
@@ -78,8 +80,8 @@ class ShippingService extends ActiveRecord
                         $length
                     );
                     if (is_array($destinations)) {
-                        for ($i = 0; $i < count($destinations); $i++) {
-                            $rate->assignDestination($destinations[$i]);
+                        foreach ($destinations as $destination) {
+                            $rate->assignDestination($destination);
                         }
                     }
                     $rates[$k] = $rate;
@@ -104,8 +106,8 @@ class ShippingService extends ActiveRecord
             $length
         );
         if (is_array($destinations)) {
-            for ($i = 0; $i < count($destinations); $i++) {
-                $rate->assignDestination($destinations[$i]);
+            foreach ($destinations as $destination) {
+                $rate->assignDestination($destination);
             }
         }
         $rates[] = $rate;
@@ -113,9 +115,18 @@ class ShippingService extends ActiveRecord
 
     }
 
-    public function revokeRates()
+    public function revokeRateDestinations($rateId)
     {
-        $this->shippingServiceRates = [];
+        $rates = $this->shippingServiceRates;
+        foreach ($rates as $rate) {
+            /**
+             * @var ShippingServiceRates $rate
+             */
+            if ($rate->isIdEqualTo($rateId)) {
+                $rate->revokeDestinations();
+            }
+        }
+
     }
 
     /**

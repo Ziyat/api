@@ -10,6 +10,7 @@ namespace box\forms\shop\shipping;
 use box\entities\Country;
 use box\entities\shop\shipping\ShippingServiceRates;
 use yii\base\Model;
+use yii\helpers\ArrayHelper;
 
 /**
  * @property integer $id
@@ -23,7 +24,7 @@ use yii\base\Model;
  * @property integer $country_id
  * @property integer $type
  * @property float $weight
- * @property float $destinations
+ * @property array $destinations
  * @property float $width
  * @property float $height
  * @property float $length
@@ -41,7 +42,7 @@ class ShippingServiceRateForm extends Model
     public $country_id;
     public $type;
     public $weight;
-    public $destinations;
+    public $destinations = [];
     public $width;
     public $height;
     public $length;
@@ -51,6 +52,7 @@ class ShippingServiceRateForm extends Model
     public function __construct(ShippingServiceRates $rate = null, array $config = [])
     {
         if ($rate) {
+            $this->id = $rate->id;
             $this->name = $rate->name;
             $this->price_type = $rate->price_type;
             $this->price_min = $rate->price_min;
@@ -60,14 +62,14 @@ class ShippingServiceRateForm extends Model
             $this->day_max = $rate->day_max;
             $this->country_id = $rate->country_id;
             $this->type = $rate->type;
-            $this->destinations = $rate->destinations;
+            $this->destinations = ArrayHelper::getValue($rate->destinations, 'destination_id');
 
             $this->weight = $rate->weight;
             $this->width = $rate->width;
             $this->height = $rate->height;
             $this->length = $rate->length;
 
-            $this->_rate = $rate;
+//            $this->_rate = $rate;
         }
         parent::__construct($config);
     }

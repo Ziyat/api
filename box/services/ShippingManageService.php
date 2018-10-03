@@ -8,10 +8,10 @@ namespace box\services;
 
 
 use box\entities\shop\shipping\ShippingService;
+use box\entities\shop\shipping\ShippingServiceRates;
 use box\forms\shop\shipping\ShippingServiceForm;
 use box\forms\shop\shipping\ShippingServiceRateForm;
 use box\repositories\ShippingServiceRepository;
-use yii\helpers\VarDumper;
 
 /**
  * Created by Madetec-Solution.
@@ -19,14 +19,17 @@ use yii\helpers\VarDumper;
  * Class ShippingService
  * @package box\services
  * @property ShippingServiceRepository $shippingServices
+ * @property TransactionManager $transaction
  */
 class ShippingManageService
 {
     public $shippingServices;
+    public $transaction;
 
-    public function __construct(ShippingServiceRepository $shippingServiceRepository)
+    public function __construct(ShippingServiceRepository $shippingServiceRepository, TransactionManager $transactionManager)
     {
         $this->shippingServices = $shippingServiceRepository;
+        $this->transaction = $transactionManager;
     }
 
     /**
@@ -36,30 +39,37 @@ class ShippingManageService
      */
     public function create(ShippingServiceForm $form)
     {
-        $shippingService = ShippingService::create($form->name, $form->description, $form->photo);
 
-        foreach ($form->rates as $rate) {
+        $rates = [];
+        foreach ($form->rates as $formRate) {
+
             /**
-             * @var ShippingServiceRateForm $rate
+             * @var ShippingServiceRateForm $formRate
              */
-            $shippingService->setRate(
-                $rate->id,
-                $rate->name,
-                $rate->price_type,
-                $rate->price_min,
-                $rate->price_max,
-                $rate->price_fix,
-                $rate->day_min,
-                $rate->day_max,
-                $rate->country_id,
-                $rate->type,
-                $rate->weight,
-                $rate->destinations,
-                $rate->width,
-                $rate->height,
-                $rate->length
+
+            $rate = ShippingServiceRates::create(
+                $formRate->name,
+                $formRate->price_type,
+                $formRate->price_min,
+                $formRate->price_max,
+                $formRate->price_fix,
+                $formRate->day_min,
+                $formRate->day_max,
+                $formRate->country_id,
+                $formRate->type,
+                $formRate->weight,
+                $formRate->width,
+                $formRate->height,
+                $formRate->length
             );
+
+            foreach ($formRate->destinations as $formDestinationId) {
+                $rate->assignDestination($formDestinationId);
+            }
+            $rates[] = $rate;
         }
+
+        $shippingService = ShippingService::create($form->name, $form->description, $form->photo, $rates);
 
         $this->shippingServices->save($shippingService);
 
@@ -78,33 +88,50 @@ class ShippingManageService
     {
         $shippingService = $this->shippingServices->get($id);
 
-        $shippingService->edit($form->name, $form->description, $form->photo);
-        $shippingService->revokeRates();
-        $this->shippingServices->save($shippingService);
-        foreach ($form->rates as $rate) {
-            /**
-             * @var ShippingServiceRateForm $rate
-             */
-            $shippingService->setRate(
-                $rate->id,
-                $rate->name,
-                $rate->price_type,
-                $rate->price_min,
-                $rate->price_max,
-                $rate->price_fix,
-                $rate->day_min,
-                $rate->day_max,
-                $rate->country_id,
-                $rate->type,
-                $rate->weight,
-                $rate->destinations,
-                $rate->width,
-                $rate->height,
-                $rate->length
-            );
-        }
+        try {
+            $this->transaction->wrap(function () use ($shippingService, $form) {
+                $rates = [];
+                foreach ($form->rates as $formRate) {
+                    /**
+                     * @var ShippingServiceRateForm $formRate
+                     */
+                    foreach ($shippingService->shippingServiceRates as $rate) {
+                        /**
+                         * @var ShippingServiceRates $rate
+                         */
+                        if ($rate->isIdEqualTo($formRate->id)) {
+                            $rate->revokeDestinations();
+                            $rate->save();
+                            $rate->edit(
+                                $formRate->name,
+                                $formRate->price_type,
+                                $formRate->price_min,
+                                $formRate->price_max,
+                                $formRate->price_fix,
+                                $formRate->day_min,
+                                $formRate->day_max,
+                                $formRate->country_id,
+                                $formRate->type,
+                                $formRate->weight,
+                                $formRate->width,
+                                $formRate->height,
+                                $formRate->length
+                            );
 
-        $this->shippingServices->save($shippingService);
+                            foreach ($formRate->destinations as $formDestinationId) {
+                                $rate->assignDestination($formDestinationId);
+                            }
+                            $rates[] = $rate;
+                        }
+                    }
+                }
+                $shippingService->edit($form->name, $form->description, $form->photo, $rates);
+                $this->shippingServices->save($shippingService);
+
+            });
+        } catch (\Exception $e) {
+            throw $e;
+        }
 
         return $shippingService;
     }

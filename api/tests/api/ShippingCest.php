@@ -57,9 +57,7 @@ class ShippingCest
                     'day_max' => 5,
                     'type' => 10,
                     'country_id' => 72,
-                    'destinations' => [
-                        43,23,74
-                    ]
+                    'destinations' => [43,23,74]
                 ],
                 [
                     'name' => 'rate 2',
@@ -70,14 +68,13 @@ class ShippingCest
                     'day_max' => 5,
                     'type' => 20,
                     'country_id' => 72,
-                    'destinations' => [
-                        88,44,55
-                    ]
+                    'destinations' => [88,44,55]
                 ]
             ]
         ], [
             'photo' => codecept_data_dir('user/photos/photo1.jpg'),
         ]);
+
         $I->seeResponseCodeIs(201);
     }
 
@@ -114,11 +111,16 @@ class ShippingCest
                     'width' => 234,
                     'height' => 234,
                     'length' => 234,
+                    'destinations' => [88,44,66]
 
                 ]
             ]
         ]);
+        echo PHP_EOL;
+        VarDumper::dump($I->grabResponse());
+        echo PHP_EOL;
         $I->seeResponseCodeIs(202);
+
     }
 
     public function view(ApiTester $I)
@@ -126,9 +128,6 @@ class ShippingCest
         $I->amBearerAuthenticated('token-correct');
         $I->sendGET('/shop/shipping/1');
         $I->seeResponseCodeIs(200);
-        echo PHP_EOL;
-        VarDumper::dump($I->grabResponse());
-        echo PHP_EOL;
     }
 
     public function viewAll(ApiTester $I)

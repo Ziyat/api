@@ -41,7 +41,7 @@ class ShippingServiceForm extends CompositeForm
                 $rates[] = new ShippingServiceRateForm($rate);
             }
             $this->rates = $rates;
-            $this->_shippingService = $shippingService;
+//            $this->_shippingService = $shippingService;
         }
         parent::__construct($config);
     }

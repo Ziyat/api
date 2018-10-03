@@ -11,6 +11,7 @@ use box\entities\Country;
 use box\entities\shop\shipping\ShippingServiceRates;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class Shipping
@@ -49,6 +50,15 @@ class Shipping extends ActiveRecord
         return $assignment;
     }
 
+    /**
+     * @param $country_id
+     * @return bool
+     * @throws \yii\base\InvalidArgumentException
+     */
+    public function isInDestination($country_id): bool
+    {
+        return ArrayHelper::isIn($country_id, $this->countryIds);
+    }
 
     /**
      * @throws \LogicException
@@ -109,7 +119,8 @@ class Shipping extends ActiveRecord
 
     public function getRate(): ActiveQuery
     {
-        return $this->hasOne(ShippingServiceRates::class, ['id' => 'rate_id']);
+        return $this->hasOne(ShippingServiceRates::class, ['id' => 'rate_id'])
+            ->orderBy(['price_fix' => SORT_ASC,'price_min' => SORT_ASC]);
     }
 
     public function getDestinations(): ActiveQuery

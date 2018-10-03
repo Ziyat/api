@@ -90,7 +90,7 @@ class Product extends ActiveRecord
 
     public function setCondition($condition)
     {
-        $this->condition = $condition;
+        $this->condition = $condition ?: 'Brand New';
     }
 
     public function isFixPrice()
@@ -688,7 +688,7 @@ class Product extends ActiveRecord
 
     public function getShipping(): ActiveQuery
     {
-        return $this->hasMany(Shipping::class, ['product_id' => 'id']);
+        return $this->hasMany(Shipping::class, ['product_id' => 'id'])->orderBy(['price' => SORT_ASC]);
     }
 
     public function getBrand(): ActiveQuery

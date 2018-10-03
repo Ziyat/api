@@ -141,6 +141,8 @@ return [
         'GET public/countries/<id:\d+>' => 'public/country',
         'GET public/countries/<code:\w+>' => 'public/country-by-code',
 
+        'POST public/user/products/<product_id:\d+>/shipping' => 'public/user-products-shipping',
+
         // generic
 
         'GET generic/products' => 'generic/product/index',

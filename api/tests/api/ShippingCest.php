@@ -126,6 +126,9 @@ class ShippingCest
         $I->amBearerAuthenticated('token-correct');
         $I->sendGET('/shop/shipping/1');
         $I->seeResponseCodeIs(200);
+        echo PHP_EOL;
+        VarDumper::dump($I->grabResponse());
+        echo PHP_EOL;
     }
 
     public function viewAll(ApiTester $I)

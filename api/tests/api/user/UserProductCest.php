@@ -277,7 +277,7 @@ class UserProductCest
         $I->amBearerAuthenticated('token-correct');
         $I->sendPOST('/user/products/shipping/1',[
             'free_shipping_type' => 1,
-            'countryIds' => [5,2,1],
+            'countryIds' => [5,72,1],
         ]);
 
         $I->seeResponseCodeIs(200);
@@ -297,7 +297,17 @@ class UserProductCest
         $I->sendGET('/user/products/shipping/1');
 
         $I->seeResponseCodeIs(200);
-//        VarDumper::dump($I->grabResponse());
+    }
+
+    public function publicShippingByProductId(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendPOST('/public/user/products/1/shipping',[
+            'user_id' => 1,
+            'free' => 1,
+        ]);
+
+        $I->seeResponseCodeIs(200);
     }
 
 

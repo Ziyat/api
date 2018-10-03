@@ -286,6 +286,7 @@ class ProductShippingController extends BearerController
  *     type="object",
  *     @SWG\Property(property="id", type="integer"),
  *     @SWG\Property(property="product_id", type="integer"),
+ *     @SWG\Property(property="rate", type="object", ref="#/definitions/Rate"),
  *     @SWG\Property(property="destinations", type="array",
  *          @SWG\Items(
  *              @SWG\Property(property="id", type="integer"),

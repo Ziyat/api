@@ -632,6 +632,91 @@
                 }
             }
         },
+        "/public/user/products/{product_id}/shipping": {
+            "post": {
+                "tags": [
+                    "Public"
+                ],
+                "description": "return product shipping",
+                "parameters": [
+                    {
+                        "name": "product_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "formData",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "free",
+                        "in": "formData",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "pickup",
+                        "in": "formData",
+                        "required": false,
+                        "type": "boolean"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "properties": {
+                                "destinations": {
+                                    "properties": {
+                                        "free": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/UserProductShippingResponse"
+                                            }
+                                        },
+                                        "pickup": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/UserProductShippingResponse"
+                                            }
+                                        },
+                                        "other": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/UserProductShippingResponse"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "free": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/UserProductShippingResponse"
+                                    }
+                                },
+                                "pickup": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/UserProductShippingResponse"
+                                    }
+                                },
+                                "other": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/UserProductShippingResponse"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "/public/users": {
             "get": {
                 "tags": [
@@ -3995,6 +4080,76 @@
             },
             "type": "object"
         },
+        "Rate": {
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price_type": {
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "code": {
+                            "type": "integer"
+                        }
+                    },
+                    "type": "object"
+                },
+                "price_min": {
+                    "type": "number"
+                },
+                "price_max": {
+                    "type": "number"
+                },
+                "price_fix": {
+                    "type": "number"
+                },
+                "day_min": {
+                    "type": "integer"
+                },
+                "day_max": {
+                    "type": "integer"
+                },
+                "country": {
+                    "type": "object",
+                    "$ref": "#/definitions/Country"
+                },
+                "destinations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Country"
+                    }
+                },
+                "type": {
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "code": {
+                            "type": "integer"
+                        }
+                    },
+                    "type": "object"
+                },
+                "weight": {
+                    "type": "number"
+                },
+                "width": {
+                    "type": "number"
+                },
+                "height": {
+                    "type": "number"
+                },
+                "length": {
+                    "type": "number"
+                }
+            },
+            "type": "object"
+        },
         "BrandsResponseData": {
             "description": "ElasticSearch result data",
             "properties": {
@@ -4619,6 +4774,10 @@
                 },
                 "product_id": {
                     "type": "integer"
+                },
+                "rate": {
+                    "type": "object",
+                    "$ref": "#/definitions/Rate"
                 },
                 "destinations": {
                     "type": "array",

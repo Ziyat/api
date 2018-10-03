@@ -6,6 +6,7 @@
 
 namespace api\controllers;
 
+use box\forms\publicForms\UserProductShippingForm;
 use box\readModels\CountryReadModel;
 use box\readModels\ProductReadRepository;
 use box\readModels\UserReadRepository;
@@ -30,6 +31,47 @@ class PublicController extends Controller
         $this->users = $users;
         $this->products = $products;
         $this->countries = $countryReadModel;
+    }
+
+
+    /**
+     * @SWG\Post(
+     *     path="/public/user/products/{product_id}/shipping",
+     *     tags={"Public"},
+     *     description="return product shipping",
+     *     @SWG\Parameter(name="product_id", in="path", required=true, type="integer"),
+     *     @SWG\Parameter(name="user_id", in="formData", required=false, type="boolean"),
+     *     @SWG\Parameter(name="free", in="formData", required=false, type="boolean"),
+     *     @SWG\Parameter(name="pickup", in="formData", required=false, type="boolean"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Schema(
+     *              type="object",
+     *              @SWG\Property(property="destinations", type="object",
+     *                  @SWG\Property(property="free", type="array", @SWG\Items(ref="#/definitions/UserProductShippingResponse")),
+     *                  @SWG\Property(property="pickup", type="array", @SWG\Items(ref="#/definitions/UserProductShippingResponse")),
+     *                  @SWG\Property(property="other", type="array", @SWG\Items(ref="#/definitions/UserProductShippingResponse")),
+     *              ),
+     *              @SWG\Property(property="free", type="array",@SWG\Items(ref="#/definitions/UserProductShippingResponse")),
+     *              @SWG\Property(property="pickup", type="array",@SWG\Items(ref="#/definitions/UserProductShippingResponse")),
+     *              @SWG\Property(property="other", type="array",@SWG\Items(ref="#/definitions/UserProductShippingResponse")),
+     *          )
+     *     ),
+     * )
+     *
+     * @param $product_id
+     * @return array
+     * @throws NotFoundException
+     * @throws \LogicException
+     * @throws \yii\base\InvalidArgumentException
+     */
+    public function actionUserProductsShipping($product_id)
+    {
+        $form = new UserProductShippingForm();
+        $form->load(\Yii::$app->request->bodyParams,'');
+        $shipping = $this->products->getShipping($product_id, $form);
+        return $shipping;
     }
 
 
@@ -112,6 +154,7 @@ class PublicController extends Controller
      *     ),
      * )
      * @params $product_id
+     * @throws NotFoundException
      */
 
     public function actionProductsById($product_id)
@@ -267,5 +310,33 @@ class PublicController extends Controller
  *     @SWG\Property(property="name", type="string"),
  *     @SWG\Property(property="code", type="string"),
  *
+ * )
+ */
+
+/**
+ * @SWG\Definition(
+ *     definition="Rate",
+ *     type="object",
+ *     @SWG\Property(property="id", type="integer"),
+ *     @SWG\Property(property="name", type="string"),
+ *     @SWG\Property(property="price_type", type="object",
+ *          @SWG\Property(property="name", type="string"),
+ *          @SWG\Property(property="code", type="integer"),
+ *     ),
+ *     @SWG\Property(property="price_min", type="number"),
+ *     @SWG\Property(property="price_max", type="number"),
+ *     @SWG\Property(property="price_fix", type="number"),
+ *     @SWG\Property(property="day_min", type="integer"),
+ *     @SWG\Property(property="day_max", type="integer"),
+ *     @SWG\Property(property="country", type="object",ref="#/definitions/Country"),
+ *     @SWG\Property(property="destinations", type="array", @SWG\Items(ref="#/definitions/Country")),
+ *     @SWG\Property(property="type", type="object",
+ *          @SWG\Property(property="name", type="string"),
+ *          @SWG\Property(property="code", type="integer"),
+ *     ),
+ *     @SWG\Property(property="weight", type="number"),
+ *     @SWG\Property(property="width", type="number"),
+ *     @SWG\Property(property="height", type="number"),
+ *     @SWG\Property(property="length", type="number"),
  * )
  */

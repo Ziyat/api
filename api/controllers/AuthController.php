@@ -49,7 +49,9 @@ class AuthController extends Controller
      *         @SWG\Schema(ref="#/definitions/Token")
      *     )
      * )
+     * @return Token|LoginForm
      * @throws BadRequestHttpException
+     * @throws \yii\base\InvalidArgumentException
      */
 
     public function actionLogin()
@@ -85,6 +87,9 @@ class AuthController extends Controller
      *         ),
      *     )
      * )
+     *
+     * @return array|SignupForm|UserService
+     * @throws \yii\base\InvalidArgumentException
      */
 
     public function actionSignup()
@@ -121,7 +126,13 @@ class AuthController extends Controller
      *         description="User is not found",
      *     )
      * )
-     * @throws
+     *
+     * @param $token
+     * @return Token
+     * @throws NotFoundException
+     * @throws \DomainException
+     * @throws \RuntimeException
+     * @throws \yii\base\Exception
      */
 
     public function actionActivateUser($token)

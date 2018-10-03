@@ -44,7 +44,7 @@ return [
         'id' => 4,
         'auth_key' => 'refresherToken',
         // password_0
-        'password_hash' => '$2y$13$nJ1WDlBaGcbCdbNC5.5l4.sgy.OMEKCqtDQOdQ2OWpgiKRWYyzzne',
+        'password_hash' => '$2y$13$nJ1WDlBaGcbCdbNC5.5l4giKRWYyfsne',
 //        'password_reset_token' => null,
         'created_at' => time(),
         'updated_at' => time(),

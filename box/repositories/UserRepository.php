@@ -113,7 +113,7 @@ class UserRepository
      */
     public function findByAuthKey($auth_key): User
     {
-        if (!$user = User::find()->andWhere(['auth_key' => $auth_key])->active()->one()) {
+        if (!$user = User::find()->where(['auth_key' => $auth_key])->active()->one()) {
             throw new NotFoundException('User not found.');
         }
         return $user;

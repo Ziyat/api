@@ -57,7 +57,8 @@ class Shipping extends ActiveRecord
      */
     public function isInDestination($country_id): bool
     {
-        return ArrayHelper::isIn($country_id, $this->countryIds);
+
+        return isset($this->countryIds) ? ArrayHelper::isIn($country_id, $this->countryIds) : false;
     }
 
     /**

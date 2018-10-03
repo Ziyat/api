@@ -87,6 +87,7 @@ class LoginCest
             ]);
 
         $I->seeResponseCodeIs(200);
+
         $I->seeResponseIsJson();
         $I->seeResponseJsonMatchesJsonPath('$.token');
         $I->seeResponseJsonMatchesJsonPath('$.expired');
@@ -113,9 +114,16 @@ class LoginCest
     }
 
 
-    public function ckeckToken(ApiTester $I)
+    public function checkToken(ApiTester $I)
     {
-        $I->sendPATCH('/check-token/token-expired');
+        $I->sendPATCH('/check-token/token-correct');
+        $I->seeResponseCodeIs(200);
+    }
+
+
+    public function refreshToken(ApiTester $I)
+    {
+        $I->sendPATCH('/token-refresh/refresherToken');
         echo PHP_EOL;
         VarDumper::dump($I->grabResponse());
         echo PHP_EOL;

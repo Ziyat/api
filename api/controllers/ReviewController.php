@@ -46,6 +46,7 @@ class ReviewController extends BearerController
      *         response=200,
      *         description="Success response",
      *     ),
+     *     security={{"Bearer": {}}}
      * )
      * @param $type
      * @param $item_id
@@ -72,6 +73,7 @@ class ReviewController extends BearerController
      *         response=200,
      *         description="Success response",
      *     ),
+     *     security={{"Bearer": {}}}
      * )
      * @return \box\entities\review\Review|ReviewForm
      * @throws BadRequestHttpException
@@ -109,6 +111,7 @@ class ReviewController extends BearerController
      *         response=200,
      *         description="Success response",
      *     ),
+     *     security={{"Bearer": {}}}
      * )
      * @param $id
      * @return \box\entities\review\Review|ReviewForm
@@ -143,6 +146,7 @@ class ReviewController extends BearerController
      *         response=200,
      *         description="Success response",
      *     ),
+     *     security={{"Bearer": {}}}
      * )
      * @param $id
      * @throws BadRequestHttpException
@@ -167,6 +171,7 @@ class ReviewController extends BearerController
      *         response=200,
      *         description="Success response",
      *     ),
+     *     security={{"Bearer": {}}}
      * )
      *
      * @param $id
@@ -194,6 +199,7 @@ class ReviewController extends BearerController
      *         response=200,
      *         description="Success response",
      *     ),
+     *     security={{"Bearer": {}}}
      * )
      *
      * @param $id
@@ -221,6 +227,7 @@ class ReviewController extends BearerController
      *         response=200,
      *         description="Success response",
      *     ),
+     *     security={{"Bearer": {}}}
      * )
      *
      * @param $id

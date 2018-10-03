@@ -969,7 +969,12 @@
                     "200": {
                         "description": "Success response"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
             }
         },
         "/reviews": {
@@ -1020,7 +1025,12 @@
                     "200": {
                         "description": "Success response"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
             }
         },
         "/reviews/{id}": {
@@ -1077,7 +1087,12 @@
                     "200": {
                         "description": "Success response"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -1096,7 +1111,12 @@
                     "200": {
                         "description": "Success response"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
             }
         },
         "/reviews/{id}/children": {
@@ -1117,7 +1137,12 @@
                     "200": {
                         "description": "Success response"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
             }
         },
         "/reviews/{id}/parent": {
@@ -1138,7 +1163,12 @@
                     "200": {
                         "description": "Success response"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
             }
         },
         "/reviews/{id}/parents": {
@@ -1159,7 +1189,12 @@
                     "200": {
                         "description": "Success response"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
             }
         },
         "/search/brands": {

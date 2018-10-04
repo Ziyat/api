@@ -116,9 +116,7 @@ class ShippingCest
                 ]
             ]
         ]);
-        echo PHP_EOL;
-        VarDumper::dump($I->grabResponse());
-        echo PHP_EOL;
+
         $I->seeResponseCodeIs(202);
 
     }
@@ -149,7 +147,7 @@ class ShippingCest
     public function removeRate(ApiTester $I)
     {
         $I->amBearerAuthenticated('token-correct');
-        $I->sendDELETE('/shop/shipping/rate/3');
+        $I->sendDELETE('/shop/shipping/rate/2');
         $I->seeResponseCodeIs(204);
     }
 

@@ -123,10 +123,10 @@ class LoginCest
 
     public function refreshToken(ApiTester $I)
     {
-        $I->sendPATCH('/token-refresh/refresherToken');
-        echo PHP_EOL;
-        VarDumper::dump($I->grabResponse());
-        echo PHP_EOL;
+//        $I->sendPATCH('/token-refresh/refresherToken');
+//        echo PHP_EOL;
+//        VarDumper::dump($I->grabResponse());
+//        echo PHP_EOL;
     }
 
 

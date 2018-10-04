@@ -56,7 +56,7 @@ return [
         'POST user/products/shipping/<product_id:\d+>' => 'user/product-shipping/add',
         'GET user/products/shipping/<product_id:\d+>/<id:\d+>' => 'user/product-shipping/view',
         'POST user/products/shipping/search' => 'user/product-shipping/search-rates',
-        'DELETE user/products/shipping/<product_id:\d+>/<id:\d+>' => 'user/product-shipping/delete',
+        'DELETE user/products/shipping/<product_id:\d+>/<shipping_id:\d+>' => 'user/product-shipping/delete',
         'PATCH user/products/shipping/<product_id:\d+>/<shipping_id:\d+>/free' => 'user/product-shipping/free',
         'PATCH user/products/shipping/<product_id:\d+>/<shipping_id:\d+>/no-free' => 'user/product-shipping/no-free',
         'PATCH user/products/shipping/<product_id:\d+>/<shipping_id:\d+>/pickup' => 'user/product-shipping/pickup',
@@ -200,6 +200,10 @@ return [
         'GET reviews/<id:\d+>/children' => 'review/children',
         'GET reviews/<id:\d+>/parents' => 'review/parents',
         'GET reviews/<id:\d+>/parent' => 'review/parent',
+
+        //ratings
+        'POST ratings' => 'rating/create',
+        'POST ratings/<id:\d+>' => 'rating/edit',
 
     ],
 ];

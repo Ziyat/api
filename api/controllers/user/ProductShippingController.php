@@ -135,13 +135,13 @@ class ProductShippingController extends BearerController
      *     security={{"Bearer": {}}}
      * )
      * @param $product_id
-     * @param $id
+     * @param $shipping_id
      * @throws BadRequestHttpException
      */
-    public function actionDelete($product_id, $id)
+    public function actionDelete($product_id, $shipping_id)
     {
         try {
-            $this->productService->removeShipping($product_id, $id);
+            $this->productService->removeShipping($product_id, $shipping_id);
         } catch (\Exception $e) {
             throw new BadRequestHttpException($e->getMessage());
         }

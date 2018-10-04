@@ -16,7 +16,7 @@ class m181004_072823_create_ratings_table extends Migration
             'id' => $this->primaryKey(),
             'item_id' => $this->integer()->notNull(),
             'type' => $this->integer()->notNull(),
-            'score' => $this->integer()->defaultValue(0),
+            'score' => $this->float()->defaultValue(0),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
             'created_by' => $this->integer()->notNull(),

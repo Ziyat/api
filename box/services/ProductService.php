@@ -431,6 +431,7 @@ class ProductService
      * @param $shipping_id
      * @return \box\entities\shop\product\Shipping
      * @throws NotFoundException
+     * @throws \LogicException
      * @throws \RuntimeException
      */
     public function freeShipping($product_id, $shipping_id)
@@ -447,6 +448,7 @@ class ProductService
      * @param $shipping_id
      * @return \box\entities\shop\product\Shipping
      * @throws NotFoundException
+     * @throws \LogicException
      * @throws \RuntimeException
      */
     public function noFreeShipping($product_id, $shipping_id)
@@ -463,6 +465,7 @@ class ProductService
      * @param $shipping_id
      * @return \box\entities\shop\product\Shipping
      * @throws NotFoundException
+     * @throws \LogicException
      * @throws \RuntimeException
      */
     public function pickupShipping($product_id, $shipping_id)

@@ -378,14 +378,18 @@ class Product extends ActiveRecord
 
     // Shipping
 
-    public function freeShipping($rate_id)
+    /**
+     * @param $rate_id
+     * @throws \LogicException
+     */
+    public function freeShipping($id)
     {
         $assignments = $this->shipping;
         foreach ($assignments as $k => $assignment) {
             /**
              * @var Shipping $assignment
              */
-            if ($assignment->isForId($rate_id)) {
+            if ($assignment->isForId($id)) {
                 $assignment->free();
                 $assignments[$k] = $assignment;
                 $this->shipping = $assignments;
@@ -394,14 +398,18 @@ class Product extends ActiveRecord
         }
     }
 
-    public function noFreeShipping($rate_id)
+    /**
+     * @param $id
+     * @throws \LogicException
+     */
+    public function noFreeShipping($id)
     {
         $assignments = $this->shipping;
         foreach ($assignments as $k => $assignment) {
             /**
              * @var Shipping $assignment
              */
-            if ($assignment->isForRateId($rate_id)) {
+            if ($assignment->isForId($id)) {
                 $assignment->noFree();
                 $assignments[$k] = $assignment;
                 $this->shipping = $assignments;
@@ -410,14 +418,18 @@ class Product extends ActiveRecord
         }
     }
 
-    public function pickupShipping($rate_id)
+    /**
+     * @param $id
+     * @throws \LogicException
+     */
+    public function pickupShipping($id)
     {
         $assignments = $this->shipping;
         foreach ($assignments as $k => $assignment) {
             /**
              * @var Shipping $assignment
              */
-            if ($assignment->isForId($rate_id)) {
+            if ($assignment->isForId($id)) {
                 $assignment->pickup();
                 $assignments[$k] = $assignment;
                 $this->shipping = $assignments;
@@ -439,6 +451,10 @@ class Product extends ActiveRecord
         $this->shipping = $assignments;
     }
 
+    /**
+     * @param $id
+     * @throws \DomainException
+     */
     public function revokeShipping($id): void
     {
         $assignments = $this->shipping;

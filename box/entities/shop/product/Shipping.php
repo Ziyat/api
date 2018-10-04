@@ -95,7 +95,7 @@ class Shipping extends ActiveRecord
             throw new \LogicException('free shipping type is already free.');
         }
 
-        $this->free_shipping_type = self::TYPE_NO_FREE;
+        $this->free_shipping_type = self::TYPE_FREE;
     }
 
     public function isPickup()

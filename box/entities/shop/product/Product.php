@@ -385,7 +385,7 @@ class Product extends ActiveRecord
             /**
              * @var Shipping $assignment
              */
-            if ($assignment->isForRateId($rate_id)) {
+            if ($assignment->isForId($rate_id)) {
                 $assignment->free();
                 $assignments[$k] = $assignment;
                 $this->shipping = $assignments;
@@ -417,7 +417,7 @@ class Product extends ActiveRecord
             /**
              * @var Shipping $assignment
              */
-            if ($assignment->isForRateId($rate_id)) {
+            if ($assignment->isForId($rate_id)) {
                 $assignment->pickup();
                 $assignments[$k] = $assignment;
                 $this->shipping = $assignments;
@@ -431,7 +431,7 @@ class Product extends ActiveRecord
     {
         $assignments = $this->shipping;
         foreach ($assignments as $assignment) {
-            if ($assignment->isForRateId($rate_id)) {
+            if ($assignment->isForId($rate_id)) {
                 return;
             }
         }

@@ -439,11 +439,14 @@ class Product extends ActiveRecord
         $this->shipping = $assignments;
     }
 
-    public function revokeShipping($rate_id): void
+    public function revokeShipping($id): void
     {
         $assignments = $this->shipping;
         foreach ($assignments as $i => $assignment) {
-            if ($assignment->isForRateId($rate_id)) {
+            /**
+             * @var Shipping $assignment
+             */
+            if ($assignment->isForId($id)) {
                 unset($assignments[$i]);
                 $this->shipping = $assignments;
                 return;

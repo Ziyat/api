@@ -22,6 +22,7 @@ use yii\helpers\ArrayHelper;
  * @property float $price
  * @property string $countries
  * @property array $countryIds
+ * @property integer $id
  *
  *
  * @property ShippingServiceRates $rate
@@ -112,9 +113,9 @@ class Shipping extends ActiveRecord
         return $this->free_shipping_type == self::TYPE_FREE;
     }
 
-    public function isForRateId($id): bool
+    public function isForId($id): bool
     {
-        return $this->rate_id == $id;
+        return $this->id == $id;
     }
 
 

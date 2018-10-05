@@ -122,6 +122,27 @@ class ShippingManageService
                                 $rate->assignDestination($formDestinationId);
                             }
                             $rates[] = $rate;
+                        } else {
+                            $rate = ShippingServiceRates::create(
+                                $formRate->name,
+                                $formRate->price_type,
+                                $formRate->price_min,
+                                $formRate->price_max,
+                                $formRate->price_fix,
+                                $formRate->day_min,
+                                $formRate->day_max,
+                                $formRate->country_id,
+                                $formRate->type,
+                                $formRate->weight,
+                                $formRate->width,
+                                $formRate->height,
+                                $formRate->length
+                            );
+
+                            foreach ($formRate->destinations as $formDestinationId) {
+                                $rate->assignDestination($formDestinationId);
+                            }
+                            $rates[] = $rate;
                         }
                     }
                 }

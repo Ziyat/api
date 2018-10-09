@@ -8,6 +8,7 @@ namespace box\forms\reviews;
 
 
 use box\entities\review\Review;
+use box\forms\CompositeForm;
 use yii\base\Model;
 
 /**
@@ -17,8 +18,10 @@ use yii\base\Model;
  * @property integer $item_id
  * @property integer $score
  * @property integer $parentId
+ *
+ * @property PhotosForm $photos
  */
-class ReviewForm extends Model
+class ReviewForm extends CompositeForm
 {
     public $title;
     public $text;
@@ -38,6 +41,8 @@ class ReviewForm extends Model
             $this->score = $review->score;
             $this->parentId = $review->parent->id;
         }
+
+        $this->photos = new PhotosForm();
         parent::__construct($config);
     }
 
@@ -49,5 +54,10 @@ class ReviewForm extends Model
             [['title','text'],'string'],
             [['type','item_id','score','parentId'],'integer'],
         ];
+    }
+
+    protected function internalForms(): array
+    {
+        return ['photos'];
     }
 }

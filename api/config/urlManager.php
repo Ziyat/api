@@ -201,6 +201,11 @@ return [
         'GET reviews/<id:\d+>/parents' => 'review/parents',
         'GET reviews/<id:\d+>/parent' => 'review/parent',
 
+        'POST reviews/<id:\d+>/photos' => 'review/add-photos',
+        'PATCH reviews/<id:\d+>/photos/<photo_id:\d+>/up' => 'review/move-photo-up',
+        'PATCH reviews/<id:\d+>/photos/<photo_id:\d+>/down' => 'review/move-photo-down',
+        'DELETE reviews/<id:\d+>/photos/<photo_id:\d+>' => 'review/delete-photo',
+
         //ratings
         'POST ratings' => 'rating/create',
         'POST ratings/<id:\d+>' => 'rating/edit',

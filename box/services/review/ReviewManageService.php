@@ -7,10 +7,11 @@
 namespace box\services\review;
 
 
-use box\entities\review\Review;
-use box\entities\user\User;
 use box\entities\generic\GenericProduct;
+use box\entities\review\Review;
 use box\entities\shop\product\Product;
+use box\entities\user\User;
+use box\forms\reviews\PhotosForm;
 use box\forms\reviews\ReviewForm;
 use box\repositories\generic\ProductRepository as GenericProductRepository;
 use box\repositories\NotFoundException;
@@ -57,6 +58,13 @@ class ReviewManageService
         $parent = $this->reviews->find($form->parentId);
         $review = Review::create($form->title, $form->text, $form->type, $item->id, $form->score);
         $review->appendTo($parent);
+
+        if (is_array($form->photos->files)) {
+            foreach ($form->photos->files as $file) {
+                $review->addPhoto($file);
+            }
+        }
+
         $this->reviews->save($review);
         return $review;
     }
@@ -100,6 +108,65 @@ class ReviewManageService
         $review = $this->reviews->find($id);
         $this->assertIsNotRoot($review);
         $this->reviews->remove($review);
+    }
+
+    /**
+     * @param $id
+     * @param PhotosForm $form
+     * @return Review
+     * @throws NotFoundException
+     * @throws \RuntimeException
+     */
+    public function addPhotos($id, PhotosForm $form): Review
+    {
+        $review = $this->reviews->find($id);
+        foreach ($form->files as $file) {
+            $review->addPhoto($file);
+        }
+        $this->reviews->save($review);
+        return $review;
+    }
+
+    /**
+     * @param $id
+     * @param $photoId
+     * @throws NotFoundException
+     * @throws \DomainException
+     * @throws \RuntimeException
+     */
+    public function movePhotoUp($id, $photoId): void
+    {
+        $review = $this->reviews->find($id);
+        $review->movePhotoUp($photoId);
+        $this->reviews->save($review);
+    }
+
+    /**
+     * @param $id
+     * @param $photoId
+     * @throws NotFoundException
+     * @throws \DomainException
+     * @throws \RuntimeException
+     */
+    public function movePhotoDown($id, $photoId): void
+    {
+        $review = $this->reviews->find($id);
+        $review->movePhotoDown($photoId);
+        $this->reviews->save($review);
+    }
+
+    /**
+     * @param $id
+     * @param $photoId
+     * @throws NotFoundException
+     * @throws \DomainException
+     * @throws \RuntimeException
+     */
+    public function removePhoto($id, $photoId): void
+    {
+        $review = $this->reviews->find($id);
+        $review->removePhoto($photoId);
+        $this->reviews->save($review);
     }
 
     /**

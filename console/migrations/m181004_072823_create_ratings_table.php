@@ -23,9 +23,9 @@ class m181004_072823_create_ratings_table extends Migration
             'updated_by' => $this->integer()->notNull(),
         ], $tableOptions);
 
-        $this->addForeignKey('{{%fk-reviews-created_by}}', '{{%ratings}}', 'created_by',
+        $this->addForeignKey('{{%fk-ratings-created_by}}', '{{%ratings}}', 'created_by',
             '{{%users}}', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('{{%fk-reviews-updated_by}}', '{{%ratings}}', 'updated_by',
+        $this->addForeignKey('{{%fk-ratings-updated_by}}', '{{%ratings}}', 'updated_by',
             '{{%users}}', 'id', 'CASCADE', 'CASCADE');
     }
 

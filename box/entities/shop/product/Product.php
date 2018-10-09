@@ -4,6 +4,7 @@ namespace box\entities\shop\product;
 
 use box\entities\behaviors\MetaBehavior;
 use box\entities\Meta;
+use box\entities\rating\Rating;
 use box\entities\shop\Brand;
 use box\entities\shop\Category;
 use box\entities\shop\product\queries\ProductQuery;
@@ -13,6 +14,7 @@ use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\behaviors\BlameableBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
 
 /**
@@ -26,11 +28,12 @@ use yii\web\UploadedFile;
  * @property integer $category_id
  * @property integer $brand_id
  * @property string $price_type
- * @property integer $rating
  * @property integer $status
  * @property string $condition
  * @property integer $quantity
  * @property integer $main_photo_id
+ *
+ * @property Rating[] $ratings
  *
  * @property Meta $meta
  * @property Brand $brand
@@ -705,6 +708,11 @@ class Product extends ActiveRecord
 
     ##########################
 
+    public function getRatings(): ActiveQuery
+    {
+        return $this->hasMany(Rating::class, ['item_id' => 'id'])->andWhere(['type' => Rating::TYPE_USER_PRODUCT]);
+    }
+
     public function getShipping(): ActiveQuery
     {
         return $this->hasMany(Shipping::class, ['product_id' => 'id'])->orderBy(['price' => SORT_ASC]);
@@ -925,7 +933,9 @@ class Product extends ActiveRecord
                 return self::find()->where(['status' => self::STATUS_MARKET])->count();
             },
             "price_type" => "price_type",
-            "rating" => "rating",
+            "rating" => function () {
+                return $this->calculateMiddleRating();
+            },
             "meta_json" => function () {
                 return $this->meta;
             },
@@ -981,6 +991,9 @@ class Product extends ActiveRecord
         return $photos;
     }
 
+    /**
+     * @return array
+     */
     public function responsePrice()
     {
         if (!empty($prices = $this->prices)) {
@@ -997,6 +1010,13 @@ class Product extends ActiveRecord
             ];
         }
         return [];
+    }
+
+    protected function calculateMiddleRating()
+    {
+        $ratings = ArrayHelper::getColumn($this->ratings, 'score');
+        $middle = $ratings ? array_sum($ratings) / count($ratings) : 0;
+        return $middle;
     }
 
 }

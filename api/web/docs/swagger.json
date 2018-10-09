@@ -1101,6 +1101,12 @@
                         "in": "formData",
                         "required": false,
                         "type": "integer"
+                    },
+                    {
+                        "name": "files",
+                        "in": "formData",
+                        "required": false,
+                        "type": "file"
                     }
                 ],
                 "responses": {
@@ -1262,6 +1268,134 @@
                 "parameters": [
                     {
                         "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/reviews/{id}/photos": {
+            "post": {
+                "tags": [
+                    "Reviews"
+                ],
+                "description": "added photos",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "files",
+                        "in": "formData",
+                        "required": true,
+                        "type": "file"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/reviews/{id}/photos/{photo_id}": {
+            "delete": {
+                "tags": [
+                    "Reviews"
+                ],
+                "description": "delete photo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "photo_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/reviews/{id}/photos/{photo_id}/up": {
+            "patch": {
+                "tags": [
+                    "Reviews"
+                ],
+                "description": "move up photo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "photo_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/reviews/{id}/photos/{photo_id}/down": {
+            "patch": {
+                "tags": [
+                    "Reviews"
+                ],
+                "description": "move down photo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "photo_id",
                         "in": "path",
                         "required": true,
                         "type": "integer"

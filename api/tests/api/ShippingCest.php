@@ -74,7 +74,6 @@ class ShippingCest
         ], [
             'photo' => codecept_data_dir('user/photos/photo1.jpg'),
         ]);
-
         $I->seeResponseCodeIs(201);
     }
 

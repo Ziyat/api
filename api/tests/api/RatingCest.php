@@ -76,8 +76,15 @@ class RatingCest
         $I->sendPOST('/ratings', [
             'type' => 10,
             'item_id' => 1,
-            'score' => 2.5,
+            'score' => 4,
         ]);
+
+        $I->sendPOST('/ratings', [
+            'type' => 10,
+            'item_id' => 1,
+            'score' => 5,
+        ]);
+
         $I->seeResponseCodeIs(200);
     }
 
@@ -89,8 +96,18 @@ class RatingCest
             'item_id' => 1,
             'score' => 4.5,
         ]);
-        VarDumper::dump($I->grabResponse());
         $I->seeResponseCodeIs(200);
     }
+
+    public function middleRatingUserProduct(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendGET('/public/user/products/1');
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseContainsJson([
+            'rating' => 4.75
+        ]);
+    }
+
 
 }

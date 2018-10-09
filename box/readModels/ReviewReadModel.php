@@ -31,7 +31,7 @@ class ReviewReadModel
     public function findByTypeAndItemId($type, $item_id)
     {
         return new ActiveDataProvider([
-            'query' => Review::find()->where(['type' => $type, 'item_id' => $item_id])
+            'query' => Review::find()->where(['type' => $type, 'item_id' => $item_id])->orderBy(['score' => SORT_DESC])
         ]);
     }
 }

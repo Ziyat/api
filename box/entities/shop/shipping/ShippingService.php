@@ -2,6 +2,7 @@
 
 namespace box\entities\shop\shipping;
 
+use box\forms\shop\shipping\ShippingServiceForm;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;

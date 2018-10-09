@@ -159,7 +159,6 @@ class PublicController extends Controller
 
     public function actionProductsById($product_id)
     {
-
         return $this->products->getProductsById($product_id);
     }
 

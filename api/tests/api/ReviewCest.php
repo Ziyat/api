@@ -11,7 +11,6 @@ use common\fixtures\shop\product\ProductFixture;
 use common\fixtures\TokenFixture;
 use common\fixtures\UserFixture;
 use yii\helpers\VarDumper;
-use yii\web\Response;
 
 /**
  * Class ReviewCest
@@ -80,7 +79,13 @@ class ReviewCest
             'text' => 'first review text',
             'type' => 10,
             'item_id' => 1,
+        ], [
+            'files' => [
+                codecept_data_dir('user/photos/photo1.jpg'),
+                codecept_data_dir('user/photos/photo2.jpg'),
+            ]
         ]);
+        VarDumper::dump($I->grabResponse());
         $I->seeResponseCodeIs(200);
     }
 

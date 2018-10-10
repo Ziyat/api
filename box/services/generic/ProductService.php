@@ -7,12 +7,14 @@ use box\entities\generic\GenericProduct;
 use box\forms\generic\ProductCreateForm;
 use box\forms\generic\ProductEditForm;
 use box\forms\generic\PhotosForm;
+use box\forms\generic\RatingsForm;
 use box\repositories\BrandRepository;
 use box\repositories\CategoryRepository;
 use box\repositories\generic\ProductRepository;
 use box\repositories\NotFoundException;
 use box\repositories\TagRepository;
 use box\services\TransactionManager;
+use yii\helpers\VarDumper;
 
 class ProductService
 {
@@ -248,6 +250,37 @@ class ProductService
     {
         $product = $this->products->get($id);
         $product->removePhoto($photoId);
+        $this->products->save($product);
+    }
+
+    /**
+     * @param $id
+     * @param RatingsForm $form
+     * @return GenericProduct
+     * @throws NotFoundException
+     * @throws \RuntimeException
+     */
+    public function addRatings($id, RatingsForm $form)
+    {
+        $product = $this->products->get($id);
+        foreach ($form->names as $name) {
+            $product->addRating($name);
+        }
+        $this->products->save($product);
+        return $product;
+    }
+
+    /**
+     * @param $id
+     * @param $ratingId
+     * @throws NotFoundException
+     * @throws \DomainException
+     * @throws \RuntimeException
+     */
+    public function removeRating($id, $ratingId): void
+    {
+        $product = $this->products->get($id);
+        $product->removeRating($ratingId);
         $this->products->save($product);
     }
 }

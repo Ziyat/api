@@ -3,6 +3,7 @@
 namespace box\forms\generic;
 
 use box\entities\generic\GenericProduct;
+use box\entities\generic\GenericRating;
 use box\entities\shop\Brand;
 use box\forms\CompositeForm;
 use yii\helpers\ArrayHelper;
@@ -13,6 +14,7 @@ use yii\web\UploadedFile;
  * @property ValueForm[] $characteristics
  * @property TagsForm $tags
  * @property ModificationForm[] $modifications
+ * @property GenericRating[] $ratings
  */
 class ProductEditForm extends CompositeForm
 {
@@ -50,7 +52,6 @@ class ProductEditForm extends CompositeForm
         } else {
             $this->modifications = [];
         }
-
         $this->_product = $product;
         parent::__construct($config);
     }

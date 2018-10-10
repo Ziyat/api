@@ -160,6 +160,10 @@ return [
         'PATCH generic/products/<id:\d+>/photos/<photo_id:\d+>/down' => 'generic/product/move-photo-down',
         'DELETE generic/products/<id:\d+>/photos/<photo_id:\d+>' => 'generic/product/delete-photo',
 
+        'GET generic/products/<id:\d+>/ratings' => 'generic/product/view-ratings',
+        'POST generic/products/<id:\d+>/ratings' => 'generic/product/add-ratings',
+        'DELETE generic/products/<id:\d+>/ratings/<rating_id:\d+>' => 'generic/product/delete-rating',
+
         // Carousel
 
         'GET carousels' => 'carousel/index',

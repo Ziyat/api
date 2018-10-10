@@ -79,8 +79,23 @@ class GenericProductCest
                     codecept_data_dir('generic/productData.json'),
             ]
         );
-//        VarDumper::dump($I->grabResponse());
         $I->seeResponseCodeIs(201);
+    }
+
+    public function addRatings(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendPOST('/generic/products/1/ratings',[
+            'names' => ['hello','review']
+        ]);
+        $I->seeResponseCodeIs(202);
+    }
+
+    public function viewRatings(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendGET('/generic/products/1/ratings');
+        $I->seeResponseCodeIs(200);
     }
 
     public function createWithDataWithoutAFile(ApiTester $I)
@@ -136,8 +151,6 @@ class GenericProductCest
     {
         $I->amBearerAuthenticated('token-correct');
         $I->sendPUT('/generic/products/1/1/1');
-        VarDumper::dump($I->grabResponse());
-//        $I->seeResponseCodeIs(200);
-//        $I->seeResponseContainsJson([]);
+        $I->seeResponseCodeIs(200);
     }
 }

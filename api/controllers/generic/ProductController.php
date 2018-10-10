@@ -6,22 +6,21 @@
 
 namespace api\controllers\generic;
 
-use box\forms\SearchForm;
+use api\controllers\BearerCrudController;
+use box\entities\generic\GenericProduct;
+use box\forms\generic\PhotosForm;
+use box\forms\generic\ProductCreateForm;
+use box\forms\generic\ProductEditForm;
+use box\forms\generic\RatingsForm;
 use box\readModels\GenericProductReadRepository;
 use box\repositories\generic\ProductRepository;
-use api\controllers\BearerCrudController;
-use box\services\generic\ProductService;
-use box\forms\generic\ProductCreateForm;
-use box\entities\generic\GenericProduct;
 use box\repositories\NotFoundException;
-use box\forms\generic\ProductEditForm;
+use box\services\generic\ProductService;
+use Yii;
+use yii\data\ActiveDataProvider;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
-use box\forms\generic\PhotosForm;
-use yii\data\ActiveDataProvider;
-use yii\web\Application;
-use Yii;
 
 /**
  * Class ProductController
@@ -110,9 +109,12 @@ class ProductController extends BearerCrudController
      *     ),
      *     security={{"Bearer": {}}}
      * )
-     * @return GenericProduct|ProductCreateForm
-     * @throws BadRequestHttpException|NotFoundException|ForbiddenHttpException
-     * @var Application $response
+     *
+     * @return GenericProduct|ProductCreateForm|string
+     * @throws BadRequestHttpException
+     * @throws ForbiddenHttpException
+     * @throws NotFoundException
+     * @throws \yii\base\InvalidArgumentException
      */
 
 
@@ -176,7 +178,9 @@ class ProductController extends BearerCrudController
      *
      * @param $id
      * @return GenericProduct
-     * @throws BadRequestHttpException|NotFoundException
+     * @throws BadRequestHttpException
+     * @throws NotFoundException
+     * @throws \yii\base\InvalidArgumentException
      */
 
     public function actionEdit($id)
@@ -210,6 +214,7 @@ class ProductController extends BearerCrudController
      *     ),
      *     security={{"Bearer": {}}}
      * )
+     *
      * @param $id
      * @return GenericProduct
      * @throws NotFoundException
@@ -233,11 +238,13 @@ class ProductController extends BearerCrudController
      *     ),
      *     security={{"Bearer": {}}}
      * )
+     *
      * @param $product_id
      * @param $modification_id
      * @param $photo_id
      * @return bool|string
      * @throws NotFoundException
+     * @throws \RuntimeException
      */
     public function actionSetModificationPhoto($product_id, $modification_id, $photo_id)
     {
@@ -264,9 +271,12 @@ class ProductController extends BearerCrudController
      *     ),
      *     security={{"Bearer": {}}}
      * )
+     *
      * @param $id
-     * @return GenericProduct|PhotosForm
+     * @return GenericProduct
      * @throws NotFoundHttpException
+     * @throws \RuntimeException
+     * @throws \yii\base\InvalidArgumentException
      */
     public function actionAddPhotos($id)
     {
@@ -296,10 +306,13 @@ class ProductController extends BearerCrudController
      *     ),
      *     security={{"Bearer": {}}}
      * )
-     * @param integer $id
+     *
+     * @param $id
      * @param $photo_id
-     * @return mixed
+     * @return bool
      * @throws NotFoundException
+     * @throws \DomainException
+     * @throws \RuntimeException
      */
     public function actionDeletePhoto($id, $photo_id)
     {
@@ -324,10 +337,13 @@ class ProductController extends BearerCrudController
      *     ),
      *     security={{"Bearer": {}}}
      * )
-     * @param integer $id
+     *
+     * @param $id
      * @param $photo_id
-     * @return mixed
+     * @return bool
      * @throws NotFoundException
+     * @throws \DomainException
+     * @throws \RuntimeException
      */
     public function actionMovePhotoUp($id, $photo_id)
     {
@@ -348,15 +364,111 @@ class ProductController extends BearerCrudController
      *     ),
      *     security={{"Bearer": {}}}
      * )
-     * @param integer $id
+     *
+     * @param $id
      * @param $photo_id
-     * @return mixed
+     * @return bool
      * @throws NotFoundException
+     * @throws \DomainException
+     * @throws \RuntimeException
      */
     public function actionMovePhotoDown($id, $photo_id)
     {
         $this->service->movePhotoDown($id, $photo_id);
         return true;
     }
+
+    /**
+     * @SWG\Get(
+     *     path="/generic/products/{id}/ratings",
+     *     tags={"Generic Products"},
+     *     description="Send the product id, return this generic ratings",
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     *
+     * @param $id
+     * @return \box\entities\generic\GenericRating[]
+     * @throws NotFoundException
+     */
+    public function actionViewRatings($id)
+    {
+        $product = $this->readRepository->find($id);
+        return $product->ratings;
+    }
+
+    /**
+     * @SWG\Post(
+     *     path="/generic/products/{id}/ratings",
+     *     tags={"Generic Products"},
+     *     description="added ratings",
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     @SWG\Parameter(name="names", in="formData", required=false, type="string"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *         @SWG\Schema(ref="#/definitions/ProductData")
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     *
+     * @param $id
+     * @return GenericProduct|RatingsForm
+     * @throws NotFoundHttpException
+     * @throws \RuntimeException
+     * @throws \yii\base\InvalidArgumentException
+     */
+    public function actionAddRatings($id)
+    {
+        $form = new RatingsForm();
+        $form->load(Yii::$app->request->bodyParams, '');
+        if ($form->validate()) {
+            try {
+                $product = $this->service->addRatings($id, $form);
+                $response = \Yii::$app->getResponse();
+                $response->setStatusCode(202);
+                return $product;
+            } catch (NotFoundHttpException $e) {
+                throw new NotFoundHttpException($e->getMessage());
+            }
+        }
+        return $form;
+    }
+
+    /**
+     * @SWG\Delete(
+     *     path="/generic/products/{id}/ratings/{rating_id}",
+     *     tags={"Generic Products"},
+     *     description="delete generic rating",
+     *     @SWG\Parameter(name="id", in="path", required=true, type="integer"),
+     *     @SWG\Parameter(name="rating_id", in="path", required=true, type="integer"),
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response"
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     *
+     * @param $id
+     * @param $rating_id
+     * @return bool
+     * @throws NotFoundException
+     * @throws \DomainException
+     * @throws \RuntimeException
+     */
+    public function actionDeleteRating($id, $rating_id)
+    {
+        try {
+            $this->service->removeRating($id, $rating_id);
+        } catch (\DomainException $e) {
+            throw new \DomainException($e->getMessage());
+        }
+        return true;
+    }
+
 
 }

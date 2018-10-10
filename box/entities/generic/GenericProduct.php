@@ -35,6 +35,7 @@ use yii\web\UploadedFile;
  * @property GenericPhoto[] $photos
  * @property GenericModification[] $modifications
  * @property GenericPhoto $mainPhoto
+ * @property GenericRating[] $ratings
  */
 class GenericProduct extends ActiveRecord
 {
@@ -167,6 +168,37 @@ class GenericProduct extends ActiveRecord
     public function revokeTags(): void
     {
         $this->tagAssignments = [];
+    }
+
+    // Ratings
+
+    public function addRating($name)
+    {
+        $ratings = $this->ratings;
+        $ratings[] = GenericRating::create($name);
+        $this->updateRatings($ratings);
+    }
+
+    /**
+     * @param $id
+     * @throws \DomainException
+     */
+    public function removeRating($id): void
+    {
+        $ratings = $this->ratings;
+        foreach ($ratings as $i => $rating) {
+            if ($rating->isIdEqualTo($id)) {
+                unset($ratings[$i]);
+                $this->updateRatings($ratings);
+                return;
+            }
+        }
+        throw new \DomainException('Rating is not found.');
+    }
+
+    private function updateRatings(array $ratings): void
+    {
+        $this->ratings = $ratings;
     }
 
     // Photos
@@ -312,6 +344,11 @@ class GenericProduct extends ActiveRecord
 
     ##########################
 
+    public function getRatings(): ActiveQuery
+    {
+        return $this->hasMany(GenericRating::class, ['generic_product_id' => 'id']);
+    }
+
     public function getBrand(): ActiveQuery
     {
         return $this->hasOne(Brand::class, ['id' => 'brand_id']);
@@ -396,7 +433,15 @@ class GenericProduct extends ActiveRecord
             BlameableBehavior::class,
             [
                 'class' => SaveRelationsBehavior::class,
-                'relations' => ['categoryAssignments', 'tagAssignments', 'values', 'photos', 'prices', 'modifications'],
+                'relations' => [
+                    'categoryAssignments',
+                    'tagAssignments',
+                    'values',
+                    'photos',
+                    'prices',
+                    'modifications',
+                    'ratings'
+                ],
             ],
         ];
     }

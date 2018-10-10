@@ -7,9 +7,9 @@
 namespace box\readModels;
 
 
-use box\forms\SearchForm;
+use box\entities\generic\GenericProduct;
+use box\repositories\NotFoundException;
 use Elasticsearch\Client;
-use yii\helpers\Inflector;
 
 class GenericProductReadRepository
 {
@@ -18,5 +18,18 @@ class GenericProductReadRepository
     public function __construct(Client $client)
     {
         $this->client = $client;
+    }
+
+    /**
+     * @param $id
+     * @return GenericProduct|null
+     * @throws NotFoundException
+     */
+    public function find($id)
+    {
+        if (!$product = GenericProduct::findOne($id)) {
+            throw new NotFoundException('Generic product not found');
+        }
+        return $product;
     }
 }

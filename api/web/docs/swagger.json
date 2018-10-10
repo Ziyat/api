@@ -5033,6 +5033,15 @@
                 },
                 "updated_at": {
                     "type": "integer"
+                },
+                "updated_by": {
+                    "type": "integer"
+                },
+                "created_by": {
+                    "type": "integer"
+                },
+                "generic_product_id": {
+                    "type": "integer"
                 }
             },
             "type": "object"

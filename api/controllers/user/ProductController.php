@@ -628,6 +628,9 @@ class ProductController extends BearerController
  *     ),
  *     @SWG\Property(property="created_at", type="integer"),
  *     @SWG\Property(property="updated_at", type="integer"),
+ *     @SWG\Property(property="updated_by", type="integer"),
+ *     @SWG\Property(property="created_by", type="integer"),
+ *     @SWG\Property(property="generic_product_id", type="integer"),
  * )
  */
 

@@ -41,6 +41,7 @@ class RatingController extends BearerController
      *     @SWG\Parameter(name="type", in="formData", required=true, type="integer"),
      *     @SWG\Parameter(name="item_id", in="formData", required=true, type="integer"),
      *     @SWG\Parameter(name="score", in="formData", required=false, type="number"),
+     *     @SWG\Parameter(name="name", in="formData", required=true, type="string"),
      *     description="Create rating",
      *     @SWG\Response(
      *         response=200,
@@ -76,6 +77,7 @@ class RatingController extends BearerController
      *     @SWG\Parameter(name="type", in="formData", required=true, type="integer"),
      *     @SWG\Parameter(name="item_id", in="formData", required=true, type="integer"),
      *     @SWG\Parameter(name="score", in="formData", required=false, type="number"),
+     *     @SWG\Parameter(name="name", in="formData", required=true, type="string"),
      *     description="Create rating",
      *     @SWG\Response(
      *         response=200,

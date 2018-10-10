@@ -14,6 +14,7 @@ use yii\base\Model;
  * @property integer $type
  * @property integer $item_id
  * @property float $score
+ * @property string $name
  *
  * @property Rating $_rating
  */
@@ -22,6 +23,7 @@ class RatingForm extends Model
     public $type;
     public $item_id;
     public $score;
+    public $name;
 
     public $_rating;
 
@@ -32,6 +34,7 @@ class RatingForm extends Model
             $this->type = $rating->type;
             $this->item_id = $rating->item_id;
             $this->score = $rating->score;
+            $this->name = $rating->name;
 
             $this->_rating = $rating;
         }
@@ -41,7 +44,8 @@ class RatingForm extends Model
     public function rules()
     {
         return [
-            [['type', 'item_id'], 'required'],
+            [['type', 'item_id', 'name'], 'required'],
+            ['name', 'string'],
             [['type', 'item_id'], 'integer'],
             [['score'], 'double', 'min' => 0, 'max' => 5],
         ];

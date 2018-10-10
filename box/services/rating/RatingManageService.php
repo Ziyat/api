@@ -54,7 +54,7 @@ class RatingManageService
     {
         $item = $this->getItem($form->type, $form->item_id);
 
-        $rating = Rating::create($form->type, $item->id, $form->score);
+        $rating = Rating::create($form->type, $item->id, $form->score, $form->name);
 
         $this->ratings->save($rating);
 
@@ -74,7 +74,7 @@ class RatingManageService
 
         $item = $this->getItem($form->type, $form->item_id);
 
-        $rating->edit($form->type, $item->id, $form->score);
+        $rating->edit($form->type, $item->id, $form->score, $form->name);
 
         $this->ratings->save($rating);
 

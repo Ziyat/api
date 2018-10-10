@@ -77,12 +77,14 @@ class RatingCest
             'type' => 10,
             'item_id' => 1,
             'score' => 4,
+            'name' => 'do you not like this product',
         ]);
 
         $I->sendPOST('/ratings', [
             'type' => 10,
             'item_id' => 1,
             'score' => 5,
+            'name' => 'do you like this product',
         ]);
 
         $I->seeResponseCodeIs(200);
@@ -96,6 +98,7 @@ class RatingCest
             'item_id' => 1,
             'score' => 4.5,
         ]);
+
         $I->seeResponseCodeIs(200);
     }
 

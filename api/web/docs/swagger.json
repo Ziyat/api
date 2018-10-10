@@ -969,6 +969,12 @@
                         "in": "formData",
                         "required": false,
                         "type": "number"
+                    },
+                    {
+                        "name": "name",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -1013,6 +1019,12 @@
                         "in": "formData",
                         "required": false,
                         "type": "number"
+                    },
+                    {
+                        "name": "name",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -1984,6 +1996,97 @@
                     },
                     {
                         "name": "photo_id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/generic/products/{id}/ratings": {
+            "get": {
+                "tags": [
+                    "Generic Products"
+                ],
+                "description": "Send the product id, return this generic ratings",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Generic Products"
+                ],
+                "description": "added ratings",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "names",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response",
+                        "schema": {
+                            "$ref": "#/definitions/ProductData"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
+        "/generic/products/{id}/ratings/{rating_id}": {
+            "delete": {
+                "tags": [
+                    "Generic Products"
+                ],
+                "description": "delete generic rating",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "rating_id",
                         "in": "path",
                         "required": true,
                         "type": "integer"

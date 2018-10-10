@@ -32,6 +32,7 @@ use yii\web\UploadedFile;
  * @property string $condition
  * @property integer $quantity
  * @property integer $main_photo_id
+ * @property integer $generic_product_id
  *
  * @property Rating[] $ratings
  *
@@ -68,7 +69,7 @@ class Product extends ActiveRecord
 
     public $meta;
 
-    public static function create($brandId, $categoryId, $name, $description, Meta $meta): self
+    public static function create($brandId, $categoryId, $name, $description,$genericProductId ,Meta $meta): self
     {
         $product = new static();
         $product->brand_id = $brandId;
@@ -79,6 +80,7 @@ class Product extends ActiveRecord
         $product->status = self::STATUS_DRAFT;
         $product->created_at = time();
         $product->updated_at = time();
+        $product->generic_product_id = $genericProductId;
         return $product;
     }
 
@@ -956,6 +958,7 @@ class Product extends ActiveRecord
             "created_by" => "created_by",
             "created_at" => "created_at",
             "updated_at" => "updated_at",
+            "generic_product_id" => "generic_product_id",
         ];
     }
 

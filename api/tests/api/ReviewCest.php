@@ -85,7 +85,7 @@ class ReviewCest
                 codecept_data_dir('user/photos/photo2.jpg'),
             ]
         ]);
-        VarDumper::dump($I->grabResponse());
+//        VarDumper::dump($I->grabResponse());
         $I->seeResponseCodeIs(200);
     }
 

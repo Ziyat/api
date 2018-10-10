@@ -214,6 +214,7 @@ class UserProductCest
                 ]
             ]
         );
+//        VarDumper::dump($I->grabResponse());
         $I->seeResponseCodeIs(201);
     }
 

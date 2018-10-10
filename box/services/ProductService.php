@@ -56,6 +56,7 @@ class ProductService
             $category->id,
             $form->name,
             $form->description,
+            $form->genericProductId,
             new Meta(
                 $form->meta->title,
                 $form->meta->description,

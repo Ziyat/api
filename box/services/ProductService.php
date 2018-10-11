@@ -3,8 +3,10 @@
 namespace box\services;
 
 use box\entities\Meta;
+use box\entities\notification\Notification;
 use box\entities\shop\product\Product;
 use box\entities\shop\Tag;
+use box\events\notification\NotificationEvent;
 use box\forms\shop\product\PhotosForm;
 use box\forms\shop\product\ProductCreateForm;
 use box\forms\shop\product\ProductEditForm;
@@ -16,6 +18,20 @@ use box\repositories\NotFoundException;
 use box\repositories\ProductRepository;
 use box\repositories\TagRepository;
 
+/**
+ * Created by Madetec-Solution.
+ * Developer: Mirkhanov Z.S.
+ * Class ProductService
+ * @package box\services
+ * @property ProductRepository $products
+ * @property GenericProductRepository $genericProducts
+ * @property BrandRepository $brands
+ * @property CategoryRepository $categories
+ * @property TagRepository $tags
+ * @property TransactionManager $transaction
+ * @property NotificationEvent $notificationEvent
+ */
+
 class ProductService
 {
     private $products;
@@ -24,6 +40,7 @@ class ProductService
     private $tags;
     private $transaction;
     private $genericProducts;
+    private $notificationEvent;
 
     public function __construct(
         ProductRepository $products,
@@ -31,7 +48,8 @@ class ProductService
         BrandRepository $brands,
         CategoryRepository $categories,
         TagRepository $tags,
-        TransactionManager $transaction
+        TransactionManager $transaction,
+        NotificationEvent $notificationEvent
     )
     {
         $this->products = $products;
@@ -40,6 +58,8 @@ class ProductService
         $this->tags = $tags;
         $this->transaction = $transaction;
         $this->genericProducts = $genericProducts;
+
+        $this->notificationEvent = $notificationEvent;
     }
 
     /**
@@ -125,9 +145,16 @@ class ProductService
 
             });
         } catch (\Exception $e) {
-            throw $e;
+            throw new $e;
         }
 
+        //-- notification --//
+
+        $this->notificationEvent->from_id = \Yii::$app->user->id;
+        $this->notificationEvent->type = Notification::TYPE_NEW_PRODUCT;
+        $this->notificationEvent->type_id = $product->id;
+
+        $product->trigger($product::EVENT_NEW_PRODUCT, $this->notificationEvent);
 
         return $product;
     }
@@ -491,4 +518,6 @@ class ProductService
         $product->revokeShipping($shipping_id);
         $this->products->save($product);
     }
+
+
 }

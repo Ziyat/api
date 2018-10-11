@@ -14,6 +14,9 @@ return [
         'emailService' => [
             'class' => 'box\components\EmailService'
         ],
+        'notificationComponent' => [
+            'class' => box\components\NotificationComponent::class
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],

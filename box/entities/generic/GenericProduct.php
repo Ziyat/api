@@ -175,6 +175,11 @@ class GenericProduct extends ActiveRecord
     public function addRating($name)
     {
         $ratings = $this->ratings;
+        foreach ($ratings as $rating){
+            if($rating->name == $name){
+                return;
+            }
+        }
         $ratings[] = GenericRating::create($name);
         $this->updateRatings($ratings);
     }

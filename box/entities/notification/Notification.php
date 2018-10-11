@@ -2,6 +2,8 @@
 
 namespace box\entities\notification;
 
+use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -17,6 +19,7 @@ use yii\db\ActiveRecord;
 class Notification extends ActiveRecord
 {
     const TYPE_NEW_FOLLOWER = 10;
+    const TYPE_NEW_PRODUCT = 15;
 
     public static function create($type, $type_id, $from_id): self
     {
@@ -30,21 +33,45 @@ class Notification extends ActiveRecord
         return $notification;
     }
 
-    public function setAssignment($notification_id, $to_id)
+    public function assign($to_id)
     {
         $assignments = $this->assignments;
         foreach ($assignments as $assignment) {
-            if ($assignment->isForNotificationId($notification_id)) {
+            if ($assignment->isForNotificationId($this->id)) {
                 return;
             }
         }
-        $assignments[] = NotificationAssignment::create($to_id, $notification_id);
+        $assignments[] = NotificationAssignment::create($to_id);
         $this->assignments = $assignments;
     }
 
-    public function getAssignments()
+    public function getAssignments(): ActiveQuery
     {
-        return $this->hasMany(NotificationAssignment::class, ['id' => 'notification_id']);
+        return $this->hasMany(NotificationAssignment::class, ['notification_id' => 'id']);
+    }
+
+    public function fields()
+    {
+        return [
+            'id' => 'id',
+            'type' => 'type',
+            'type_id' => 'type_id',
+            'from_id' => 'from_id',
+            'created_at' => 'created_at',
+            'assignments' => function(){
+                return $this->assignments;
+            },
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => SaveRelationsBehavior::class,
+                'relations' => ['assignments']
+            ]
+        ];
     }
 
     ##########################

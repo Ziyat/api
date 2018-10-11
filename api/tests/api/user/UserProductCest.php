@@ -85,7 +85,6 @@ class UserProductCest
                     codecept_data_dir('user/productData.json'),
             ]
         );
-
         $I->seeResponseCodeIs(201);
     }
 

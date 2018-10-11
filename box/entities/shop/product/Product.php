@@ -10,7 +10,9 @@ use box\entities\shop\Category;
 use box\entities\shop\product\queries\ProductQuery;
 use box\entities\shop\Tag;
 use box\entities\user\User;
+use components\NotificationComponent;
 use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
+use yii\base\Component;
 use yii\behaviors\BlameableBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
@@ -68,6 +70,14 @@ class Product extends ActiveRecord
     const PRICE_TYPE_FIX = 'fix';
 
     public $meta;
+
+    const EVENT_NEW_PRODUCT = 'new product';
+
+    public function init()
+    {
+        $this->on(self::EVENT_NEW_PRODUCT, [\Yii::$app->notificationComponent, 'newProduct']);
+        parent::init();
+    }
 
     public static function create($brandId, $categoryId, $name, $description,$genericProductId ,Meta $meta): self
     {

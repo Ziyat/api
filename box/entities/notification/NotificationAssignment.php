@@ -14,11 +14,10 @@ class NotificationAssignment extends ActiveRecord
     const STATUS_READ = 10;
     const STATUS_UNREAD = 20;
 
-    public static function create($to_id, $notification_id): self
+    public static function create($to_id): self
     {
         $assignment = new static();
         $assignment->to_id = $to_id;
-        $assignment->notification_id = $notification_id;
         $assignment->status = self::STATUS_UNREAD;
         return $assignment;
     }
@@ -46,6 +45,6 @@ class NotificationAssignment extends ActiveRecord
 
     public static function tableName()
     {
-        return '{{%notifications}}';
+        return '{{%notification_assignments}}';
     }
 }

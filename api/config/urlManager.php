@@ -214,5 +214,10 @@ return [
         'POST ratings' => 'rating/create',
         'POST ratings/<id:\d+>' => 'rating/edit',
 
+        //notification
+
+        'GET notification/new' => 'notification/new',
+        'GET notification/all' => 'notification/all'
+
     ],
 ];

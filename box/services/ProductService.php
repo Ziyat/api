@@ -150,11 +150,11 @@ class ProductService
 
         //-- notification --//
 
-        $this->notificationEvent->from_id = \Yii::$app->user->id;
-        $this->notificationEvent->type = Notification::TYPE_NEW_PRODUCT;
-        $this->notificationEvent->type_id = $product->id;
-
-        $product->trigger($product::EVENT_NEW_PRODUCT, $this->notificationEvent);
+//        $this->notificationEvent->from_id = \Yii::$app->user->id;
+//        $this->notificationEvent->type = Notification::TYPE_NEW_PRODUCT;
+//        $this->notificationEvent->type_id = $product->id;
+//
+//        $product->trigger($product::EVENT_NEW_PRODUCT, $this->notificationEvent);
 
         return $product;
     }

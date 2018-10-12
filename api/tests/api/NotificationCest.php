@@ -74,4 +74,13 @@ class NotificationCest
         $I->sendGET('/notification/all');
     }
 
+    public function addPushToken(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct-id-2');
+        $I->sendPost('/notification/push-token',[
+            'token' => 'bla-bla',
+            'service' => 'fireBase',
+        ]);
+    }
+
 }

@@ -27,7 +27,8 @@
     "la-haute-societe/yii2-save-relations-behavior": "*",
     "paulzi/yii2-nested-sets": "^1.0",
     "thiagoalessio/tesseract_ocr": "^2.6",
-    "elasticsearch/elasticsearch": "^5.2"
+    "elasticsearch/elasticsearch": "^5.2",
+    "understeam/yii2-fcm": "~0.1"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.0.0",

@@ -85,6 +85,7 @@ class UserProductCest
                     codecept_data_dir('user/productData.json'),
             ]
         );
+        VarDumper::dump($I->grabResponse());
         $I->seeResponseCodeIs(201);
     }
 

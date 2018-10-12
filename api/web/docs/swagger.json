@@ -632,6 +632,23 @@
                 }
             }
         },
+        "/notification/push-token": {
+            "post": {
+                "tags": [
+                    "Profile"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success response boolean"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ]
+            }
+        },
         "/public/user/products/{product_id}/shipping": {
             "post": {
                 "tags": [

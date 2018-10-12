@@ -71,7 +71,6 @@ class RatingCest
 
     public function add(ApiTester $I)
     {
-
         $I->amBearerAuthenticated('token-correct');
         $I->sendPOST('/ratings', [
             'type' => 10,
@@ -110,6 +109,14 @@ class RatingCest
         $I->seeResponseContainsJson([
             'rating' => 4.75
         ]);
+    }
+
+
+    public function view(ApiTester $I)
+    {
+        $I->amBearerAuthenticated('token-correct');
+        $I->sendGET('/ratings/10/1');
+        $I->seeResponseCodeIs(200);
     }
 
 

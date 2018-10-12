@@ -212,12 +212,14 @@ return [
 
         //ratings
         'POST ratings' => 'rating/create',
-        'POST ratings/<id:\d+>' => 'rating/edit',
+        'POST ratings/<id:\d+>' => 'rating/update',
+        'GET ratings/<type:\d+>/<item_id:\d+>' => 'rating/all-by-item',
 
         //notification
 
         'GET notification/new' => 'notification/new',
-        'GET notification/all' => 'notification/all'
+        'GET notification/all' => 'notification/all',
+        'POST notification/push-token' => 'notification/push-token'
 
     ],
 ];

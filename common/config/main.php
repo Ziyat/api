@@ -11,14 +11,18 @@ return [
     ],
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
+        'fireBase' => [
+            'class' => \understeam\fcm\Client::class,
+            'apiKey' => 'AAAAN6z8OAc:APA91bHe0x2uqyNRlRWX69HSLYbnBfR8XaUAraUcoCsOaM9Ccq8SHlG4kvaHJzZbXIoNi_ZPgJCGTtmsQ2fAPeMFyl_9ql41072JdF4uHt8OQpH415DDxadZYaAsg82PUGwPTmROL5eZ',
+        ],
         'emailService' => [
-            'class' => 'box\components\EmailService'
+            'class' => \box\components\EmailService::class
         ],
         'notificationComponent' => [
             'class' => box\components\NotificationComponent::class
         ],
         'cache' => [
-            'class' => 'yii\caching\FileCache',
+            'class' => \yii\caching\FileCache::class,
         ],
         'authManager' => [
             'class' => 'common\components\AuthManager',

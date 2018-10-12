@@ -9,12 +9,20 @@ namespace api\controllers\user;
 use api\controllers\BearerController;
 use box\entities\shop\product\Product;
 use box\entities\user\User;
+use box\forms\user\PushTokenForm;
+use box\forms\user\UserEditForm;
 use box\helpers\UserHelper;
 use box\services\UserService;
-use box\forms\user\UserEditForm;
 use Yii;
 use yii\web\BadRequestHttpException;
 
+/**
+ * Created by Madetec-Solution.
+ * Developer: Mirkhanov Z.S.
+ * Class ProfileController
+ * @package api\controllers\user
+ * @property UserService $service
+ */
 class ProfileController extends BearerController
 {
 
@@ -116,6 +124,7 @@ class ProfileController extends BearerController
             throw new BadRequestHttpException($e->getMessage());
         }
     }
+
 
 
     protected function verbs()

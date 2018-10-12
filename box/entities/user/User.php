@@ -62,6 +62,7 @@ use yii\web\UnauthorizedHttpException;
  * @property Follower[] $followingAssignments
  *
  * @property Address[] $addresses
+ * @property PushToken[] $pushTokens
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -117,6 +118,17 @@ class User extends ActiveRecord implements IdentityInterface
         $this->updated_at = time();
     }
 
+    public function setPushToken($token, $service)
+    {
+        $pushTokens = $this->pushTokens;
+        foreach ($pushTokens as $pushToken) {
+            if ($token == $pushToken->token) {
+                return;
+            }
+        }
+        $pushTokens[] = PushToken::create($token, $service);
+        $this->pushTokens = $pushTokens;
+    }
 
     public function setAddress(
         $name,
@@ -466,6 +478,11 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasMany(Token::class, ['user_id' => 'id']);
     }
 
+    public function getPushTokens()
+    {
+        return $this->hasMany(PushToken::class, ['user_id' => 'id']);
+    }
+
     public function getToken()
     {
         return $this->hasOne(Token::class, ['user_id' => 'id'])
@@ -615,6 +632,9 @@ class User extends ActiveRecord implements IdentityInterface
                     'country' => $address->country->name,
                     'code' => $address->country->code,
                 ] : null;
+            },
+            "push-tokens" => function () {
+                return $this->pushTokens;
             }
         ];
     }
@@ -641,7 +661,7 @@ class User extends ActiveRecord implements IdentityInterface
             TimestampBehavior::class,
             [
                 'class' => SaveRelationsBehavior::class,
-                'relations' => ['profile', 'followingAssignments', 'followersAssignments','addresses']
+                'relations' => ['profile', 'followingAssignments', 'followersAssignments', 'addresses', 'pushTokens']
             ],
 
         ];

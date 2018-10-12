@@ -35,6 +35,28 @@ class RatingController extends BearerController
     }
 
     /**
+     * @SWG\Get(
+     *     path="/ratings/{type}/{item_id}",
+     *     tags={"Ratings"},
+     *     @SWG\Parameter(name="type", in="path", required=true, type="integer"),
+     *     @SWG\Parameter(name="item_id", in="path", required=true, type="integer"),
+     *     description="Return reviews array by type and item_id",
+     *     @SWG\Response(
+     *         response=200,
+     *         description="Success response",
+     *     ),
+     *     security={{"Bearer": {}}}
+     * )
+     * @param $type
+     * @param $item_id
+     * @return \yii\data\ActiveDataProvider
+     */
+    public function actionAllByItem($type, $item_id)
+    {
+        return $this->ratings->findByTypeAndItemId($type, $item_id);
+    }
+
+    /**
      * @SWG\Post(
      *     path="/ratings",
      *     tags={"Ratings"},
@@ -92,7 +114,7 @@ class RatingController extends BearerController
      * @throws \box\repositories\NotFoundException
      * @throws \yii\base\InvalidArgumentException
      */
-    public function actionEdit($id)
+    public function actionUpdate($id)
     {
         $rating = $this->ratings->find($id);
         $form = new RatingForm($rating);

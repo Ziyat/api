@@ -20,4 +20,11 @@ class RatingReadModel
         }
         return $rating;
     }
+
+    public function findByTypeAndItemId($type, $item_id)
+    {
+        return new ActiveDataProvider([
+            'query' => Rating::find()->where(['type' => $type, 'item_id' => $item_id])->orderBy(['score' => SORT_DESC])
+        ]);
+    }
 }

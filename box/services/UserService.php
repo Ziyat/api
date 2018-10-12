@@ -12,6 +12,7 @@ use box\events\user\UserRegisterEvent;
 use box\forms\auth\PasswordResetRequestForm;
 use box\forms\auth\SignupForm;
 use box\forms\user\AddressForm;
+use box\forms\user\PushTokenForm;
 use box\forms\user\UserEditForm;
 use box\repositories\CountryRepository;
 use box\repositories\UserRepository;
@@ -275,6 +276,15 @@ class UserService
         }
         $user->addresses = $addresses;
         $this->users->save($user);
+        return $user;
+    }
+
+    public function addPushToken($id, PushTokenForm $form)
+    {
+        $user = $this->users->find($id);
+        $user->setPushToken($form->token, $form->service);
+        $this->users->save($user);
+
         return $user;
     }
 

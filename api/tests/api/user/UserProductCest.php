@@ -10,7 +10,9 @@ namespace api\tests\api\user;
 use api\tests\ApiTester;
 use box\entities\generic\GenericProduct;
 use common\fixtures\AddressFixture;
+use common\fixtures\FollowersFixture;
 use common\fixtures\ProfileFixture;
+use common\fixtures\PushTokenFixture;
 use common\fixtures\shop\BrandFixture;
 use common\fixtures\shop\CategoryFixture;
 use common\fixtures\shop\CharacteristicFixture;
@@ -51,6 +53,14 @@ class UserProductCest
                 'class' => AddressFixture::class,
                 'dataFile' => codecept_data_dir() . 'address.php'
             ],
+            'pushToken' => [
+                'class' => PushTokenFixture::class,
+                'dataFile' => codecept_data_dir() . 'pushToken.php'
+            ],
+            'followers' => [
+                'class' => FollowersFixture::class,
+                'dataFile' => codecept_data_dir() . 'followers.php'
+            ],
         ]);
     }
 
@@ -71,7 +81,6 @@ class UserProductCest
 
     public function createViaDataFile(ApiTester $I)
     {
-
         $I->amBearerAuthenticated('token-correct');
         $I->sendPOST(
             '/user/products',
@@ -85,13 +94,12 @@ class UserProductCest
                     codecept_data_dir('user/productData.json'),
             ]
         );
-        VarDumper::dump($I->grabResponse());
         $I->seeResponseCodeIs(201);
     }
 
     public function createWithDataWithoutAFile(ApiTester $I)
     {
-        $I->amBearerAuthenticated('token-correct');
+        $I->amBearerAuthenticated('token-correct-id-2');
         $I->sendPOST(
             '/user/products',
             [
@@ -151,9 +159,6 @@ class UserProductCest
                 ]
             ]
         );
-//        echo PHP_EOL;
-//        VarDumper::dump($I->grabResponse());
-//        echo PHP_EOL;
         $I->seeResponseCodeIs(201);
     }
 
@@ -214,7 +219,6 @@ class UserProductCest
                 ]
             ]
         );
-//        VarDumper::dump($I->grabResponse());
         $I->seeResponseCodeIs(201);
     }
 
@@ -310,7 +314,4 @@ class UserProductCest
 
         $I->seeResponseCodeIs(200);
     }
-
-
-
 }

@@ -21,7 +21,7 @@ class PushToken extends ActiveRecord
     {
         $pushToken = new static();
         $pushToken->token = $token;
-        $pushToken->service = $service ?: 'Firebase';
+        $pushToken->service = $service ?: 'Android';
         return $pushToken;
     }
 

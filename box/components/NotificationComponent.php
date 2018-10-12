@@ -14,20 +14,25 @@ use box\readModels\UserReadRepository;
 use paragraph1\phpFCM\Recipient\Device;
 use understeam\fcm\Client;
 use yii\base\Component;
+use yii\helpers\VarDumper;
 
 /**
  * @property Notification $notification
  * @property UserReadRepository $users
+ * @property Client $client
  */
 class NotificationComponent extends Component
 {
     public $notification;
     public $users;
+    public $client;
 
     public function __construct(array $config = [])
     {
         $this->notification = new Notification();
         $this->users = new UserReadRepository();
+        $this->client = \Yii::$app->fireBase;
+
         parent::__construct($config);
     }
 
@@ -41,43 +46,64 @@ class NotificationComponent extends Component
     {
         $notification = $this->notification::create($event->type, $event->type_id, $event->from_id);
         $user = User::findOne($event->from_id);
+
         foreach ($user->followers as $follower) {
             $notification->assign($follower->id);
+
+            foreach ($follower->pushTokens as $token) {
+                $this->pushNotification($event->type, $event->type_id, $token->token);
+            }
         }
 
         $notification->save();
-
-        $this->push('user added new product', 'product id: ' . $event->type_id, $event->type, $event->type_id);
     }
 
     /**
-     * @param $title
-     * @param $body
      * @param $type
      * @param $type_id
+     * @param $token
      * @throws \InvalidArgumentException
      * @throws \UnexpectedValueException
      * @throws \yii\base\InvalidParamException
      */
-    public function push($title, $body, $type, $type_id)
+    public function pushNotification($type, $type_id, $token)
     {
-        /**
-         * @var Client $fireBase
-         */
+        $message = $this->pushMessage($type, $type_id);
 
-        $fireBase = \Yii::$app->fireBase;
-        $note = $fireBase->createNotification($title, $body);
+        $note = $this->client->createNotification($message['title'], $message['body']);
+
         $note->setIcon('notification_icon_resource_name')
             ->setColor('#ffffff')
             ->setBadge(1);
 
-        $message = $fireBase->createMessage();
-        $message->addRecipient(new Device('dnLTAj98vdM:APA91bGu09-CjSZ-GloPKmQafMEyWRDigkTYybXBNddCZQBo5aqY5YklKH16IQ19Tfi1k0v96xy4jFWlLw6B-VR9mjQDW75gIeulqo9Ebt6Xi8J4z26nX31kpwi7_uFGb7q8W57DnOWB'));
-        $message->setNotification($note)
-            ->setData([$type => $type_id]);
+        $message = $this->client->createMessage();
+        $message->addRecipient(new Device($token));
+        $message->setNotification($note)->setData([$type => $type_id]);
 
-        $response = $fireBase->send($message);
+        $response = $this->client->send($message);
         $response->getStatusCode();
+    }
+
+
+    private function pushMessage($type, $type_id)
+    {
+        switch ($type) {
+            case Notification::TYPE_NEW_PRODUCT:
+                return [
+                    'title' => 'User added new product',
+                    'body' => 'product id: ' . $type_id,
+                ];
+            case Notification::TYPE_NEW_FOLLOWER:
+                return [
+                    'title' => 'New follower',
+                    'body' => 'follower id: ' . $type_id,
+                ];
+            default:
+                return [
+                    'title' => 'Notification',
+                    'body' => '',
+                ];
+        }
     }
 
 }
